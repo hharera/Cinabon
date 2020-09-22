@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/navigation_shop"
+        android:icon="@drawable/explore_shopping"
+        android:title="@string/shop" />
+
+    <item
+        android:id="@+id/navigation_categories"
+        android:icon="@drawable/categories"
+        android:title="@string/categories" />
+
+    <item
+        android:id="@+id/navigation_account"
+        android:icon="@drawable/user"
+        android:title="@string/account" />
+
+    <item
+        android:id="@+id/navigation_settings"
+        android:icon="@drawable/settings"
+        android:title="@string/action_settings" />
+</menu>
