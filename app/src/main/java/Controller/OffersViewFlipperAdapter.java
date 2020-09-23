@@ -2,7 +2,6 @@ package Controller;
 
 import android.content.Context;
 import android.database.DataSetObserver;
-import android.graphics.Bitmap;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Adapter;
@@ -10,15 +9,22 @@ import android.widget.ImageView;
 
 import androidx.annotation.Nullable;
 
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+
 import java.util.List;
 
-public class OffersViewFlipperAdapter implements Adapter {
-    List<Bitmap> list;
-    Context context;
+import Model.Offer;
 
-    public OffersViewFlipperAdapter(List<Bitmap> list, Context context) {
-        this.list = list;
+public class OffersViewFlipperAdapter implements Adapter {
+    List<Offer> offers;
+    Context context;
+    private StorageReference sRef;
+
+    public OffersViewFlipperAdapter(List<Offer> list, Context context) {
+        this.offers = list;
         this.context = context;
+        sRef = FirebaseStorage.getInstance().getReference();
     }
 
     @Override
@@ -33,12 +39,12 @@ public class OffersViewFlipperAdapter implements Adapter {
 
     @Override
     public int getCount() {
-        return list.size();
+        return offers.size();
     }
 
     @Override
     public Object getItem(int position) {
-        return list.get(position);
+        return offers.get(position);
     }
 
     @Override
@@ -48,13 +54,13 @@ public class OffersViewFlipperAdapter implements Adapter {
 
     @Override
     public boolean hasStableIds() {
-        return false;
+        return true;
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        ImageView imageView = new ImageView(context);
-        imageView.setImageBitmap(list.get(position));
+    public View getView(final int position, View convertView, final ViewGroup parent) {
+        final ImageView imageView = new ImageView(context);
+        imageView.setImageBitmap(offers.get(position).getBitmap());
         return imageView;
     }
 
@@ -70,7 +76,7 @@ public class OffersViewFlipperAdapter implements Adapter {
 
     @Override
     public boolean isEmpty() {
-        return list.isEmpty();
+        return offers.isEmpty();
     }
 
     @Nullable

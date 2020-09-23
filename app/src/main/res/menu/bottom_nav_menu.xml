@@ -17,7 +17,17 @@
         android:title="@string/account" />
 
     <item
-        android:id="@+id/navigation_settings"
-        android:icon="@drawable/settings"
-        android:title="@string/action_settings" />
+        android:id="@+id/navigation_cart"
+        android:icon="@drawable/cart"
+        android:title="@string/cart" />
+
+    <item
+        android:id="@+id/navigation_wish_list"
+        android:icon="@drawable/wishlist"
+        android:title="@string/wishlist" />
+
+<!--    <item-->
+<!--        android:id="@+id/navigation_settings"-->
+<!--        android:icon="@drawable/settings"-->
+<!--        android:title="@string/action_settings" />-->
 </menu>

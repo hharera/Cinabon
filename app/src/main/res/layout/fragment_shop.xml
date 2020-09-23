@@ -7,21 +7,64 @@
     android:background="#FFF"
     tools:context=".ui.shop.ShopFragment">
 
-    <androidx.appcompat.widget.SearchView
+    <SearchView
         android:id="@+id/search_view"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:background="#FFF"
-        android:outlineAmbientShadowColor="#000"
+        android:background="#00F8F5F5"
         app:defaultQueryHint="Search"
         app:queryHint="Search" />
 
+    <ImageView
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginLeft="-50dp"
+        android:layout_marginTop="5dp"
+        android:layout_toRightOf="@id/search_view"
+        android:foregroundGravity="center"
+        android:background="@drawable/settings"
+        android:padding="20dp" />
+
+    <TextView
+        android:id="@+id/best_offers"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_below="@+id/search_view"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:gravity="center|left"
+        android:paddingStart="10dp"
+        android:text="@string/best_offers"
+        android:textColor="#000"
+        android:textSize="20sp" />
 
     <AdapterViewFlipper
-        android:id="@+id/view_flipper_offers"
+        android:id="@+id/best_offers_flipper"
         android:layout_width="match_parent"
         android:layout_height="200dp"
-        android:layout_below="@+id/search_view"
-        android:layout_marginTop="10dp" />
+        android:layout_below="@+id/best_offers"
+        android:layout_marginTop="10dp"
+        android:foregroundGravity="center_horizontal" />
+
+    <TextView
+        android:id="@+id/last_offers"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_below="@+id/best_offers_flipper"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:gravity="center|left"
+        android:paddingStart="10dp"
+        android:text="@string/last_offers"
+        android:textColor="#000"
+        android:textSize="20sp" />
+
+    <AdapterViewFlipper
+        android:id="@+id/last_offers_flipper"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_below="@+id/last_offers"
+        android:layout_marginTop="10dp"
+        android:foregroundGravity="center_horizontal" />
 
 </RelativeLayout>

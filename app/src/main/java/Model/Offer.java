@@ -9,6 +9,24 @@ public class Offer {
     private int OID, PID;
     private Date endDate;
     private Bitmap bitmap;
+    private Date date;
+    private float percentage;
+
+    public void setDate(Date date) {
+        this.date = date;
+    }
+
+    public void setPercentage(float percentage) {
+        this.percentage = percentage;
+    }
+
+    public Date getDate() {
+        return date;
+    }
+
+    public float getPercentage() {
+        return percentage;
+    }
 
     public Offer() {
     }

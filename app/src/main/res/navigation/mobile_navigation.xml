@@ -22,9 +22,22 @@
         android:name="com.example.elsafa.ui.account.AccountFragment"
         android:label="@string/account"
         tools:layout="@layout/fragment_account" />
+
     <fragment
-        android:id="@+id/navigation_settings"
-        android:name="com.example.elsafa.ui.settings.SettingsFragment"
-        android:label="@string/action_settings"
-        tools:layout="@layout/fragment_settings" />
+        android:id="@+id/navigation_cart"
+        android:name="com.example.elsafa.ui.Cart.CartFragment"
+        android:label="@string/cart"
+        tools:layout="@layout/fragment_cart" />
+
+    <fragment
+        android:id="@+id/navigation_wish_list"
+        android:name="com.example.elsafa.ui.WishList.WishListFragment"
+        android:label="@string/wishlist"
+        tools:layout="@layout/fragment_wishlist" />
+
+<!--    <fragment-->
+<!--        android:id="@+id/navigation_settings"-->
+<!--        android:name="com.example.elsafa.ui.settings.SettingsFragment"-->
+<!--        android:label="@string/action_settings"-->
+<!--        tools:layout="@layout/fragment_settings" />-->
 </navigation>
