@@ -6,56 +6,6 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-
-<!--    <RelativeLayout-->
-<!--        android:id="@+id/rela"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="match_parent"-->
-<!--        android:background="@color/colorAccent"-->
-<!--        android:elevation="2dp">-->
-
-<!--        <TextView-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_marginTop="120dp"-->
-<!--            android:layout_marginEnd="5dp"-->
-<!--            android:layout_toStartOf="@+id/safa"-->
-<!--            android:text="@string/lower"-->
-<!--            android:textColor="#FFF"-->
-<!--            android:textSize="30dp" />-->
-
-<!--        <TextView-->
-<!--            android:id="@+id/safa"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_centerHorizontal="true"-->
-<!--            android:layout_marginTop="120dp"-->
-<!--            android:text="@string/safa_shop"-->
-<!--            android:textColor="#000000"-->
-<!--            android:textSize="30dp" />-->
-
-<!--        <TextView-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_marginStart="5dp"-->
-<!--            android:layout_marginTop="120dp"-->
-<!--            android:layout_toEndOf="@+id/safa"-->
-<!--            android:text="@string/greater"-->
-<!--            android:textColor="#f1c40f"-->
-<!--            android:textSize="30dp" />-->
-
-<!--        <ImageView-->
-<!--            android:id="@+id/image2"-->
-<!--            android:layout_width="50dp"-->
-<!--            android:layout_height="40dp"-->
-<!--            android:layout_below="@+id/safa"-->
-<!--            android:layout_centerHorizontal="true"-->
-<!--            android:layout_marginTop="15dp"-->
-<!--            android:background="@drawable/shopping_cart"-->
-<!--            android:rotation="-5" />-->
-
-<!--    </RelativeLayout>-->
-
     <fragment
         android:id="@+id/nav_host_fragment"
         android:name="androidx.navigation.fragment.NavHostFragment"
@@ -72,5 +22,4 @@
         android:layout_marginTop="-60dp"
         android:background="#FFF"
         app:menu="@menu/bottom_nav_menu" />
-
 </RelativeLayout>

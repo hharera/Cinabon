@@ -5,18 +5,17 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_marginTop="10sp"
-    android:layout_gravity="center"
-    android:foregroundGravity="center"
+    android:layout_marginStart="10sp"
+    android:layout_gravity="end"
     android:layout_height="wrap_content">
 
 
         <ImageView
             android:id="@+id/category_img"
-            android:layout_width="250sp"
+            android:layout_width="300sp"
             android:layout_height="350sp"
             android:layout_marginTop="4dp"
-            android:scaleType="fitStart"
-            android:src="@drawable/snacks"
+            android:src="@drawable/meals"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.587"
             app:layout_constraintStart_toStartOf="parent"
@@ -37,9 +36,9 @@
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.136"
+            app:layout_constraintHorizontal_bias="0.054"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.062" />
+            app:layout_constraintVertical_bias="0.05" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -13,6 +13,7 @@
         android:text="@string/cafe"
         android:textColor="#BCAAA4"
         android:padding="5sp"
+        android:textStyle="bold"
         android:textSize="44sp" />
 
 
