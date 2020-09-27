@@ -8,6 +8,11 @@ public class Category {
     public Category() {
     }
 
+    public Category(String title, int resDrawable) {
+        this.title = title;
+        this.resDrawable = resDrawable;
+    }
+
     public void setTitle(String title) {
         this.title = title;
     }

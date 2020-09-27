@@ -32,15 +32,8 @@ public class HomeActivity extends AppCompatActivity {
 
                 .build();
 
-//        rela = findViewById(R.id.rela);
-//        new Handler().postDelayed(new Runnable() {
-//            @Override
-//            public void run() {
-//                rela.setVisibility(View.INVISIBLE);
-//            }
-//        },5000);
-
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
+        navController.setGraph(R.navigation.mobile_navigation);
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(navView, navController);
 

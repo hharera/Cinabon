@@ -29,14 +29,14 @@ public class CategoriesRecyclerViewAdapter extends RecyclerView.Adapter<Categori
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.category_card_view, parent);
+        View view = LayoutInflater.from(context).inflate(R.layout.category_card_view, parent, false);
         return new ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         holder.category_title.setText(list.get(position).getTitle());
-        holder.category_img.setImageBitmap(list.get(position).getBitmap());
+        holder.category_img.setImageResource(list.get(position).getResDrawable());
     }
 
     @Override

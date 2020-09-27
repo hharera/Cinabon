@@ -7,38 +7,53 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.elsafa.R;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
+import Controller.CategoriesRecyclerViewAdapter;
 import Model.Category;
 
 
 public class CategoriesFragment extends Fragment {
 
-    RecyclerView categories_rec_view;
-    List<Category> list;
+    RecyclerView recyclerView;
+    List<Category> categories;
+
+    private CategoriesRecyclerViewAdapter adapter;
+
+    public CategoriesFragment() {}
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        View root = inflater.inflate(R.layout.fragment_categories, container, false);
+        View view =  inflater.inflate(R.layout.fragment_categories, container, false);
 
-        categories_rec_view = root.findViewById(R.id.categories_rec_view);
-        list = new ArrayList<>();
+        recyclerView = view.findViewById(R.id.categories_rec_view);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+
 
         getCategories();
-        return root;
+
+        return view;
     }
 
     private void getCategories() {
-        Category c = new Category();
-        c.setResDrawable(R.drawable.clothing);
-        c.setTitle("Clothing");
-        list.add(c);
-        c.setTitle("Shoes");
-        c.setResDrawable(R.drawable.);
+        Category [] categories = new Category[]{
+                new Category( "Drinks", R.drawable.drinks),
+                new Category( "Meals", R.drawable.meals),
+                new Category( "Salads", R.drawable.salads),
+                new Category( "Sandwiches", R.drawable.sandwiches),
+                new Category( "Sweets", R.drawable.sweets),
+                new Category( "Snacks", R.drawable.snacks)
+        };
+
+        this.categories = (List<Category>) Arrays.asList(categories);
+        adapter = new CategoriesRecyclerViewAdapter(getContext(), this.categories);
+        recyclerView.setAdapter(adapter);
     }
 }
