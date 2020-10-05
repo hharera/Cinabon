@@ -6,169 +6,115 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterViewFlipper;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.viewpager2.widget.ViewPager2;
 
 import com.example.elsafa.R;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
+import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
+import com.google.firebase.firestore.Blob;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.tbuonomo.viewpagerdotsindicator.SpringDotsIndicator;
 
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
-import java.util.Date;
+import java.util.Arrays;
 import java.util.List;
 
-import Controller.OffersViewFlipperAdapter;
+import Controller.OffersRecyclerViewAdapter;
+import Model.Category;
 import Model.Offer;
 
 public class ShopFragment extends Fragment {
 
-    FirebaseAuth auth;
-    AdapterViewFlipper best_offers_flipper, last_offers_flipper;
-    DatabaseReference dRef;
-    StorageReference sRef;
-
-    List<Offer> offers;
-    List<Bitmap> list;
+    private FirebaseAuth auth;
+    private ViewPager2 best_offers_pager, last_offers_pager;
+    private FirebaseFirestore fStore;
+    private List<Category> offers;
+    private SpringDotsIndicator best_dots_indicator, last_dots_indicator;
 
     public ShopFragment() {
         auth = FirebaseAuth.getInstance();
-        dRef = FirebaseDatabase.getInstance().getReference();
-        sRef = FirebaseStorage.getInstance().getReference();
+        fStore = FirebaseFirestore.getInstance();
         offers = new ArrayList();
-        list = new ArrayList<>();
     }
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_shop, container, false);
 
-        last_offers_flipper = root.findViewById(R.id.last_offers_flipper);
-        best_offers_flipper = root.findViewById(R.id.best_offers_flipper);
+        last_offers_pager = root.findViewById(R.id.last_offers_pager);
+        best_offers_pager = root.findViewById(R.id.best_offers_pager);
 
-//        setOffer();
-        getBestOffers();
-        getLastOffers();
+        best_dots_indicator = root.findViewById(R.id.best_dots_indicator);
+        last_dots_indicator = root.findViewById(R.id.last_dots_indicator);
+
+        getOffers();
 
         return root;
     }
 
-    private void getBestOffers() {
-        final List<Offer>  bestOffers = new ArrayList();
-        dRef.child("Offers").addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull final DataSnapshot snapshot) {
-                final int[] i = {1};
-                for (DataSnapshot s : snapshot.getChildren()) {
-                    final Offer offer = new Offer();
-                    offer.setOID(s.child("OID").getValue(Integer.class));
-                    offer.setPID(s.child("PID").getValue(Integer.class));
-                    offer.setDate(s.child("Date").getValue(Date.class));
-                    offer.setPercentage(s.child("Percentage").getValue(Float.class));
+    private void getOffers() {
+        final List<Offer> bestOffers = new ArrayList();
+//        fStore.collection("Offers")
+//                .addSnapshotListener(new EventListener<QuerySnapshot>() {
+//                    @Override
+//                    public void onEvent(@Nullable QuerySnapshot v, @Nullable FirebaseFirestoreException e) {
+//                        if (e != null) {
+//                            e.printStackTrace();
+//                        } else {
+//                            for (DocumentSnapshot ds : v.getDocuments()) {
+//                                final Offer offer = ds.toObject(Offer.class);
+//                                offers.add(offer);
+//                            }
+//
+//                        }
+//                    }
+//                });
 
-                    sRef.child("Offers").child(String.valueOf(offer.getOID())).getBytes((1024 * 1024))
-                            .addOnCompleteListener(new OnCompleteListener<byte[]>() {
-                                @Override
-                                public void onComplete(@NonNull Task<byte[]> task) {
-                                    if (task.isSuccessful()) {
-                                        offer.setBitmap(BitmapFactory.decodeByteArray(task.getResult(), 0, task.getResult().length));
-                                        bestOffers.add(offer);
-                                        if (snapshot.getChildrenCount() == i[0]) {
-                                            best_offers_flipper.setAdapter(new OffersViewFlipperAdapter(bestOffers, getContext()));
-                                            best_offers_flipper.setFlipInterval(1500);
-                                            best_offers_flipper.canScrollHorizontally(View.TEXT_DIRECTION_RTL);
-                                            best_offers_flipper.startFlipping();
-                                        }
-                                        i[0]++;
-                                    }
-                                }
-                            });
-                }
-            }
+        Category[] categories = new Category[]{
+                new Category( "Drinks", R.drawable.drinks),
+                new Category( "Meals", R.drawable.meals),
+                new Category( "Salads", R.drawable.salads),
+                new Category( "Sandwiches", R.drawable.sandwiches),
+                new Category( "Sweets", R.drawable.sweets),
+                new Category( "Snacks", R.drawable.snacks)
+        };
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
+        this.offers = (List<Category>) Arrays.asList(categories);
 
-            }
-        });
+        OffersRecyclerViewAdapter offersRecyclerViewAdapter = new OffersRecyclerViewAdapter(offers, getContext());
+        last_offers_pager.setAdapter(offersRecyclerViewAdapter);
+        best_offers_pager.setAdapter(offersRecyclerViewAdapter);
+
+        best_dots_indicator.setViewPager2(best_offers_pager);
+        last_dots_indicator.setViewPager2(last_offers_pager);
     }
 
-    private void getLastOffers() {
-        final List<Offer> lastOffers = new ArrayList();
-        dRef.child("Offers").addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull final DataSnapshot snapshot) {
-                final int[] i = {1};
-                for (DataSnapshot s : snapshot.getChildren()) {
-                    final Offer offer = new Offer();
-                    offer.setOID(s.child("OID").getValue(Integer.class));
-                    offer.setPID(s.child("PID").getValue(Integer.class));
-                    offer.setDate(s.child("Date").getValue(Date.class));
-                    offer.setPercentage(s.child("Percentage").getValue(Float.class));
-
-                    sRef.child("Offers").child(String.valueOf(offer.getOID())).getBytes((1024 * 1024))
-                            .addOnCompleteListener(new OnCompleteListener<byte[]>() {
-                                @Override
-                                public void onComplete(@NonNull Task<byte[]> task) {
-                                    if (task.isSuccessful()) {
-                                        offer.setBitmap(BitmapFactory.decodeByteArray(task.getResult(), 0, task.getResult().length));
-                                        lastOffers.add(offer);
-                                        if (snapshot.getChildrenCount() == i[0]) {
-                                            last_offers_flipper.setAdapter(new OffersViewFlipperAdapter(lastOffers, getContext()));
-                                            last_offers_flipper.setFlipInterval(1500);
-                                            last_offers_flipper.canScrollHorizontally(View.TEXT_DIRECTION_RTL);
-                                            last_offers_flipper.startFlipping();
-                                        }
-                                        i[0]++;
-                                    }
-                                }
-                            });
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
+    private void categoriseOffers() {
+//        List<Offer> los = offers;
+//        Collections.sort(los);
+//        List<Offer> offers1 = new ArrayList();
+//        for (int i = 0; i < 5 && i < los.size(); i++) {
+//            offers1.add(los.get(i));
+//        }
+//        OffersRecyclerViewAdapter offersRecyclerViewAdapter = new OffersRecyclerViewAdapter(offers1, getContext());
+//        last_offers_pager.setAdapter(offersRecyclerViewAdapter);
+//        best_dots_indicator.setViewPager2(best_offers_pager);
+//        last_dots_indicator.setViewPager2(last_offers_pager);
     }
 
     private void setOffer() {
-        DatabaseReference reference = dRef.child("Offers").push();
-        reference.child("OID").setValue(2);
-        reference.child("PID").setValue(2);
-        reference.child("Date").setValue(new Date());
-        reference.child("Percentage").setValue(55.5);
+        Offer offer = new Offer();
+        offer.setTime(Timestamp.now());
 
-        Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.offer2);
-        ByteArrayOutputStream offer = new ByteArrayOutputStream();
-        getReducedBitmap(bitmap, 512).compress(Bitmap.CompressFormat.PNG, 50, offer);
+        Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.meals);
+        ByteArrayOutputStream o = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, o);
+        offer.setOffer(Blob.fromBytes(o.toByteArray()));
 
-        sRef.child("Offers").child(2 + "").putBytes(offer.toByteArray());
-    }
-
-    public Bitmap getReducedBitmap(Bitmap image, int maxSize) {
-        int width = image.getWidth();
-        int height = image.getHeight();
-
-        float bitmapRatio = (float)width / (float) height;
-        if (bitmapRatio > 1) {
-            width = maxSize;
-            height = (int) (width / bitmapRatio);
-        } else {
-            height = maxSize;
-            width = (int) (height * bitmapRatio);
-        }
-        return Bitmap.createScaledBitmap(image, width, height, true);
+        fStore.collection("Offers").document().set(offer);
     }
 }

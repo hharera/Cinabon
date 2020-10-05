@@ -1,6 +1,7 @@
 package Controller;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +11,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.elsafa.CategoryProducts;
 import com.example.elsafa.R;
 
 import java.util.List;
@@ -34,9 +36,18 @@ public class CategoriesRecyclerViewAdapter extends RecyclerView.Adapter<Categori
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
         holder.category_title.setText(list.get(position).getTitle());
         holder.category_img.setImageResource(list.get(position).getResDrawable());
+
+        holder.category_img.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, CategoryProducts.class);
+                intent.putExtra("category", list.get(position).getTitle());
+                context.startActivity(intent);
+            }
+        });
     }
 
     @Override

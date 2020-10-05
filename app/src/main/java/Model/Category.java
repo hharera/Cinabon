@@ -1,9 +1,12 @@
 package Model;
 
+import java.util.List;
+
 public class Category {
 
-    String title;
-    int resDrawable;
+    private String title;
+    private int resDrawable;
+    private List<Item> itemList;
 
     public Category() {
     }
@@ -11,6 +14,14 @@ public class Category {
     public Category(String title, int resDrawable) {
         this.title = title;
         this.resDrawable = resDrawable;
+    }
+
+    public List<Item> getItemList() {
+        return itemList;
+    }
+
+    public void setItemList(List<Item> itemList) {
+        this.itemList = itemList;
     }
 
     public void setTitle(String title) {

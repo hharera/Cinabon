@@ -43,4 +43,6 @@ dependencies {
     implementation "androidx.navigation:navigation-ui:$nav_version"
 
     implementation 'com.google.firebase:firebase-firestore:21.6.0'
+
+    implementation 'com.tbuonomo.andrui:viewpagerdotsindicator:4.0'
 }

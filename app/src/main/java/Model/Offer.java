@@ -1,34 +1,32 @@
 package Model;
 
-import android.graphics.Bitmap;
+import com.google.firebase.Timestamp;
+import com.google.firebase.firestore.Blob;
 
-import java.util.Date;
-
-public class Offer {
+public class Offer implements Comparable<Offer> {
 
     private int OID, PID;
-    private Date endDate;
-    private Bitmap bitmap;
-    private Date date;
-    private float percentage;
-
-    public void setDate(Date date) {
-        this.date = date;
-    }
-
-    public void setPercentage(float percentage) {
-        this.percentage = percentage;
-    }
-
-    public Date getDate() {
-        return date;
-    }
-
-    public float getPercentage() {
-        return percentage;
-    }
+    private Timestamp time;
+    private Blob offer;
+    private float discountValue;
 
     public Offer() {
+    }
+
+    public Blob getOffer() {
+        return offer;
+    }
+
+    public void setOffer(Blob offer) {
+        this.offer = offer;
+    }
+
+    public float getDiscountValue() {
+        return discountValue;
+    }
+
+    public void setDiscountValue(float discountValue) {
+        this.discountValue = discountValue;
     }
 
     public void setOID(int OID) {
@@ -39,27 +37,24 @@ public class Offer {
         return OID;
     }
 
-    public void setBitmap(Bitmap bitmap) {
-        this.bitmap = bitmap;
-    }
-
-    public Bitmap getBitmap() {
-        return bitmap;
-    }
-
     public void setPID(int PID) {
         this.PID = PID;
     }
 
-    public void setEndDate(Date endDate) {
-        this.endDate = endDate;
+    public Timestamp getTime() {
+        return time;
+    }
+
+    public void setTime(Timestamp time) {
+        this.time = time;
     }
 
     public int getPID() {
         return PID;
     }
 
-    public Date getEndDate() {
-        return endDate;
+    @Override
+    public int compareTo(Offer o) {
+        return (int) (o.getTime().getSeconds() - getTime().getSeconds());
     }
 }

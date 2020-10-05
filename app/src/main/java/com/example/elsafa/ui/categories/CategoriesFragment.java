@@ -35,7 +35,7 @@ public class CategoriesFragment extends Fragment {
         recyclerView = view.findViewById(R.id.categories_rec_view);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-
+        recyclerView.scrollBy(0, 50);
 
         getCategories();
 

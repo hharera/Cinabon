@@ -31,9 +31,4 @@
         <item name="android:numStars">5</item>
      </style>
 
-    <style name="RatingColor" parent="Theme.AppCompat">
-        <item name="colorControlNormal">@color/com_facebook_blue</item>
-        <item name="colorControlActivated">green</item>
-    </style>
-
 </resources>
