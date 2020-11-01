@@ -31,4 +31,13 @@
         <item name="android:numStars">5</item>
      </style>
 
+    <style name="offers_style" parent="@android:style/TextAppearance.Small">
+        <item name="android:fontFamily">@font/alex_brush</item>
+        <item name="android:textSize">24sp</item>
+    </style>
+
+    <style name="CustomActionBar" parent="Widget.AppCompat.ActionBar">
+        <item name="android:background">#ecf0f1</item>
+    </style>
+
 </resources>

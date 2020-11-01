@@ -11,7 +11,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".CategoryProducts"></activity>
+        <activity android:name=".OfferView" />
+        <activity
+            android:name=".HomeActivity"
+            android:label="@string/title_activity_feed" />
+        <activity android:name=".CategoryProducts" />
         <activity android:name=".ProductView" />
 
         <meta-data
@@ -34,7 +38,6 @@
                 <data android:scheme="@string/fb_login_protocol_scheme" />
             </intent-filter>
         </activity>
-        <activity android:name=".HomeActivity" />
         <activity android:name=".SignUp" />
 
         <meta-data

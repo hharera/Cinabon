@@ -18,7 +18,7 @@
         android:layout_height="35sp"
         android:layout_marginStart="8sp"
         android:layout_marginTop="100sp"
-        android:src="@drawable/wishlist" />
+        android:src="@drawable/wish" />
 
 
     <ImageView

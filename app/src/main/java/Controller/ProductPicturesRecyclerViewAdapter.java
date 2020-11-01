@@ -1,6 +1,8 @@
 package Controller;
 
 import android.content.Context;
+import android.content.Intent;
+import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,18 +11,20 @@ import android.widget.ImageView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.elsafa.OfferView;
 import com.example.elsafa.R;
+import com.google.firebase.firestore.Blob;
 
 import java.util.List;
 
-import Model.Category;
+import Model.Offer.BestOffer;
 
-public class OffersRecyclerViewAdapter extends RecyclerView.Adapter<OffersRecyclerViewAdapter.ViewHolder> {
-    private List<Category> offers;
+public class ProductPicturesRecyclerViewAdapter extends RecyclerView.Adapter<ProductPicturesRecyclerViewAdapter.ViewHolder> {
+    private List<Blob> pics;
     private Context context;
 
-    public OffersRecyclerViewAdapter(List<Category> list, Context context) {
-        this.offers = list;
+    public ProductPicturesRecyclerViewAdapter(List<Blob> pics, Context context) {
+        this.pics = pics;
         this.context = context;
     }
 
@@ -33,21 +37,13 @@ public class OffersRecyclerViewAdapter extends RecyclerView.Adapter<OffersRecycl
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-//        Bitmap bitmap = BitmapFactory.decodeByteArray(offers.get(position)
-//                .getOffer().toBytes(), 0, offers.get(position)
-//                .getOffer().toBytes().length);
-        holder.imageView.setImageResource(offers.get(position).getResDrawable());
-        holder.imageView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
+        holder.imageView.setImageBitmap(BitmapFactory.decodeByteArray(pics.get(position)
+                .toBytes(), 0, pics.get(position).toBytes().length));
     }
 
     @Override
     public int getItemCount() {
-        return offers.size();
+        return pics.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {

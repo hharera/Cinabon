@@ -42,6 +42,64 @@
           ]
         }
       }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:261802668850:android:a1efd652ceddcd7fb0dd2b",
+        "android_client_info": {
+          "package_name": "com.example.offersviewer"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "261802668850-6ct6iiurlmbdfn9jrb698ch934ouu55n.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBeOp4G2vXdTBUb65vJOCNKaWVkjkpoIvQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "261802668850-6ct6iiurlmbdfn9jrb698ch934ouu55n.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:261802668850:android:d126b72c927a0fc0b0dd2b",
+        "android_client_info": {
+          "package_name": "com.harera.android.cafe"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "261802668850-6ct6iiurlmbdfn9jrb698ch934ouu55n.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBeOp4G2vXdTBUb65vJOCNKaWVkjkpoIvQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "261802668850-6ct6iiurlmbdfn9jrb698ch934ouu55n.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
     }
   ],
   "configuration_version": "1"

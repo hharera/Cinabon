@@ -1,10 +1,13 @@
 package com.example.elsafa;
 
-import android.os.Build;
+import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.view.View;
 import android.widget.RelativeLayout;
 
-import androidx.annotation.RequiresApi;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.navigation.NavController;
@@ -12,30 +15,29 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
-import com.google.android.material.bottomnavigation.BottomNavigationView;
-
 public class HomeActivity extends AppCompatActivity {
 
-    RelativeLayout rela;
-
-    @RequiresApi(api = Build.VERSION_CODES.P)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_home);
-
+        setContentView(R.layout.activity_feed);
         BottomNavigationView navView = findViewById(R.id.nav_view);
 
         AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.navigation_shop, R.id.navigation_categories,
-                R.id.navigation_account,  R.id.navigation_cart, R.id.navigation_wish_list)
-
+                R.id.navigation_shop, R.id.navigation_categories, R.id.navigation_account, R.id.navigation_cart, R.id.navigation_wishlist)
                 .build();
-
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
-        navController.setGraph(R.navigation.mobile_navigation);
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(navView, navController);
+
+        RelativeLayout waitingPage = findViewById(R.id.waiting_page);
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                waitingPage.setVisibility(View.INVISIBLE);
+            }
+        }, 3000);
 
         hide();
     }
@@ -46,4 +48,5 @@ public class HomeActivity extends AppCompatActivity {
             actionBar.hide();
         }
     }
+
 }

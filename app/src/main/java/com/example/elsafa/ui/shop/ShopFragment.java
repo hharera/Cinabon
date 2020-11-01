@@ -6,39 +6,58 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TableLayout;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.viewpager.widget.ViewPager;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.example.elsafa.R;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.tabs.TabLayout;
+import com.google.android.material.tabs.TabLayoutMediator;
 import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.Blob;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.tbuonomo.viewpagerdotsindicator.SpringDotsIndicator;
 
 import java.io.ByteArrayOutputStream;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 
-import Controller.OffersRecyclerViewAdapter;
-import Model.Category;
-import Model.Offer;
+import Controller.BestOffersAdapter;
+import Controller.LastOffersAdapter;
+import Model.Offer.BestOffer;
+import Model.Offer.LastOffer;
+import Model.Offer.Offer;
 
 public class ShopFragment extends Fragment {
 
-    private FirebaseAuth auth;
-    private ViewPager2 best_offers_pager, last_offers_pager;
-    private FirebaseFirestore fStore;
-    private List<Category> offers;
     private SpringDotsIndicator best_dots_indicator, last_dots_indicator;
 
+    private List<LastOffer> lastOffers;
+    private List<BestOffer> bestOffers;
+
+    private FirebaseFirestore fStore;
+
+    private ViewPager2 best_offers_pager, last_offers_pager;
+
+
     public ShopFragment() {
-        auth = FirebaseAuth.getInstance();
         fStore = FirebaseFirestore.getInstance();
-        offers = new ArrayList();
+        lastOffers = new ArrayList();
+        bestOffers = new ArrayList();
     }
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -48,8 +67,14 @@ public class ShopFragment extends Fragment {
         last_offers_pager = root.findViewById(R.id.last_offers_pager);
         best_offers_pager = root.findViewById(R.id.best_offers_pager);
 
+        last_offers_pager.setAdapter(new LastOffersAdapter(new ArrayList<>(), getActivity()));
+        best_offers_pager.setAdapter(new BestOffersAdapter(new ArrayList<>(), getActivity()));
+
         best_dots_indicator = root.findViewById(R.id.best_dots_indicator);
         last_dots_indicator = root.findViewById(R.id.last_dots_indicator);
+
+        best_dots_indicator.setViewPager2(best_offers_pager);
+        last_dots_indicator.setViewPager2(last_offers_pager);
 
         getOffers();
 
@@ -57,64 +82,36 @@ public class ShopFragment extends Fragment {
     }
 
     private void getOffers() {
-        final List<Offer> bestOffers = new ArrayList();
-//        fStore.collection("Offers")
-//                .addSnapshotListener(new EventListener<QuerySnapshot>() {
-//                    @Override
-//                    public void onEvent(@Nullable QuerySnapshot v, @Nullable FirebaseFirestoreException e) {
-//                        if (e != null) {
-//                            e.printStackTrace();
-//                        } else {
-//                            for (DocumentSnapshot ds : v.getDocuments()) {
-//                                final Offer offer = ds.toObject(Offer.class);
-//                                offers.add(offer);
-//                            }
-//
-//                        }
-//                    }
-//                });
+        fStore.collection("Offers")
+                .get()
+                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                    @Override
+                    public void onSuccess(QuerySnapshot v) {
+                        for (DocumentSnapshot ds : v.getDocuments()) {
+                            final LastOffer lastOffer = ds.toObject(LastOffer.class);
+                            final BestOffer bestOffer = ds.toObject(BestOffer.class);
 
-        Category[] categories = new Category[]{
-                new Category( "Drinks", R.drawable.drinks),
-                new Category( "Meals", R.drawable.meals),
-                new Category( "Salads", R.drawable.salads),
-                new Category( "Sandwiches", R.drawable.sandwiches),
-                new Category( "Sweets", R.drawable.sweets),
-                new Category( "Snacks", R.drawable.snacks)
-        };
+                            lastOffer.setOfferId(ds.getId());
+                            bestOffer.setOfferId(ds.getId());
 
-        this.offers = (List<Category>) Arrays.asList(categories);
+                            lastOffers.add(lastOffer);
+                            bestOffers.add(bestOffer);
+                        }
+                        getLastOffers();
+                        getBestOffers();
+                    }
+                });
+    }
 
-        OffersRecyclerViewAdapter offersRecyclerViewAdapter = new OffersRecyclerViewAdapter(offers, getContext());
-        last_offers_pager.setAdapter(offersRecyclerViewAdapter);
-        best_offers_pager.setAdapter(offersRecyclerViewAdapter);
-
+    private void getBestOffers() {
+        Collections.sort(bestOffers);
+        best_offers_pager.setAdapter(new BestOffersAdapter(bestOffers, getActivity()));
         best_dots_indicator.setViewPager2(best_offers_pager);
+    }
+
+    private void getLastOffers() {
+        Collections.sort(lastOffers);
+        last_offers_pager.setAdapter(new LastOffersAdapter(lastOffers, getActivity()));
         last_dots_indicator.setViewPager2(last_offers_pager);
-    }
-
-    private void categoriseOffers() {
-//        List<Offer> los = offers;
-//        Collections.sort(los);
-//        List<Offer> offers1 = new ArrayList();
-//        for (int i = 0; i < 5 && i < los.size(); i++) {
-//            offers1.add(los.get(i));
-//        }
-//        OffersRecyclerViewAdapter offersRecyclerViewAdapter = new OffersRecyclerViewAdapter(offers1, getContext());
-//        last_offers_pager.setAdapter(offersRecyclerViewAdapter);
-//        best_dots_indicator.setViewPager2(best_offers_pager);
-//        last_dots_indicator.setViewPager2(last_offers_pager);
-    }
-
-    private void setOffer() {
-        Offer offer = new Offer();
-        offer.setTime(Timestamp.now());
-
-        Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.meals);
-        ByteArrayOutputStream o = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.PNG, 100, o);
-        offer.setOffer(Blob.fromBytes(o.toByteArray()));
-
-        fStore.collection("Offers").document().set(offer);
     }
 }

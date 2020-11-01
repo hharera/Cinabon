@@ -11,10 +11,6 @@
         android:icon="@drawable/categories"
         android:title="@string/categories" />
 
-    <item
-        android:id="@+id/navigation_account"
-        android:icon="@drawable/user"
-        android:title="@string/account" />
 
     <item
         android:id="@+id/navigation_cart"
@@ -22,12 +18,12 @@
         android:title="@string/cart" />
 
     <item
-        android:id="@+id/navigation_wish_list"
-        android:icon="@drawable/wishlist"
+        android:id="@+id/navigation_wishlist"
+        android:icon="@drawable/wish"
         android:title="@string/wishlist" />
 
-<!--    <item-->
-<!--        android:id="@+id/navigation_settings"-->
-<!--        android:icon="@drawable/settings"-->
-<!--        android:title="@string/action_settings" />-->
+    <item
+        android:id="@+id/navigation_account"
+        android:icon="@drawable/user"
+        android:title="@string/account" />
 </menu>

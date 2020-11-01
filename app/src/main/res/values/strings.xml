@@ -37,9 +37,13 @@
     <string name="logout">Logout</string>
     <string name="best_offers">Best offers</string>
     <string name="last_offers">Last offers</string>
-    <string name="wishlist">Wish list</string>
+    <string name="wishlist">Wishlist</string>
     <string name="cart">Cart</string>
     <string name="cafe">Cafe</string>
+    <string name="title_activity_feed">MainActivity</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
 
 
 </resources>

@@ -30,7 +30,7 @@
         tools:layout="@layout/fragment_cart" />
 
     <fragment
-        android:id="@+id/navigation_wish_list"
+        android:id="@+id/navigation_wishlist"
         android:name="com.example.elsafa.ui.WishList.WishListFragment"
         android:label="@string/wishlist"
         tools:layout="@layout/fragment_wishlist" />
