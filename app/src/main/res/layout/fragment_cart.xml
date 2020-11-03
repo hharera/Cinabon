@@ -4,7 +4,26 @@
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.example.elsafa.ui.Cart.CartFragment">
+    
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/cart"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="5sp"
+        android:layout_marginBottom="50sp"
+        />
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="50sp"
+        android:layout_below="@+id/cart"
+        android:layout_alignParentLeft="true"
+        android:layout_marginTop="-50sp"
+        android:background="#f1c40f"
+        android:fontFamily="@font/akronim"
+        android:gravity="center"
+        android:text="@string/checkout"
+        android:textSize="40sp" />
 
 
 </RelativeLayout>

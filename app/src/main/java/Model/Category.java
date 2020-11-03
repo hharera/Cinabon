@@ -2,11 +2,13 @@ package Model;
 
 import java.util.List;
 
+import Model.Product.Product;
+
 public class Category {
 
     private String title;
     private int resDrawable;
-    private List<Item> itemList;
+    private List<Product> itemList;
 
     public Category() {
     }
@@ -16,11 +18,11 @@ public class Category {
         this.resDrawable = resDrawable;
     }
 
-    public List<Item> getItemList() {
+    public List<Product> getItemList() {
         return itemList;
     }
 
-    public void setItemList(List<Item> itemList) {
+    public void setItemList(List<Product> itemList) {
         this.itemList = itemList;
     }
 

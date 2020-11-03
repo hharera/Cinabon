@@ -37,7 +37,7 @@
     </style>
 
     <style name="CustomActionBar" parent="Widget.AppCompat.ActionBar">
-        <item name="android:background">#ecf0f1</item>
+        <item name="android:background">#f5f6fa</item>
     </style>
 
 </resources>
