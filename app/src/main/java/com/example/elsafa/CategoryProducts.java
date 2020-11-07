@@ -1,6 +1,7 @@
 package com.example.elsafa;
 
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
@@ -21,9 +22,11 @@ import com.squareup.picasso.Target;
 
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import Controller.CategoryProductsRecyclerView;
+import Model.Offer.CompleteOffer;
 import Model.Product.CompleteProduct;
 import Model.Product.Product;
 
@@ -55,7 +58,10 @@ public class CategoryProducts extends AppCompatActivity {
 
         getProducts();
         hide();
-//        setOffer();
+
+        for (int o = 0; o < 3; o++){
+//            setOffer(o);
+        }
     }
 
     private void getProducts() {
@@ -76,44 +82,51 @@ public class CategoryProducts extends AppCompatActivity {
                 });
     }
 
-    private void setOffer() {
-        String[] resources = new String[]{"https://image.shutterstock.com/image-vector/special-offer-banner-vector-format-600w-586903514.jpg"
-                , "https://image.shutterstock.com/image-vector/special-offer-banner-vector-format-600w-586903514.jpg",
-                "https://image.shutterstock.com/image-vector/special-offer-banner-vector-format-600w-586903514.jpg"};
+    private void setOffer(int i) {
+        String[] imagesURL = new String[]{"https://image.shutterstock.com/image-vector/special-offer-banner-vector-format-600w-586903514.jpg"
+                , "https://addconn.com/images/limited.png",
+                "http://www.cullinsyard.co.uk/wp-content/uploads/2018/01/special-offer.jpg"};
 
-        Bitmap[] images = new Bitmap[3];
 
-        for (int i = 0; i < 3; i++) {
-            int finalI = i;
-            Picasso.get().load(resources[i]).into(new Target() {
-                @Override
-                public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
-                    images[finalI] = bitmap;
+        Picasso.get().load(imagesURL[i]).into(new Target() {
+            @Override
+            public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
 
-                    Timestamp time = Timestamp.now();
-                    CompleteProduct product = new CompleteProduct();
-                    product.setTitle("Buy 2 cups of Black Coffee and take the third as a gift");
-                    product.setPrice("150");
+                Timestamp time = Timestamp.now();
+                CompleteProduct product = new CompleteProduct();
+                product.setTitle("Buy 2 cups of Black Coffee and take the third as a gift");
+                product.setCarts(new HashMap<>());
+                product.setWishes(new HashMap<>());
+                product.setCategory(categoryName);
+                product.setPrice(20);
 
-                    Bitmap offerPic = (images[finalI]);
-                    ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                    offerPic.compress(Bitmap.CompressFormat.PNG, 100, stream);
-                    product.setMainPic(Blob.fromBytes(stream.toByteArray()));
+                ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
+                product.setMainPic(Blob.fromBytes(stream.toByteArray()));
 
-                    fStore.collection("Categories").document(categoryName).collection("Products").document().set(product);
-                }
+                List<Blob> blobs = new ArrayList<>();
+                blobs.add(Blob.fromBytes(stream.toByteArray()));
+                product.setProductPics(blobs);
+                product.setWishes(new HashMap<>());
+                product.setPrice(20);
 
-                @Override
-                public void onBitmapFailed(Exception e, Drawable errorDrawable) {
+                fStore.collection("Categories")
+                        .document(categoryName)
+                        .collection("Products")
+                        .document()
+                        .set(product);
+            }
 
-                }
+            @Override
+            public void onBitmapFailed(Exception e, Drawable errorDrawable) {
 
-                @Override
-                public void onPrepareLoad(Drawable placeHolderDrawable) {
+            }
 
-                }
-            });
-        }
+            @Override
+            public void onPrepareLoad(Drawable placeHolderDrawable) {
+
+            }
+        });
     }
 
     private void hide() {

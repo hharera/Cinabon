@@ -1,6 +1,7 @@
 package Controller;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +13,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.elsafa.ProductView;
 import com.example.elsafa.R;
 
 import java.util.List;
@@ -39,13 +41,16 @@ public class CategoryProductsRecyclerView extends RecyclerView.Adapter<CategoryP
         holder.productMainImage.setImageBitmap(BitmapFactory.decodeByteArray(products.get(position)
                 .getMainPic().toBytes(), 0, products.get(position).getMainPic().toBytes().length));
 
-        holder.price.setText(this.products.get(position).getPrice());
+        holder.price.setText(this.products.get(position).getPrice() + " EGP");
         holder.title.setText(this.products.get(position).getTitle());
 
         holder.productCardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                
+                Intent  intent = new Intent(context, ProductView.class);
+                intent.putExtra("productId", products.get(position).getProductId());
+                intent.putExtra("category", products.get(position).getCategory());
+                context.startActivity(intent);
             }
         });
     }

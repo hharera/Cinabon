@@ -4,18 +4,19 @@ import com.google.firebase.firestore.Blob;
 
 public class Product {
 
-    private String productId, category, price, title;
+    private String productId, category, title;
+    private float price;
     private Blob mainPic;
 
     public Product() {
     }
 
-    public String getPrice() {
-        return price;
+    public void setPrice(float price) {
+        this.price = price;
     }
 
-    public void setPrice(String price) {
-        this.price = price;
+    public float getPrice() {
+        return price;
     }
 
     public String getTitle() {

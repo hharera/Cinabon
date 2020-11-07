@@ -20,8 +20,8 @@ import Model.Category;
 
 public class CategoriesRecyclerViewAdapter extends RecyclerView.Adapter<CategoriesRecyclerViewAdapter.ViewHolder> {
 
-    Context context;
-    List<Category> list;
+    private Context context;
+    private List<Category> list;
 
     public CategoriesRecyclerViewAdapter(Context context, List<Category> list) {
         this.context = context;

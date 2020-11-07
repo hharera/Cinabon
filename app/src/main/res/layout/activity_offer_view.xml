@@ -45,7 +45,7 @@
         android:layout_marginStart="8sp"
         android:layout_below="@id/app_bar"
         android:layout_marginTop="135sp"
-        android:onClick="addToCart"
+        android:onClick="cartClicked"
         android:src="@drawable/cart" />
 
     <TextView
