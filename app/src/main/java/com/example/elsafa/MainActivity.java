@@ -3,6 +3,7 @@ package com.example.elsafa;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -17,12 +18,9 @@ import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
 
 import java.io.ByteArrayOutputStream;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
-import Model.Offer.CompleteOffer;
+import Model.Offer.Offer;
 import Model.User;
 
 public class MainActivity extends AppCompatActivity {
@@ -46,7 +44,8 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent);
         }
 
-//        setOffer();
+//        setOffer(0);
+//        setOffer(1);
         finish();
     }
 
@@ -65,49 +64,47 @@ public class MainActivity extends AppCompatActivity {
     private void addUserToFirebase() {
         User user = new User();
         user.setName("NA");
-        user.setOffersCart(new HashMap<>());
-        user.setOffersWishList(new HashMap<>());
-        user.setProductsCart(new HashMap<>());
-        user.setProductsWishList(new HashMap<>());
         user.setPhoneNumber(-1);
         user.setUID(auth.getUid());
 
         fStore.collection("Users")
                 .document(auth.getUid())
                 .set(user);
+
+        fStore.collection("Users")
+                .document(auth.getUid())
+                .collection("Cart");
+
+        fStore.collection("Users")
+                .document(auth.getUid())
+                .collection("WishList");
     }
 
-    private void setOffer() {
-        String[] resources = new String[]{"https://image.shutterstock.com/image-vector/special-offer-banner-vector-format-600w-586903514.jpg"
-                , "https://addconn.com/images/limited.png",
-                "http://www.cullinsyard.co.uk/wp-content/uploads/2018/01/special-offer.jpg"};
-
-        Bitmap[] images = new Bitmap[3];
+    private void setOffer(int i) {
+        Uri[] imagesURL = new Uri[]{Uri.parse("https://image.shutterstock.com/image-vector/special-offer-banner-vector-format-600w-586903514.jpg")
+                , Uri.parse("https://addconn.com/images/limited.png")};
 
 
-        Picasso.get().load(resources[1]).into(new Target() {
+        String[] productsIds = new String[]{
+                "amzoSXGofPGZxKutcIoI",
+                "mGdc7umJAOtL1h69RxpN"
+        };
+
+        Picasso.get().load(imagesURL[i]).into(new Target() {
             @Override
             public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
-                images[1] = bitmap;
-
                 Timestamp time = Timestamp.now();
-                CompleteOffer offer = new CompleteOffer();
-                offer.setTitle("Buy 2 cups of Black Coffee and take the third as a gift");
-                offer.setCarts(new HashMap<>());
+
+                Offer offer = new Offer();
+                offer.setProductId(productsIds[i]);
                 offer.setDiscountPercentage(33);
                 offer.setStartTime(time);
                 offer.setEndTime(new Timestamp(time.getSeconds() + 86400, time.getNanoseconds()));
+                offer.setCategoryName("Drinks");
 
-                Bitmap offerPic = (images[1]);
                 ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                offerPic.compress(Bitmap.CompressFormat.PNG, 100, stream);
+                bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
                 offer.setOfferPic(Blob.fromBytes(stream.toByteArray()));
-
-                List<Blob> blobs = new ArrayList<>();
-                blobs.add(Blob.fromBytes(stream.toByteArray()));
-                offer.setProductPics(blobs);
-                offer.setWishes(new HashMap<>());
-                offer.setPrice(20);
 
                 fStore.collection("Offers").document().set(offer);
             }

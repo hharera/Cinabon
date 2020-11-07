@@ -19,11 +19,11 @@ import java.util.List;
 import Model.Offer.BestOffer;
 import Model.Offer.Offer;
 
-public class BestOffersAdapter extends RecyclerView.Adapter<BestOffersAdapter.ViewHolder> {
-    private List<BestOffer> offers;
+public class OffersPagerAdapter extends RecyclerView.Adapter<OffersPagerAdapter.ViewHolder> {
+    private List<Offer> offers;
     private Context context;
 
-    public BestOffersAdapter(List<BestOffer> list, Context context) {
+    public OffersPagerAdapter(List<Offer> list, Context context) {
         this.offers = list;
         this.context = context;
     }
@@ -44,7 +44,9 @@ public class BestOffersAdapter extends RecyclerView.Adapter<BestOffersAdapter.Vi
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, OfferView.class);
-                intent.putExtra("OfferId", offers.get(position).getOfferId());
+                intent.putExtra("productId", offers.get(position).getProductId());
+                intent.putExtra("categoryName", offers.get(position).getCategoryName());
+                intent.putExtra("offerId", offers.get(position).getOfferId());
                 context.startActivity(intent);
             }
         });

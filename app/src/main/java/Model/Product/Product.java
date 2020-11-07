@@ -4,7 +4,7 @@ import com.google.firebase.firestore.Blob;
 
 public class Product {
 
-    private String productId, category, title;
+    private String productId, categoryName, title;
     private float price;
     private Blob mainPic;
 
@@ -43,11 +43,11 @@ public class Product {
         this.productId = productId;
     }
 
-    public String getCategory() {
-        return category;
+    public String getCategoryName() {
+        return categoryName;
     }
 
-    public void setCategory(String category) {
-        this.category = category;
+    public void setCategoryName(String categoryName) {
+        this.categoryName = categoryName;
     }
 }

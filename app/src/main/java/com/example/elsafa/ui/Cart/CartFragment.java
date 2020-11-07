@@ -5,7 +5,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import androidx.annotation.IntegerRes;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -14,40 +13,40 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.elsafa.R;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.Blob;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
 
-import java.util.HashMap;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
-import Controller.CartItemsRecyclerViewAdapter;
+import Controller.CartRecyclerViewAdapter;
+import Model.CartItem;
 
 public class CartFragment extends Fragment {
 
-    private RecyclerView cartItems;
+    private RecyclerView recyclerView;
     private FirebaseAuth auth;
     private FirebaseFirestore fStore;
-    private Map<String, Integer> products;
-    private Map<String, Integer> offers;
-    private CartItemsRecyclerViewAdapter adapter;
+    private List<CartItem> cartItems;
+    private CartRecyclerViewAdapter adapter;
 
     public CartFragment() {
         auth = FirebaseAuth.getInstance();
         fStore = FirebaseFirestore.getInstance();
-        offers = new HashMap<String, Integer>();
-        products = new HashMap<>();
+        cartItems = new ArrayList();
     }
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_cart, container, false);
 
-        cartItems = root.findViewById(R.id.cart);
-        cartItems.setLayoutManager(new LinearLayoutManager(getContext()));
-        cartItems.setHasFixedSize(true);
-        adapter = new CartItemsRecyclerViewAdapter(offers, products, getContext());
-        cartItems.setAdapter(adapter);
+        recyclerView = root.findViewById(R.id.cart);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        recyclerView.setHasFixedSize(true);
+        adapter = new CartRecyclerViewAdapter(cartItems, getContext());
+        recyclerView.setAdapter(adapter);
 
         return root;
     }
@@ -61,23 +60,15 @@ public class CartFragment extends Fragment {
     private void getCartItems() {
         fStore.collection("Users")
                 .document(auth.getUid())
+                .collection("Cart")
                 .get()
-                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                     @Override
-                    public void onSuccess(DocumentSnapshot ds) {
-                        offers = (Map<String, Integer>) ds.get("offersCart");
-                        adapter.setOffers(offers);
-                    }
-                });
-
-        fStore.collection("Users")
-                .document(auth.getUid())
-                .get()
-                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-                    @Override
-                    public void onSuccess(DocumentSnapshot ds) {
-                        products = (Map<String, Integer>) ds.get("productsCart");
-                        adapter.setProducts(products);
+                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                        for (DocumentSnapshot ds : queryDocumentSnapshots.getDocuments()) {
+                            cartItems.add(ds.toObject(CartItem.class));
+                            adapter.notifyDataSetChanged();
+                        }
                     }
                 });
     }

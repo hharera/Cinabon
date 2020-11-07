@@ -11,6 +11,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.elsafa.ProductView;
@@ -49,7 +50,7 @@ public class CategoryProductsRecyclerView extends RecyclerView.Adapter<CategoryP
             public void onClick(View v) {
                 Intent  intent = new Intent(context, ProductView.class);
                 intent.putExtra("productId", products.get(position).getProductId());
-                intent.putExtra("category", products.get(position).getCategory());
+                intent.putExtra("categoryName", products.get(position).getCategoryName());
                 context.startActivity(intent);
             }
         });
@@ -63,7 +64,7 @@ public class CategoryProductsRecyclerView extends RecyclerView.Adapter<CategoryP
     public class ViewHolder extends RecyclerView.ViewHolder {
         private ImageView productMainImage;
         private TextView title, price;
-        private RelativeLayout productCardView;
+        private CardView productCardView;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);

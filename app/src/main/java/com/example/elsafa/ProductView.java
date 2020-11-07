@@ -4,12 +4,14 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.Blob;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -19,8 +21,8 @@ import java.util.List;
 import java.util.Map;
 
 import Controller.ProductPicturesRecyclerViewAdapter;
+import Model.CartItem;
 import Model.Product.CompleteProduct;
-import Model.Product.Product;
 
 public class ProductView extends AppCompatActivity {
 
@@ -31,7 +33,7 @@ public class ProductView extends AppCompatActivity {
     private ViewPager2 productPics;
     private String productId, categoryName;
     private FirebaseFirestore fStore;
-    private CompleteProduct completeProduct;
+    private CompleteProduct product;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,7 +44,7 @@ public class ProductView extends AppCompatActivity {
         fStore = FirebaseFirestore.getInstance();
 
         productId = getIntent().getExtras().getString("productId");
-        categoryName = getIntent().getExtras().getString("category");
+        categoryName = getIntent().getExtras().getString("categoryName");
 
         wish = findViewById(R.id.wish);
         cart = findViewById(R.id.cart);
@@ -59,18 +61,19 @@ public class ProductView extends AppCompatActivity {
                 .collection("Products")
                 .document(productId)
                 .get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+
             @Override
             public void onSuccess(DocumentSnapshot ds) {
-                completeProduct = ds.toObject(CompleteProduct.class);
-                if (completeProduct.getCarts().containsKey(auth.getUid())) {
+                product = ds.toObject(CompleteProduct.class);
+                if (product.getCarts().containsKey(auth.getUid())) {
                     cart.setImageResource(R.drawable.carted);
                 }
-                if (completeProduct.getWishes().containsKey(auth.getUid())) {
+                if (product.getWishes().containsKey(auth.getUid())) {
                     wish.setImageResource(R.drawable.wished);
                 }
-                title.setText(completeProduct.getTitle());
-                price.setText(completeProduct.getPrice() + " EGP");
-                List<Blob> pics = completeProduct.getProductPics();
+                title.setText(product.getTitle());
+                price.setText(product.getPrice() + " EGP");
+                List<Blob> pics = product.getProductPics();
                 productPics.setAdapter(new ProductPicturesRecyclerViewAdapter(pics, ProductView.this));
             }
         });
@@ -84,71 +87,98 @@ public class ProductView extends AppCompatActivity {
         }
     }
 
-    public void addToCart(View view) {
-        Map<String, String> carts = completeProduct.getCarts();
+    public void cartClicked(View view) {
+        Map<String, Integer> carts = product.getCarts();
         if (carts.containsKey(auth.getUid())) {
             carts.remove(auth.getUid());
-            completeProduct.setCarts(carts);
-            fStore.collection("Offers")
+            product.setCarts(carts);
+
+            fStore.collection("Categories")
+                    .document(categoryName)
+                    .collection("Products")
                     .document(productId)
                     .update("carts", carts);
+
             cart.setImageResource(R.drawable.cart);
 
             fStore.collection("Users")
                     .document(auth.getUid())
-                    .get()
-                    .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-                        @Override
-                        public void onSuccess(DocumentSnapshot ds) {
-                            Map<String, Integer> offersCart = (Map<String, Integer>) ds.get("offersCart");
-                            offersCart.remove(productId);
-                            fStore.collection("Users")
-                                    .document(auth.getUid())
-                                    .update("offersCart", offersCart);
-                        }
-                    });
+                    .collection("Cart")
+                    .document(categoryName + productId)
+                    .delete();
 
+            Toast.makeText(this, "Offer removed from the cart", Toast.LENGTH_SHORT).show();
         } else {
-            carts.put(auth.getUid(), null);
-            completeProduct.setCarts(carts);
-            fStore.collection("Offers")
+            carts.put(auth.getUid(), 1);
+            product.setCarts(carts);
+
+            fStore.collection("Categories")
+                    .document(categoryName)
+                    .collection("Products")
                     .document(productId)
                     .update("carts", carts);
+
             cart.setImageResource(R.drawable.carted);
+
+            CartItem item = new CartItem();
+            item.setTime(Timestamp.now());
+            item.setCategoryName(categoryName);
+            item.setProductId(productId);
+            item.setQuantity(1);
 
             fStore.collection("Users")
                     .document(auth.getUid())
-                    .get()
-                    .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-                        @Override
-                        public void onSuccess(DocumentSnapshot ds) {
-                            Map<String, Integer> offersCart = (Map<String, Integer>) ds.get("offersCart");
-                            offersCart.put(productId, 1);
-                            fStore.collection("Users")
-                                    .document(auth.getUid())
-                                    .update("offersCart", offersCart);
-                        }
-                    });
+                    .collection("Cart")
+                    .document(categoryName + productId)
+                    .set(item);
+
+            Toast.makeText(this, "Offer Added to the cart", Toast.LENGTH_SHORT).show();
         }
     }
 
 
     public void addToWishList(View view) {
-        Map<String, String> wishes = completeProduct.getWishes();
-        if (wishes.containsKey(auth.getUid())) {
-            wishes.remove(auth.getUid());
-            completeProduct.setWishes(wishes);
-            fStore.collection("Offers")
-                    .document(productId)
-                    .update("wishes", wishes);
+        Map<String, Integer> wishList = product.getWishes();
+        if (wishList.containsKey(auth.getUid())) {
+            wishList.remove(auth.getUid());
+            product.setWishes(wishList);
+            fStore.collection("Categories")
+                    .document(product.getCategoryName())
+                    .collection("Products")
+                    .document(product.getProductId())
+                    .update("wishes", wishList);
             wish.setImageResource(R.drawable.wish);
+
+            CartItem item = new CartItem();
+            item.setTime(Timestamp.now());
+            item.setCategoryName(product.getCategoryName());
+            item.setProductId(product.getProductId());
+            item.setQuantity(1);
+
+            fStore.collection("Users")
+                    .document(auth.getUid())
+                    .collection("WishList")
+                    .document(product.getCategoryName() + product.getProductId())
+                    .set(item);
+
+            Toast.makeText(this, "product removed from the wishList", Toast.LENGTH_SHORT).show();
         } else {
-            wishes.put(auth.getUid(), null);
-            completeProduct.setWishes(wishes);
-            fStore.collection("Offers")
-                    .document(productId)
-                    .update("wishes", wishes);
+            wishList.put(auth.getUid(), 1);
+            product.setCarts(wishList);
+            fStore.collection("Categories")
+                    .document(product.getCategoryName())
+                    .collection("Products")
+                    .document(product.getProductId())
+                    .update("wishes", wishList);
             wish.setImageResource(R.drawable.wished);
+
+            fStore.collection("Users")
+                    .document(auth.getUid())
+                    .collection("WishList")
+                    .document(product.getCategoryName() + product.getProductId())
+                    .delete();
+
+            Toast.makeText(this, "product Added to the wishlist", Toast.LENGTH_SHORT).show();
         }
     }
 

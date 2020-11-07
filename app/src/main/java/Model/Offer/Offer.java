@@ -8,12 +8,20 @@ import java.util.Map;
 
 public class Offer {
 
-    Timestamp startTime, endTime;
-    String offerId;
-    Blob offerPic;
-    float discountPercentage;
+    private String categoryName, productId, offerId;
+    private Timestamp startTime, endTime;
+    private Blob offerPic;
+    private float discountPercentage;
 
     public Offer() {
+    }
+
+    public String getOfferId() {
+        return offerId;
+    }
+
+    public void setOfferId(String offerId) {
+        this.offerId = offerId;
     }
 
     public Timestamp getStartTime() {
@@ -32,6 +40,14 @@ public class Offer {
         this.endTime = endTime;
     }
 
+    public Blob getOfferPic() {
+        return offerPic;
+    }
+
+    public void setOfferPic(Blob offerPic) {
+        this.offerPic = offerPic;
+    }
+
     public float getDiscountPercentage() {
         return discountPercentage;
     }
@@ -40,19 +56,24 @@ public class Offer {
         this.discountPercentage = discountPercentage;
     }
 
-    public String getOfferId() {
-        return offerId;
+    public String getProductId() {
+        return productId;
     }
 
-    public void setOfferId(String offerId) {
-        this.offerId = offerId;
+    public void setProductId(String productId) {
+        this.productId = productId;
     }
 
-    public Blob getOfferPic() {
-        return offerPic;
+    public String getCategoryName() {
+        return categoryName;
     }
 
-    public void setOfferPic(Blob offerPic) {
-        this.offerPic = offerPic;
+    public void setCategoryName(String categoryName) {
+        this.categoryName = categoryName;
     }
+
+
 }
+
+
+

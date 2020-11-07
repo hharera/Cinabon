@@ -1,7 +1,6 @@
 package com.example.elsafa;
 
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
@@ -26,7 +25,6 @@ import java.util.HashMap;
 import java.util.List;
 
 import Controller.CategoryProductsRecyclerView;
-import Model.Offer.CompleteOffer;
 import Model.Product.CompleteProduct;
 import Model.Product.Product;
 
@@ -97,7 +95,7 @@ public class CategoryProducts extends AppCompatActivity {
                 product.setTitle("Buy 2 cups of Black Coffee and take the third as a gift");
                 product.setCarts(new HashMap<>());
                 product.setWishes(new HashMap<>());
-                product.setCategory(categoryName);
+                product.setCategoryName(categoryName);
                 product.setPrice(20);
 
                 ByteArrayOutputStream stream = new ByteArrayOutputStream();
