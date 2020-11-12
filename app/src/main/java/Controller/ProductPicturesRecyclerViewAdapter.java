@@ -1,7 +1,6 @@
 package Controller;
 
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,13 +10,10 @@ import android.widget.ImageView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.elsafa.OfferView;
 import com.example.elsafa.R;
 import com.google.firebase.firestore.Blob;
 
 import java.util.List;
-
-import Model.Offer.BestOffer;
 
 public class ProductPicturesRecyclerViewAdapter extends RecyclerView.Adapter<ProductPicturesRecyclerViewAdapter.ViewHolder> {
     private List<Blob> pics;

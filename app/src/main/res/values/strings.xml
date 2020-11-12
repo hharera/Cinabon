@@ -46,6 +46,10 @@
     <string name="title_notifications">Notifications</string>
     <string name="checkout">checkout</string>
     <string name="total">Total:</string>
+    <string name="add_to_cart">Add To Cart</string>
+    <string name="remove">Remove</string>
+    <string name="total_bill">Total Bill:</string>
+    <string name="cafe_name">Lamera</string>
 
 
 </resources>

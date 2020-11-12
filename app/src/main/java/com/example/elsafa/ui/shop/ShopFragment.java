@@ -21,16 +21,14 @@ import java.util.Collections;
 import java.util.List;
 
 import Controller.OffersPagerAdapter;
-import Model.Offer.BestOffer;
-import Model.Offer.LastOffer;
 import Model.Offer.Offer;
 
 public class ShopFragment extends Fragment {
 
     private SpringDotsIndicator best_dots_indicator, last_dots_indicator;
 
-    private List<LastOffer> lastOffers;
-    private List<BestOffer> bestOffers;
+    private List<Offer> lastOffers;
+    private List<Offer> bestOffers;
 
 
     private FirebaseFirestore fStore;
@@ -72,13 +70,13 @@ public class ShopFragment extends Fragment {
                     @Override
                     public void onSuccess(QuerySnapshot v) {
                         for (DocumentSnapshot ds : v.getDocuments()) {
-                            final LastOffer lastOffer = ds.toObject(LastOffer.class);
-                            lastOffer.setOfferId(ds.getId());
-                            final BestOffer bestOffer = ds.toObject(BestOffer.class);
-                            bestOffer.setOfferId(ds.getId());
+                            Offer offer = ds.toObject(Offer.class);
 
-                            lastOffers.add(lastOffer);
-                            bestOffers.add(bestOffer);
+                            offer.type = 1;
+                            bestOffers.add(offer);
+
+                            offer.type = 2;
+                            lastOffers.add(offer);
                         }
                         getLastOffers();
                         getBestOffers();

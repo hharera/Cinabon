@@ -16,7 +16,6 @@ import com.example.elsafa.R;
 
 import java.util.List;
 
-import Model.Offer.BestOffer;
 import Model.Offer.Offer;
 
 public class OffersPagerAdapter extends RecyclerView.Adapter<OffersPagerAdapter.ViewHolder> {

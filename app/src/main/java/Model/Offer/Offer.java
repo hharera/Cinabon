@@ -6,12 +6,13 @@ import com.google.firebase.firestore.Blob;
 import java.util.List;
 import java.util.Map;
 
-public class Offer {
+public class Offer implements Comparable<Offer> {
 
     private String categoryName, productId, offerId;
     private Timestamp startTime, endTime;
     private Blob offerPic;
     private float discountPercentage;
+    public int type;
 
     public Offer() {
     }
@@ -73,6 +74,14 @@ public class Offer {
     }
 
 
+    @Override
+    public int compareTo(Offer o) {
+        if (type == 1) {
+            return (int) (o.getDiscountPercentage() - this.getDiscountPercentage());
+        } else {
+            return o.getStartTime().compareTo(this.getStartTime());
+        }
+    }
 }
 
 

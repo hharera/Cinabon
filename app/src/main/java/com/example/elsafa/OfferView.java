@@ -22,7 +22,7 @@ import java.util.List;
 import java.util.Map;
 
 import Controller.ProductPicturesRecyclerViewAdapter;
-import Model.CartItem;
+import Model.Item;
 import Model.Offer.Offer;
 import Model.Product.CompleteProduct;
 
@@ -92,8 +92,6 @@ public class OfferView extends AppCompatActivity {
                         endTime.setText("Ends In " + ((offer.getEndTime().getSeconds() - Timestamp.now().getSeconds()) / 86400) + " days");
                     }
                 });
-
-
     }
 
     private void getTheProductInfo(String categoryName, String productId) {
@@ -106,6 +104,7 @@ public class OfferView extends AppCompatActivity {
                     @Override
                     public void onSuccess(DocumentSnapshot ds) {
                         product = ds.toObject(CompleteProduct.class);
+                        product.setProductId(ds.getId());
 
                         title.setText(product.getTitle());
                         price.setText(product.getPrice() + " EGP");
@@ -164,7 +163,7 @@ public class OfferView extends AppCompatActivity {
 
             cart.setImageResource(R.drawable.carted);
 
-            CartItem item = new CartItem();
+            Item item = new Item();
             item.setTime(Timestamp.now());
             item.setCategoryName(offer.getCategoryName());
             item.setProductId(offer.getProductId());
@@ -218,7 +217,7 @@ public class OfferView extends AppCompatActivity {
 
             wish.setImageResource(R.drawable.wished);
 
-            CartItem item = new CartItem();
+            Item item = new Item();
             item.setTime(Timestamp.now());
             item.setCategoryName(offer.getCategoryName());
             item.setProductId(offer.getProductId());

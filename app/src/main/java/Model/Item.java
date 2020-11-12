@@ -3,7 +3,7 @@ package Model;
 
 import com.google.firebase.Timestamp;
 
-public class CartItem {
+public class Item {
 
     private String categoryName, productId;
     private int quantity;

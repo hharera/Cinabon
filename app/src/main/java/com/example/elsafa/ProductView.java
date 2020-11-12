@@ -21,7 +21,7 @@ import java.util.List;
 import java.util.Map;
 
 import Controller.ProductPicturesRecyclerViewAdapter;
-import Model.CartItem;
+import Model.Item;
 import Model.Product.CompleteProduct;
 
 public class ProductView extends AppCompatActivity {
@@ -65,6 +65,8 @@ public class ProductView extends AppCompatActivity {
             @Override
             public void onSuccess(DocumentSnapshot ds) {
                 product = ds.toObject(CompleteProduct.class);
+                product.setProductId(ds.getId());
+
                 if (product.getCarts().containsKey(auth.getUid())) {
                     cart.setImageResource(R.drawable.carted);
                 }
@@ -120,7 +122,7 @@ public class ProductView extends AppCompatActivity {
 
             cart.setImageResource(R.drawable.carted);
 
-            CartItem item = new CartItem();
+            Item item = new Item();
             item.setTime(Timestamp.now());
             item.setCategoryName(categoryName);
             item.setProductId(productId);
@@ -137,19 +139,41 @@ public class ProductView extends AppCompatActivity {
     }
 
 
-    public void addToWishList(View view) {
+    public void wishClicked(View view) {
         Map<String, Integer> wishList = product.getWishes();
         if (wishList.containsKey(auth.getUid())) {
             wishList.remove(auth.getUid());
             product.setWishes(wishList);
+
             fStore.collection("Categories")
                     .document(product.getCategoryName())
                     .collection("Products")
                     .document(product.getProductId())
                     .update("wishes", wishList);
+
             wish.setImageResource(R.drawable.wish);
 
-            CartItem item = new CartItem();
+            fStore.collection("Users")
+                    .document(auth.getUid())
+                    .collection("WishList")
+                    .document(product.getCategoryName() + product.getProductId())
+                    .delete();
+
+            Toast.makeText(this, "Product removed to the WishList", Toast.LENGTH_SHORT).show();
+
+        } else {
+            wishList.put(auth.getUid(), 1);
+            product.setCarts(wishList);
+
+            fStore.collection("Categories")
+                    .document(product.getCategoryName())
+                    .collection("Products")
+                    .document(product.getProductId())
+                    .update("wishes", wishList);
+
+            wish.setImageResource(R.drawable.wished);
+
+            Item item = new Item();
             item.setTime(Timestamp.now());
             item.setCategoryName(product.getCategoryName());
             item.setProductId(product.getProductId());
@@ -159,26 +183,12 @@ public class ProductView extends AppCompatActivity {
                     .document(auth.getUid())
                     .collection("WishList")
                     .document(product.getCategoryName() + product.getProductId())
-                    .set(item);
-
-            Toast.makeText(this, "product removed from the wishList", Toast.LENGTH_SHORT).show();
-        } else {
-            wishList.put(auth.getUid(), 1);
-            product.setCarts(wishList);
-            fStore.collection("Categories")
-                    .document(product.getCategoryName())
-                    .collection("Products")
-                    .document(product.getProductId())
-                    .update("wishes", wishList);
-            wish.setImageResource(R.drawable.wished);
-
-            fStore.collection("Users")
-                    .document(auth.getUid())
-                    .collection("WishList")
-                    .document(product.getCategoryName() + product.getProductId())
-                    .delete();
-
-            Toast.makeText(this, "product Added to the wishlist", Toast.LENGTH_SHORT).show();
+                    .set(item).addOnSuccessListener(new OnSuccessListener<Void>() {
+                @Override
+                public void onSuccess(Void aVoid) {
+                    Toast.makeText(ProductView.this, "Product added from the WishList", Toast.LENGTH_SHORT).show();
+                }
+            });
         }
     }
 

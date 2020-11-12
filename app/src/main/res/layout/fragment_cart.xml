@@ -1,29 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools"
+    android:background="#FFF"
     tools:context="com.example.elsafa.ui.Cart.CartFragment">
-    
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/cart"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="5sp"
-        android:layout_marginBottom="50sp"
-        />
+        android:padding="5sp" />
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="50sp"
-        android:layout_below="@+id/cart"
-        android:layout_alignParentLeft="true"
-        android:layout_marginTop="-50sp"
-        android:background="#f1c40f"
-        android:fontFamily="@font/akronim"
-        android:gravity="center"
-        android:text="@string/checkout"
-        android:textSize="40sp" />
 
 
 </RelativeLayout>

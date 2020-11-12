@@ -4,6 +4,8 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -19,23 +21,23 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
-import Controller.CartRecyclerViewAdapter;
-import Model.CartItem;
+import Controller.ItemsRecyclerViewAdapter;
+import Model.Item;
 
 public class CartFragment extends Fragment {
 
     private RecyclerView recyclerView;
     private FirebaseAuth auth;
     private FirebaseFirestore fStore;
-    private List<CartItem> cartItems;
-    private CartRecyclerViewAdapter adapter;
+    private List<Item> items;
+    private ItemsRecyclerViewAdapter adapter;
+
 
     public CartFragment() {
         auth = FirebaseAuth.getInstance();
         fStore = FirebaseFirestore.getInstance();
-        cartItems = new ArrayList();
+        items = new ArrayList();
     }
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -45,7 +47,7 @@ public class CartFragment extends Fragment {
         recyclerView = root.findViewById(R.id.cart);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setHasFixedSize(true);
-        adapter = new CartRecyclerViewAdapter(cartItems, getContext());
+        adapter = new ItemsRecyclerViewAdapter(items, getContext());
         recyclerView.setAdapter(adapter);
 
         return root;
@@ -66,7 +68,7 @@ public class CartFragment extends Fragment {
                     @Override
                     public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                         for (DocumentSnapshot ds : queryDocumentSnapshots.getDocuments()) {
-                            cartItems.add(ds.toObject(CartItem.class));
+                            items.add(ds.toObject(Item.class));
                             adapter.notifyDataSetChanged();
                         }
                     }

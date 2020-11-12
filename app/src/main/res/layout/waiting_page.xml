@@ -23,7 +23,7 @@
             android:layout_marginTop="250sp"
             android:fontFamily="@font/aclonica"
             android:gravity="center"
-            android:text="Cafe Name"
+            android:text="Lamera"
             android:textColor="#BDC581"
             android:textSize="32sp" />
     </RelativeLayout>

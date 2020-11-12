@@ -45,7 +45,6 @@ public class MainActivity extends AppCompatActivity {
         }
 
 //        setOffer(0);
-//        setOffer(1);
         finish();
     }
 
@@ -81,13 +80,14 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setOffer(int i) {
-        Uri[] imagesURL = new Uri[]{Uri.parse("https://image.shutterstock.com/image-vector/special-offer-banner-vector-format-600w-586903514.jpg")
+        Uri[] imagesURL = new Uri[]{
+                Uri.parse("https://image.shutterstock.com/image-vector/special-offer-banner-vector-format-600w-586903514.jpg")
                 , Uri.parse("https://addconn.com/images/limited.png")};
 
 
         String[] productsIds = new String[]{
-                "amzoSXGofPGZxKutcIoI",
-                "mGdc7umJAOtL1h69RxpN"
+                "xZvcdItmvKWqilQ9ikbm",
+                "Lnslv4jK5o7GFrITi5vm"
         };
 
         Picasso.get().load(imagesURL[i]).into(new Target() {
@@ -100,7 +100,7 @@ public class MainActivity extends AppCompatActivity {
                 offer.setDiscountPercentage(33);
                 offer.setStartTime(time);
                 offer.setEndTime(new Timestamp(time.getSeconds() + 86400, time.getNanoseconds()));
-                offer.setCategoryName("Drinks");
+                offer.setCategoryName("Meals");
 
                 ByteArrayOutputStream stream = new ByteArrayOutputStream();
                 bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
