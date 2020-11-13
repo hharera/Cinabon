@@ -5,6 +5,8 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
+import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -32,20 +34,22 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.waiting_page);
-
         fStore = FirebaseFirestore.getInstance();
         auth = FirebaseAuth.getInstance();
 
         if (auth.getCurrentUser() == null) {
             signInAnonymously();
         } else {
-            Intent intent = new Intent(MainActivity.this, HomeActivity.class);
-            startActivity(intent);
+            setContentView(R.layout.activity_main);
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    Intent intent = new Intent(MainActivity.this, HomeActivity.class);
+                    startActivity(intent);
+                    finish();
+                }
+            }, 3000);
         }
-
-//        setOffer(0);
-        finish();
     }
 
     private void signInAnonymously() {
@@ -58,6 +62,7 @@ public class MainActivity extends AppCompatActivity {
 
         Intent intent = new Intent(this, PreView.class);
         startActivity(intent);
+        finish();
     }
 
     private void addUserToFirebase() {

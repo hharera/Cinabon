@@ -20,7 +20,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.util.ArrayList;
 import java.util.List;
 
-import Controller.ItemsRecyclerViewAdapter;
+import Controller.WishListRecyclerViewAdapter;
 import Model.Item;
 
 public class WishListFragment extends Fragment {
@@ -29,7 +29,7 @@ public class WishListFragment extends Fragment {
     private FirebaseAuth auth;
     private FirebaseFirestore fStore;
     private List<Item> wishListItems;
-    private ItemsRecyclerViewAdapter adapter;
+    private WishListRecyclerViewAdapter adapter;
 
     public WishListFragment() {
         auth = FirebaseAuth.getInstance();
@@ -39,12 +39,12 @@ public class WishListFragment extends Fragment {
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        View root = inflater.inflate(R.layout.fragment_cart, container, false);
+        View root = inflater.inflate(R.layout.fragment_wishlist, container, false);
 
-        recyclerView = root.findViewById(R.id.cart);
+        recyclerView = root.findViewById(R.id.wish_list);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setHasFixedSize(true);
-        adapter = new ItemsRecyclerViewAdapter(wishListItems, getContext());
+        adapter = new WishListRecyclerViewAdapter(wishListItems, getContext());
         recyclerView.setAdapter(adapter);
 
         return root;
@@ -53,10 +53,10 @@ public class WishListFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-        getCartItems();
+        getWishListItems();
     }
 
-    private void getCartItems() {
+    private void getWishListItems() {
         fStore.collection("Users")
                 .document(auth.getUid())
                 .collection("WishList")

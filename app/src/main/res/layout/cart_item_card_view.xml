@@ -2,10 +2,10 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
+    android:layout_height="160sp"
     android:layout_marginBottom="10sp"
     android:background="#12000000"
-    android:padding="3sp"
-    android:layout_height="160sp">
+    android:padding="3sp">
 
 
     <ImageView
@@ -19,12 +19,12 @@
         android:id="@+id/title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
         android:layout_gravity="start|top"
         android:layout_margin="5sp"
         android:layout_marginBottom="10sp"
-        android:fontFamily="@font/basic"
         android:layout_toStartOf="@+id/item_image"
-        android:layout_alignParentStart="true"
+        android:fontFamily="@font/basic"
         android:text="Buy two Coffee"
         android:textSize="16sp"
         android:textStyle="bold" />
@@ -39,33 +39,23 @@
 
         <TextView
             android:id="@+id/quantity_word"
-            android:layout_width="74dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_gravity="bottom"
             android:layout_margin="3sp"
             android:fontFamily="@font/aclonica"
             android:text="Quantity:" />
 
-        <com.shawnlin.numberpicker.NumberPicker
+        <NumberPicker
             android:id="@+id/quantity"
-            android:layout_width="30sp"
-            android:layout_height="30sp"
-            android:layout_margin="3sp"
-            android:solidColor="#FFC107"
-            android:textAlignment="center"
-            app:np_max="59"
-            app:np_selectedTextColor="#FFC107"
-            app:np_selectedTextSize="18sp"
-            app:np_textColor="#000"
-            app:np_textSize="8sp" />
+            android:layout_width="wrap_content"
+            android:layout_height="25sp" />
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="3sp"
         android:layout_above="@+id/remove_edit"
+        android:layout_margin="3sp"
         android:orientation="horizontal">
 
         <TextView
@@ -80,16 +70,15 @@
             android:id="@+id/total_price"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="3sp"
-            android:fontFamily="@font/abeezee"
-            android:text="150 EGP" />
+            android:layout_margin="5dp"
+            android:fontFamily="@font/abeezee" />
     </LinearLayout>
 
     <LinearLayout
         android:id="@+id/remove_edit"
         android:layout_width="wrap_content"
-        android:layout_alignParentBottom="true"
         android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
         android:layout_margin="3sp"
         android:orientation="horizontal">
 
@@ -97,21 +86,21 @@
             android:id="@+id/edit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="#FF9800"
-            android:gravity="center"
             android:layout_marginStart="5sp"
             android:fontFamily="@font/aclonica"
-            android:text="Edit" />
+            android:gravity="center"
+            android:text="Edit"
+            android:textColor="#FF9800" />
 
         <TextView
             android:id="@+id/remove"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="20sp"
-            android:gravity="center"
-            android:textColor="#F44336"
             android:fontFamily="@font/abeezee"
-            android:text="Remove Item" />
+            android:gravity="center"
+            android:text="Remove Item"
+            android:textColor="#F44336" />
     </LinearLayout>
 
 </RelativeLayout>

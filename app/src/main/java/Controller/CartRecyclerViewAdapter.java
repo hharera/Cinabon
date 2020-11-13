@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.NumberPicker;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -17,14 +18,13 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.shawnlin.numberpicker.NumberPicker;
 
 import java.util.List;
 
 import Model.Item;
 import Model.Product.Product;
 
-public class ItemsRecyclerViewAdapter extends RecyclerView.Adapter<ItemsRecyclerViewAdapter.ViewHolder> {
+public class CartRecyclerViewAdapter extends RecyclerView.Adapter<CartRecyclerViewAdapter.ViewHolder> {
 
     private FirebaseFirestore fStore;
     private FirebaseAuth auth;
@@ -32,7 +32,7 @@ public class ItemsRecyclerViewAdapter extends RecyclerView.Adapter<ItemsRecycler
     private Context context;
 
 
-    public ItemsRecyclerViewAdapter(List<Item> list, Context context) {
+    public CartRecyclerViewAdapter(List<Item> list, Context context) {
         this.list = list;
         this.context = context;
         fStore = FirebaseFirestore.getInstance();
@@ -65,6 +65,7 @@ public class ItemsRecyclerViewAdapter extends RecyclerView.Adapter<ItemsRecycler
             return;
         }
 
+        final float[] price = new float[1];
         fStore.collection("Categories")
                 .document(list.get(position).getCategoryName())
                 .collection("Products")
@@ -79,12 +80,25 @@ public class ItemsRecyclerViewAdapter extends RecyclerView.Adapter<ItemsRecycler
                         holder.imageView.setImageBitmap(BitmapFactory.decodeByteArray(product.getMainPic().toBytes()
                                 , 0, product.getMainPic().toBytes().length));
                         holder.title.setText(product.getTitle());
+
                         int quantity = list.get(position).getQuantity();
+                        holder.quantity.setValue(quantity);
+
                         float totalPrice = (product.getPrice() * quantity);
                         holder.total_price.setText(String.valueOf(totalPrice) + " EGP");
-                        holder.quantity.setValue(quantity);
+
+                        price[0] = product.getPrice();
                     }
                 });
+
+        holder.quantity.setOnValueChangedListener (new NumberPicker.OnValueChangeListener() {
+            @Override
+            public void onValueChange(NumberPicker picker, int oldVal, int value) {
+                holder.quantity.setValue(value);
+                float totalPrice = (price[0] * value);
+                holder.total_price.setText(String.valueOf(totalPrice) + " EGP");
+            }
+        });
     }
 
     @Override

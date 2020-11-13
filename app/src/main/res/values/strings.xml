@@ -50,6 +50,7 @@
     <string name="remove">Remove</string>
     <string name="total_bill">Total Bill:</string>
     <string name="cafe_name">Lamera</string>
+    <string name="price">Price</string>
 
 
 </resources>

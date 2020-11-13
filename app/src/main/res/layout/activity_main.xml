@@ -1,24 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/container"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    tools:context=".MainActivity">
 
-    <fragment
-        android:id="@+id/nav_host_fragment"
-        android:name="androidx.navigation.fragment.NavHostFragment"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginBottom="60dp"
-        app:navGraph="@navigation/mobile_navigation" />
+        android:layout_height="match_parent">
 
-    <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/nav_view"
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:layout_below="@+id/nav_host_fragment"
-        android:layout_marginTop="-60dp"
-        android:background="#FFF"
-        app:menu="@menu/bottom_nav_menu" />
+        <ImageView
+            android:id="@+id/waiting_page_back_cover"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            android:src="@drawable/logo" />
+
+
+        <TextView
+            android:id="@+id/cafe_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="250sp"
+            android:fontFamily="@font/aclonica"
+            android:gravity="center"
+            android:text="Lamera"
+            android:textColor="#BDC581"
+            android:textSize="32sp" />
+    </RelativeLayout>
 </RelativeLayout>

@@ -29,15 +29,6 @@ public class HomeActivity extends AppCompatActivity {
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(navView, navController);
 
-        RelativeLayout waitingPage = findViewById(R.id.waiting_page);
-
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                waitingPage.setVisibility(View.INVISIBLE);
-            }
-        }, 3000);
-
         hide();
     }
 

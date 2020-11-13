@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="150sp">
+    android:layout_height="140sp"
+    android:layout_marginBottom="10sp"
+    android:background="#12000000"
+    android:padding="3sp">
 
 
     <TextView
@@ -9,13 +12,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
-        android:layout_marginStart="10sp"
-        android:layout_marginTop="10sp"
-        android:layout_marginEnd="10sp"
-        android:layout_marginBottom="10sp"
+        android:layout_margin="4sp"
         android:layout_toStartOf="@+id/item_image"
         android:fontFamily="@font/basic"
-        android:text="Buy two Coffee"
         android:textSize="16sp"
         android:textStyle="bold" />
 
@@ -28,46 +27,42 @@
         android:padding="10sp" />
 
 
-    <RelativeLayout
+    <LinearLayout
         android:id="@+id/price_relative_layout"
         android:layout_width="match_parent"
-        android:layout_height="30sp"
+        android:layout_height="wrap_content"
         android:layout_above="@+id/add_remove"
-        android:layout_toStartOf="@+id/item_image">
+        android:layout_toStartOf="@+id/item_image"
+        android:orientation="horizontal">
 
+        <TextView
+            android:id="@+id/price_word"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:fontFamily="@font/aclonica"
+            android:text="@string/price" />
 
         <TextView
             android:id="@+id/price"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
-            android:layout_toEndOf="@+id/price_word"
-            android:fontFamily="@font/abeezee"
-            android:text="150 EGP" />
+            android:fontFamily="@font/abeezee" />
+    </LinearLayout>
 
-
-        <TextView
-            android:id="@+id/price_word"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_margin="5dp"
-            android:fontFamily="@font/aclonica"
-            android:text="Price:" />
-
-    </RelativeLayout>
-
-    <RelativeLayout
+    <LinearLayout
         android:id="@+id/add_remove"
         android:layout_width="match_parent"
         android:layout_height="30sp"
         android:layout_alignParentStart="true"
         android:layout_alignParentBottom="true"
-        android:layout_toStartOf="@+id/item_image">
+        android:layout_toStartOf="@+id/item_image"
+        android:orientation="horizontal">
 
 
         <TextView
-            android:id="@+id/add"
+            android:id="@+id/add_to_cart"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
@@ -89,12 +84,8 @@
             android:layout_toEndOf="@+id/add"
             android:fontFamily="@font/aclonica"
             android:gravity="center"
-            android:textColor="#F44336"
             android:text="@string/remove"
+            android:textColor="#F44336"
             android:textStyle="bold" />
-
-
-    </RelativeLayout>
-
-
+    </LinearLayout>
 </RelativeLayout>

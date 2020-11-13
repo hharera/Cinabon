@@ -4,8 +4,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -22,7 +20,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.util.ArrayList;
 import java.util.List;
 
-import Controller.ItemsRecyclerViewAdapter;
+import Controller.CartRecyclerViewAdapter;
 import Model.Item;
 
 public class CartFragment extends Fragment {
@@ -31,7 +29,7 @@ public class CartFragment extends Fragment {
     private FirebaseAuth auth;
     private FirebaseFirestore fStore;
     private List<Item> items;
-    private ItemsRecyclerViewAdapter adapter;
+    private CartRecyclerViewAdapter adapter;
 
 
     public CartFragment() {
@@ -47,7 +45,7 @@ public class CartFragment extends Fragment {
         recyclerView = root.findViewById(R.id.cart);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setHasFixedSize(true);
-        adapter = new ItemsRecyclerViewAdapter(items, getContext());
+        adapter = new CartRecyclerViewAdapter(items, getContext());
         recyclerView.setAdapter(adapter);
 
         return root;
@@ -64,7 +62,7 @@ public class CartFragment extends Fragment {
                 .document(auth.getUid())
                 .collection("Cart")
                 .get()
-                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                .addOnSuccessListener(getActivity(), new OnSuccessListener<QuerySnapshot>() {
                     @Override
                     public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                         for (DocumentSnapshot ds : queryDocumentSnapshots.getDocuments()) {
