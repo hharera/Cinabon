@@ -1,49 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/cart_tail"
     android:layout_width="match_parent"
     android:layout_height="50sp"
-    android:orientation="horizontal"
-    android:id="@+id/cart_end_card_view"
-    android:weightSum="5">
+    android:layout_marginTop="5sp"
+    android:orientation="horizontal">
+
 
     <TextView
         android:id="@+id/total_bill"
-        android:layout_width="0sp"
+        android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_marginStart="3sp"
-        android:layout_weight="2"
-        android:gravity="center"
-        android:padding="5sp"
+        android:gravity="start|center"
         android:text="@string/total_bill"
         android:textColor="#000"
         android:textSize="16sp" />
 
     <TextView
         android:id="@+id/bill_cost"
-        android:layout_width="0sp"
+        android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:layout_weight="2"
+        android:layout_marginStart="10sp"
+        android:layout_toEndOf="@+id/total_bill"
         android:gravity="center|start"
-        android:padding="5sp"
         android:textColor="#000"
         android:textSize="16sp" />
 
 
     <LinearLayout
-        android:id="@+id/checkout_relative"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:layout_weight="1"
+        android:layout_alignParentEnd="true"
+        android:layout_gravity="end"
         android:background="#f1c40f"
-        android:orientation="horizontal"
-        android:weightSum="3">
+        android:orientation="horizontal">
 
 
         <TextView
-            android:layout_width="0sp"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_gravity="center"
-            android:layout_weight="2"
+            android:layout_margin="3sp"
             android:fontFamily="@font/abeezee"
             android:gravity="center"
             android:text="@string/checkout"
@@ -51,10 +49,10 @@
             android:textSize="24sp" />
 
         <ImageView
-            android:layout_width="0sp"
+            android:layout_width="wrap_content"
             android:layout_height="30sp"
             android:layout_gravity="center"
-            android:layout_weight="1"
+            android:layout_margin="3sp"
             android:src="@drawable/ic_baseline_arrow_forward_24" />
     </LinearLayout>
-</LinearLayout>
+</RelativeLayout>

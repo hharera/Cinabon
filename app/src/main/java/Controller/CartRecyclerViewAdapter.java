@@ -7,7 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.NumberPicker;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -30,6 +30,7 @@ public class CartRecyclerViewAdapter extends RecyclerView.Adapter<CartRecyclerVi
     private FirebaseAuth auth;
     private List<Item> list;
     private Context context;
+    private float totalBill = 0;
 
 
     public CartRecyclerViewAdapter(List<Item> list, Context context) {
@@ -49,7 +50,7 @@ public class CartRecyclerViewAdapter extends RecyclerView.Adapter<CartRecyclerVi
         if (viewType == 1) {
             return new TopViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.cart_item_card_view, parent, false));
         } else {
-            return new EndViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.cart_end_recycler_view, parent, false));
+            return new EndViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.cart_tail, parent, false));
         }
     }
 
@@ -57,10 +58,10 @@ public class CartRecyclerViewAdapter extends RecyclerView.Adapter<CartRecyclerVi
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         if (position == list.size()) {
             if (list.isEmpty()) {
-                holder.cart_end_card_view.setVisibility(View.INVISIBLE);
+                holder.cart_tail.setVisibility(View.INVISIBLE);
             } else {
-                holder.cart_end_card_view.setVisibility(View.VISIBLE);
-                holder.total_bill.setText(" EGP");
+                holder.cart_tail.setVisibility(View.VISIBLE);
+                holder.total_bill.setText(totalBill + " EGP");
             }
             return;
         }
@@ -82,23 +83,15 @@ public class CartRecyclerViewAdapter extends RecyclerView.Adapter<CartRecyclerVi
                         holder.title.setText(product.getTitle());
 
                         int quantity = list.get(position).getQuantity();
-                        holder.quantity.setValue(quantity);
+                        holder.quantity.setText(String.valueOf(quantity));
 
                         float totalPrice = (product.getPrice() * quantity);
                         holder.total_price.setText(String.valueOf(totalPrice) + " EGP");
 
                         price[0] = product.getPrice();
+                        totalBill += totalPrice;
                     }
                 });
-
-        holder.quantity.setOnValueChangedListener (new NumberPicker.OnValueChangeListener() {
-            @Override
-            public void onValueChange(NumberPicker picker, int oldVal, int value) {
-                holder.quantity.setValue(value);
-                float totalPrice = (price[0] * value);
-                holder.total_price.setText(String.valueOf(totalPrice) + " EGP");
-            }
-        });
     }
 
     @Override
@@ -108,10 +101,9 @@ public class CartRecyclerViewAdapter extends RecyclerView.Adapter<CartRecyclerVi
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         ImageView imageView;
-        TextView title, total_price;
-        NumberPicker quantity;
+        TextView title, total_price, quantity;
         TextView total_bill, bill_cost_word;
-        LinearLayout cart_end_card_view;
+        RelativeLayout cart_tail;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -135,7 +127,7 @@ public class CartRecyclerViewAdapter extends RecyclerView.Adapter<CartRecyclerVi
             super(itemView);
             total_bill = itemView.findViewById(R.id.bill_cost);
             bill_cost_word = itemView.findViewById(R.id.total_bill);
-            cart_end_card_view = itemView.findViewById(R.id.cart_end_card_view);
+            cart_tail = itemView.findViewById(R.id.cart_tail);
         }
     }
 }

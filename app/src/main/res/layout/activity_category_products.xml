@@ -10,13 +10,14 @@
     <SearchView
         android:id="@+id/search_product"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="50sp"
+        android:background="#12000000" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/products"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="10sp"/>
+        android:padding="10sp" />
 
 
 </LinearLayout>

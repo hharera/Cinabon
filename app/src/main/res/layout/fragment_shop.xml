@@ -8,6 +8,13 @@
     android:orientation="vertical"
     tools:context=".ui.shop.ShopFragment">
 
+    <androidx.appcompat.widget.SearchView
+        android:id="@+id/search_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#12000000"
+        app:defaultQueryHint="Search"
+        app:queryHint="Search" />
 
     <TextView
         android:id="@+id/best_offers"
@@ -40,9 +47,9 @@
         android:id="@+id/last_offers"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginStart="4sp"
         android:fontFamily="@font/shadows_into_light_two"
         android:gravity="center|start"
-        android:layout_marginStart="4sp"
         android:text="@string/last_offers"
         android:textColor="#3E2723"
         android:textSize="20sp" />

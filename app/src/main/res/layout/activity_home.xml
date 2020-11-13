@@ -1,43 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/container"
+    android:id="@+id/content"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:weightSum="11">
 
 
-    <LinearLayout
-        android:id="@+id/content"
+    <fragment
+        android:id="@+id/nav_host_fragment"
+        android:name="androidx.navigation.fragment.NavHostFragment"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:weightSum="12">
+        android:layout_height="0sp"
+        android:layout_weight="10.3"
+        app:navGraph="@navigation/mobile_navigation" />
 
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/nav_view"
+        android:layout_width="match_parent"
+        android:layout_height="0sp"
+        android:layout_weight="0.7"
+        android:background="#FFF"
+        app:menu="@menu/bottom_nav_menu" />
 
-        <androidx.appcompat.widget.SearchView
-            android:id="@+id/search_view"
-            android:layout_width="match_parent"
-            android:layout_height="0sp"
-            android:layout_weight="0.7"
-            android:background="#f5f6fa"
-            app:defaultQueryHint="Search"
-            app:queryHint="Search" />
-
-        <fragment
-            android:id="@+id/nav_host_fragment"
-            android:name="androidx.navigation.fragment.NavHostFragment"
-            android:layout_width="match_parent"
-            android:layout_height="0sp"
-            android:layout_weight="10.5"
-            app:navGraph="@navigation/mobile_navigation" />
-
-        <com.google.android.material.bottomnavigation.BottomNavigationView
-            android:id="@+id/nav_view"
-            android:layout_width="match_parent"
-            android:layout_height="0sp"
-            android:layout_weight="0.8"
-            android:background="#FFF"
-            app:menu="@menu/bottom_nav_menu" />
-    </LinearLayout>
-</RelativeLayout>
+</LinearLayout>

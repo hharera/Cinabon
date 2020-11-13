@@ -7,7 +7,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -33,7 +32,7 @@ public class CategoryProductsRecyclerView extends RecyclerView.Adapter<CategoryP
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.category_product_card_view, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.product_card_view, parent, false);
         return new ViewHolder(view);
     }
 

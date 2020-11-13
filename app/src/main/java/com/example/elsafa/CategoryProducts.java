@@ -36,7 +36,7 @@ public class CategoryProducts extends AppCompatActivity {
     private List<Product> itemList;
     private FirebaseFirestore fStore;
     private RecyclerView recyclerView;
-    private Adapter adapter;
+    private CategoryProductsRecyclerView adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
