@@ -41,14 +41,22 @@ public class MainActivity extends AppCompatActivity {
             signInAnonymously();
         } else {
             setContentView(R.layout.activity_main);
-            new Handler().postDelayed(new Runnable() {
+            Thread waitingPage = new Thread(){
                 @Override
                 public void run() {
-                    Intent intent = new Intent(MainActivity.this, HomeActivity.class);
-                    startActivity(intent);
-                    finish();
+                    try {
+                        super.run();
+//                        sleep(3000);
+                    } catch (Exception e) {
+
+                    } finally {
+                        Intent intent = new Intent(MainActivity.this, HomeActivity.class);
+                        startActivity(intent);
+                        finish();
+                    }
                 }
-            }, 3000);
+            };
+            waitingPage.start();
         }
     }
 

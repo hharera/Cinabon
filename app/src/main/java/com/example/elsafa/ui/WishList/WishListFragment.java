@@ -1,17 +1,21 @@
 package com.example.elsafa.ui.WishList;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.elsafa.HomeActivity;
 import com.example.elsafa.R;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -30,6 +34,8 @@ public class WishListFragment extends Fragment {
     private FirebaseFirestore fStore;
     private List<Item> wishListItems;
     private WishListRecyclerViewAdapter adapter;
+    private LinearLayout empty_wish_list, shopping;
+    private View root;
 
     public WishListFragment() {
         auth = FirebaseAuth.getInstance();
@@ -39,7 +45,10 @@ public class WishListFragment extends Fragment {
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        View root = inflater.inflate(R.layout.fragment_wishlist, container, false);
+        root = inflater.inflate(R.layout.fragment_wishlist, container, false);
+
+        empty_wish_list = root.findViewById(R.id.empty_wish_list);
+        shopping = root.findViewById(R.id.shopping);
 
         recyclerView = root.findViewById(R.id.wish_list);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -68,7 +77,29 @@ public class WishListFragment extends Fragment {
                             wishListItems.add(ds.toObject(Item.class));
                             adapter.notifyDataSetChanged();
                         }
+                        if (queryDocumentSnapshots.isEmpty()) {
+                            setEmptyView();
+
+                        }
                     }
                 });
     }
+
+    private void setEmptyView() {
+        recyclerView.setVisibility(View.INVISIBLE);
+        empty_wish_list.setVisibility(View.VISIBLE);
+
+        shopping.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getContext(), HomeActivity.class);
+                getActivity().startActivity(intent);
+                getActivity().finish();
+//                BottomNavigationView view1 = getView().findViewById(R.id.nav_view);
+//                view1.setSelectedItemId(R.id.navigation_categories);
+            }
+        });
+
+    }
+
 }

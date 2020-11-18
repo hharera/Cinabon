@@ -7,17 +7,21 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.QuickContactBadge;
 import android.widget.TextView;
 
+import androidx.annotation.IntegerRes;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.elsafa.R;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.List;
+import java.util.Map;
 
 import Model.Item;
 import Model.Product.Product;
@@ -27,12 +31,14 @@ public class WishListRecyclerViewAdapter extends RecyclerView.Adapter<WishListRe
     private FirebaseFirestore fStore;
     private List<Item> list;
     private Context context;
+    private FirebaseAuth auth;
 
 
     public WishListRecyclerViewAdapter(List<Item> list, Context context) {
         this.list = list;
         this.context = context;
         fStore = FirebaseFirestore.getInstance();
+        auth = FirebaseAuth.getInstance();
     }
 
     @Override
@@ -62,6 +68,85 @@ public class WishListRecyclerViewAdapter extends RecyclerView.Adapter<WishListRe
                         holder.price.setText(String.valueOf(totalPrice) + " EGP");
                     }
                 });
+
+        holder.remove.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                removeWishFromProduct(position);
+            }
+        });
+
+
+        holder.addToCart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                addCartToProduct(position);
+            }
+        });
+    }
+
+    private void removeWishFromProduct(int position) {
+        fStore.collection("Categories")
+                .document(list.get(position).getCategoryName())
+                .collection("Products")
+                .document(list.get(position).getProductId())
+                .get()
+                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                    @Override
+                    public void onSuccess(DocumentSnapshot ds) {
+                        Map<String, Integer> map = (Map<String, Integer>) ds.get("wishes");
+                        map.remove(auth.getUid());
+                        fStore.collection("Categories")
+                                .document(list.get(position).getCategoryName())
+                                .collection("Products")
+                                .document(list.get(position).getProductId())
+                                .update("wishes", map);
+                        removeProductFromWishList(position);
+                    }
+                });
+    }
+
+    private void addCartToProduct(int position) {
+        fStore.collection("Categories")
+                .document(list.get(position).getCategoryName())
+                .collection("Products")
+                .document(list.get(position).getProductId())
+                .get()
+                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                    @Override
+                    public void onSuccess(DocumentSnapshot ds) {
+                        Map<String, Integer> map = (Map<String, Integer>) ds.get("carts");
+                        map.put(auth.getUid(), 1);
+                        fStore.collection("Categories")
+                                .document(list.get(position).getCategoryName())
+                                .collection("Products")
+                                .document(list.get(position).getProductId())
+                                .update("carts", map);
+
+                        addProductToCart(position);
+                    }
+                });
+    }
+
+    private void addProductToCart(int position) {
+        fStore.collection("Users")
+                .document(auth.getUid())
+                .collection("Cart")
+                .document(list.get(position).getCategoryName() + list.get(position).getProductId())
+                .set(list.get(position));
+
+        removeWishFromProduct(position);
+    }
+
+    private void removeProductFromWishList(int position) {
+        fStore.collection("Users")
+                .document(auth.getUid())
+                .collection("WishList")
+                .document(list.get(position).getCategoryName() + list.get(position).getProductId())
+                .delete();
+
+        list.remove(position);
+        notifyDataSetChanged();
     }
 
     @Override

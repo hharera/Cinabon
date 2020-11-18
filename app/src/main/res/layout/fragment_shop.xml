@@ -8,19 +8,20 @@
     android:orientation="vertical"
     tools:context=".ui.shop.ShopFragment">
 
-    <androidx.appcompat.widget.SearchView
+    <com.mancj.materialsearchbar.MaterialSearchBar
         android:id="@+id/search_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#12000000"
-        app:defaultQueryHint="Search"
-        app:queryHint="Search" />
+        app:mt_hint="Search Item"
+        app:mt_maxSuggestionsCount="10"
+        app:mt_placeholder="Search Items" />
 
     <TextView
         android:id="@+id/best_offers"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="4sp"
+        android:layout_marginTop="10sp"
         android:fontFamily="@font/shadows_into_light_two"
         android:gravity="center|start"
         android:text="@string/best_offers"
@@ -30,7 +31,7 @@
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/best_offers_pager"
         android:layout_width="match_parent"
-        android:layout_height="250sp"
+        android:layout_height="240sp"
         android:layout_marginTop="10dp"
         android:foregroundGravity="center_horizontal" />
 
@@ -48,6 +49,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="4sp"
+        android:layout_marginTop="10sp"
         android:fontFamily="@font/shadows_into_light_two"
         android:gravity="center|start"
         android:text="@string/last_offers"
@@ -57,7 +59,7 @@
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/last_offers_pager"
         android:layout_width="match_parent"
-        android:layout_height="250sp"
+        android:layout_height="240sp"
         android:layout_marginTop="10sp"
         android:foregroundGravity="center_horizontal" />
 
