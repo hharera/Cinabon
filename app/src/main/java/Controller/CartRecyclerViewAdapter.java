@@ -105,6 +105,13 @@ public class CartRecyclerViewAdapter extends RecyclerView.Adapter<CartRecyclerVi
                 editClicked(holder, position, price[0]);
             }
         });
+
+        holder.remove.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                removeCartFromProduct(position);
+            }
+        });
     }
 
     private void editClicked(ViewHolder holder, int position, float price) {
@@ -140,6 +147,38 @@ public class CartRecyclerViewAdapter extends RecyclerView.Adapter<CartRecyclerVi
                 .collection("Cart")
                 .document(list.get(position).getCategoryName() + list.get(position).getProductId())
                 .update("quantity", quantity);
+    }
+
+    private void removeCartFromProduct(int position) {
+        fStore.collection("Categories")
+                .document(list.get(position).getCategoryName())
+                .collection("Products")
+                .document(list.get(position).getProductId())
+                .get()
+                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                    @Override
+                    public void onSuccess(DocumentSnapshot ds) {
+                        Map<String, Integer> map = (Map<String, Integer>) ds.get("carts");
+                        map.remove(auth.getUid());
+                        fStore.collection("Categories")
+                                .document(list.get(position).getCategoryName())
+                                .collection("Products")
+                                .document(list.get(position).getProductId())
+                                .update("carts", map);
+                        removeProductFromCart(position);
+                    }
+                });
+    }
+
+    private void removeProductFromCart(int position) {
+        fStore.collection("Users")
+                .document(auth.getUid())
+                .collection("Cart")
+                .document(list.get(position).getCategoryName() + list.get(position).getProductId())
+                .delete();
+
+        list.remove(position);
+        notifyDataSetChanged();
     }
 
     @Override
