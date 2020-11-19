@@ -25,6 +25,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="50sp"
             android:gravity="center"
+            android:textColor="#2c3e50"
             android:text="There is no items added to the wishlist!"
             android:textSize="18sp"
             android:textStyle="bold" />
@@ -41,7 +42,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_marginTop="30sp"
-            android:background="#f1c40f"
+            android:background="#2c3e50"
             android:orientation="horizontal">
 
 
