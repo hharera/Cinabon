@@ -1,15 +1,18 @@
 package com.example.elsafa.ui.Cart;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.elsafa.HomeActivity;
 import com.example.elsafa.R;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -30,6 +33,7 @@ public class CartFragment extends Fragment {
     private FirebaseFirestore fStore;
     private List<Item> items;
     private CartRecyclerViewAdapter adapter;
+    private LinearLayout emptyCart, shopping;
 
 
     public CartFragment() {
@@ -47,6 +51,9 @@ public class CartFragment extends Fragment {
         recyclerView.setHasFixedSize(true);
         adapter = new CartRecyclerViewAdapter(items, getContext());
         recyclerView.setAdapter(adapter);
+
+        emptyCart = root.findViewById(R.id.empty_cart);
+        shopping = root.findViewById(R.id.shopping);
 
         return root;
     }
@@ -69,7 +76,24 @@ public class CartFragment extends Fragment {
                             items.add(ds.toObject(Item.class));
                             adapter.notifyDataSetChanged();
                         }
+
+                        if (queryDocumentSnapshots.isEmpty()) {
+                            getEmptyCartView();
+                        }
                     }
                 });
+    }
+
+    private void getEmptyCartView() {
+        emptyCart.setVisibility(View.VISIBLE);
+        shopping.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getContext(), HomeActivity.class);
+                getActivity().startActivity(intent);
+                getActivity().finish();
+            }
+        });
+
     }
 }

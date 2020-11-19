@@ -9,4 +9,57 @@
         android:id="@+id/cart"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
+
+    <LinearLayout
+        android:visibility="invisible"
+        android:id="@+id/empty_cart"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center|top"
+        android:orientation="vertical">
+
+
+        <TextView
+            android:layout_width="200sp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="50sp"
+            android:gravity="center"
+            android:text="There is no items added to your cart!"
+            android:textSize="18sp"
+            android:textColor="#2c3e50"
+            android:textStyle="bold" />
+
+        <ImageView
+            android:layout_width="200sp"
+            android:layout_height="100sp"
+            android:layout_marginTop="15sp"
+            android:src="@drawable/empty_cart" />
+
+        <LinearLayout
+            android:id="@+id/shopping"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30sp"
+            android:background="#2c3e50"
+            android:orientation="horizontal">
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="3sp"
+                android:fontFamily="@font/anton"
+                android:text="@string/go_shopping"
+                android:textColor="#FFF"
+                android:textSize="18sp" />
+
+            <ImageView
+                android:layout_width="30sp"
+                android:layout_height="30sp"
+                android:layout_gravity="center"
+                android:layout_margin="3sp"
+                android:src="@drawable/shopping_bag" />
+        </LinearLayout>
+    </LinearLayout>
+
 </RelativeLayout>

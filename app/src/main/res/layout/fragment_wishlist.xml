@@ -33,7 +33,7 @@
             android:layout_width="200sp"
             android:layout_height="100sp"
             android:layout_marginTop="15sp"
-            android:src="@drawable/empty_wishlist" />
+            android:src="@drawable/empty_cart" />
 
         <LinearLayout
             android:id="@+id/shopping"
