@@ -7,11 +7,21 @@
     android:orientation="vertical"
     tools:context=".CategoryProducts">
 
-    <SearchView
-        android:id="@+id/search_product"
+    <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
-        android:layout_height="50sp"
-        android:background="#12000000" />
+        android:layout_height="55dp"
+        android:background="#C6FF9800">
+
+        <com.mancj.materialsearchbar.MaterialSearchBar
+            android:id="@+id/search_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="6sp"
+            app:mt_hint="Item name"
+            app:mt_maxSuggestionsCount="10"
+            app:mt_placeholder="Search Items"
+            app:mt_textColor="#000" />
+    </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/products"

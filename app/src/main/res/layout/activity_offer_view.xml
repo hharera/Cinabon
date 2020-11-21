@@ -9,15 +9,18 @@
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/app_bar"
         android:layout_width="match_parent"
-        style="@style/CustomActionBar"
-        android:layout_height="50sp" >
+        android:layout_height="55dp"
+        android:background="#C6FF9800">
 
-
-        <ImageView
-            android:layout_width="40sp"
-            android:layout_height="40sp"
-            android:onClick="goBack"
-            android:src="@drawable/ic_baseline_arrow_back_24"/>
+        <com.mancj.materialsearchbar.MaterialSearchBar
+            android:id="@+id/search_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="6sp"
+            app:mt_hint="Item name"
+            app:mt_maxSuggestionsCount="10"
+            app:mt_placeholder="Search Items"
+            app:mt_textColor="#000" />
     </com.google.android.material.appbar.AppBarLayout>
 
 

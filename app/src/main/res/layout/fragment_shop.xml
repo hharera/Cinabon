@@ -8,27 +8,11 @@
     android:orientation="vertical"
     tools:context=".ui.shop.ShopFragment">
 
-    <com.google.android.material.appbar.AppBarLayout
-        android:layout_width="match_parent"
-        android:layout_height="55dp"
-        android:background="#C6FF9800">
-
-        <com.mancj.materialsearchbar.MaterialSearchBar
-            android:id="@+id/search_view"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="6sp"
-            app:mt_hint="Item name"
-            app:mt_maxSuggestionsCount="10"
-            app:mt_placeholder="Search Items"
-            app:mt_textColor="#000" />
-    </com.google.android.material.appbar.AppBarLayout>
-
     <TextView
         android:id="@+id/best_offers"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="4sp"
+        android:layout_marginStart="6sp"
         android:layout_marginTop="10sp"
         android:fontFamily="@font/shadows_into_light_two"
         android:gravity="center|start"
@@ -56,7 +40,7 @@
         android:id="@+id/last_offers"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="4sp"
+        android:layout_marginStart="6sp"
         android:layout_marginTop="10sp"
         android:fontFamily="@font/shadows_into_light_two"
         android:gravity="center|start"

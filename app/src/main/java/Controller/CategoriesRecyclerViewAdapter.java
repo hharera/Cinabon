@@ -2,12 +2,15 @@ package Controller;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.TypedArray;
+import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.DrawableRes;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -21,11 +24,13 @@ import Model.Category;
 public class CategoriesRecyclerViewAdapter extends RecyclerView.Adapter<CategoriesRecyclerViewAdapter.ViewHolder> {
 
     private Context context;
-    private List<Category> list;
+    private String[] categoryName;
+    private TypedArray categoryDrawable;
 
-    public CategoriesRecyclerViewAdapter(Context context, List<Category> list) {
+    public CategoriesRecyclerViewAdapter(Context context) {
         this.context = context;
-        this.list = list;
+        categoryName = context.getResources().getStringArray(R.array.categories);
+        categoryDrawable = context.getResources().obtainTypedArray(R.array.categories_drawables);
     }
 
     @NonNull
@@ -37,14 +42,14 @@ public class CategoriesRecyclerViewAdapter extends RecyclerView.Adapter<Categori
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
-        holder.category_title.setText(list.get(position).getTitle());
-        holder.category_img.setImageResource(list.get(position).getResDrawable());
+        holder.category_title.setText(categoryName[position]);
+        holder.category_img.setImageResource(categoryDrawable.getResourceId(position, 0));
 
         holder.category_img.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, CategoryProducts.class);
-                intent.putExtra("category", list.get(position).getTitle());
+                intent.putExtra("category", categoryName[position]);
                 context.startActivity(intent);
             }
         });
@@ -52,7 +57,7 @@ public class CategoriesRecyclerViewAdapter extends RecyclerView.Adapter<Categori
 
     @Override
     public int getItemCount() {
-        return list.size();
+        return categoryName.length;
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
