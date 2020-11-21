@@ -8,13 +8,21 @@
     android:orientation="vertical"
     tools:context=".ui.shop.ShopFragment">
 
-    <com.mancj.materialsearchbar.MaterialSearchBar
-        android:id="@+id/search_view"
+    <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:mt_hint="Search Item"
-        app:mt_maxSuggestionsCount="10"
-        app:mt_placeholder="Search Items" />
+        android:layout_height="55dp"
+        android:background="#C6FF9800">
+
+        <com.mancj.materialsearchbar.MaterialSearchBar
+            android:id="@+id/search_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="6sp"
+            app:mt_hint="Item name"
+            app:mt_maxSuggestionsCount="10"
+            app:mt_placeholder="Search Items"
+            app:mt_textColor="#000" />
+    </com.google.android.material.appbar.AppBarLayout>
 
     <TextView
         android:id="@+id/best_offers"
