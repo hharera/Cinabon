@@ -7,17 +7,26 @@
     android:orientation="vertical"
     tools:context=".ui.categories.CategoriesFragment">
 
-    <androidx.appcompat.widget.SearchView
-        android:id="@+id/search_view"
+    <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="#12000000"
-        app:defaultQueryHint="Search"
-        app:queryHint="Search" />
+        android:layout_height="55dp"
+        android:background="#C6FF9800">
+
+        <com.mancj.materialsearchbar.MaterialSearchBar
+            android:id="@+id/search_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="6sp"
+            app:mt_hint="Item name"
+            app:mt_maxSuggestionsCount="10"
+            app:mt_placeholder="Search Items"
+            app:mt_textColor="#000" />
+    </com.google.android.material.appbar.AppBarLayout>
+
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/categories_rec_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
- />
+        android:layout_marginTop="5sp" />
 </LinearLayout>
