@@ -54,7 +54,7 @@ public class HomeActivity extends AppCompatActivity {
             public void onSearchConfirmed(CharSequence text) {
                 super.onSearchConfirmed(text);
                 Intent intent = new Intent(HomeActivity.this, SearchResults.class);
-                intent.putExtra("text", text);
+                intent.putExtra("text", String.valueOf(text));
                 startActivity(intent);
             }
         });

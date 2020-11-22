@@ -1,6 +1,5 @@
 package com.example.elsafa;
 
-import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -64,8 +63,8 @@ public class SearchResults extends AppCompatActivity {
         searchBar.setOnSearchActionListener(new SimpleOnSearchActionListener() {
             @Override
             public void onSearchConfirmed(CharSequence text) {
-                searchWord = text.toString();
-                products = new ArrayList<>();
+                searchWord = String.valueOf(text);
+                products.clear();
                 adapter.notifyDataSetChanged();
                 getResults();
             }
@@ -77,14 +76,19 @@ public class SearchResults extends AppCompatActivity {
             fStore.collection("Categories")
                     .document(categoryName)
                     .collection("Products")
-                    .whereLessThanOrEqualTo("title", String.valueOf(searchWord))
+                    .whereLessThanOrEqualTo("title", searchWord)
                     .get()
                     .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                         @Override
                         public void onSuccess(QuerySnapshot querySnapshot) {
                             for (DocumentSnapshot ds : querySnapshot.getDocuments()) {
-                                paths.add(ds.getReference().getPath());
-                                getProduct(ds.getReference().getPath());
+                                String title = ds.getString("title");
+                                if (title.contains(searchWord)) {
+                                    Product product = ds.toObject(Product.class);
+                                    product.setProductId(ds.getId());
+                                    products.add(product);
+                                    adapter.notifyDataSetChanged();
+                                }
                             }
                         }
                     });
@@ -97,10 +101,7 @@ public class SearchResults extends AppCompatActivity {
                 .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                     @Override
                     public void onSuccess(DocumentSnapshot ds) {
-                        Product product = ds.toObject(Product.class);
-                        product.setProductId(ds.getId());
-                        products.add(product);
-                        adapter.notifyDataSetChanged();
+
                     }
                 });
     }
