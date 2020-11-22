@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="45sp"
         android:gravity="center"
-        android:background="#EAE9E7">
+        android:background="#FFF">
 
         <ImageView
             android:id="@+id/back"
@@ -19,7 +19,7 @@
             android:layout_gravity="start"
             android:layout_margin="4sp"
             android:onClick="goBack"
-            android:src="@drawable/ic_baseline_arrow_back_24" />
+            android:src="@drawable/ic_arrow_left_black_48dp" />
     </com.google.android.material.appbar.AppBarLayout>
 
 

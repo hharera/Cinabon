@@ -5,8 +5,9 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Handler;
-import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -20,7 +21,6 @@ import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
 
 import java.io.ByteArrayOutputStream;
-import java.util.HashMap;
 
 import Model.Offer.Offer;
 import Model.User;
@@ -33,22 +33,24 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
 
         fStore = FirebaseFirestore.getInstance();
         auth = FirebaseAuth.getInstance();
 
+        Animation animation = AnimationUtils.loadAnimation(this, R.anim.waiting_page_transition);
+        TextView cafe_name = findViewById(R.id.cafe_name);
+        cafe_name.startAnimation(animation);
+
         if (auth.getCurrentUser() == null) {
             signInAnonymously();
         } else {
-            setContentView(R.layout.activity_main);
-            Thread waitingPage = new Thread(){
+            Thread waitingPage = new Thread() {
                 @Override
                 public void run() {
                     try {
-                        super.run();
-//                        sleep(3000);
+                        sleep(3000);
                     } catch (Exception e) {
-
                     } finally {
                         Intent intent = new Intent(MainActivity.this, HomeActivity.class);
                         startActivity(intent);
