@@ -27,8 +27,7 @@ import Model.Product.CompleteProduct;
 public class ProductView extends AppCompatActivity {
 
     private FirebaseAuth auth;
-
-    private ImageView wish, cart;
+    private ImageView wish, cart, back;
     private TextView title, price;
     private ViewPager2 productPics;
     private String productId, categoryName;
@@ -46,6 +45,7 @@ public class ProductView extends AppCompatActivity {
         productId = getIntent().getExtras().getString("productId");
         categoryName = getIntent().getExtras().getString("categoryName");
 
+        back = findViewById(R.id.back);
         wish = findViewById(R.id.wish);
         cart = findViewById(R.id.cart);
         title = findViewById(R.id.title);

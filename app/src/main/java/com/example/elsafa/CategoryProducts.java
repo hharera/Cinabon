@@ -1,5 +1,6 @@
 package com.example.elsafa;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -8,7 +9,6 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.recyclerview.widget.RecyclerView.Adapter;
 
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.Timestamp;
@@ -16,6 +16,8 @@ import com.google.firebase.firestore.Blob;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.mancj.materialsearchbar.MaterialSearchBar;
+import com.mancj.materialsearchbar.SimpleOnSearchActionListener;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
 
@@ -37,11 +39,14 @@ public class CategoryProducts extends AppCompatActivity {
     private FirebaseFirestore fStore;
     private RecyclerView recyclerView;
     private CategoryProductsRecyclerView adapter;
+    private MaterialSearchBar searchBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_category_products);
+
+        searchBar = findViewById(R.id.search_view);
 
         fStore = FirebaseFirestore.getInstance();
         categoryName = getIntent().getExtras().getString("category");
@@ -57,9 +62,18 @@ public class CategoryProducts extends AppCompatActivity {
         getProducts();
         hide();
 
-        for (int o = 0; o < 3; o++){
-//            setOffer(o);
-        }
+        setSearchListeners();
+    }
+
+    private void setSearchListeners() {
+        searchBar.setOnSearchActionListener(new SimpleOnSearchActionListener() {
+            @Override
+            public void onSearchConfirmed(CharSequence text) {
+                Intent intent = new Intent(CategoryProducts.this, SearchResults.class);
+                intent.putExtra("text", String.valueOf(text));
+                startActivity(intent);
+            }
+        });
     }
 
     private void getProducts() {

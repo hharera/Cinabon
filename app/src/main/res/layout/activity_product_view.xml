@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -9,34 +8,34 @@
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/app_bar"
         android:layout_width="match_parent"
-        android:layout_height="55dp"
-        android:background="#C6FF9800">
+        android:layout_height="45sp"
+        android:background="#EAE9E7"
+        android:gravity="center">
 
-        <com.mancj.materialsearchbar.MaterialSearchBar
-            android:id="@+id/search_view"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="6sp"
-            app:mt_hint="Item name"
-            app:mt_maxSuggestionsCount="10"
-            app:mt_placeholder="Search Items"
-            app:mt_textColor="#000" />
+        <ImageView
+            android:id="@+id/back"
+            android:layout_width="35sp"
+            android:layout_height="35sp"
+            android:layout_gravity="start"
+            android:layout_margin="4sp"
+            android:onClick="goBack"
+            android:src="@drawable/ic_baseline_arrow_back_24" />
     </com.google.android.material.appbar.AppBarLayout>
 
 
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/product_pics"
         android:layout_width="match_parent"
-        android:layout_below="@id/app_bar"
-        android:layout_height="250sp" />
+        android:layout_height="250sp"
+        android:layout_below="@id/app_bar" />
 
     <ImageView
         android:id="@+id/wish"
         android:layout_width="25sp"
         android:layout_height="25sp"
+        android:layout_below="@id/app_bar"
         android:layout_marginStart="8sp"
         android:layout_marginTop="100sp"
-        android:layout_below="@id/app_bar"
         android:onClick="wishClicked"
         android:src="@drawable/wish" />
 
@@ -45,8 +44,8 @@
         android:id="@+id/cart"
         android:layout_width="25sp"
         android:layout_height="25sp"
-        android:layout_marginStart="8sp"
         android:layout_below="@id/app_bar"
+        android:layout_marginStart="8sp"
         android:layout_marginTop="135sp"
         android:onClick="cartClicked"
         android:src="@drawable/cart" />
@@ -56,9 +55,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/product_pics"
+        android:layout_margin="3sp"
         android:fontFamily="@font/basic"
         android:padding="5sp"
-        android:layout_margin="3sp"
         android:text="ماوس كومباكت لاسلكى نت لينوفو 300"
         android:textColor="#000"
         android:textSize="20sp" />

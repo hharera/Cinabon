@@ -30,7 +30,7 @@ public class OfferView extends AppCompatActivity {
 
     private FirebaseAuth auth;
 
-    private ImageView wish, cart;
+    private ImageView wish, cart, back;
     private TextView title, endTime, price;
     private ViewPager2 productPics;
     private String productId;
@@ -53,6 +53,7 @@ public class OfferView extends AppCompatActivity {
         offerId = getIntent().getExtras().getString("offerId");
 
         wish = findViewById(R.id.wish);
+        back = findViewById(R.id.wish);
         cart = findViewById(R.id.cart);
         title = findViewById(R.id.title);
         productPics = findViewById(R.id.product_pics);
