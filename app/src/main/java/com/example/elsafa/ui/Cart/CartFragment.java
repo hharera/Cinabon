@@ -2,6 +2,7 @@ package com.example.elsafa.ui.Cart;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.transition.TransitionInflater;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -51,6 +52,10 @@ public class CartFragment extends Fragment {
         recyclerView.setHasFixedSize(true);
         adapter = new CartRecyclerViewAdapter(items, getContext());
         recyclerView.setAdapter(adapter);
+
+        TransitionInflater inflater1 = TransitionInflater.from(getContext());
+        setExitTransition(inflater1.inflateTransition(R.transition.fragment_in));
+        setEnterTransition(inflater1.inflateTransition(R.transition.fragment_out));
 
         emptyCart = root.findViewById(R.id.empty_cart);
         shopping = root.findViewById(R.id.shopping);

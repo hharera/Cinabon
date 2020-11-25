@@ -1,6 +1,7 @@
 package com.example.elsafa.ui.categories;
 
 import android.os.Bundle;
+import android.transition.TransitionInflater;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,6 +30,10 @@ public class CategoriesFragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         CategoriesRecyclerViewAdapter adapter = new CategoriesRecyclerViewAdapter(getContext());
         recyclerView.setAdapter(adapter);
+
+        TransitionInflater inflater1 = TransitionInflater.from(getContext());
+        setExitTransition(inflater1.inflateTransition(R.transition.fragment_in));
+        setEnterTransition(inflater1.inflateTransition(R.transition.fragment_out));
 
         return view;
     }

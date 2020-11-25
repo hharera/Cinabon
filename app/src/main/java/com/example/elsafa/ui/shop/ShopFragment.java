@@ -1,6 +1,7 @@
 package com.example.elsafa.ui.shop;
 
 import android.os.Bundle;
+import android.transition.TransitionInflater;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -57,6 +58,10 @@ public class ShopFragment extends Fragment {
 
         best_dots_indicator.setViewPager2(best_offers_pager);
         last_dots_indicator.setViewPager2(last_offers_pager);
+
+        TransitionInflater inflater1 = TransitionInflater.from(getContext());
+        setExitTransition(inflater1.inflateTransition(R.transition.fragment_in));
+        setEnterTransition(inflater1.inflateTransition(R.transition.fragment_out));
 
         getOffers();
 

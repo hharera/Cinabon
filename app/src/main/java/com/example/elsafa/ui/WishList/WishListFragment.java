@@ -2,6 +2,7 @@ package com.example.elsafa.ui.WishList;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.transition.TransitionInflater;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -55,6 +56,10 @@ public class WishListFragment extends Fragment {
         recyclerView.setHasFixedSize(true);
         adapter = new WishListRecyclerViewAdapter(wishListItems, getContext());
         recyclerView.setAdapter(adapter);
+
+        TransitionInflater inflater1 = TransitionInflater.from(getContext());
+        setExitTransition(inflater1.inflateTransition(R.transition.fragment_in));
+        setEnterTransition(inflater1.inflateTransition(R.transition.fragment_out));
 
         return root;
     }
