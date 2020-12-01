@@ -2,11 +2,11 @@ package com.example.elsafa.ui.Cart;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.transition.TransitionInflater;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -22,20 +22,20 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import Controller.CartRecyclerViewAdapter;
 import Model.Item;
 
 public class CartFragment extends Fragment {
 
-    private RecyclerView recyclerView;
-    private FirebaseAuth auth;
-    private FirebaseFirestore fStore;
-    private List<Item> items;
+    private final FirebaseAuth auth;
+    private final FirebaseFirestore fStore;
+    private final ArrayList items;
     private CartRecyclerViewAdapter adapter;
     private LinearLayout emptyCart, shopping;
-
+    private View check_out;
+    private TextView totalBillView;
+    private double totalBill;
 
     public CartFragment() {
         auth = FirebaseAuth.getInstance();
@@ -47,18 +47,20 @@ public class CartFragment extends Fragment {
                              ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_cart, container, false);
 
-        recyclerView = root.findViewById(R.id.cart);
+        RecyclerView recyclerView = root.findViewById(R.id.cart);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setHasFixedSize(true);
         adapter = new CartRecyclerViewAdapter(items, getContext());
         recyclerView.setAdapter(adapter);
 
-        TransitionInflater inflater1 = TransitionInflater.from(getContext());
-        setExitTransition(inflater1.inflateTransition(R.transition.fragment_in));
-        setEnterTransition(inflater1.inflateTransition(R.transition.fragment_out));
+//        TransitionInflater inflater1 = TransitionInflater.from(getContext());
+//        setExitTransition(inflater1.inflateTransition(R.transition.fragment_in));
+//        setEnterTransition(inflater1.inflateTransition(R.transition.fragment_out));
 
         emptyCart = root.findViewById(R.id.empty_cart);
         shopping = root.findViewById(R.id.shopping);
+        check_out = root.findViewById(R.id.check_out);
+        totalBillView = root.findViewById(R.id.bill_cost);
 
         return root;
     }
@@ -78,13 +80,32 @@ public class CartFragment extends Fragment {
                     @Override
                     public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                         for (DocumentSnapshot ds : queryDocumentSnapshots.getDocuments()) {
-                            items.add(ds.toObject(Item.class));
+                            Item item = ds.toObject(Item.class);
+                            items.add(item);
+                            getPrice(item);
                             adapter.notifyDataSetChanged();
                         }
 
                         if (queryDocumentSnapshots.isEmpty()) {
                             getEmptyCartView();
+                        } else {
+                            check_out.setVisibility(View.VISIBLE);
                         }
+                    }
+                });
+    }
+
+    private void getPrice(Item item) {
+        fStore.collection("Categories")
+                .document(item.getCategoryName())
+                .collection("Products")
+                .document(item.getProductId())
+                .get()
+                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                    @Override
+                    public void onSuccess(DocumentSnapshot ds) {
+                        totalBill+= ds.getDouble("price");
+                        totalBillView.setText(String.valueOf(totalBill) + " EGP");
                     }
                 });
     }

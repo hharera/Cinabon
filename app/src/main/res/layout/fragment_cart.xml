@@ -5,18 +5,34 @@
     android:layout_height="match_parent"
     tools:context="com.example.elsafa.ui.Cart.CartFragment">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/cart"
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/cart"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <include
+                android:id="@+id/check_out"
+                layout="@layout/cart_tail"
+                android:visibility="invisible" />
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
 
     <LinearLayout
-        android:visibility="invisible"
         android:id="@+id/empty_cart"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center|top"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:visibility="invisible">
 
 
         <TextView
@@ -25,8 +41,8 @@
             android:layout_marginTop="50sp"
             android:gravity="center"
             android:text="There is no items added to your cart!"
-            android:textSize="18sp"
             android:textColor="#2c3e50"
+            android:textSize="18sp"
             android:textStyle="bold" />
 
         <ImageView

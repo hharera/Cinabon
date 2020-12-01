@@ -57,9 +57,9 @@ public class WishListFragment extends Fragment {
         adapter = new WishListRecyclerViewAdapter(wishListItems, getContext());
         recyclerView.setAdapter(adapter);
 
-        TransitionInflater inflater1 = TransitionInflater.from(getContext());
-        setExitTransition(inflater1.inflateTransition(R.transition.fragment_in));
-        setEnterTransition(inflater1.inflateTransition(R.transition.fragment_out));
+//        TransitionInflater inflater1 = TransitionInflater.from(getContext());
+//        setExitTransition(inflater1.inflateTransition(R.transition.fragment_in));
+//        setEnterTransition(inflater1.inflateTransition(R.transition.fragment_out));
 
         return root;
     }
