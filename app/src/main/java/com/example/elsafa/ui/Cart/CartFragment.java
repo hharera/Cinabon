@@ -34,13 +34,14 @@ public class CartFragment extends Fragment {
     private CartRecyclerViewAdapter adapter;
     private LinearLayout emptyCart, shopping;
     private View check_out;
-    private TextView totalBillView;
-    private double totalBill;
+    private static TextView totalBillView;
+    private static double totalBill;
 
     public CartFragment() {
         auth = FirebaseAuth.getInstance();
         fStore = FirebaseFirestore.getInstance();
         items = new ArrayList();
+        totalBill = 0;
     }
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -104,10 +105,15 @@ public class CartFragment extends Fragment {
                 .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                     @Override
                     public void onSuccess(DocumentSnapshot ds) {
-                        totalBill+= ds.getDouble("price");
-                        totalBillView.setText(String.valueOf(totalBill) + " EGP");
+                        double price = ds.getDouble("price");
+                        setPrice(price);
                     }
                 });
+    }
+
+    public static void setPrice(double price) {
+        totalBill += price;
+        totalBillView.setText(String.valueOf(totalBill) + " EGP");
     }
 
     private void getEmptyCartView() {

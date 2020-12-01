@@ -17,6 +17,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.elsafa.R;
+import com.example.elsafa.ui.Cart.CartFragment;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -76,17 +77,25 @@ public class CartRecyclerViewAdapter extends RecyclerView.Adapter<CartRecyclerVi
                     }
                 });
 
-        holder.edit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                editClicked(holder, position, price[0]);
-            }
-        });
 
+        setEditListener(holder, position, price[0]);
+        setRemoveListener(holder, position);
+    }
+
+    private void setRemoveListener(ViewHolder holder, int position) {
         holder.remove.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 removeCartFromProduct(position);
+            }
+        });
+    }
+
+    private void setEditListener(ViewHolder holder, int position, float price) {
+        holder.edit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                editClicked(holder, position, price);
             }
         });
     }
@@ -142,9 +151,16 @@ public class CartRecyclerViewAdapter extends RecyclerView.Adapter<CartRecyclerVi
                                 .collection("Products")
                                 .document(list.get(position).getProductId())
                                 .update("carts", map);
+
                         removeProductFromCart(position);
+
+                        removeProductFromBill(ds.getDouble("price"));
                     }
                 });
+    }
+
+    private void removeProductFromBill(Double price) {
+        CartFragment.setPrice(-1 * price);
     }
 
     private void removeProductFromCart(int position) {
