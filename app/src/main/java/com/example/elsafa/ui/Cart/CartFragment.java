@@ -35,7 +35,7 @@ public class CartFragment extends Fragment {
     private LinearLayout emptyCart, shopping;
     private View check_out;
     private static TextView totalBillView;
-    private static double totalBill;
+    private double totalBill;
 
     public CartFragment() {
         auth = FirebaseAuth.getInstance();
@@ -51,7 +51,7 @@ public class CartFragment extends Fragment {
         RecyclerView recyclerView = root.findViewById(R.id.cart);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setHasFixedSize(true);
-        adapter = new CartRecyclerViewAdapter(items, getContext());
+        adapter = new CartRecyclerViewAdapter(items, getContext(), this);
         recyclerView.setAdapter(adapter);
 
 //        TransitionInflater inflater1 = TransitionInflater.from(getContext());
@@ -88,12 +88,20 @@ public class CartFragment extends Fragment {
                         }
 
                         if (queryDocumentSnapshots.isEmpty()) {
+                            check_out.setVisibility(View.INVISIBLE);
                             getEmptyCartView();
                         } else {
                             check_out.setVisibility(View.VISIBLE);
                         }
                     }
                 });
+    }
+
+    public void updateView() {
+        items.clear();
+        adapter.notifyDataSetChanged();
+        totalBill = 0;
+        getCartItems();
     }
 
     private void getPrice(Item item) {
@@ -106,12 +114,12 @@ public class CartFragment extends Fragment {
                     @Override
                     public void onSuccess(DocumentSnapshot ds) {
                         double price = ds.getDouble("price");
-                        setPrice(price);
+                        editTotalBill(price);
                     }
                 });
     }
 
-    public static void setPrice(double price) {
+    public void editTotalBill(double price) {
         totalBill += price;
         totalBillView.setText(String.valueOf(totalBill) + " EGP");
     }

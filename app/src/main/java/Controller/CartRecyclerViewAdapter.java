@@ -10,7 +10,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -31,22 +30,24 @@ import Model.Product.Product;
 
 public class CartRecyclerViewAdapter extends RecyclerView.Adapter<CartRecyclerViewAdapter.ViewHolder> {
 
+    private final CartFragment cartFragment;
     private FirebaseFirestore fStore;
     private FirebaseAuth auth;
     private List<Item> list;
     private Context context;
 
 
-    public CartRecyclerViewAdapter(List<Item> list, Context context) {
+    public CartRecyclerViewAdapter(List<Item> list, Context context, CartFragment cartFragment) {
         this.list = list;
         this.context = context;
+        this.cartFragment = cartFragment;
         fStore = FirebaseFirestore.getInstance();
         auth = FirebaseAuth.getInstance();
     }
 
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-            return new ViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.cart_item_card_view, parent, false));
+        return new ViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.cart_item_card_view, parent, false));
     }
 
     @Override
@@ -80,6 +81,10 @@ public class CartRecyclerViewAdapter extends RecyclerView.Adapter<CartRecyclerVi
 
         setEditListener(holder, position, price[0]);
         setRemoveListener(holder, position);
+    }
+
+    private void addPrice(float v) {
+        cartFragment.editTotalBill(v);
     }
 
     private void setRemoveListener(ViewHolder holder, int position) {
@@ -153,14 +158,12 @@ public class CartRecyclerViewAdapter extends RecyclerView.Adapter<CartRecyclerVi
                                 .update("carts", map);
 
                         removeProductFromCart(position);
-
-                        removeProductFromBill(ds.getDouble("price"));
                     }
                 });
     }
 
     private void removeProductFromBill(Double price) {
-        CartFragment.setPrice(-1 * price);
+        cartFragment.editTotalBill(-1 * price);
     }
 
     private void removeProductFromCart(int position) {
@@ -170,8 +173,7 @@ public class CartRecyclerViewAdapter extends RecyclerView.Adapter<CartRecyclerVi
                 .document(list.get(position).getCategoryName() + list.get(position).getProductId())
                 .delete();
 
-        list.remove(position);
-        notifyDataSetChanged();
+        cartFragment.updateView();
     }
 
     @Override
