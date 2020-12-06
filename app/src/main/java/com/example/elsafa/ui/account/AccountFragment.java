@@ -1,6 +1,7 @@
 package com.example.elsafa.ui.account;
 
 import android.app.Application;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.transition.TransitionInflater;
@@ -8,6 +9,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CompoundButton;
+import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 import android.widget.RadioButton;
 
 import androidx.annotation.NonNull;
@@ -15,11 +18,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.fragment.app.Fragment;
 
+import com.example.elsafa.CafeLocation;
 import com.example.elsafa.R;
 
 public class AccountFragment extends Fragment {
 
 
+    private FrameLayout linear_layout_map;
     private RadioButton black_theme;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -32,26 +37,24 @@ public class AccountFragment extends Fragment {
 
 
         black_theme = root.findViewById(R.id.black_theme);
+        linear_layout_map = root.findViewById(R.id.linear_layout_map);
 
-//        setListeners();
-
-        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+        setListeners();
 
         return root;
     }
 
     private void setListeners() {
-        black_theme.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        setMapListener();
+    }
+
+    private void setMapListener() {
+        linear_layout_map.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    getActivity().setTheme(R.style.Theme_AppCompat_DayNight);
-                } else {
-                    getActivity().setTheme(R.style.Theme_AppCompat_Light_NoActionBar);
-                }
+            public void onClick(View v) {
+                Intent intent = new Intent(getContext(), CafeLocation.class);
+                startActivity(intent);
             }
         });
     }
-
-
 }
