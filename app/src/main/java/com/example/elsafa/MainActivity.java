@@ -12,6 +12,8 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.FirebaseOptions;
 import com.google.firebase.Timestamp;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
@@ -34,6 +36,16 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        FirebaseOptions options = new FirebaseOptions
+                .Builder()
+                .setApplicationId("1:261802668850:android:3d7d1afc9f8f3d21b0dd2b")
+                .setApiKey("AIzaSyDNwH033gu0gBUBRcINWhNHfbeameUpFFw")
+                .setProjectId("ecommerce-55b58")
+                .build();
+
+        FirebaseApp.initializeApp(this, options, "Cafe");
+
 
         fStore = FirebaseFirestore.getInstance();
         auth = FirebaseAuth.getInstance();

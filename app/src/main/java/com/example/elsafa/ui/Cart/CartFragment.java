@@ -19,14 +19,13 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 
-import Controller.CartRecyclerViewAdapter;
+import Controller.Cart.CartRecyclerViewAdapter;
 import Model.Item;
 
-public class CartFragment extends Fragment {
+public class CartFragment extends Fragment implements OnGetItemsListener {
 
     private final FirebaseAuth auth;
     private final FirebaseFirestore fStore;
@@ -36,6 +35,7 @@ public class CartFragment extends Fragment {
     private View check_out;
     private static TextView totalBillView;
     private double totalBill;
+    private CartItemsPresenter presenter;
 
     public CartFragment() {
         auth = FirebaseAuth.getInstance();
@@ -54,54 +54,23 @@ public class CartFragment extends Fragment {
         adapter = new CartRecyclerViewAdapter(items, getContext(), this);
         recyclerView.setAdapter(adapter);
 
-//        TransitionInflater inflater1 = TransitionInflater.from(getContext());
-//        setExitTransition(inflater1.inflateTransition(R.transition.fragment_in));
-//        setEnterTransition(inflater1.inflateTransition(R.transition.fragment_out));
-
         emptyCart = root.findViewById(R.id.empty_cart);
         shopping = root.findViewById(R.id.shopping);
         check_out = root.findViewById(R.id.check_out);
         totalBillView = root.findViewById(R.id.bill_cost);
 
+        presenter = new CartItemsPresenter(this);
+        presenter.getWishListItems();
+
         return root;
     }
 
-    @Override
-    public void onStart() {
-        super.onStart();
-        getCartItems();
-    }
-
-    private void getCartItems() {
-        fStore.collection("Users")
-                .document(auth.getUid())
-                .collection("Cart")
-                .get()
-                .addOnSuccessListener(getActivity(), new OnSuccessListener<QuerySnapshot>() {
-                    @Override
-                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                        for (DocumentSnapshot ds : queryDocumentSnapshots.getDocuments()) {
-                            Item item = ds.toObject(Item.class);
-                            items.add(item);
-                            getPrice(item);
-                            adapter.notifyDataSetChanged();
-                        }
-
-                        if (queryDocumentSnapshots.isEmpty()) {
-                            check_out.setVisibility(View.INVISIBLE);
-                            getEmptyCartView();
-                        } else {
-                            check_out.setVisibility(View.VISIBLE);
-                        }
-                    }
-                });
-    }
 
     public void updateView() {
         items.clear();
         adapter.notifyDataSetChanged();
         totalBill = 0;
-        getCartItems();
+        presenter.getWishListItems();
     }
 
     private void getPrice(Item item) {
@@ -121,7 +90,7 @@ public class CartFragment extends Fragment {
 
     public void editTotalBill(double price) {
         totalBill += price;
-        totalBillView.setText(String.valueOf(totalBill) + " EGP");
+        totalBillView.setText(totalBill + " EGP");
     }
 
     private void getEmptyCartView() {
@@ -135,5 +104,28 @@ public class CartFragment extends Fragment {
             }
         });
 
+    }
+
+    @Override
+    public void onSuccess(Item item) {
+        items.add(item);
+        getPrice(item);
+        adapter.notifyDataSetChanged();
+        check_out.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void onFailed(Exception e) {
+        if (e != null) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void onWishListIsEmpty(Boolean isEmpty) {
+        if (isEmpty) {
+            check_out.setVisibility(View.INVISIBLE);
+            getEmptyCartView();
+        }
     }
 }

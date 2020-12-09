@@ -1,4 +1,4 @@
-package Controller;
+package Controller.Cart;
 
 import android.app.AlertDialog;
 import android.content.Context;
@@ -28,13 +28,14 @@ import java.util.Map;
 import Model.Item;
 import Model.Product.Product;
 
-public class CartRecyclerViewAdapter extends RecyclerView.Adapter<CartRecyclerViewAdapter.ViewHolder> {
+public class CartRecyclerViewAdapter extends RecyclerView.Adapter<CartRecyclerViewAdapter.ViewHolder> implements OnGetProductsListener {
 
     private final CartFragment cartFragment;
-    private FirebaseFirestore fStore;
-    private FirebaseAuth auth;
-    private List<Item> list;
-    private Context context;
+    private final FirebaseFirestore fStore;
+    private final FirebaseAuth auth;
+    private final List<Item> list;
+    private final Context context;
+    private final ProductsPresenter presenter;
 
 
     public CartRecyclerViewAdapter(List<Item> list, Context context, CartFragment cartFragment) {
@@ -43,6 +44,8 @@ public class CartRecyclerViewAdapter extends RecyclerView.Adapter<CartRecyclerVi
         this.cartFragment = cartFragment;
         fStore = FirebaseFirestore.getInstance();
         auth = FirebaseAuth.getInstance();
+
+        presenter = new ProductsPresenter(this);
     }
 
     @Override
@@ -52,34 +55,8 @@ public class CartRecyclerViewAdapter extends RecyclerView.Adapter<CartRecyclerVi
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        final float[] price = new float[1];
-        fStore.collection("Categories")
-                .document(list.get(position).getCategoryName())
-                .collection("Products")
-                .document(list.get(position).getProductId())
-                .get()
-                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-                    @Override
-                    public void onSuccess(DocumentSnapshot ds) {
-                        Product product = ds.toObject(Product.class);
-                        product.setProductId(ds.getId());
+        presenter.getProduct(holder, list.get(position), position);
 
-                        holder.imageView.setImageBitmap(BitmapFactory.decodeByteArray(product.getMainPic().toBytes()
-                                , 0, product.getMainPic().toBytes().length));
-                        holder.title.setText(product.getTitle());
-
-                        int quantity = list.get(position).getQuantity();
-                        holder.quantity.setText(String.valueOf(quantity));
-
-                        float totalPrice = (product.getPrice() * quantity);
-                        holder.total_price.setText(String.valueOf(totalPrice) + " EGP");
-
-                        price[0] = product.getPrice();
-                    }
-                });
-
-
-        setEditListener(holder, position, price[0]);
         setRemoveListener(holder, position);
     }
 
@@ -118,7 +95,7 @@ public class CartRecyclerViewAdapter extends RecyclerView.Adapter<CartRecyclerVi
             public void onClick(DialogInterface dialog, int which) {
                 int quantity = Integer.parseInt(editText.getText().toString());
                 holder.quantity.setText(String.valueOf(quantity));
-                holder.total_price.setText(String.valueOf(quantity * price) + " EGP");
+                holder.total_price.setText(quantity * price + " EGP");
                 setQuantity(position, quantity);
             }
         });
@@ -179,6 +156,26 @@ public class CartRecyclerViewAdapter extends RecyclerView.Adapter<CartRecyclerVi
     @Override
     public int getItemCount() {
         return list.size();
+    }
+
+    @Override
+    public void onSuccess(ViewHolder holder, Product product, int position) {
+        holder.imageView.setImageBitmap(BitmapFactory.decodeByteArray(product.getMainPic().toBytes()
+                , 0, product.getMainPic().toBytes().length));
+        holder.title.setText(product.getTitle());
+
+        int quantity = list.get(position).getQuantity();
+        holder.quantity.setText(String.valueOf(quantity));
+
+        float totalPrice = (product.getPrice() * quantity);
+        holder.total_price.setText(totalPrice + " EGP");
+
+        setEditListener(holder, position, product.getPrice());
+    }
+
+    @Override
+    public void onFailed(Exception e) {
+
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {

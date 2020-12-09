@@ -2,7 +2,6 @@ package com.example.elsafa.ui.WishList;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.transition.TransitionInflater;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,12 +14,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.elsafa.HomeActivity;
 import com.example.elsafa.R;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,12 +23,12 @@ import java.util.List;
 import Controller.WishListRecyclerViewAdapter;
 import Model.Item;
 
-public class WishListFragment extends Fragment {
+public class WishListFragment extends Fragment implements OnGetItemsListener {
 
     private RecyclerView recyclerView;
-    private FirebaseAuth auth;
-    private FirebaseFirestore fStore;
-    private List<Item> wishListItems;
+    private final FirebaseAuth auth;
+    private final FirebaseFirestore fStore;
+    private final List<Item> wishListItems;
     private WishListRecyclerViewAdapter adapter;
     private LinearLayout empty_wish_list, shopping;
     private View root;
@@ -57,37 +52,11 @@ public class WishListFragment extends Fragment {
         adapter = new WishListRecyclerViewAdapter(wishListItems, getContext());
         recyclerView.setAdapter(adapter);
 
-//        TransitionInflater inflater1 = TransitionInflater.from(getContext());
-//        setExitTransition(inflater1.inflateTransition(R.transition.fragment_in));
-//        setEnterTransition(inflater1.inflateTransition(R.transition.fragment_out));
+
+        WishListItemsPresenter presenter = new WishListItemsPresenter(this);
+        presenter.getWishListItems();
 
         return root;
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-        getWishListItems();
-    }
-
-    private void getWishListItems() {
-        fStore.collection("Users")
-                .document(auth.getUid())
-                .collection("WishList")
-                .get()
-                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-                    @Override
-                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                        for (DocumentSnapshot ds : queryDocumentSnapshots.getDocuments()) {
-                            wishListItems.add(ds.toObject(Item.class));
-                            adapter.notifyDataSetChanged();
-                        }
-                        if (queryDocumentSnapshots.isEmpty()) {
-                            setEmptyView();
-
-                        }
-                    }
-                });
     }
 
     private void setEmptyView() {
@@ -100,11 +69,28 @@ public class WishListFragment extends Fragment {
                 Intent intent = new Intent(getContext(), HomeActivity.class);
                 getActivity().startActivity(intent);
                 getActivity().finish();
-//                BottomNavigationView view1 = getView().findViewById(R.id.nav_view);
-//                view1.setSelectedItemId(R.id.navigation_categories);
             }
         });
 
     }
 
+    @Override
+    public void onSuccess(Item item) {
+        wishListItems.add(item);
+        adapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onFailed(Exception e) {
+        if (e != null) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void onWishListIsEmpty(Boolean isEmpty) {
+        if (isEmpty) {
+            setEmptyView();
+        }
+    }
 }
