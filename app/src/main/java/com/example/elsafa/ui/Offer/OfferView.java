@@ -11,11 +11,12 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager2.widget.ViewPager2;
 
+import com.example.elsafa.Cart.CartPresenter;
+import com.example.elsafa.Cart.OnCartChangedListener;
 import com.example.elsafa.R;
 import com.example.elsafa.ui.Product.OnGetProductListener;
 import com.example.elsafa.ui.Product.ProductPresenter;
 import com.example.elsafa.ui.shop.OnGetOffersListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.Blob;
@@ -25,11 +26,11 @@ import java.util.List;
 import java.util.Map;
 
 import Controller.ProductPicturesRecyclerViewAdapter;
-import Model.Item;
+import Controller.WishList;
 import Model.Offer.Offer;
 import Model.Product.CompleteProduct;
 
-public class OfferView extends AppCompatActivity implements OnGetOffersListener, OnGetProductListener {
+public class OfferView extends AppCompatActivity implements OnGetOffersListener, OnGetProductListener, OnCartChangedListener {
 
     private FirebaseAuth auth;
 
@@ -44,6 +45,7 @@ public class OfferView extends AppCompatActivity implements OnGetOffersListener,
     private String offerId;
     private OfferPresenter offerPresenter;
     private ProductPresenter productPresenter;
+    private CartPresenter cartPresenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,6 +68,7 @@ public class OfferView extends AppCompatActivity implements OnGetOffersListener,
         price = findViewById(R.id.price);
 
         productPresenter = new ProductPresenter(this);
+        cartPresenter = new CartPresenter(this);
 
         offerPresenter = new OfferPresenter(this);
         offerPresenter.getOffer(offerId);
@@ -73,109 +76,26 @@ public class OfferView extends AppCompatActivity implements OnGetOffersListener,
 
     public void cartClicked(View view) {
         Map<String, Integer> carts = product.getCarts();
+
         if (carts.containsKey(auth.getUid())) {
-            carts.remove(auth.getUid());
-            product.setCarts(carts);
-
-            fStore.collection("Categories")
-                    .document(offer.getCategoryName())
-                    .collection("Products")
-                    .document(offer.getProductId())
-                    .update("carts", carts);
-
-            cart.setImageResource(R.drawable.cart);
-
-            fStore.collection("Users")
-                    .document(auth.getUid())
-                    .collection("Cart")
-                    .document(offer.getCategoryName() + offer.getProductId())
-                    .delete();
-
-            Toast.makeText(this, "Offer removed from the cart", Toast.LENGTH_SHORT).show();
+            cartPresenter.removeItem(product);
         } else {
-            carts.put(auth.getUid(), 1);
-            product.setCarts(carts);
-
-            fStore.collection("Categories")
-                    .document(offer.getCategoryName())
-                    .collection("Products")
-                    .document(offer.getProductId())
-                    .update("carts", carts);
-
-            cart.setImageResource(R.drawable.carted);
-
-            Item item = new Item();
-            item.setTime(Timestamp.now());
-            item.setCategoryName(offer.getCategoryName());
-            item.setProductId(offer.getProductId());
-            item.setQuantity(1);
-
-            fStore.collection("Users")
-                    .document(auth.getUid())
-                    .collection("Cart")
-                    .document(offer.getCategoryName() + offer.getProductId())
-                    .set(item);
-
-            Toast.makeText(this, "Offer Added to the cart", Toast.LENGTH_SHORT).show();
+            cartPresenter.addItem(product);
         }
     }
 
     public void wishClicked(View view) {
-        Map<String, Integer> wishList = product.getWishes();
-
-        if (wishList.containsKey(auth.getUid())) {
-            wishList.remove(auth.getUid());
-            product.setWishes(wishList);
-
-            fStore.collection("Categories")
-                    .document(offer.getCategoryName())
-                    .collection("Products")
-                    .document(offer.getProductId())
-                    .update("wishes", wishList);
-
-            wish.setImageResource(R.drawable.wish);
-
-
-            fStore.collection("Users")
-                    .document(auth.getUid())
-                    .collection("WishList")
-                    .document(offer.getCategoryName() + offer.getProductId())
-                    .delete().addOnSuccessListener(new OnSuccessListener<Void>() {
-                @Override
-                public void onSuccess(Void aVoid) {
-                    Toast.makeText(OfferView.this, "Offer Added to the wishList", Toast.LENGTH_SHORT).show();
-                }
-            });
+        WishList wishList = new WishList();
+        if (product.getWishes().containsKey(auth.getUid())) {
+            if (wishList.removeItem(product)) {
+                Toast.makeText(OfferView.this, "Offer Added to the wishList", Toast.LENGTH_SHORT).show();
+                wish.setImageResource(R.drawable.wish);
+            }
         } else {
-            wishList.put(auth.getUid(), 1);
-            product.setWishes(wishList);
-
-            fStore.collection("Categories")
-                    .document(offer.getCategoryName())
-                    .collection("Products")
-                    .document(offer.getProductId())
-                    .update("wishes", wishList);
-
-            wish.setImageResource(R.drawable.wished);
-
-            Item item = new Item();
-            item.setTime(Timestamp.now());
-            item.setCategoryName(offer.getCategoryName());
-            item.setProductId(offer.getProductId());
-            item.setQuantity(1);
-
-            fStore.collection("Users")
-                    .document(auth.getUid())
-                    .collection("WishList")
-                    .document(offer.getCategoryName() + offer.getProductId())
-                    .set(item).addOnSuccessListener(new OnSuccessListener<Void>() {
-                @Override
-                public void onSuccess(Void aVoid) {
-                    Toast.makeText(OfferView.this, "Offer removed from the wishList", Toast.LENGTH_SHORT).show();
-                }
-            });
-
-
+            if (wishList.addItem(product)) {
+                wish.setImageResource(R.drawable.wished);
+                Toast.makeText(OfferView.this, "product removed from the wishList", Toast.LENGTH_SHORT).show();
+            }
         }
     }
 
@@ -235,5 +155,27 @@ public class OfferView extends AppCompatActivity implements OnGetOffersListener,
     @Override
     public void onGetProductFailed(Exception e) {
 
+    }
+
+    @Override
+    public void onRemoveItemSuccess() {
+        this.cart.setImageResource(R.drawable.cart);
+        Toast.makeText(this, "Product removed from the cart", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onAddItemSuccess() {
+        this.cart.setImageResource(R.drawable.carted);
+        Toast.makeText(this, "Product Added to the cart", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onRemoveItemFailed() {
+        Toast.makeText(this, "Operation Failed", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onAddItemFailed() {
+        Toast.makeText(this, "Operation Failed", Toast.LENGTH_SHORT).show();
     }
 }

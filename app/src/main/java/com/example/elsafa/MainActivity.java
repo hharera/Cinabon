@@ -83,7 +83,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        Intent intent = new Intent(this, PreView.class);
+        Intent intent = new Intent(this, StartingAppPage.class);
         startActivity(intent);
         finish();
     }

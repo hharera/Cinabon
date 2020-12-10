@@ -70,7 +70,7 @@
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
 
-        <activity android:name=".PreView" />
+        <activity android:name=".StartingAppPage" />
         <activity
             android:name=".MainActivity"
             android:theme="@style/Theme.Design.NoActionBar">

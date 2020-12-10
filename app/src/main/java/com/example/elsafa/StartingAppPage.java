@@ -8,7 +8,7 @@ import android.widget.ViewFlipper;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
-public class PreView extends AppCompatActivity {
+public class StartingAppPage extends AppCompatActivity {
 
     ViewFlipper viewFlipper;
 
