@@ -36,10 +36,16 @@
         <activity
             android:name=".SearchResults"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
-        <activity android:name=".OfferView" />
-        <activity android:name=".HomeActivity" />
-        <activity android:name=".CategoryProducts" />
-        <activity android:name=".ProductView" />
+        <activity
+            android:name=".ui.Offer.OfferView"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+        <activity
+            android:name=".HomeActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+        <activity
+            android:name=".ui.Products.CategoryProducts"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+        <activity android:name=".ui.Product.ProductView" />
         <activity android:name=".SignUp" /> <!-- <meta-data -->
         <!-- android:name="com.facebook.sdk.ApplicationId" -->
         <!-- android:value="@string/facebook_app_id" /> -->

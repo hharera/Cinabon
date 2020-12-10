@@ -72,6 +72,7 @@ public class MainActivity extends AppCompatActivity {
             };
             waitingPage.start();
         }
+
     }
 
     private void signInAnonymously() {
@@ -106,7 +107,7 @@ public class MainActivity extends AppCompatActivity {
                 .collection("WishList");
     }
 
-    private void setOffer(int i) {
+    public void setOffer(int i) {
         Uri[] imagesURL = new Uri[]{
                 Uri.parse("https://image.shutterstock.com/image-vector/special-offer-banner-vector-format-600w-586903514.jpg")
                 , Uri.parse("https://addconn.com/images/limited.png")};

@@ -22,7 +22,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
 
-import Controller.Cart.CartRecyclerViewAdapter;
+import Controller.CartRecyclerViewAdapter;
 import Model.Item;
 
 public class CartFragment extends Fragment implements OnGetItemsListener {

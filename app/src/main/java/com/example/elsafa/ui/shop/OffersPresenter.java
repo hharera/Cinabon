@@ -27,7 +27,9 @@ public class OffersPresenter {
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
                             for (DocumentSnapshot ds : task.getResult().getDocuments()) {
-                                listener.onSuccess(ds.toObject(Offer.class));
+                                Offer offer = ds.toObject(Offer.class);
+                                offer.setOfferId(ds.getId());
+                                listener.onSuccess(offer);
                             }
                         } else {
                             listener.onFailed(task.getException());

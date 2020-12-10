@@ -11,16 +11,16 @@ import android.widget.ImageView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.elsafa.OfferView;
 import com.example.elsafa.R;
+import com.example.elsafa.ui.Offer.OfferView;
 
 import java.util.List;
 
 import Model.Offer.Offer;
 
 public class OffersPagerAdapter extends RecyclerView.Adapter<OffersPagerAdapter.ViewHolder> {
-    private List<Offer> offers;
-    private Context context;
+    private final List<Offer> offers;
+    private final Context context;
 
     public OffersPagerAdapter(List<Offer> list, Context context) {
         this.offers = list;

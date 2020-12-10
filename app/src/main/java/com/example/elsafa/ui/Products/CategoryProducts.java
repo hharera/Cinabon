@@ -1,21 +1,19 @@
-package com.example.elsafa;
+package com.example.elsafa.ui.Products;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
-import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.gms.tasks.OnSuccessListener;
+import com.example.elsafa.R;
+import com.example.elsafa.SearchResults;
 import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.Blob;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QuerySnapshot;
 import com.mancj.materialsearchbar.MaterialSearchBar;
 import com.mancj.materialsearchbar.SimpleOnSearchActionListener;
 import com.squareup.picasso.Picasso;
@@ -31,7 +29,7 @@ import Model.Product.CompleteProduct;
 import Model.Product.Product;
 
 
-public class CategoryProducts extends AppCompatActivity {
+public class CategoryProducts extends AppCompatActivity implements OnGetProductsListener {
 
     private static final String TAG = "CategoryProducts";
     private String categoryName;
@@ -59,8 +57,8 @@ public class CategoryProducts extends AppCompatActivity {
         adapter = new CategoryProductsRecyclerView(itemList, this);
         recyclerView.setAdapter(adapter);
 
-        getProducts();
-        hide();
+        CategoryProductsPresenter presenter = new CategoryProductsPresenter(this);
+        presenter.getProducts(categoryName);
 
         setSearchListeners();
     }
@@ -74,24 +72,6 @@ public class CategoryProducts extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-    }
-
-    private void getProducts() {
-        fStore.collection("Categories")
-                .document(categoryName)
-                .collection("Products")
-                .get()
-                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-                    @Override
-                    public void onSuccess(QuerySnapshot v) {
-                        for (DocumentSnapshot ds : v.getDocuments()) {
-                            Product product = ds.toObject(Product.class);
-                            product.setProductId(ds.getId());
-                            itemList.add(product);
-                            adapter.notifyDataSetChanged();
-                        }
-                    }
-                });
     }
 
     private void setOffer(int i) {
@@ -141,10 +121,19 @@ public class CategoryProducts extends AppCompatActivity {
         });
     }
 
-    private void hide() {
-        ActionBar actionBar = getSupportActionBar();
-        if (actionBar != null) {
-            actionBar.hide();
-        }
+    @Override
+    public void onSuccess(Product product) {
+        itemList.add(product);
+        adapter.notifyDataSetChanged();
     }
+
+    @Override
+    public void onFailed(Exception e) {
+    }
+
+    @Override
+    public void onWishListIsEmpty(Boolean isEmpty) {
+
+    }
+
 }

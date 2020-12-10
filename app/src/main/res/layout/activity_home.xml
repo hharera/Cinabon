@@ -38,6 +38,7 @@
         android:layout_height="0sp"
         android:layout_weight="0.8"
         android:background="#FFF"
+        app:itemTextColor="#C6FF9800"
         app:menu="@menu/bottom_nav_menu" />
 
 </LinearLayout>

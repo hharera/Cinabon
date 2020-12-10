@@ -1,4 +1,4 @@
-package Controller.Cart;
+package Controller;
 
 import androidx.annotation.NonNull;
 
@@ -7,7 +7,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
-import Controller.Cart.CartRecyclerViewAdapter.ViewHolder;
+import Controller.CartRecyclerViewAdapter.ViewHolder;
 import Model.Item;
 import Model.Product.Product;
 

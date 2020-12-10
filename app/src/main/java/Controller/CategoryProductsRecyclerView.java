@@ -13,16 +13,16 @@ import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.elsafa.ProductView;
 import com.example.elsafa.R;
+import com.example.elsafa.ui.Product.ProductView;
 
 import java.util.List;
 
 import Model.Product.Product;
 
 public class CategoryProductsRecyclerView extends RecyclerView.Adapter<CategoryProductsRecyclerView.ViewHolder> {
-    private List<Product> products;
-    private Context context;
+    private final List<Product> products;
+    private final Context context;
 
     public CategoryProductsRecyclerView(List<Product> list, Context context) {
         this.products = list;
@@ -61,9 +61,10 @@ public class CategoryProductsRecyclerView extends RecyclerView.Adapter<CategoryP
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        private ImageView productMainImage;
-        private TextView title, price;
-        private CardView productCardView;
+        private final ImageView productMainImage;
+        private final TextView title;
+        private final TextView price;
+        private final CardView productCardView;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);

@@ -1,6 +1,6 @@
-package Controller.Cart;
+package Controller;
 
-import Controller.Cart.CartRecyclerViewAdapter.ViewHolder;
+import Controller.CartRecyclerViewAdapter.ViewHolder;
 import Model.Product.Product;
 
 public interface OnGetProductsListener {

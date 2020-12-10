@@ -3,29 +3,23 @@ package Controller;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.TypedArray;
-import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import androidx.annotation.DrawableRes;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.elsafa.CategoryProducts;
 import com.example.elsafa.R;
-
-import java.util.List;
-
-import Model.Category;
+import com.example.elsafa.ui.Products.CategoryProducts;
 
 public class CategoriesRecyclerViewAdapter extends RecyclerView.Adapter<CategoriesRecyclerViewAdapter.ViewHolder> {
 
-    private Context context;
-    private String[] categoryName;
-    private TypedArray categoryDrawable;
+    private final Context context;
+    private final String[] categoryName;
+    private final TypedArray categoryDrawable;
 
     public CategoriesRecyclerViewAdapter(Context context) {
         this.context = context;
