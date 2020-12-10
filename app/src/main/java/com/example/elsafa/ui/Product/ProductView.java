@@ -1,21 +1,22 @@
 package com.example.elsafa.ui.Product;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager2.widget.ViewPager2;
 
+import com.example.elsafa.Cart.CartPresenter;
+import com.example.elsafa.Cart.OnCartChangedListener;
 import com.example.elsafa.R;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.Blob;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.List;
@@ -25,7 +26,7 @@ import Controller.ProductPicturesRecyclerViewAdapter;
 import Model.Item;
 import Model.Product.CompleteProduct;
 
-public class ProductView extends AppCompatActivity {
+public class ProductView extends AppCompatActivity implements OnCartChangedListener, OnGetProductListener {
 
     private FirebaseAuth auth;
     private ImageView wish, cart, back;
@@ -34,6 +35,7 @@ public class ProductView extends AppCompatActivity {
     private String productId, categoryName;
     private FirebaseFirestore fStore;
     private CompleteProduct product;
+    private CartPresenter cartPresenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,89 +55,16 @@ public class ProductView extends AppCompatActivity {
         productPics = findViewById(R.id.product_pics);
         price = findViewById(R.id.price);
 
-        getProduct();
-    }
-
-    private void getProduct() {
-        fStore.collection("Categories")
-                .document(categoryName)
-                .collection("Products")
-                .document(productId)
-                .get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-
-            @Override
-            public void onSuccess(DocumentSnapshot ds) {
-                product = ds.toObject(CompleteProduct.class);
-                product.setProductId(ds.getId());
-
-                if (product.getCarts().containsKey(auth.getUid())) {
-                    cart.setImageResource(R.drawable.carted);
-                }
-                if (product.getWishes().containsKey(auth.getUid())) {
-                    wish.setImageResource(R.drawable.wished);
-                }
-                title.setText(product.getTitle());
-                price.setText(product.getPrice() + " EGP");
-                List<Blob> pics = product.getProductPics();
-                productPics.setAdapter(new ProductPicturesRecyclerViewAdapter(pics, ProductView.this));
-            }
-        });
-        hide();
-    }
-
-    private void hide() {
-        ActionBar actionBar = getSupportActionBar();
-        if (actionBar != null) {
-            actionBar.hide();
-        }
+        ProductPresenter productPresenter = new ProductPresenter(this);
+        productPresenter.getProductInfo(categoryName, productId);
+        cartPresenter = new CartPresenter(this);
     }
 
     public void cartClicked(View view) {
-        Map<String, Integer> carts = product.getCarts();
-        if (carts.containsKey(auth.getUid())) {
-            carts.remove(auth.getUid());
-            product.setCarts(carts);
-
-            fStore.collection("Categories")
-                    .document(categoryName)
-                    .collection("Products")
-                    .document(productId)
-                    .update("carts", carts);
-
-            cart.setImageResource(R.drawable.cart);
-
-            fStore.collection("Users")
-                    .document(auth.getUid())
-                    .collection("Cart")
-                    .document(categoryName + productId)
-                    .delete();
-
-            Toast.makeText(this, "Offer removed from the cart", Toast.LENGTH_SHORT).show();
+        if (product.getCarts().containsKey(auth.getUid())) {
+            cartPresenter.removeItem(product);
         } else {
-            carts.put(auth.getUid(), 1);
-            product.setCarts(carts);
-
-            fStore.collection("Categories")
-                    .document(categoryName)
-                    .collection("Products")
-                    .document(productId)
-                    .update("carts", carts);
-
-            cart.setImageResource(R.drawable.carted);
-
-            Item item = new Item();
-            item.setTime(Timestamp.now());
-            item.setCategoryName(categoryName);
-            item.setProductId(productId);
-            item.setQuantity(1);
-
-            fStore.collection("Users")
-                    .document(auth.getUid())
-                    .collection("Cart")
-                    .document(categoryName + productId)
-                    .set(item);
-
-            Toast.makeText(this, "Offer Added to the cart", Toast.LENGTH_SHORT).show();
+            cartPresenter.addItem(product);
         }
     }
 
@@ -195,5 +124,49 @@ public class ProductView extends AppCompatActivity {
 
     public void goBack(View view) {
         finish();
+    }
+
+    @Override
+    public void onRemoveItemSuccess() {
+        cart.setImageResource(R.drawable.cart);
+        Toast.makeText(this, "Product removed from the cart", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onAddItemSuccess() {
+        cart.setImageResource(R.drawable.carted);
+        Toast.makeText(this, "Offer added to the cart", Toast.LENGTH_SHORT).show();
+
+    }
+
+    @Override
+    public void onRemoveItemFailed() {
+
+    }
+
+    @Override
+    public void onAddItemFailed() {
+
+    }
+
+    @SuppressLint("SetTextI18n")
+    @Override
+    public void onGetProductSuccess(CompleteProduct product) {
+        this.product = product;
+        if (product.getCarts().containsKey(auth.getUid())) {
+            cart.setImageResource(R.drawable.carted);
+        }
+        if (product.getWishes().containsKey(auth.getUid())) {
+            wish.setImageResource(R.drawable.wished);
+        }
+        title.setText(product.getTitle());
+        price.setText(product.getPrice() + " EGP");
+        List<Blob> pics = product.getProductPics();
+        productPics.setAdapter(new ProductPicturesRecyclerViewAdapter(pics, ProductView.this));
+    }
+
+    @Override
+    public void onGetProductFailed(Exception e) {
+
     }
 }

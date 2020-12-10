@@ -16,7 +16,6 @@ public class ProductPresenter {
 
     private void getProductFromFirebase(String categoryName, String productId) {
         FirebaseFirestore fStore = FirebaseFirestore.getInstance();
-
         fStore.collection("Categories")
                 .document(categoryName)
                 .collection("Products")

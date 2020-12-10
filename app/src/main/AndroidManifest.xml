@@ -45,7 +45,9 @@
         <activity
             android:name=".ui.Products.CategoryProducts"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
-        <activity android:name=".ui.Product.ProductView" />
+        <activity
+            android:name=".ui.Product.ProductView"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity android:name=".SignUp" /> <!-- <meta-data -->
         <!-- android:name="com.facebook.sdk.ApplicationId" -->
         <!-- android:value="@string/facebook_app_id" /> -->

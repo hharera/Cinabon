@@ -22,7 +22,7 @@ public class CartPresenter {
         auth = FirebaseAuth.getInstance();
     }
 
-    public void removeItem(CompleteProduct product) {
+    public void addItem(CompleteProduct product) {
         Map<String, Integer> carts = product.getCarts();
         carts.put(auth.getUid(), 1);
         product.setCarts(carts);
@@ -56,14 +56,17 @@ public class CartPresenter {
             }
         };
 
-        if (thread1.isInterrupted() && thread.isInterrupted()) {
-            listener.onRemoveItemSuccess();
+        Boolean b1 = thread.isInterrupted();
+        Boolean b2 = thread1.isInterrupted();
+
+        if (b1 && b2) {
+            listener.onAddItemSuccess();
         } else {
-            listener.onRemoveItemFailed();
+            listener.onAddItemFailed();
         }
     }
 
-    public void addItem(CompleteProduct product) {
+    public void removeItem(CompleteProduct product) {
         Map<String, Integer> carts = product.getCarts();
         carts.remove(auth.getUid());
         product.setCarts(carts);
@@ -91,10 +94,23 @@ public class CartPresenter {
             }
         };
 
-        if (thread.isInterrupted() && thread2.isInterrupted()) {
-            listener.onAddItemSuccess();
+        Boolean aBoolean = thread.isInterrupted();
+        try {
+            thread.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        aBoolean = aBoolean & thread2.isInterrupted();
+        try {
+            thread2.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        if (aBoolean) {
+            listener.onRemoveItemSuccess();
         } else {
-            listener.onAddItemFailed();
+            listener.onRemoveItemFailed();
         }
     }
 }
