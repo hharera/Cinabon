@@ -12,8 +12,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.example.elsafa.Cart.CartPresenter;
-import com.example.elsafa.Cart.OnCartChangedListener;
+import com.example.elsafa.Cart.OnAddCartItem;
+import com.example.elsafa.Cart.OnRemoveCartItem;
 import com.example.elsafa.R;
+import com.example.elsafa.WishList.OnAddWishListItem;
+import com.example.elsafa.WishList.OnRemoveWishListItem;
+import com.example.elsafa.WishList.WishListPresenter;
 import com.example.elsafa.ui.Product.OnGetProductListener;
 import com.example.elsafa.ui.Product.ProductPresenter;
 import com.example.elsafa.ui.shop.OnGetOffersListener;
@@ -26,11 +30,11 @@ import java.util.List;
 import java.util.Map;
 
 import Controller.ProductPicturesRecyclerViewAdapter;
-import Controller.WishList;
 import Model.Offer.Offer;
 import Model.Product.CompleteProduct;
 
-public class OfferView extends AppCompatActivity implements OnGetOffersListener, OnGetProductListener, OnCartChangedListener {
+public class OfferView extends AppCompatActivity implements OnGetOffersListener, OnGetProductListener,
+        OnAddCartItem, OnRemoveCartItem, OnAddWishListItem, OnRemoveWishListItem {
 
     private FirebaseAuth auth;
 
@@ -46,6 +50,7 @@ public class OfferView extends AppCompatActivity implements OnGetOffersListener,
     private OfferPresenter offerPresenter;
     private ProductPresenter productPresenter;
     private CartPresenter cartPresenter;
+    private WishListPresenter wishListPresenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,7 +73,13 @@ public class OfferView extends AppCompatActivity implements OnGetOffersListener,
         price = findViewById(R.id.price);
 
         productPresenter = new ProductPresenter(this);
-        cartPresenter = new CartPresenter(this);
+        cartPresenter = new CartPresenter();
+        cartPresenter.setOnAddCartItem(this);
+        cartPresenter.setOnRemoveCartItem(this);
+
+        wishListPresenter = new WishListPresenter();
+        wishListPresenter.setOnAddWishListItem(this);
+        wishListPresenter.setOnRemoveWishListItem(this);
 
         offerPresenter = new OfferPresenter(this);
         offerPresenter.getOffer(offerId);
@@ -85,19 +96,13 @@ public class OfferView extends AppCompatActivity implements OnGetOffersListener,
     }
 
     public void wishClicked(View view) {
-        WishList wishList = new WishList();
         if (product.getWishes().containsKey(auth.getUid())) {
-            if (wishList.removeItem(product)) {
-                Toast.makeText(OfferView.this, "Offer Added to the wishList", Toast.LENGTH_SHORT).show();
-                wish.setImageResource(R.drawable.wish);
-            }
+            wishListPresenter.removeItem(product);
         } else {
-            if (wishList.addItem(product)) {
-                wish.setImageResource(R.drawable.wished);
-                Toast.makeText(OfferView.this, "product removed from the wishList", Toast.LENGTH_SHORT).show();
-            }
+            wishListPresenter.addItem(product);
         }
     }
+
 
     public void goBack(View view) {
         finish();
@@ -154,28 +159,55 @@ public class OfferView extends AppCompatActivity implements OnGetOffersListener,
 
     @Override
     public void onGetProductFailed(Exception e) {
-
+        Toast.makeText(this, "Failed to load product", Toast.LENGTH_SHORT).show();
     }
 
     @Override
-    public void onRemoveItemSuccess() {
+    public void onRemoveCartItemSuccess() {
         this.cart.setImageResource(R.drawable.cart);
         Toast.makeText(this, "Product removed from the cart", Toast.LENGTH_SHORT).show();
     }
 
     @Override
-    public void onAddItemSuccess() {
+    public void onAddWishListItemSuccess() {
+        wish.setImageResource(R.drawable.wished);
+        Toast.makeText(this, "Product Added to the wihslist", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onRemoveCartItemFailed(Exception e) {
+        Toast.makeText(this, "Operation Failed", Toast.LENGTH_SHORT).show();
+//        Toast.makeText(OfferView.this, "Offer Added to the wishList", Toast.LENGTH_SHORT).show();
+//        wish.setImageResource(R.drawable.wish);
+    }
+
+    @Override
+    public void onAddWishListItemFailed(Exception e) {
+        Toast.makeText(this, "Operation Failed", Toast.LENGTH_SHORT).show();
+//        wish.setImageResource(R.drawable.wished);
+//        Toast.makeText(OfferView.this, "product removed from the wishList", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onAddCartItemSuccess() {
         this.cart.setImageResource(R.drawable.carted);
-        Toast.makeText(this, "Product Added to the cart", Toast.LENGTH_SHORT).show();
+        Toast.makeText(OfferView.this, "product added to the cart", Toast.LENGTH_SHORT).show();
     }
 
     @Override
-    public void onRemoveItemFailed() {
-        Toast.makeText(this, "Operation Failed", Toast.LENGTH_SHORT).show();
+    public void onAddCartItemFailed(Exception e) {
+
     }
 
     @Override
-    public void onAddItemFailed() {
+    public void onRemoveWishListItemSuccess() {
+        wish.setImageResource(R.drawable.wish);
+        Toast.makeText(OfferView.this, "product removed from the wishList", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onRemoveWishListItemFailed(Exception e) {
         Toast.makeText(this, "Operation Failed", Toast.LENGTH_SHORT).show();
     }
+
 }

@@ -1,4 +1,4 @@
-package com.example.elsafa.Cart;
+package com.example.elsafa.WishList;
 
 import androidx.annotation.NonNull;
 
@@ -16,37 +16,68 @@ import java.util.Map;
 import Model.Item;
 import Model.Product.CompleteProduct;
 
-public class CartPresenter {
+public class WishListPresenter {
 
     private final FirebaseFirestore fStore;
     private final FirebaseAuth auth;
-    OnGetCartItem onGetCartItem;
-    OnAddCartItem onAddCartItem;
-    OnRemoveCartItem onRemoveCartItem;
+    OnGetWishListItem onGetWishListItem;
+    OnAddWishListItem onAddWishListItem;
+    OnRemoveWishListItem onRemoveWishListItem;
 
 
-    public CartPresenter() {
+    public WishListPresenter() {
         fStore = FirebaseFirestore.getInstance();
         auth = FirebaseAuth.getInstance();
     }
 
 
-    public void setOnGetCartItem(OnGetCartItem onGetCartItem) {
-        this.onGetCartItem = onGetCartItem;
+    public void setOnGetWishListItem(OnGetWishListItem onGetWishListItem) {
+        this.onGetWishListItem = onGetWishListItem;
     }
 
-    public void setOnAddCartItem(OnAddCartItem onAddCartItem) {
-        this.onAddCartItem = onAddCartItem;
+    public void setOnAddWishListItem(OnAddWishListItem onAddWishListItem) {
+        this.onAddWishListItem = onAddWishListItem;
     }
 
-    public void setOnRemoveCartItem(OnRemoveCartItem onRemoveCartItem) {
-        this.onRemoveCartItem = onRemoveCartItem;
+    public void setOnRemoveWishListItem(OnRemoveWishListItem onRemoveWishListItem) {
+        this.onRemoveWishListItem = onRemoveWishListItem;
+    }
+
+
+    private void getItemsFromFirebase() {
+        FirebaseFirestore fStore = FirebaseFirestore.getInstance();
+        FirebaseAuth auth = FirebaseAuth.getInstance();
+
+        fStore.collection("Users")
+                .document(auth.getUid())
+                .collection("WishList")
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            if (task.getResult().isEmpty()) {
+                                onGetWishListItem.onWishListIsEmpty();
+                            }
+
+                            for (DocumentSnapshot ds : task.getResult().getDocuments()) {
+                                onGetWishListItem.onGetWishListItemSuccess(ds.toObject(Item.class));
+                            }
+                        } else {
+                            onGetWishListItem.onGetWishListItemFailed(task.getException());
+                        }
+                    }
+                });
+    }
+
+    public void getWishListItems() {
+        getItemsFromFirebase();
     }
 
     public void addItem(CompleteProduct product) {
-        Map<String, Integer> carts = product.getCarts();
-        carts.put(auth.getUid(), 1);
-        product.setCarts(carts);
+        Map<String, Integer> wishList = product.getWishes();
+        wishList.put(auth.getUid(), 1);
+        product.setWishes(wishList);
 
         Thread thread2 = new Thread() {
             @Override
@@ -55,11 +86,11 @@ public class CartPresenter {
                         .document(product.getCategoryName())
                         .collection("Products")
                         .document(product.getProductId())
-                        .update("carts", carts)
+                        .update("wishes", wishList)
                         .addOnSuccessListener(new OnSuccessListener<Void>() {
                             @Override
                             public void onSuccess(Void aVoid) {
-                                onAddCartItem.onAddCartItemSuccess();
+                                onAddWishListItem.onAddWishListItemSuccess();
                             }
                         });
             }
@@ -77,7 +108,7 @@ public class CartPresenter {
             public void run() {
                 fStore.collection("Users")
                         .document(auth.getUid())
-                        .collection("Cart")
+                        .collection("WishList")
                         .document(product.getCategoryName() + product.getProductId())
                         .set(item)
                         .addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -93,9 +124,10 @@ public class CartPresenter {
     }
 
     public void removeItem(CompleteProduct product) {
-        Map<String, Integer> carts = product.getCarts();
-        carts.remove(auth.getUid());
-        product.setCarts(carts);
+        Map<String, Integer> wishList = product.getWishes();
+        wishList.remove(auth.getUid());
+
+        product.setWishes(wishList);
 
         Thread thread2 = new Thread() {
             @Override
@@ -104,11 +136,10 @@ public class CartPresenter {
                         .document(product.getCategoryName())
                         .collection("Products")
                         .document(product.getProductId())
-                        .update("carts", carts)
+                        .update("wishes", wishList)
                         .addOnSuccessListener(new OnSuccessListener<Void>() {
                             @Override
                             public void onSuccess(Void aVoid) {
-                                onRemoveCartItem.onRemoveCartItemSuccess();
                             }
                         });
             }
@@ -119,7 +150,7 @@ public class CartPresenter {
             public void run() {
                 fStore.collection("Users")
                         .document(auth.getUid())
-                        .collection("Cart")
+                        .collection("WishList")
                         .document(product.getCategoryName() + product.getProductId())
                         .delete()
                         .addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -132,35 +163,5 @@ public class CartPresenter {
         };
 
         thread1.start();
-    }
-
-
-    private void getItemsFromFirebase() {
-        FirebaseFirestore fStore = FirebaseFirestore.getInstance();
-        FirebaseAuth auth = FirebaseAuth.getInstance();
-
-        fStore.collection("Users")
-                .document(auth.getUid())
-                .collection("Cart")
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            if (task.getResult().isEmpty()) {
-                                onGetCartItem.onCartIsEmpty();
-                            }
-                            for (DocumentSnapshot ds : task.getResult().getDocuments()) {
-                                onGetCartItem.onGetCartItemSuccess(ds.toObject(Item.class));
-                            }
-                        } else {
-                            onGetCartItem.onGetCartItemFailed(task.getException());
-                        }
-                    }
-                });
-    }
-
-    public void getCartItems() {
-        getItemsFromFirebase();
     }
 }

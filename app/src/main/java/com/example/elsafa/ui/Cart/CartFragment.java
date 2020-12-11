@@ -13,6 +13,8 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.elsafa.Cart.CartPresenter;
+import com.example.elsafa.Cart.OnGetCartItem;
 import com.example.elsafa.HomeActivity;
 import com.example.elsafa.R;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -25,7 +27,7 @@ import java.util.ArrayList;
 import Controller.CartRecyclerViewAdapter;
 import Model.Item;
 
-public class CartFragment extends Fragment implements OnGetItemsListener {
+public class CartFragment extends Fragment implements OnGetCartItem {
 
     private final FirebaseAuth auth;
     private final FirebaseFirestore fStore;
@@ -35,7 +37,8 @@ public class CartFragment extends Fragment implements OnGetItemsListener {
     private View check_out;
     private static TextView totalBillView;
     private double totalBill;
-    private CartItemsPresenter presenter;
+    private CartPresenter presenter;
+    private RecyclerView recyclerView;
 
     public CartFragment() {
         auth = FirebaseAuth.getInstance();
@@ -48,7 +51,7 @@ public class CartFragment extends Fragment implements OnGetItemsListener {
                              ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_cart, container, false);
 
-        RecyclerView recyclerView = root.findViewById(R.id.cart);
+        recyclerView = root.findViewById(R.id.cart);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setHasFixedSize(true);
         adapter = new CartRecyclerViewAdapter(items, getContext(), this);
@@ -59,8 +62,9 @@ public class CartFragment extends Fragment implements OnGetItemsListener {
         check_out = root.findViewById(R.id.check_out);
         totalBillView = root.findViewById(R.id.bill_cost);
 
-        presenter = new CartItemsPresenter(this);
-        presenter.getWishListItems();
+        presenter = new CartPresenter();
+        presenter.setOnGetCartItem(this);
+        presenter.getCartItems();
 
         return root;
     }
@@ -70,8 +74,22 @@ public class CartFragment extends Fragment implements OnGetItemsListener {
         items.clear();
         adapter.notifyDataSetChanged();
         totalBill = 0;
-        presenter.getWishListItems();
+        presenter.getCartItems();
     }
+
+//    private void setEmptyView() {
+//        recyclerView.setVisibility(View.INVISIBLE);
+//        emptyCart.setVisibility(View.VISIBLE);
+//
+//        shopping.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent intent = new Intent(getContext(), HomeActivity.class);
+//                getActivity().startActivity(intent);
+//                getActivity().finish();
+//            }
+//        });
+//    }
 
     private void getPrice(Item item) {
         fStore.collection("Categories")
@@ -107,7 +125,7 @@ public class CartFragment extends Fragment implements OnGetItemsListener {
     }
 
     @Override
-    public void onSuccess(Item item) {
+    public void onGetCartItemSuccess(Item item) {
         items.add(item);
         getPrice(item);
         adapter.notifyDataSetChanged();
@@ -115,17 +133,13 @@ public class CartFragment extends Fragment implements OnGetItemsListener {
     }
 
     @Override
-    public void onFailed(Exception e) {
-        if (e != null) {
-            e.printStackTrace();
-        }
+    public void onGetCartItemFailed(Exception e) {
+
     }
 
     @Override
-    public void onWishListIsEmpty(Boolean isEmpty) {
-        if (isEmpty) {
-            check_out.setVisibility(View.INVISIBLE);
-            getEmptyCartView();
-        }
+    public void onCartIsEmpty() {
+        check_out.setVisibility(View.INVISIBLE);
+        getEmptyCartView();
     }
 }

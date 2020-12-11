@@ -7,6 +7,4 @@ public interface OnGetOfferListener {
     void onSuccess(Offer offer);
 
     void onFailed(Exception e);
-
-    void onWishListIsEmpty(Boolean isEmpty);
 }

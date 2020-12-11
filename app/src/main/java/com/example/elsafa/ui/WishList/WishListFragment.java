@@ -14,6 +14,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.elsafa.HomeActivity;
 import com.example.elsafa.R;
+import com.example.elsafa.WishList.OnGetWishListItem;
+import com.example.elsafa.WishList.WishListPresenter;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -23,7 +25,7 @@ import java.util.List;
 import Controller.WishListRecyclerViewAdapter;
 import Model.Item;
 
-public class WishListFragment extends Fragment implements OnGetItemsListener {
+public class WishListFragment extends Fragment implements OnGetWishListItem {
 
     private RecyclerView recyclerView;
     private final FirebaseAuth auth;
@@ -53,7 +55,8 @@ public class WishListFragment extends Fragment implements OnGetItemsListener {
         recyclerView.setAdapter(adapter);
 
 
-        WishListItemsPresenter presenter = new WishListItemsPresenter(this);
+        WishListPresenter presenter = new WishListPresenter();
+        presenter.setOnGetWishListItem(this);
         presenter.getWishListItems();
 
         return root;
@@ -71,26 +74,23 @@ public class WishListFragment extends Fragment implements OnGetItemsListener {
                 getActivity().finish();
             }
         });
-
     }
 
     @Override
-    public void onSuccess(Item item) {
+    public void onGetWishListItemSuccess(Item item) {
         wishListItems.add(item);
         adapter.notifyDataSetChanged();
     }
 
     @Override
-    public void onFailed(Exception e) {
+    public void onGetWishListItemFailed(Exception e) {
         if (e != null) {
             e.printStackTrace();
         }
     }
 
     @Override
-    public void onWishListIsEmpty(Boolean isEmpty) {
-        if (isEmpty) {
-            setEmptyView();
-        }
+    public void onWishListIsEmpty() {
+        setEmptyView();
     }
 }

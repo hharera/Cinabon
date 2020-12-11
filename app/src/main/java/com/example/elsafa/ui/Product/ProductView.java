@@ -11,7 +11,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.example.elsafa.Cart.CartPresenter;
-import com.example.elsafa.Cart.OnCartChangedListener;
+import com.example.elsafa.Cart.OnAddCartItem;
+import com.example.elsafa.Cart.OnRemoveCartItem;
 import com.example.elsafa.R;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.Timestamp;
@@ -26,7 +27,7 @@ import Controller.ProductPicturesRecyclerViewAdapter;
 import Model.Item;
 import Model.Product.CompleteProduct;
 
-public class ProductView extends AppCompatActivity implements OnCartChangedListener, OnGetProductListener {
+public class ProductView extends AppCompatActivity implements OnGetProductListener, OnRemoveCartItem, OnAddCartItem {
 
     private FirebaseAuth auth;
     private ImageView wish, cart, back;
@@ -57,7 +58,9 @@ public class ProductView extends AppCompatActivity implements OnCartChangedListe
 
         ProductPresenter productPresenter = new ProductPresenter(this);
         productPresenter.getProductInfo(categoryName, productId);
-        cartPresenter = new CartPresenter(this);
+        cartPresenter = new CartPresenter();
+        cartPresenter.setOnRemoveCartItem(this);
+        cartPresenter.setOnAddCartItem(this);
     }
 
     public void cartClicked(View view) {
@@ -127,25 +130,24 @@ public class ProductView extends AppCompatActivity implements OnCartChangedListe
     }
 
     @Override
-    public void onRemoveItemSuccess() {
+    public void onRemoveCartItemSuccess() {
         cart.setImageResource(R.drawable.cart);
         Toast.makeText(this, "Product removed from the cart", Toast.LENGTH_SHORT).show();
     }
 
     @Override
-    public void onAddItemSuccess() {
+    public void onRemoveCartItemFailed(Exception e) {
+
+    }
+
+    @Override
+    public void onAddCartItemSuccess() {
         cart.setImageResource(R.drawable.carted);
         Toast.makeText(this, "Offer added to the cart", Toast.LENGTH_SHORT).show();
-
     }
 
     @Override
-    public void onRemoveItemFailed() {
-
-    }
-
-    @Override
-    public void onAddItemFailed() {
+    public void onAddCartItemFailed(Exception e) {
 
     }
 
