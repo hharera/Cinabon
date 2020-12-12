@@ -14,7 +14,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.util.Map;
 
 import Model.Item;
-import Model.Product.CompleteProduct;
+import Model.Product;
 
 public class CartPresenter {
 
@@ -43,7 +43,7 @@ public class CartPresenter {
         this.onRemoveCartItem = onRemoveCartItem;
     }
 
-    public void addItem(CompleteProduct product) {
+    public void addItem(Product product) {
         Map<String, Integer> carts = product.getCarts();
         carts.put(auth.getUid(), 1);
         product.setCarts(carts);
@@ -92,7 +92,7 @@ public class CartPresenter {
         thread1.start();
     }
 
-    public void removeItem(CompleteProduct product) {
+    public void removeItem(Product product) {
         Map<String, Integer> carts = product.getCarts();
         carts.remove(auth.getUid());
         product.setCarts(carts);
@@ -158,6 +158,14 @@ public class CartPresenter {
                         }
                     }
                 });
+    }
+
+    public void updateQuantity(Item item, int quantity) {
+        fStore.collection("Users")
+                .document(auth.getUid())
+                .collection("Cart")
+                .document(item.getCategoryName() + item.getProductId())
+                .update("quantity", quantity);
     }
 
     public void getCartItems() {

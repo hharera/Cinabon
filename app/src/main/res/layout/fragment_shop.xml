@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="#fff"
     android:orientation="vertical"
-    tools:context=".ui.shop.ShopFragment">
+    tools:context=".Shop.ShopFragment">
 
     <TextView
         android:id="@+id/best_offers"

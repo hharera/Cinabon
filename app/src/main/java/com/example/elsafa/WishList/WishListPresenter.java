@@ -14,7 +14,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.util.Map;
 
 import Model.Item;
-import Model.Product.CompleteProduct;
+import Model.Product;
 
 public class WishListPresenter {
 
@@ -22,7 +22,7 @@ public class WishListPresenter {
     private final FirebaseAuth auth;
     OnGetWishListItem onGetWishListItem;
     OnAddWishListItem onAddWishListItem;
-    OnRemoveWishListItem onRemoveWishListItem;
+    OnRemoveWishListItemListener onRemoveWishListItemListener;
 
 
     public WishListPresenter() {
@@ -39,8 +39,8 @@ public class WishListPresenter {
         this.onAddWishListItem = onAddWishListItem;
     }
 
-    public void setOnRemoveWishListItem(OnRemoveWishListItem onRemoveWishListItem) {
-        this.onRemoveWishListItem = onRemoveWishListItem;
+    public void setOnRemoveWishListItemListener(OnRemoveWishListItemListener onRemoveWishListItemListener) {
+        this.onRemoveWishListItemListener = onRemoveWishListItemListener;
     }
 
 
@@ -74,7 +74,7 @@ public class WishListPresenter {
         getItemsFromFirebase();
     }
 
-    public void addItem(CompleteProduct product) {
+    public void addItem(Product product) {
         Map<String, Integer> wishList = product.getWishes();
         wishList.put(auth.getUid(), 1);
         product.setWishes(wishList);
@@ -123,7 +123,7 @@ public class WishListPresenter {
         thread1.start();
     }
 
-    public void removeItem(CompleteProduct product) {
+    public void removeItem(Product product) {
         Map<String, Integer> wishList = product.getWishes();
         wishList.remove(auth.getUid());
 
@@ -140,6 +140,7 @@ public class WishListPresenter {
                         .addOnSuccessListener(new OnSuccessListener<Void>() {
                             @Override
                             public void onSuccess(Void aVoid) {
+                                onRemoveWishListItemListener.onRemoveWishListItemSuccess();
                             }
                         });
             }

@@ -34,19 +34,19 @@
             android:name=".CafeLocation"
             android:label="@string/title_activity_cafe_location" />
         <activity
-            android:name=".SearchResults"
+            android:name=".Search.SearchResults"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
-            android:name=".ui.Offer.OfferView"
+            android:name=".Offer.OfferView"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
             android:name=".HomeActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
-            android:name=".ui.Products.CategoryProducts"
+            android:name=".Category.CategoryProducts"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
-            android:name=".ui.Product.ProductView"
+            android:name=".Product.ProductView"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity android:name=".SignUp" /> <!-- <meta-data -->
         <!-- android:name="com.facebook.sdk.ApplicationId" -->

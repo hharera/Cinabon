@@ -2,8 +2,6 @@ package Model;
 
 import java.util.List;
 
-import Model.Product.Product;
-
 public class Category {
 
     private String title;
