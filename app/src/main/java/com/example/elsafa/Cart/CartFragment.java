@@ -15,9 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.elsafa.HomeActivity;
 import com.example.elsafa.R;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
@@ -74,34 +72,6 @@ public class CartFragment extends Fragment implements OnGetCartItem {
         presenter.getCartItems();
     }
 
-//    private void setEmptyView() {
-//        recyclerView.setVisibility(View.INVISIBLE);
-//        emptyCart.setVisibility(View.VISIBLE);
-//
-//        shopping.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent intent = new Intent(getContext(), HomeActivity.class);
-//                getActivity().startActivity(intent);
-//                getActivity().finish();
-//            }
-//        });
-//    }
-
-    private void getPrice(Item item) {
-        fStore.collection("Categories")
-                .document(item.getCategoryName())
-                .collection("Products")
-                .document(item.getProductId())
-                .get()
-                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-                    @Override
-                    public void onSuccess(DocumentSnapshot ds) {
-                        double price = ds.getDouble("price");
-                        editTotalBill(price);
-                    }
-                });
-    }
 
     public void editTotalBill(double price) {
         totalBill += price;
@@ -118,13 +88,11 @@ public class CartFragment extends Fragment implements OnGetCartItem {
                 getActivity().finish();
             }
         });
-
     }
 
     @Override
     public void onGetCartItemSuccess(Item item) {
         items.add(item);
-        getPrice(item);
         adapter.notifyDataSetChanged();
         check_out.setVisibility(View.VISIBLE);
     }

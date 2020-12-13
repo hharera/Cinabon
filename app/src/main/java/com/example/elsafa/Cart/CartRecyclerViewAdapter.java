@@ -68,6 +68,7 @@ public class CartRecyclerViewAdapter extends RecyclerView.Adapter<CartRecyclerVi
                 float totalPrice = (product.getPrice() * quantity);
                 holder.total_price.setText(totalPrice + " EGP");
 
+                cartFragment.editTotalBill(totalPrice);
                 setListener(holder, position, product);
             }
 
@@ -119,6 +120,8 @@ public class CartRecyclerViewAdapter extends RecyclerView.Adapter<CartRecyclerVi
                 holder.total_price.setText(quantity * price + " EGP");
 
                 cartPresenter.updateQuantity(list.get(position), quantity);
+                cartFragment.editTotalBill(quantity * price);
+
             }
         });
         builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
