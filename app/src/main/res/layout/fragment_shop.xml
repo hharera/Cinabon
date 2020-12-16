@@ -9,7 +9,6 @@
     tools:context=".Shop.ShopFragment">
 
     <TextView
-        android:id="@+id/best_offers"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="6sp"
@@ -37,7 +36,6 @@
         app:dotsSize="8sp" />
 
     <TextView
-        android:id="@+id/last_offers"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="6sp"

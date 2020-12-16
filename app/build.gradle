@@ -48,10 +48,19 @@ dependencies {
     implementation 'com.facebook.android:facebook-android-sdk:5.15.3'
     implementation 'com.google.android.gms:play-services-auth:19.0.0'
     implementation 'com.squareup.picasso:picasso:2.71828'
+    implementation 'com.google.firebase:firebase-auth'
 
     implementation 'com.github.mancj:MaterialSearchBar:0.8.5'
     implementation 'com.google.android.gms:play-services-awareness:18.0.1'
+    implementation platform('com.google.firebase:firebase-bom:26.1.1')
+    implementation platform('com.google.firebase:firebase-bom:26.1.1')
+    implementation 'com.hbb20:ccp:2.4.2'
 
+    implementation 'com.google.android.gms:play-services-safetynet:17.0.0'
+    implementation 'com.afollestad.material-dialogs:input:3.3.0'
+
+    implementation 'com.google.android.gms:play-services-auth:17.0.0'
+    implementation 'com.google.android.gms:play-services-auth-api-phone:17.4.0'
 
     def nav_version = "2.3.0"
     implementation "androidx.navigation:navigation-fragment:$nav_version"

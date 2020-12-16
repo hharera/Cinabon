@@ -1,125 +1,159 @@
 package com.example.elsafa;
 
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
-import android.net.Uri;
 import android.os.Bundle;
+import android.text.InputType;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.FirebaseException;
+import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
+import com.google.firebase.auth.PhoneAuthCredential;
+import com.google.firebase.auth.PhoneAuthOptions;
+import com.google.firebase.auth.PhoneAuthProvider;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.hbb20.CountryCodePicker;
+
+import java.util.concurrent.TimeUnit;
 
 public class SignUp extends AppCompatActivity {
 
-    EditText password, email, confirmPassword, name;
-    Button sign_up;
+    private EditText name, password, phone;
+    private CountryCodePicker country_code;
+    private Button sign_up;
 
-    FirebaseDatabase firebaseDatabase;
-    FirebaseStorage storage;
-    StorageReference reference;
-    FirebaseAuth auth;
-    DatabaseReference dbRef;
-    FirebaseUser user;
+    private String phoneNumber;
+    private FirebaseAuth auth;
+    private FirebaseFirestore fStore;
+    private String currentUserId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup);
 
+        phone = findViewById(R.id.phone_number);
+        country_code = findViewById(R.id.country_code);
         name = findViewById(R.id.name);
-        email = findViewById(R.id.email);
         password = findViewById(R.id.password);
-        confirmPassword = findViewById(R.id.confirm_password);
         sign_up = findViewById(R.id.sign_up);
 
 
         auth = FirebaseAuth.getInstance();
-        firebaseDatabase = FirebaseDatabase.getInstance();
-        storage = FirebaseStorage.getInstance();
-        dbRef = firebaseDatabase.getReference();
-        reference = storage.getReference();
-
-        hide();
-    }
-
-    private void hide() {
-        ActionBar actionBar = getSupportActionBar();
-        if (actionBar != null) {
-            actionBar.hide();
-        }
+        fStore = FirebaseFirestore.getInstance();
     }
 
 
     public void signUpClicked(View view) {
         final String password = this.password.getText().toString(),
-                username = this.email.getText().toString(),
-                confirmedPassword = this.confirmPassword.getText().toString(),
                 name = this.name.getText().toString();
 
-        if (name.equals("")) {
+        if ("".equals(name)) {
             this.name.setError("Name is required");
-        } else if (username.equals("")) {
-            this.email.setError("Email is required");
-        } else if (password.equals("")) {
+        } else if ("".equals(phone.getText().toString())) {
+            Toast.makeText(this, "Phone Number is required", Toast.LENGTH_LONG).show();
+        } else if ("".equals(password)) {
             this.password.setError("Password is required");
-        } else if (confirmedPassword.equals("")) {
-            this.confirmPassword.setError("Reenter password");
-        } else if (!password.equals(confirmedPassword)) {
-            this.confirmPassword.setError("must be identical");
         } else {
-            auth.createUserWithEmailAndPassword(username, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                @Override
-                public void onComplete(@NonNull Task<AuthResult> task) {
-                    if (task.isSuccessful()) {
-                        addUserToDatabase();
-                        succeedRegister();
-                    } else {
-                        failedRegister();
+            phoneNumber = "+" + this.country_code.getSelectedCountryCode() + this.phone.getText().toString();
+            sendVerificationCode();
+        }
+    }
+
+    private void sendVerificationCode() {
+        PhoneAuthProvider.OnVerificationStateChangedCallbacks mCallbacks =
+                new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
+
+                    @Override
+                    public void onVerificationCompleted(PhoneAuthCredential credential) {
+//                        signInWithPhoneAuthCredential(credential);
                     }
-                }
-            });
-        }
+
+                    @Override
+                    public void onVerificationFailed(FirebaseException e) {
+                        Toast.makeText(SignUp.this, "Invalid Phone Number", Toast.LENGTH_LONG).show();
+                    }
+
+                    @Override
+                    public void onCodeSent(@NonNull String verificationId,
+                                           @NonNull PhoneAuthProvider.ForceResendingToken token) {
+                        promptCode(verificationId);
+                        Log.d("onCodeSent", token.toString());
+                    }
+                };
+
+        auth.useAppLanguage();
+        PhoneAuthOptions options =
+                PhoneAuthOptions.newBuilder(auth)
+                        .setPhoneNumber(phoneNumber)
+                        .setTimeout(60L, TimeUnit.SECONDS)
+                        .setActivity(this)
+                        .setCallbacks(mCallbacks)
+                        .build();
+        PhoneAuthProvider.verifyPhoneNumber(options);
     }
 
-
-    private void addUserToDatabase() {
-        user = auth.getCurrentUser();
-        DatabaseReference userRef = dbRef.child("Users").child(user.getUid());
-        userRef.child("Name").setValue(name.getText().toString());
-
-        Uri uri = Uri.parse("android.resource://com.example.insta/drawable/profile");
-        reference.child("Users").child(user.getUid()).child("Profile Pic").putFile(uri);
+    private void signInWithPhoneAuthCredential(PhoneAuthCredential credential) {
+        currentUserId = auth.getUid();
+        auth.signOut();
+        auth.signInWithCredential(credential);
+        addPhoneNumberToFirebase();
     }
 
-    private void failedRegister() {
-        ConnectivityManager cm = (ConnectivityManager) this.getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
-        boolean isConnected = activeNetwork != null && activeNetwork.isConnectedOrConnecting();
+    private void addPhoneNumberToFirebase() {
+        fStore.collection("Users")
+                .document(currentUserId)
+                .update("phoneNumber", phoneNumber);
+    }
 
-        if (!isConnected) {
-            internetError();
-        } else {
-            accountIsRegisteredError();
-        }
+    private void promptCode(String verificationId) {
+        android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(this);
 
+        EditText editText = new EditText(this);
+        editText.setInputType(InputType.TYPE_CLASS_NUMBER);
+
+        builder.setView(editText);
+        builder.setCancelable(false);
+        builder.setTitle("Enter Code");
+        builder.setPositiveButton("Submit", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                checkCode(verificationId, editText.getText().toString());
+            }
+        });
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+
+        builder.show();
+    }
+
+    private void checkCode(String verificationId, String code) {
+        AuthCredential credential = PhoneAuthProvider.getCredential(verificationId, code);
+        currentUserId = auth.getUid();
+//        auth.signOut();
+        auth.signInWithCredential(credential)
+                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+
+                    }
+                });
     }
 
     private void internetError() {
