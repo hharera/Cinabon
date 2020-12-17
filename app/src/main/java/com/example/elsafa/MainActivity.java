@@ -24,7 +24,7 @@ import com.squareup.picasso.Target;
 
 import java.io.ByteArrayOutputStream;
 
-import Model.Offer.Offer;
+import Model.Offer;
 import Model.User;
 
 public class MainActivity extends AppCompatActivity {
@@ -91,7 +91,7 @@ public class MainActivity extends AppCompatActivity {
     private void addUserToFirebase() {
         User user = new User();
         user.setName("NA");
-        user.setPhoneNumber(-1);
+        user.setPhoneNumber("NA");
         user.setUID(auth.getUid());
 
         fStore.collection("Users")

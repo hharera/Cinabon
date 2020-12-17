@@ -16,7 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.elsafa.Bill;
 import com.example.elsafa.HomeActivity;
 import com.example.elsafa.R;
-import com.example.elsafa.SignUp;
+import com.example.elsafa.SignUp.SignUp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 

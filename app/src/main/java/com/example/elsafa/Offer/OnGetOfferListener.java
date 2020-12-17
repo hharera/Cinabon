@@ -1,6 +1,6 @@
 package com.example.elsafa.Offer;
 
-import Model.Offer.Offer;
+import Model.Offer;
 
 public interface OnGetOfferListener {
 

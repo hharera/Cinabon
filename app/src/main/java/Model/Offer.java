@@ -1,10 +1,7 @@
-package Model.Offer;
+package Model;
 
 import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.Blob;
-
-import java.util.List;
-import java.util.Map;
 
 public class Offer implements Comparable<Offer> {
 

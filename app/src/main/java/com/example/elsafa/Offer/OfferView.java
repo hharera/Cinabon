@@ -28,7 +28,7 @@ import com.google.firebase.firestore.Blob;
 
 import java.util.List;
 
-import Model.Offer.Offer;
+import Model.Offer;
 import Model.Product;
 
 public class OfferView extends AppCompatActivity implements OnGetOffersListener, OnAddCartItem, OnRemoveCartItem,

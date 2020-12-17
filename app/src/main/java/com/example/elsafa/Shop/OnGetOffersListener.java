@@ -1,6 +1,6 @@
 package com.example.elsafa.Shop;
 
-import Model.Offer.Offer;
+import Model.Offer;
 
 public interface OnGetOffersListener {
 

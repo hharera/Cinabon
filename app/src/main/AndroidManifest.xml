@@ -30,7 +30,7 @@
         <activity android:name=".HomeActivity" />
         <activity android:name=".Category.CategoryProducts" />
         <activity android:name=".Product.ProductView" />
-        <activity android:name=".SignUp" /> <!-- <meta-data -->
+        <activity android:name=".SignUp.SignUp" /> <!-- <meta-data -->
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />

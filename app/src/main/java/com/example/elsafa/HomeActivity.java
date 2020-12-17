@@ -24,7 +24,7 @@ import com.squareup.picasso.Target;
 
 import java.io.ByteArrayOutputStream;
 
-import Model.Offer.Offer;
+import Model.Offer;
 
 public class HomeActivity extends AppCompatActivity {
 

@@ -19,7 +19,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import Model.Offer.Offer;
+import Model.Offer;
 
 public class ShopFragment extends Fragment implements OnGetOffersListener {
 

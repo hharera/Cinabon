@@ -1,15 +1,8 @@
 package Model;
 
-import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.Query;
-
-import java.util.Map;
-
 public class User {
 
-    private String UID, name;
-    private int phoneNumber;
-
+    private String UID, name, phoneNumber;
 
     public String getUID() {
         return UID;
@@ -27,14 +20,11 @@ public class User {
         this.name = name;
     }
 
-    public int getPhoneNumber() {
+    public String getPhoneNumber() {
         return phoneNumber;
     }
 
-    public void setPhoneNumber(int phoneNumber) {
+    public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
-
-
-
 }

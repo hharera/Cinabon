@@ -8,7 +8,7 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 
-import Model.Offer.Offer;
+import Model.Offer;
 
 public class OffersPresenter {
 
