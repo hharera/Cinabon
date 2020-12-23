@@ -36,6 +36,7 @@ public class SignUp extends AppCompatActivity
     private FirebaseUser firebaseUser;
     private PhoneAuthCredential phoneAuthCredential;
     private String nameString;
+    private String passwordString;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,14 +59,14 @@ public class SignUp extends AppCompatActivity
 
 
     public void signUpClicked(View view) {
-        final String password = this.password.getText().toString(),
-                name = this.name.getText().toString();
+        passwordString = this.password.getText().toString();
+        nameString = this.name.getText().toString();
 
         if ("".equals(name)) {
             this.name.setError("Name is required");
         } else if ("".equals(phone.getText().toString())) {
             Toast.makeText(this, "Phone Number is required", Toast.LENGTH_LONG).show();
-        } else if ("".equals(password)) {
+        } else if ("".equals(passwordString)) {
             this.password.setError("Password is required");
         } else {
             phoneNumber = "+" + this.country_code.getSelectedCountryCode() + this.phone.getText().toString();
@@ -121,7 +122,7 @@ public class SignUp extends AppCompatActivity
 
     @Override
     public void onSignInSuccess() {
-        auth.getCurrentUser().updatePassword(password.getText().toString());
+        auth.getCurrentUser().updatePassword(passwordString);
         firebaseUser.setName(nameString);
         firebaseUser.setPhoneNumber(phoneNumber);
         presenter.setNewUserData(firebaseUser);

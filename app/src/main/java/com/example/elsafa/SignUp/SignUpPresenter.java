@@ -195,5 +195,31 @@ public class SignUpPresenter {
         fStore.collection("Users")
                 .document(oldUserID)
                 .delete();
+
+        fStore.collection("Users")
+                .document(oldUserID)
+                .collection("Cart")
+                .get()
+                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                    @Override
+                    public void onSuccess(QuerySnapshot qs) {
+                        for (DocumentSnapshot ds : qs.getDocuments()) {
+                            fStore.document(ds.getReference().getPath()).delete();
+                        }
+                    }
+                });
+
+        fStore.collection("Users")
+                .document(oldUserID)
+                .collection("WishList")
+                .get()
+                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                    @Override
+                    public void onSuccess(QuerySnapshot qs) {
+                        for (DocumentSnapshot ds : qs.getDocuments()) {
+                            fStore.document(ds.getReference().getPath()).delete();
+                        }
+                    }
+                });
     }
 }

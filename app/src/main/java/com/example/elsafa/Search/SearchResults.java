@@ -49,6 +49,7 @@ public class SearchResults extends AppCompatActivity {
         filters.put("title", searchWord);
 
         searchBar = findViewById(R.id.search_view);
+        searchBar.setText(searchWord);
 
         results = findViewById(R.id.results);
         results.setHasFixedSize(true);
