@@ -29,6 +29,8 @@
     <string name="title_activity_cafe_location">Map</string>
     <string name="phone_number">Phone Number</string>
     <string name="name">Name</string>
+    <string name="receipt">RECEIPT</string>
+    <string name="confirm">Confirm</string>
 
 
 </resources>

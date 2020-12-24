@@ -13,9 +13,9 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.elsafa.Bill;
 import com.example.elsafa.HomeActivity;
 import com.example.elsafa.R;
+import com.example.elsafa.Receipt;
 import com.example.elsafa.SignUp.SignUp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -76,7 +76,7 @@ public class CartFragment extends Fragment implements OnGetCartItem {
                     Intent intent = new Intent(getContext(), SignUp.class);
                     startActivity(intent);
                 } else {
-                    Intent intent = new Intent(getContext(), Bill.class);
+                    Intent intent = new Intent(getContext(), Receipt.class);
                     intent.putExtra("Total Bill", totalBill);
                     startActivity(intent);
                 }
