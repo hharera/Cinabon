@@ -7,9 +7,7 @@
     <string name="categories">Categories</string>
     <string name="account">Account</string>
 
-    <string name="flip_text1">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non consectetur turpis. Morbi eu eleifend lacus.</string>
-    <string name="flip_text2">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non consectetur turpis. Morbi eu eleifend lacus.</string>
-    <string name="flip_text3">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non consectetur turpis. Morbi eu eleifend lacus.</string>
+    <string name="wellcome_text">Our Cafe Lamera is a Special have offers and best products quality</string>
     <string name="start">Start</string>
     <string name="password">Password</string>
     <string name="best_offers">Best offers</string>

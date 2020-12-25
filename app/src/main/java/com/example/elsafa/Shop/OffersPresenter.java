@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -29,7 +30,8 @@ public class OffersPresenter {
                             for (DocumentSnapshot ds : task.getResult().getDocuments()) {
                                 Offer offer = ds.toObject(Offer.class);
                                 offer.setOfferId(ds.getId());
-                                listener.onGetOfferSuccess(offer);
+                                if (offer.getEndTime().getSeconds() - Timestamp.now().getSeconds() > 0)
+                                    listener.onGetOfferSuccess(offer);
                             }
                         } else {
                             listener.onGetOfferFailed(task.getException());
