@@ -26,6 +26,7 @@
             android:name=".CafeLocation"
             android:label="@string/title_activity_cafe_location" />
         <activity android:name=".Search.SearchResults" />
+        <activity android:name=".InternetActivity" />
         <activity android:name=".Offer.OfferView" />
         <activity android:name=".HomeActivity" />
         <activity android:name=".Category.CategoryProducts" />

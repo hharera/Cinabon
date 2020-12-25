@@ -1,10 +1,13 @@
 package com.example.elsafa;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
+import android.net.ConnectivityManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.TextView;
@@ -54,25 +57,33 @@ public class MainActivity extends AppCompatActivity {
         TextView cafe_name = findViewById(R.id.cafe_name);
         cafe_name.startAnimation(animation);
 
-        if (auth.getCurrentUser() == null) {
-            signInAnonymously();
-        } else {
-            Thread waitingPage = new Thread() {
-                @Override
-                public void run() {
-                    try {
-                        sleep(3000);
-                    } catch (Exception e) {
-                    } finally {
-                        Intent intent = new Intent(MainActivity.this, HomeActivity.class);
-                        startActivity(intent);
-                        finish();
-                    }
-                }
-            };
-            waitingPage.start();
-        }
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                checkInternet();
+            }
+        }, 3000);
+    }
 
+    private void checkInternet() {
+        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        Boolean isConnected =
+                cm.getActiveNetworkInfo() != null && cm.getActiveNetworkInfo().isConnected();
+
+        if (isConnected) {
+            if (auth.getCurrentUser() == null) {
+                signInAnonymously();
+            } else {
+                Intent intent = new Intent(MainActivity.this, HomeActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        } else {
+            Intent intent = new Intent(MainActivity.this, InternetActivity.class);
+            startActivity(intent);
+            finish();
+        }
     }
 
     private void signInAnonymously() {
