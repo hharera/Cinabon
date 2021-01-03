@@ -6,31 +6,31 @@
 
     <fragment
         android:id="@+id/navigation_shop"
-        android:name="com.example.elsafa.Shop.ShopFragment"
+        android:name="com.whiteside.cafe.Shop.ShopFragment"
         android:label="@string/shop"
         tools:layout="@layout/fragment_shop" />
 
     <fragment
         android:id="@+id/navigation_categories"
-        android:name="com.example.elsafa.Categories.CategoriesFragment"
+        android:name="com.whiteside.cafe.Categories.CategoriesFragment"
         android:label="@string/categories"
         tools:layout="@layout/fragment_categories" />
 
     <fragment
         android:id="@+id/navigation_account"
-        android:name="com.example.elsafa.Account.AccountFragment"
+        android:name="com.whiteside.cafe.Account.AccountFragment"
         android:label="@string/account"
         tools:layout="@layout/fragment_account" />
 
     <fragment
         android:id="@+id/navigation_cart"
-        android:name="com.example.elsafa.Cart.CartFragment"
+        android:name="com.whiteside.cafe.Cart.CartFragment"
         android:label="@string/cart"
         tools:layout="@layout/fragment_cart" />
 
     <fragment
         android:id="@+id/navigation_wishlist"
-        android:name="com.example.elsafa.WishList.WishListFragment"
+        android:name="com.whiteside.cafe.WishList.WishListFragment"
         android:label="@string/wishlist"
         tools:layout="@layout/fragment_wishlist" />
 

@@ -29,6 +29,8 @@
     <string name="name">Name</string>
     <string name="receipt">RECEIPT</string>
     <string name="confirm">Confirm</string>
+    <string name="my_orders">My Orders</string>
+    <string name="open_in_map">Open In Map</string>
 
 
 </resources>

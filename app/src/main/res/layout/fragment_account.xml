@@ -6,7 +6,6 @@
     android:background="#FFF"
     tools:context=".Account.AccountFragment">
 
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -15,10 +14,10 @@
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="3sp"
+            android:layout_margin="8sp"
             android:gravity="start"
             android:orientation="horizontal"
-            android:padding="3sp">
+            android:padding="5sp">
 
 
             <TextView
@@ -26,16 +25,17 @@
                 android:layout_height="match_parent"
                 android:layout_gravity="start|center"
                 android:layout_margin="5sp"
-                android:text="@string/dark_theme"
+                android:text="@string/my_orders"
                 android:textColor="#000"
                 android:textSize="18sp" />
 
-            <RadioButton
+            <ImageView
                 android:id="@+id/black_theme"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
+                android:layout_width="30sp"
+                android:layout_height="30sp"
                 android:layout_gravity="end|center"
-                android:layout_margin="5sp" />
+                android:layout_margin="5sp"
+                android:src="@drawable/cart" />
         </FrameLayout>
 
 
@@ -44,23 +44,23 @@
             android:layout_width="match_parent"
             android:layout_height="40sp"
             android:layout_gravity="end|start"
-            android:layout_margin="3sp"
+            android:layout_margin="8sp"
             android:gravity="start"
             android:orientation="horizontal"
-            android:padding="3sp">
+            android:padding="5sp">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_gravity="start|center"
                 android:layout_margin="5sp"
-                android:text="Open In Map"
+                android:text="@string/open_in_map"
                 android:textColor="#000"
                 android:textSize="18sp" />
 
             <ImageView
                 android:layout_width="30sp"
-                android:layout_height="match_parent"
+                android:layout_height="30sp"
                 android:layout_gravity="end|center"
                 android:layout_margin="5sp"
                 android:src="@raw/map" />
