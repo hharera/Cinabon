@@ -1,77 +1,61 @@
-package com.whiteside.cafe.Category;
+package com.whiteside.cafe.Category
 
-import android.content.Context;
-import android.content.Intent;
-import android.graphics.BitmapFactory;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
+import Model.Product
+import android.content.Context
+import android.content.Intent
+import android.graphics.BitmapFactory
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.ImageView
+import android.widget.TextView
+import androidx.cardview.widget.CardView
+import androidx.recyclerview.widget.RecyclerView
+import com.whiteside.cafe.Product.ProductView
+import com.whiteside.cafe.R
 
-import androidx.annotation.NonNull;
-import androidx.cardview.widget.CardView;
-import androidx.recyclerview.widget.RecyclerView;
-
-import com.whiteside.cafe.Product.ProductView;
-import com.whiteside.cafe.R;
-
-import java.util.List;
-
-import Model.Product;
-
-public class CategoryProductsRecyclerView extends RecyclerView.Adapter<CategoryProductsRecyclerView.ViewHolder> {
-    private final List<Product> products;
-    private final Context context;
-
-    public CategoryProductsRecyclerView(List<Product> list, Context context) {
-        this.products = list;
-        this.context = context;
+class CategoryProductsRecyclerView(
+    private val products: MutableList<Product?>?,
+    private val context: Context?
+) : RecyclerView.Adapter<CategoryProductsRecyclerView.ViewHolder?>() {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+        val view =
+            LayoutInflater.from(parent.context).inflate(R.layout.product_card_view, parent, false)
+        return ViewHolder(view)
     }
 
-    @NonNull
-    @Override
-    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.product_card_view, parent, false);
-        return new ViewHolder(view);
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        holder.productMainImage.setImageBitmap(
+            BitmapFactory.decodeByteArray(
+                products.get(position)
+                    .getMainPic().toBytes(), 0, products.get(position).getMainPic().toBytes().size
+            )
+        )
+        holder.price.setText(products.get(position).getPrice().toString() + " EGP")
+        holder.title.setText(products.get(position).getTitle())
+        holder.productCardView.setOnClickListener(View.OnClickListener {
+            val intent = Intent(context, ProductView::class.java)
+            intent.putExtra("productId", products.get(position).getProductId())
+            intent.putExtra("categoryName", products.get(position).getCategoryName())
+            context.startActivity(intent)
+        })
     }
 
-    @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        holder.productMainImage.setImageBitmap(BitmapFactory.decodeByteArray(products.get(position)
-                .getMainPic().toBytes(), 0, products.get(position).getMainPic().toBytes().length));
-
-        holder.price.setText(this.products.get(position).getPrice() + " EGP");
-        holder.title.setText(this.products.get(position).getTitle());
-
-        holder.productCardView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(context, ProductView.class);
-                intent.putExtra("productId", products.get(position).getProductId());
-                intent.putExtra("categoryName", products.get(position).getCategoryName());
-                context.startActivity(intent);
-            }
-        });
+    override fun getItemCount(): Int {
+        return products.size
     }
 
-    @Override
-    public int getItemCount() {
-        return products.size();
-    }
+    inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        private val productMainImage: ImageView?
+        private val title: TextView?
+        private val price: TextView?
+        private val productCardView: CardView?
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
-        private final ImageView productMainImage;
-        private final TextView title;
-        private final TextView price;
-        private final CardView productCardView;
-
-        public ViewHolder(@NonNull View itemView) {
-            super(itemView);
-            title = itemView.findViewById(R.id.title);
-            price = itemView.findViewById(R.id.price);
-            productMainImage = itemView.findViewById(R.id.product_main_image);
-            productCardView = itemView.findViewById(R.id.category_product_card_view);
+        init {
+            title = itemView.findViewById(R.id.title)
+            price = itemView.findViewById(R.id.price)
+            productMainImage = itemView.findViewById(R.id.product_main_image)
+            productCardView = itemView.findViewById(R.id.category_product_card_view)
         }
     }
 }

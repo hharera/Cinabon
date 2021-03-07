@@ -1,46 +1,30 @@
-package com.whiteside.cafe.Shop;
+package com.whiteside.cafe.Shop
 
-import androidx.annotation.NonNull;
+import Model.Offer
+import com.google.firebase.Timestamp
+import com.google.firebase.firestore.FirebaseFirestore
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.Timestamp;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QuerySnapshot;
-
-import Model.Offer;
-
-public class OffersPresenter {
-
-    OnGetOffersListener listener;
-
-    public OffersPresenter(OnGetOffersListener listener) {
-        this.listener = listener;
-    }
-
-    private void getOffersFromFirebase() {
-        FirebaseFirestore fStore = FirebaseFirestore.getInstance();
+class OffersPresenter(var listener: OnGetOffersListener?) {
+    private fun getOffersFromFirebase() {
+        val fStore = FirebaseFirestore.getInstance()
         fStore.collection("Offers")
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            for (DocumentSnapshot ds : task.getResult().getDocuments()) {
-                                Offer offer = ds.toObject(Offer.class);
-                                offer.setOfferId(ds.getId());
-                                if (offer.getEndTime().getSeconds() - Timestamp.now().getSeconds() > 0)
-                                    listener.onGetOfferSuccess(offer);
-                            }
-                        } else {
-                            listener.onGetOfferFailed(task.getException());
-                        }
+            .get()
+            .addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    for (ds in task.result.documents) {
+                        val offer = ds.toObject(Offer::class.java)
+                        offer.setOfferId(ds.id)
+                        if (offer.getEndTime().seconds - Timestamp.now().seconds > 0) listener.onGetOfferSuccess(
+                            offer
+                        )
                     }
-                });
+                } else {
+                    listener.onGetOfferFailed(task.exception)
+                }
+            }
     }
 
-    public void getOffers() {
-        getOffersFromFirebase();
+    fun getOffers() {
+        getOffersFromFirebase()
     }
 }

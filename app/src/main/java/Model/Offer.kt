@@ -1,85 +1,78 @@
-package Model;
+package Model
 
-import com.google.firebase.Timestamp;
-import com.google.firebase.firestore.Blob;
+import com.google.firebase.Timestamp
+import com.google.firebase.firestore.Blob
 
-public class Offer implements Comparable<Offer> {
-
-    private String categoryName, productId, offerId;
-    private Timestamp startTime, endTime;
-    private Blob offerPic;
-    private float discountPercentage;
-    public int type;
-
-    public Offer() {
+class Offer : Comparable<Offer?> {
+    private var categoryName: String? = null
+    private var productId: String? = null
+    private var offerId: String? = null
+    private var startTime: Timestamp? = null
+    private var endTime: Timestamp? = null
+    private var offerPic: Blob? = null
+    private var discountPercentage = 0f
+    var type = 0
+    fun getOfferId(): String? {
+        return offerId
     }
 
-    public String getOfferId() {
-        return offerId;
+    fun setOfferId(offerId: String?) {
+        this.offerId = offerId
     }
 
-    public void setOfferId(String offerId) {
-        this.offerId = offerId;
+    fun getStartTime(): Timestamp? {
+        return startTime
     }
 
-    public Timestamp getStartTime() {
-        return startTime;
+    fun setStartTime(startTime: Timestamp?) {
+        this.startTime = startTime
     }
 
-    public void setStartTime(Timestamp startTime) {
-        this.startTime = startTime;
+    fun getEndTime(): Timestamp? {
+        return endTime
     }
 
-    public Timestamp getEndTime() {
-        return endTime;
+    fun setEndTime(endTime: Timestamp?) {
+        this.endTime = endTime
     }
 
-    public void setEndTime(Timestamp endTime) {
-        this.endTime = endTime;
+    fun getOfferPic(): Blob? {
+        return offerPic
     }
 
-    public Blob getOfferPic() {
-        return offerPic;
+    fun setOfferPic(offerPic: Blob?) {
+        this.offerPic = offerPic
     }
 
-    public void setOfferPic(Blob offerPic) {
-        this.offerPic = offerPic;
+    fun getDiscountPercentage(): Float {
+        return discountPercentage
     }
 
-    public float getDiscountPercentage() {
-        return discountPercentage;
+    fun setDiscountPercentage(discountPercentage: Float) {
+        this.discountPercentage = discountPercentage
     }
 
-    public void setDiscountPercentage(float discountPercentage) {
-        this.discountPercentage = discountPercentage;
+    fun getProductId(): String? {
+        return productId
     }
 
-    public String getProductId() {
-        return productId;
+    fun setProductId(productId: String?) {
+        this.productId = productId
     }
 
-    public void setProductId(String productId) {
-        this.productId = productId;
+    fun getCategoryName(): String? {
+        return categoryName
     }
 
-    public String getCategoryName() {
-        return categoryName;
+    fun setCategoryName(categoryName: String?) {
+        this.categoryName = categoryName
     }
 
-    public void setCategoryName(String categoryName) {
-        this.categoryName = categoryName;
-    }
-
-
-    @Override
-    public int compareTo(Offer o) {
-        if (type == 1) {
-            return (int) (o.getDiscountPercentage() - this.getDiscountPercentage());
+    override fun compareTo(o: Offer?): Int {
+        return if (type == 1) {
+            (o.getDiscountPercentage() - getDiscountPercentage()) as Int
         } else {
-            return o.getStartTime().compareTo(this.getStartTime());
+            o.getStartTime().compareTo(getStartTime())
         }
     }
 }
-
-
-

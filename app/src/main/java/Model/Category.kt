@@ -1,43 +1,37 @@
-package Model;
+package Model
 
-import java.util.List;
+class Category {
+    private var title: String? = null
+    private var resDrawable = 0
+    private var itemList: MutableList<Product?>? = null
 
-public class Category {
-
-    private String title;
-    private int resDrawable;
-    private List<Product> itemList;
-
-    public Category() {
+    constructor()
+    constructor(title: String?, resDrawable: Int) {
+        this.title = title
+        this.resDrawable = resDrawable
     }
 
-    public Category(String title, int resDrawable) {
-        this.title = title;
-        this.resDrawable = resDrawable;
+    fun getItemList(): MutableList<Product?>? {
+        return itemList
     }
 
-    public List<Product> getItemList() {
-        return itemList;
+    fun setItemList(itemList: MutableList<Product?>?) {
+        this.itemList = itemList
     }
 
-    public void setItemList(List<Product> itemList) {
-        this.itemList = itemList;
+    fun setTitle(title: String?) {
+        this.title = title
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    fun setResDrawable(resDrawable: Int) {
+        this.resDrawable = resDrawable
     }
 
-    public void setResDrawable(int resDrawable) {
-        this.resDrawable = resDrawable;
+    fun getResDrawable(): Int {
+        return resDrawable
     }
 
-    public int getResDrawable() {
-        return resDrawable;
+    fun getTitle(): String? {
+        return title
     }
-
-    public String getTitle() {
-        return title;
-    }
-
 }

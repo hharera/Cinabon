@@ -1,43 +1,41 @@
-package Model;
+package Model
 
+import com.google.firebase.Timestamp
 
-import com.google.firebase.Timestamp;
-
-public class Item {
-
-    private String categoryName, productId;
-    private int quantity;
-    private Timestamp time;
-
-    public String getCategoryName() {
-        return categoryName;
+class Item {
+    private var categoryName: String? = null
+    private var productId: String? = null
+    private var quantity = 0
+    private var time: Timestamp? = null
+    fun getCategoryName(): String? {
+        return categoryName
     }
 
-    public void setCategoryName(String categoryName) {
-        this.categoryName = categoryName;
+    fun setCategoryName(categoryName: String?) {
+        this.categoryName = categoryName
     }
 
-    public String getProductId() {
-        return productId;
+    fun getProductId(): String? {
+        return productId
     }
 
-    public void setProductId(String productId) {
-        this.productId = productId;
+    fun setProductId(productId: String?) {
+        this.productId = productId
     }
 
-    public int getQuantity() {
-        return quantity;
+    fun getQuantity(): Int {
+        return quantity
     }
 
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
+    fun setQuantity(quantity: Int) {
+        this.quantity = quantity
     }
 
-    public Timestamp getTime() {
-        return time;
+    fun getTime(): Timestamp? {
+        return time
     }
 
-    public void setTime(Timestamp time) {
-        this.time = time;
+    fun setTime(time: Timestamp?) {
+        this.time = time
     }
 }

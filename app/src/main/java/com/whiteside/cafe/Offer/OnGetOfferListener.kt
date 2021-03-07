@@ -1,10 +1,8 @@
-package com.whiteside.cafe.Offer;
+package com.whiteside.cafe.Offer
 
-import Model.Offer;
+import Model.Offer
 
-public interface OnGetOfferListener {
-
-    void onSuccess(Offer offer);
-
-    void onFailed(Exception e);
+interface OnGetOfferListener {
+    open fun onSuccess(offer: Offer?)
+    open fun onFailed(e: Exception?)
 }

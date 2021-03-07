@@ -1,13 +1,9 @@
-package com.whiteside.cafe.WishList;
+package com.whiteside.cafe.WishList
 
-import Model.Item;
+import Model.Item
 
-public interface OnGetWishListItem {
-
-    void onGetWishListItemSuccess(Item item);
-
-    void onGetWishListItemFailed(Exception e);
-
-    void onWishListIsEmpty();
-
+interface OnGetWishListItem {
+    open fun onGetWishListItemSuccess(item: Item?)
+    open fun onGetWishListItemFailed(e: Exception?)
+    open fun onWishListIsEmpty()
 }

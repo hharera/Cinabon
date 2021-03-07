@@ -1,26 +1,21 @@
-package Model;
+package Model
 
-import java.util.List;
-
-public class FirebaseUser extends User {
-
-    private List<Item> cartItems;
-    private List<Item> wishList;
-
-
-    public List<Item> getCartItems() {
-        return cartItems;
+class FirebaseUser : User() {
+    private var cartItems: MutableList<Item?>? = null
+    private var wishList: MutableList<Item?>? = null
+    fun getCartItems(): MutableList<Item?>? {
+        return cartItems
     }
 
-    public void setCartItems(List<Item> cartItems) {
-        this.cartItems = cartItems;
+    fun setCartItems(cartItems: MutableList<Item?>?) {
+        this.cartItems = cartItems
     }
 
-    public List<Item> getWishList() {
-        return wishList;
+    fun getWishList(): MutableList<Item?>? {
+        return wishList
     }
 
-    public void setWishList(List<Item> wishList) {
-        this.wishList = wishList;
+    fun setWishList(wishList: MutableList<Item?>?) {
+        this.wishList = wishList
     }
 }

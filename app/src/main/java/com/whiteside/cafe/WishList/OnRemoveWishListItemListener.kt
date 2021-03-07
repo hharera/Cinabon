@@ -1,8 +1,6 @@
-package com.whiteside.cafe.WishList;
+package com.whiteside.cafe.WishList
 
-public interface OnRemoveWishListItemListener {
-
-    void onRemoveWishListItemSuccess();
-
-    void onRemoveWishListItemFailed(Exception e);
+interface OnRemoveWishListItemListener {
+    open fun onRemoveWishListItemSuccess()
+    open fun onRemoveWishListItemFailed(e: Exception?)
 }

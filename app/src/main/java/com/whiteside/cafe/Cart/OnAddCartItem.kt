@@ -1,9 +1,6 @@
-package com.whiteside.cafe.Cart;
+package com.whiteside.cafe.Cart
 
-public interface OnAddCartItem {
-
-    void onAddCartItemSuccess();
-
-    void onAddCartItemFailed(Exception e);
-
+interface OnAddCartItem {
+    open fun onAddCartItemSuccess()
+    open fun onAddCartItemFailed(e: Exception?)
 }

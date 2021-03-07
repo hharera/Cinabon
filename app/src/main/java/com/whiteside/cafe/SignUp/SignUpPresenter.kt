@@ -1,225 +1,165 @@
-package com.whiteside.cafe.SignUp;
+package com.whiteside.cafe.SignUp
 
-import android.app.Activity;
-import android.util.Log;
+import Model.FirebaseUser
+import Model.Item
+import Model.User
+import android.app.Activity
+import android.util.Log
+import com.google.firebase.FirebaseException
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.PhoneAuthCredential
+import com.google.firebase.auth.PhoneAuthOptions
+import com.google.firebase.auth.PhoneAuthProvider
+import com.google.firebase.auth.PhoneAuthProvider.ForceResendingToken
+import com.google.firebase.auth.PhoneAuthProvider.OnVerificationStateChangedCallbacks
+import com.google.firebase.firestore.FirebaseFirestore
+import java.util.*
+import java.util.concurrent.TimeUnit
 
-import androidx.annotation.NonNull;
-
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.FirebaseException;
-import com.google.firebase.auth.AuthResult;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.PhoneAuthCredential;
-import com.google.firebase.auth.PhoneAuthOptions;
-import com.google.firebase.auth.PhoneAuthProvider;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QuerySnapshot;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.TimeUnit;
-
-import Model.FirebaseUser;
-import Model.Item;
-import Model.User;
-
-public class SignUpPresenter {
-
-
-    private final FirebaseAuth auth;
-    private final OnSignUpListener listener;
-    private final Activity activity;
-    private final FirebaseFirestore fStore;
-
-
-    public SignUpPresenter(OnSignUpListener listener, Activity activity) {
-        fStore = FirebaseFirestore.getInstance();
-        this.auth = FirebaseAuth.getInstance();
-        this.activity = activity;
-        this.listener = listener;
-    }
-
-    public void sendVerificationCode(String phoneNumber) {
-        PhoneAuthProvider.OnVerificationStateChangedCallbacks mCallbacks =
-                new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
-
-                    @Override
-                    public void onVerificationCompleted(PhoneAuthCredential credential) {
+class SignUpPresenter(listener: OnSignUpListener?, activity: Activity?) {
+    private val auth: FirebaseAuth?
+    private val listener: OnSignUpListener?
+    private val activity: Activity?
+    private val fStore: FirebaseFirestore?
+    fun sendVerificationCode(phoneNumber: String?) {
+        val mCallbacks: OnVerificationStateChangedCallbacks =
+            object : OnVerificationStateChangedCallbacks() {
+                override fun onVerificationCompleted(credential: PhoneAuthCredential?) {
 //                        listener.onVerificationCompleted(credential);
-                    }
+                }
 
-                    @Override
-                    public void onVerificationFailed(FirebaseException e) {
-                        listener.onVerificationFailed(e);
-                    }
+                override fun onVerificationFailed(e: FirebaseException?) {
+                    listener.onVerificationFailed(e)
+                }
 
-                    @Override
-                    public void onCodeSent(@NonNull String verificationId,
-                                           @NonNull PhoneAuthProvider.ForceResendingToken token) {
-                        listener.onCodeSent(verificationId, token);
-                        Log.d("onCodeSent", token.toString());
-                    }
-                };
-
-        auth.useAppLanguage();
-        PhoneAuthOptions options =
-                PhoneAuthOptions.newBuilder(auth)
-                        .setPhoneNumber(phoneNumber)
-                        .setTimeout(60L, TimeUnit.SECONDS)
-                        .setActivity(activity)
-                        .setCallbacks(mCallbacks)
-                        .build();
-        PhoneAuthProvider.verifyPhoneNumber(options);
+                override fun onCodeSent(
+                    verificationId: String,
+                    token: ForceResendingToken
+                ) {
+                    listener.onCodeSent(verificationId, token)
+                    Log.d("onCodeSent", token.toString())
+                }
+            }
+        auth.useAppLanguage()
+        val options = PhoneAuthOptions.newBuilder(auth)
+            .setPhoneNumber(phoneNumber)
+            .setTimeout(60L, TimeUnit.SECONDS)
+            .setActivity(activity)
+            .setCallbacks(mCallbacks)
+            .build()
+        PhoneAuthProvider.verifyPhoneNumber(options)
     }
 
-    public void signInWithPhoneAuthCredential(PhoneAuthCredential credential) {
-        auth.signOut();
+    fun signInWithPhoneAuthCredential(credential: PhoneAuthCredential?) {
+        auth.signOut()
         auth.signInWithCredential(credential)
-                .addOnSuccessListener(new OnSuccessListener<AuthResult>() {
-                    @Override
-                    public void onSuccess(AuthResult authResult) {
-                        listener.onSignInSuccess();
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        listener.onSignInFailed();
-                    }
-                });
+            .addOnSuccessListener { listener.onSignInSuccess() }
+            .addOnFailureListener { listener.onSignInFailed() }
     }
 
-    public void getCurrentUserData() {
-        FirebaseUser user = new FirebaseUser();
-        List<Item> cart = new ArrayList<>();
-        List<Item> wishList = new ArrayList<>();
-
-
-        Thread getUser = new Thread() {
-            @Override
-            public void run() {
+    fun getCurrentUserData() {
+        val user = FirebaseUser()
+        val cart: MutableList<Item?> = ArrayList()
+        val wishList: MutableList<Item?> = ArrayList()
+        val getUser: Thread = object : Thread() {
+            override fun run() {
                 fStore.collection("Users")
-                        .document(auth.getUid())
-                        .get()
-                        .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-                            @Override
-                            public void onSuccess(DocumentSnapshot ds) {
-                                user.setName(ds.getString("name"));
-                                user.setPhoneNumber(ds.getString("phoneNumber"));
-                                user.setCartItems(cart);
-                                user.setWishList(wishList);
-                                listener.onGetUserDataSuccess(user);
-                            }
-                        })
-                        .addOnFailureListener(new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull Exception e) {
-                                listener.onGetUserDataFailed(e);
-                            }
-                        });
+                    .document(auth.getUid())
+                    .get()
+                    .addOnSuccessListener { ds ->
+                        user.name = ds.getString("name")
+                        user.phoneNumber = ds.getString("phoneNumber")
+                        user.cartItems = cart
+                        user.wishList = wishList
+                        listener.onGetUserDataSuccess(user)
+                    }
+                    .addOnFailureListener { e -> listener.onGetUserDataFailed(e) }
             }
-        };
-
-        Thread getCart = new Thread() {
-            @Override
-            public void run() {
+        }
+        val getCart: Thread = object : Thread() {
+            override fun run() {
                 fStore.collection("Users")
-                        .document(auth.getUid())
-                        .collection("Cart")
-                        .get()
-                        .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-                            @Override
-                            public void onSuccess(QuerySnapshot querySnapshot) {
-                                for (DocumentSnapshot ds : querySnapshot.getDocuments()) {
-                                    cart.add(ds.toObject(Item.class));
-                                }
-                                getUser.start();
-                            }
-                        });
-            }
-        };
-
-        Thread getWishList = new Thread() {
-            @Override
-            public void run() {
-                fStore.collection("Users")
-                        .document(auth.getUid())
-                        .collection("WishList")
-                        .get()
-                        .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-                            @Override
-                            public void onSuccess(QuerySnapshot querySnapshot) {
-                                for (DocumentSnapshot ds : querySnapshot.getDocuments()) {
-                                    wishList.add(ds.toObject(Item.class));
-                                }
-                                getCart.start();
-                            }
-                        });
-            }
-        };
-        getWishList.start();
-    }
-
-    public void setNewUserData(FirebaseUser firebaseUser) {
-        firebaseUser.setUID(auth.getUid());
-
-        User user = new User();
-        user.setUID(firebaseUser.getUID());
-        user.setName(firebaseUser.getName());
-        user.setPhoneNumber(firebaseUser.getPhoneNumber());
-
-        fStore.collection("Users")
-                .document(auth.getUid())
-                .set(user);
-
-        for (Item item : firebaseUser.getCartItems()) {
-            fStore.collection("Users")
                     .document(auth.getUid())
                     .collection("Cart")
-                    .document()
-                    .set(item);
+                    .get()
+                    .addOnSuccessListener { querySnapshot ->
+                        for (ds in querySnapshot.documents) {
+                            cart.add(ds.toObject(Item::class.java))
+                        }
+                        getUser.start()
+                    }
+            }
         }
-
-        for (Item item : firebaseUser.getWishList()) {
-            fStore.collection("Users")
+        val getWishList: Thread = object : Thread() {
+            override fun run() {
+                fStore.collection("Users")
                     .document(auth.getUid())
                     .collection("WishList")
-                    .document()
-                    .set(item);
+                    .get()
+                    .addOnSuccessListener { querySnapshot ->
+                        for (ds in querySnapshot.documents) {
+                            wishList.add(ds.toObject(Item::class.java))
+                        }
+                        getCart.start()
+                    }
+            }
+        }
+        getWishList.start()
+    }
+
+    fun setNewUserData(firebaseUser: FirebaseUser?) {
+        firebaseUser.setUID(auth.getUid())
+        val user = User()
+        user.uid = firebaseUser.getUID()
+        user.name = firebaseUser.getName()
+        user.phoneNumber = firebaseUser.getPhoneNumber()
+        fStore.collection("Users")
+            .document(auth.getUid())
+            .set(user)
+        for (item in firebaseUser.getCartItems()) {
+            fStore.collection("Users")
+                .document(auth.getUid())
+                .collection("Cart")
+                .document()
+                .set(item)
+        }
+        for (item in firebaseUser.getWishList()) {
+            fStore.collection("Users")
+                .document(auth.getUid())
+                .collection("WishList")
+                .document()
+                .set(item)
         }
     }
 
-    public void removeUserData(String oldUserID) {
+    fun removeUserData(oldUserID: String?) {
         fStore.collection("Users")
-                .document(oldUserID)
-                .delete();
+            .document(oldUserID)
+            .delete()
+        fStore.collection("Users")
+            .document(oldUserID)
+            .collection("Cart")
+            .get()
+            .addOnSuccessListener { qs ->
+                for (ds in qs.documents) {
+                    fStore.document(ds.reference.path).delete()
+                }
+            }
+        fStore.collection("Users")
+            .document(oldUserID)
+            .collection("WishList")
+            .get()
+            .addOnSuccessListener { qs ->
+                for (ds in qs.documents) {
+                    fStore.document(ds.reference.path).delete()
+                }
+            }
+    }
 
-        fStore.collection("Users")
-                .document(oldUserID)
-                .collection("Cart")
-                .get()
-                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-                    @Override
-                    public void onSuccess(QuerySnapshot qs) {
-                        for (DocumentSnapshot ds : qs.getDocuments()) {
-                            fStore.document(ds.getReference().getPath()).delete();
-                        }
-                    }
-                });
-
-        fStore.collection("Users")
-                .document(oldUserID)
-                .collection("WishList")
-                .get()
-                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-                    @Override
-                    public void onSuccess(QuerySnapshot qs) {
-                        for (DocumentSnapshot ds : qs.getDocuments()) {
-                            fStore.document(ds.getReference().getPath()).delete();
-                        }
-                    }
-                });
+    init {
+        fStore = FirebaseFirestore.getInstance()
+        auth = FirebaseAuth.getInstance()
+        this.activity = activity
+        this.listener = listener
     }
 }

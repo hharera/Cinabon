@@ -1,58 +1,42 @@
-package com.whiteside.cafe.Product;
+package com.whiteside.cafe.Product
 
-import androidx.annotation.NonNull;
+import Model.Item
+import Model.Product
+import com.google.firebase.firestore.FirebaseFirestore
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.FirebaseFirestore;
-
-import Model.Item;
-import Model.Product;
-
-public class ProductPresenter {
-
-    OnGetProductListener listener;
-
-    public ProductPresenter() {
+class ProductPresenter {
+    var listener: OnGetProductListener? = null
+    fun setListener(listener: OnGetProductListener?) {
+        this.listener = listener
     }
 
-    public void setListener(OnGetProductListener listener) {
-        this.listener = listener;
-    }
-
-    private void getProductFromFirebase(Item item) {
-        FirebaseFirestore fStore = FirebaseFirestore.getInstance();
-
+    private fun getProductFromFirebase(item: Item?) {
+        val fStore = FirebaseFirestore.getInstance()
         fStore.collection("Categories")
-                .document(item.getCategoryName())
-                .collection("Products")
-                .document(item.getProductId())
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                        if (task.isSuccessful()) {
-                            DocumentSnapshot ds = task.getResult();
-                            Product product = ds.toObject(Product.class);
-                            product.setProductId(ds.getId());
-                            listener.onGetProductSuccess(product);
-                        } else {
-                            listener.onGetProductFailed(task.getException());
-                        }
-                    }
-                });
+            .document(item.getCategoryName())
+            .collection("Products")
+            .document(item.getProductId())
+            .get()
+            .addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    val ds = task.result
+                    val product = ds.toObject(Product::class.java)
+                    product.setProductId(ds.id)
+                    listener.onGetProductSuccess(product)
+                } else {
+                    listener.onGetProductFailed(task.exception)
+                }
+            }
     }
 
-    public void getProduct(Item item) {
-        getProductFromFirebase(item);
+    fun getProduct(item: Item?) {
+        getProductFromFirebase(item)
     }
 
-    public void getProductInfo(String categoryName, String productId) {
-        Item item = new Item();
-        item.setCategoryName(categoryName);
-        item.setProductId(productId);
-
-        getProduct(item);
+    fun getProductInfo(categoryName: String?, productId: String?) {
+        val item = Item()
+        item.categoryName = categoryName
+        item.productId = productId
+        getProduct(item)
     }
 }

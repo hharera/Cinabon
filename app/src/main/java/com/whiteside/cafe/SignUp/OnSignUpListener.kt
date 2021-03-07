@@ -1,27 +1,20 @@
-package com.whiteside.cafe.SignUp;
+package com.whiteside.cafe.SignUp
 
-import androidx.annotation.NonNull;
+import Model.FirebaseUser
+import com.google.firebase.FirebaseException
+import com.google.firebase.auth.PhoneAuthCredential
+import com.google.firebase.auth.PhoneAuthProvider.ForceResendingToken
 
-import com.google.firebase.FirebaseException;
-import com.google.firebase.auth.PhoneAuthCredential;
-import com.google.firebase.auth.PhoneAuthProvider;
+interface OnSignUpListener {
+    open fun onVerificationCompleted(credential: PhoneAuthCredential?)
+    open fun onVerificationFailed(e: FirebaseException?)
+    open fun onCodeSent(
+        verificationId: String,
+        token: ForceResendingToken
+    )
 
-import Model.FirebaseUser;
-
-public interface OnSignUpListener {
-
-    void onVerificationCompleted(PhoneAuthCredential credential);
-
-    void onVerificationFailed(FirebaseException e);
-
-    void onCodeSent(@NonNull String verificationId,
-                    @NonNull PhoneAuthProvider.ForceResendingToken token);
-
-    void onGetUserDataSuccess(FirebaseUser firebaseUser);
-
-    void onGetUserDataFailed(Exception e);
-
-    void onSignInFailed();
-
-    void onSignInSuccess();
+    open fun onGetUserDataSuccess(firebaseUser: FirebaseUser?)
+    open fun onGetUserDataFailed(e: Exception?)
+    open fun onSignInFailed()
+    open fun onSignInSuccess()
 }

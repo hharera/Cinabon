@@ -1,9 +1,6 @@
-package com.whiteside.cafe.WishList;
+package com.whiteside.cafe.WishList
 
-public interface OnAddWishListItem {
-
-    void onAddWishListItemSuccess();
-
-    void onAddWishListItemFailed(Exception e);
-
+interface OnAddWishListItem {
+    open fun onAddWishListItemSuccess()
+    open fun onAddWishListItemFailed(e: Exception?)
 }

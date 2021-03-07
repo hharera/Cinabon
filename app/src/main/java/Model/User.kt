@@ -1,30 +1,30 @@
-package Model;
+package Model
 
-public class User {
-
-    private String UID, name, phoneNumber;
-
-    public String getUID() {
-        return UID;
+open class User {
+    private var UID: String? = null
+    private var name: String? = null
+    private var phoneNumber: String? = null
+    fun getUID(): String? {
+        return UID
     }
 
-    public void setUID(String UID) {
-        this.UID = UID;
+    fun setUID(UID: String?) {
+        this.UID = UID
     }
 
-    public String getName() {
-        return name;
+    fun getName(): String? {
+        return name
     }
 
-    public void setName(String name) {
-        this.name = name;
+    fun setName(name: String?) {
+        this.name = name
     }
 
-    public String getPhoneNumber() {
-        return phoneNumber;
+    fun getPhoneNumber(): String? {
+        return phoneNumber
     }
 
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
+    fun setPhoneNumber(phoneNumber: String?) {
+        this.phoneNumber = phoneNumber
     }
 }

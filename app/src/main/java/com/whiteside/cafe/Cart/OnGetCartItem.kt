@@ -1,13 +1,9 @@
-package com.whiteside.cafe.Cart;
+package com.whiteside.cafe.Cart
 
-import Model.Item;
+import Model.Item
 
-public interface OnGetCartItem {
-
-    void onGetCartItemSuccess(Item item);
-
-    void onGetCartItemFailed(Exception e);
-
-    void onCartIsEmpty();
-
+interface OnGetCartItem {
+    open fun onGetCartItemSuccess(item: Item?)
+    open fun onGetCartItemFailed(e: Exception?)
+    open fun onCartIsEmpty()
 }

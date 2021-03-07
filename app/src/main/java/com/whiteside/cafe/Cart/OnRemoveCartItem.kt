@@ -1,8 +1,6 @@
-package com.whiteside.cafe.Cart;
+package com.whiteside.cafe.Cart
 
-public interface OnRemoveCartItem {
-
-    void onRemoveCartItemSuccess();
-
-    void onRemoveCartItemFailed(Exception e);
+interface OnRemoveCartItem {
+    open fun onRemoveCartItemSuccess()
+    open fun onRemoveCartItemFailed(e: Exception?)
 }

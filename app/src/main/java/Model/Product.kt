@@ -1,84 +1,77 @@
-package Model;
+package Model
 
-import com.google.firebase.firestore.Blob;
+import com.google.firebase.firestore.Blob
 
-import java.util.List;
-import java.util.Map;
-
-public class Product {
-
-
-    private Blob mainPic;
-    private List<Blob> productPics;
-    private Map<String, Integer> wishes;
-    private Map<String, Integer> carts;
-    private String productId, categoryName, title;
-    private float price;
-
-    public Product() {
+class Product {
+    private var mainPic: Blob? = null
+    private var productPics: MutableList<Blob?>? = null
+    private var wishes: MutableMap<String?, Int?>? = null
+    private var carts: MutableMap<String?, Int?>? = null
+    private var productId: String? = null
+    private var categoryName: String? = null
+    private var title: String? = null
+    private var price = 0f
+    fun getProductId(): String? {
+        return productId
     }
 
-    public String getProductId() {
-        return productId;
+    fun setProductId(productId: String?) {
+        this.productId = productId
     }
 
-    public void setProductId(String productId) {
-        this.productId = productId;
+    fun getCategoryName(): String? {
+        return categoryName
     }
 
-    public String getCategoryName() {
-        return categoryName;
+    fun setCategoryName(categoryName: String?) {
+        this.categoryName = categoryName
     }
 
-    public void setCategoryName(String categoryName) {
-        this.categoryName = categoryName;
+    fun getTitle(): String? {
+        return title
     }
 
-    public String getTitle() {
-        return title;
+    fun setTitle(title: String?) {
+        this.title = title
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    fun getPrice(): Float {
+        return price
     }
 
-    public float getPrice() {
-        return price;
+    fun setPrice(price: Float) {
+        this.price = price
     }
 
-    public void setPrice(float price) {
-        this.price = price;
+    fun getMainPic(): Blob? {
+        return mainPic
     }
 
-    public Blob getMainPic() {
-        return mainPic;
+    fun setMainPic(mainPic: Blob?) {
+        this.mainPic = mainPic
     }
 
-    public void setMainPic(Blob mainPic) {
-        this.mainPic = mainPic;
+    fun getProductPics(): MutableList<Blob?>? {
+        return productPics
     }
 
-    public List<Blob> getProductPics() {
-        return productPics;
+    fun setProductPics(productPics: MutableList<Blob?>?) {
+        this.productPics = productPics
     }
 
-    public void setProductPics(List<Blob> productPics) {
-        this.productPics = productPics;
+    fun getWishes(): MutableMap<String?, Int?>? {
+        return wishes
     }
 
-    public Map<String, Integer> getWishes() {
-        return wishes;
+    fun setWishes(wishes: MutableMap<String?, Int?>?) {
+        this.wishes = wishes
     }
 
-    public void setWishes(Map<String, Integer> wishes) {
-        this.wishes = wishes;
+    fun getCarts(): MutableMap<String?, Int?>? {
+        return carts
     }
 
-    public Map<String, Integer> getCarts() {
-        return carts;
-    }
-
-    public void setCarts(Map<String, Integer> carts) {
-        this.carts = carts;
+    fun setCarts(carts: MutableMap<String?, Int?>?) {
+        this.carts = carts
     }
 }

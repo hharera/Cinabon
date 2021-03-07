@@ -37,7 +37,7 @@
             android:src="@drawable/empty_cart" />
 
         <LinearLayout
-            android:id="@+id/shopping"
+            android:id="@+id/wishlist_shopping"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"

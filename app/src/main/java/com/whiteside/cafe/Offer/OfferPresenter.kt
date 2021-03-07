@@ -1,38 +1,24 @@
-package com.whiteside.cafe.Offer;
+package com.whiteside.cafe.Offer
 
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.FirebaseFirestore;
-import com.whiteside.cafe.Shop.OnGetOffersListener;
+import Model.Offer
+import com.google.firebase.firestore.FirebaseFirestore
+import com.whiteside.cafe.Shop.OnGetOffersListener
 
-import Model.Offer;
-
-public class OfferPresenter {
-
-    private final OnGetOffersListener listener;
-    private Offer offer;
-
-    public OfferPresenter(OnGetOffersListener listener) {
-        this.listener = listener;
-    }
-
-    private void getOfferFromFirebase(String offerId) {
-        FirebaseFirestore fStore = FirebaseFirestore.getInstance();
-
+class OfferPresenter(private val listener: OnGetOffersListener?) {
+    private var offer: Offer? = null
+    private fun getOfferFromFirebase(offerId: String?) {
+        val fStore = FirebaseFirestore.getInstance()
         fStore.collection("Offers")
-                .document(offerId)
-                .get()
-                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-                    @Override
-                    public void onSuccess(DocumentSnapshot ds) {
-                        offer = ds.toObject(Offer.class);
-                        offer.setOfferId(ds.getId());
-                        listener.onGetOfferSuccess(offer);
-                    }
-                });
+            .document(offerId)
+            .get()
+            .addOnSuccessListener { ds ->
+                offer = ds.toObject(Offer::class.java)
+                offer.setOfferId(ds.id)
+                listener.onGetOfferSuccess(offer)
+            }
     }
 
-    public void getOffer(String offerId) {
-        getOfferFromFirebase(offerId);
+    fun getOffer(offerId: String?) {
+        getOfferFromFirebase(offerId)
     }
 }
