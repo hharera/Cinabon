@@ -1,6 +1,5 @@
 package com.whiteside.cafe
 
-import Model.Offer
 import android.content.Intent
 import android.content.res.Configuration
 import android.graphics.Bitmap
@@ -21,7 +20,8 @@ import com.mancj.materialsearchbar.SimpleOnSearchActionListener
 import com.squareup.picasso.Picasso
 import com.squareup.picasso.Picasso.LoadedFrom
 import com.squareup.picasso.Target
-import com.whiteside.cafe.Search.SearchResults
+import com.whiteside.cafe.model.Offer
+import com.whiteside.cafe.ui.search.SearchResults
 import kotlinx.android.synthetic.main.activity_home.*
 import kotlinx.android.synthetic.main.fragment_cart.*
 import kotlinx.android.synthetic.main.fragment_wishlist.*

@@ -62,8 +62,8 @@ dependencies {
     implementation platform('com.google.firebase:firebase-bom:26.1.1')
 
     //lifecycle
-    implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.3.0'
-    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.0'
+//    implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.3.0'
+//    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.0'
 
     implementation 'com.github.mancj:MaterialSearchBar:0.8.5'
     implementation 'com.google.android.gms:play-services-awareness:18.0.1'

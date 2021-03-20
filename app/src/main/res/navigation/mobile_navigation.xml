@@ -6,25 +6,25 @@
 
     <fragment
         android:id="@+id/navigation_shop"
-        android:name="com.whiteside.cafe.Shop.ShopFragment"
+        android:name="com.whiteside.cafe.ui.shop.ShopFragment"
         android:label="@string/shop"
         tools:layout="@layout/fragment_shop" />
 
     <fragment
         android:id="@+id/navigation_categories"
-        android:name="com.whiteside.cafe.Categories.CategoriesFragment"
+        android:name="com.whiteside.cafe.ui.categories.CategoriesFragment"
         android:label="@string/categories"
         tools:layout="@layout/fragment_categories" />
 
     <fragment
         android:id="@+id/navigation_account"
-        android:name="com.whiteside.cafe.Account.AccountFragment"
+        android:name="com.whiteside.cafe.ui.account.AccountFragment"
         android:label="@string/account"
         tools:layout="@layout/fragment_account" />
 
     <fragment
         android:id="@+id/navigation_cart"
-        android:name="com.whiteside.cafe.Cart.CartFragment"
+        android:name="com.whiteside.cafe.ui.cart.CartFragment"
         android:label="@string/cart"
         tools:layout="@layout/fragment_cart">
         <action
@@ -34,7 +34,7 @@
 
     <fragment
         android:id="@+id/navigation_wishlist"
-        android:name="com.whiteside.cafe.WishList.WishListFragment"
+        android:name="com.whiteside.cafe.ui.wishList.WishListFragment"
         android:label="@string/wishlist"
         tools:layout="@layout/fragment_wishlist">
         <action

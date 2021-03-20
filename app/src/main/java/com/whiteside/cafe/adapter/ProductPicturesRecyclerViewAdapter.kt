@@ -1,18 +1,19 @@
-package com.whiteside.cafe
+package com.whiteside.cafe.adapter
 
 import android.content.Context
-import android.content.Intent
 import android.graphics.BitmapFactory
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
-import com.whiteside.cafe.model.Offer
-import com.whiteside.cafe.ui.offer.OfferView
+import com.google.firebase.firestore.Blob
+import com.whiteside.cafe.R
 
-class OffersPagerAdapter(private val offers: MutableList<Offer?>?, private val context: Context?) :
-    RecyclerView.Adapter<OffersPagerAdapter.ViewHolder?>() {
+class ProductPicturesRecyclerViewAdapter(
+    private val pics: MutableList<Blob?>?,
+    private val context: Context?
+) : RecyclerView.Adapter<ProductPicturesRecyclerViewAdapter.ViewHolder?>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view =
             LayoutInflater.from(parent.context).inflate(R.layout.offer_card_view, parent, false)
@@ -22,21 +23,14 @@ class OffersPagerAdapter(private val offers: MutableList<Offer?>?, private val c
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.imageView.setImageBitmap(
             BitmapFactory.decodeByteArray(
-                offers.get(position)
-                    .getOfferPic().toBytes(), 0, offers.get(position).getOfferPic().toBytes().size
+                pics.get(position)
+                    .toBytes(), 0, pics.get(position).toBytes().size
             )
         )
-        holder.imageView.setOnClickListener(View.OnClickListener {
-            val intent = Intent(context, OfferView::class.java)
-            intent.putExtra("productId", offers.get(position).getProductId())
-            intent.putExtra("categoryName", offers.get(position).getCategoryName())
-            intent.putExtra("offerId", offers.get(position).getOfferId())
-            context.startActivity(intent)
-        })
     }
 
     override fun getItemCount(): Int {
-        return offers.size
+        return pics.size
     }
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
