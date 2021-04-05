@@ -15,28 +15,32 @@ import com.whiteside.cafe.model.Offer
 import java.util.*
 
 class ShopFragment : Fragment(), OnGetOffersListener {
-    private val fStore: FirebaseFirestore?
-    private var best_dots_indicator: SpringDotsIndicator? = null
-    private var last_dots_indicator: SpringDotsIndicator? = null
-    private var lastOffers: MutableList<Offer?>?
-    private var bestOffers: MutableList<Offer?>?
-    private var lastOffersPagerAdapter: OffersPagerAdapter? = null
-    private var bestOffersPagerAdapter: OffersPagerAdapter? = null
-    private var best_offers_pager: ViewPager2? = null
-    private var last_offers_pager: ViewPager2? = null
+    private var fStore: FirebaseFirestore = FirebaseFirestore.getInstance()
+    private lateinit var best_dots_indicator: SpringDotsIndicator
+    private lateinit var last_dots_indicator: SpringDotsIndicator
+    private lateinit var lastOffers: MutableList<Offer>
+    private lateinit var bestOffers: MutableList<Offer>
+    private lateinit var lastOffersPagerAdapter: OffersPagerAdapter
+    private lateinit var bestOffersPagerAdapter: OffersPagerAdapter
+    private lateinit var best_offers_pager: ViewPager2
+    private lateinit var last_offers_pager: ViewPager2
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
         val root = inflater.inflate(R.layout.fragment_shop, container, false)
+
         last_offers_pager = root.findViewById(R.id.last_offers_pager)
         best_offers_pager = root.findViewById(R.id.best_offers_pager)
         best_dots_indicator = root.findViewById(R.id.best_dots_indicator)
         last_dots_indicator = root.findViewById(R.id.last_dots_indicator)
-        lastOffersPagerAdapter = OffersPagerAdapter(lastOffers, activity)
-        bestOffersPagerAdapter = OffersPagerAdapter(bestOffers, activity)
-        last_offers_pager.setAdapter(lastOffersPagerAdapter)
-        best_offers_pager.setAdapter(bestOffersPagerAdapter)
+
+        lastOffersPagerAdapter = OffersPagerAdapter(lastOffers, requireActivity())
+        bestOffersPagerAdapter = OffersPagerAdapter(bestOffers, requireActivity())
+
+        last_offers_pager.adapter = lastOffersPagerAdapter
+        best_offers_pager.adapter = bestOffersPagerAdapter
         best_dots_indicator.setViewPager2(best_offers_pager)
         last_dots_indicator.setViewPager2(last_offers_pager)
         val inflater1 = TransitionInflater.from(context)
@@ -47,10 +51,12 @@ class ShopFragment : Fragment(), OnGetOffersListener {
         return root
     }
 
-    private fun refreshBestOffers(offer: Offer?) {
+    private fun refreshBestOffers(offer: Offer) {
         offer.type = 1
         bestOffers.add(offer)
-        Collections.sort(bestOffers)
+        bestOffers.sortBy {
+            it.discountPercentage
+        }
         if (bestOffers.size > 5) {
             bestOffers = bestOffers.subList(0, 6)
         }
@@ -58,10 +64,13 @@ class ShopFragment : Fragment(), OnGetOffersListener {
         best_dots_indicator.setViewPager2(best_offers_pager)
     }
 
-    private fun refreshLastOffers(offer: Offer?) {
+    private fun refreshLastOffers(offer: Offer) {
         offer.type = 2
         lastOffers.add(offer)
-        Collections.sort(lastOffers)
+        lastOffers.sortBy {
+            it.endTime
+        }
+
         if (lastOffers.size > 5) {
             lastOffers = lastOffers.subList(0, 6)
         }
@@ -69,18 +78,17 @@ class ShopFragment : Fragment(), OnGetOffersListener {
         last_dots_indicator.setViewPager2(last_offers_pager)
     }
 
-    override fun onGetOfferSuccess(offer: Offer?) {
+    override fun onGetOfferSuccess(offer: Offer) {
         refreshLastOffers(offer)
         refreshBestOffers(offer)
     }
 
-    override fun onGetOfferFailed(e: Exception?) {
-        e?.printStackTrace()
+    override fun onGetOfferFailed(e: Exception) {
+        e.printStackTrace()
     }
 
     init {
-        fStore = FirebaseFirestore.getInstance()
-        lastOffers = ArrayList<Any?>()
-        bestOffers = ArrayList<Any?>()
+        lastOffers = ArrayList<Offer>()
+        bestOffers = ArrayList<Offer>()
     }
 }

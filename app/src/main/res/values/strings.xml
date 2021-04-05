@@ -31,6 +31,8 @@
     <string name="confirm">Confirm</string>
     <string name="my_orders">My Orders</string>
     <string name="open_in_map">Open In Map</string>
+    <string name="egp">EGP</string>
+    <string name="price_value">%1$d EGP</string>
 
 
 </resources>

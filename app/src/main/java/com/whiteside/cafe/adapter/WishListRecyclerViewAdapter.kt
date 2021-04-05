@@ -1,6 +1,7 @@
 package com.whiteside.cafe.adapter
 
 import android.content.Context
+import android.content.res.Resources
 import android.graphics.BitmapFactory
 import android.view.LayoutInflater
 import android.view.View
@@ -22,16 +23,16 @@ import com.whiteside.cafe.ui.wishList.WishListFragment
 import com.whiteside.cafe.ui.wishList.WishListPresenter
 
 class WishListRecyclerViewAdapter(
-    private val list: MutableList<Item?>?,
-    private val context: Context?,
+    private val list: MutableList<Item>,
+    private val context: Context,
     private val wishListFragment: WishListFragment?
 ) : RecyclerView.Adapter<WishListRecyclerViewAdapter.ViewHolder?>(), OnRemoveWishListItemListener,
     OnAddCartItem {
     private val fStore: FirebaseFirestore?
     private val auth: FirebaseAuth?
-    private val wishListPresenter: WishListPresenter?
-    private val cartPresenter: CartPresenter?
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder? {
+    private var wishListPresenter: WishListPresenter
+    private var cartPresenter: CartPresenter
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(
             LayoutInflater.from(parent.context)
                 .inflate(R.layout.wishlist_item_card_view, parent, false)
@@ -41,30 +42,34 @@ class WishListRecyclerViewAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val productPresenter = ProductPresenter()
         productPresenter.setListener(object : OnGetProductListener {
-            override fun onGetProductSuccess(product: Product?) {
+            override fun onGetProductSuccess(product: Product) {
                 holder.itemImage.setImageBitmap(
                     BitmapFactory.decodeByteArray(
-                        product.getMainPic().toBytes(), 0, product.getMainPic().toBytes().size
+                        product.productPics[0].toBytes(), 0, product.productPics[0].toBytes().size
                     )
                 )
-                holder.title.setText(product.getTitle())
-                val quantity = list.get(position).getQuantity()
-                val totalPrice = product.getPrice() * quantity
-                holder.price.setText("$totalPrice EGP")
+                holder.title.text = product.title
+                val quantity = list.get(position).quantity
+                val totalPrice = product.price * quantity
+                holder.price.text =
+                    Resources.getSystem().getString(R.string.price_value, totalPrice)
                 setListeners(holder, product)
             }
 
-            override fun onGetProductFailed(e: Exception?) {}
+            override fun onGetProductFailed(e: Exception) {}
         })
-        productPresenter.getProduct(list.get(position))
+        productPresenter.getProductInfo(
+            list.get(position).categoryName,
+            list.get(position).productId
+        )
     }
 
-    private fun setListeners(holder: ViewHolder?, product: Product?) {
-        holder.remove.setOnClickListener(View.OnClickListener { wishListPresenter.removeItem(product) })
-        holder.addToCart.setOnClickListener(View.OnClickListener {
+    private fun setListeners(holder: ViewHolder, product: Product) {
+        holder.remove.setOnClickListener { wishListPresenter.removeItem(product) }
+        holder.addToCart.setOnClickListener {
             wishListPresenter.removeItem(product)
             cartPresenter.addItem(product)
-        })
+        }
     }
 
     override fun getItemCount(): Int {
@@ -72,18 +77,18 @@ class WishListRecyclerViewAdapter(
     }
 
     override fun onRemoveWishListItemSuccess() {
-        wishListFragment.updateView()
+        wishListFragment!!.updateView()
     }
 
-    override fun onRemoveWishListItemFailed(e: Exception?) {}
+    override fun onRemoveWishListItemFailed(e: Exception) {}
     override fun onAddCartItemSuccess() {}
-    override fun onAddCartItemFailed(e: Exception?) {}
+    override fun onAddCartItemFailed(e: Exception) {}
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        var itemImage: ImageView?
-        var title: TextView?
-        var price: TextView?
-        var remove: TextView?
-        var addToCart: TextView?
+        var itemImage: ImageView
+        var title: TextView
+        var price: TextView
+        var remove: TextView
+        var addToCart: TextView
 
         init {
             itemImage = itemView.findViewById(R.id.item_image)
@@ -98,8 +103,8 @@ class WishListRecyclerViewAdapter(
         fStore = FirebaseFirestore.getInstance()
         auth = FirebaseAuth.getInstance()
         wishListPresenter = WishListPresenter()
-        wishListPresenter.setOnRemoveWishListItemListener(this)
+        wishListPresenter.onRemoveWishListItemListener = (this)
         cartPresenter = CartPresenter()
-        cartPresenter.setOnAddCartItem(this)
+        cartPresenter.onAddCartItem = (this)
     }
 }

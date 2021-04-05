@@ -16,20 +16,20 @@ import com.google.firebase.auth.PhoneAuthProvider.ForceResendingToken
 import com.google.firebase.firestore.FirebaseFirestore
 import com.hbb20.CountryCodePicker
 import com.whiteside.cafe.R
-import com.whiteside.cafe.model.FirebaseUser
+import com.whiteside.cafe.model.User
 
 class SignUp : AppCompatActivity(), OnSignUpListener {
-    private var name: EditText? = null
-    private var password: EditText? = null
-    private var phone: EditText? = null
-    private var country_code: CountryCodePicker? = null
-    private var sign_up: Button? = null
-    private var phoneNumber: String? = null
-    private var auth: FirebaseAuth? = null
-    private var fStore: FirebaseFirestore? = null
-    private var oldUserID: String? = null
-    private var presenter: SignUpPresenter? = null
-    private var firebaseUser: FirebaseUser? = null
+    private lateinit var name: EditText
+    private lateinit var password: EditText
+    private lateinit var phone: EditText
+    private lateinit var country_code: CountryCodePicker
+    private lateinit var sign_up: Button
+    private lateinit var phoneNumber: String
+    private lateinit var auth: FirebaseAuth
+    private lateinit var fStore: FirebaseFirestore
+    private lateinit var oldUserID: String
+    private lateinit var presenter: SignUpPresenter
+    private lateinit var user: User
     private var phoneAuthCredential: PhoneAuthCredential? = null
     private var nameString: String? = null
     private var passwordString: String? = null
@@ -44,21 +44,22 @@ class SignUp : AppCompatActivity(), OnSignUpListener {
         auth = FirebaseAuth.getInstance()
         fStore = FirebaseFirestore.getInstance()
         presenter = SignUpPresenter(this, this)
-        oldUserID = auth.getUid()
+        oldUserID = auth.uid!!
     }
 
     fun signUpClicked(view: View?) {
-        passwordString = password.getText().toString()
-        nameString = name.getText().toString()
-        if ("" == name) {
-            name.setError("Name is required")
-        } else if ("" == phone.getText().toString()) {
+        passwordString = password.text.toString()
+        nameString = name.text.toString()
+
+        if (name.equals("")) {
+            name.error = "Name is required"
+        } else if ("" == phone.text.toString()) {
             Toast.makeText(this, "Phone Number is required", Toast.LENGTH_LONG).show()
         } else if ("" == passwordString) {
-            password.setError("Password is required")
+            password.error = "Password is required"
         } else {
-            phoneNumber = "+" + country_code.getSelectedCountryCode() + phone.getText().toString()
-            nameString = name.getText().toString()
+            phoneNumber = "+" + country_code.selectedCountryCode + phone.text.toString()
+            nameString = name.text.toString()
             presenter.sendVerificationCode(phoneNumber)
         }
     }
@@ -79,12 +80,12 @@ class SignUp : AppCompatActivity(), OnSignUpListener {
         builder.show()
     }
 
-    override fun onGetUserDataSuccess(firebaseUser: FirebaseUser?) {
-        this.firebaseUser = firebaseUser
+    override fun onGetUserDataSuccess(user: User) {
+        this.user = user
         presenter.signInWithPhoneAuthCredential(phoneAuthCredential)
     }
 
-    override fun onGetUserDataFailed(e: Exception?) {
+    override fun onGetUserDataFailed(e: Exception) {
         Toast.makeText(this, "Something went wrong", Toast.LENGTH_LONG).show()
         e.printStackTrace()
     }
@@ -94,10 +95,10 @@ class SignUp : AppCompatActivity(), OnSignUpListener {
     }
 
     override fun onSignInSuccess() {
-        auth.getCurrentUser().updatePassword(passwordString)
-        firebaseUser.setName(nameString)
-        firebaseUser.setPhoneNumber(phoneNumber)
-        presenter.setNewUserData(firebaseUser)
+        auth.currentUser.updatePassword(passwordString)
+        user.name = (nameString)!!
+        user.phoneNumber = (phoneNumber)
+        presenter.setNewUserData(user)
         presenter.removeUserData(oldUserID)
     }
 
@@ -105,13 +106,12 @@ class SignUp : AppCompatActivity(), OnSignUpListener {
         promptCode(verificationId)
     }
 
-    override fun onVerificationCompleted(phoneAuthCredential: PhoneAuthCredential) {
+    override fun onVerificationCompleted(credential: PhoneAuthCredential?) {
         this.phoneAuthCredential = phoneAuthCredential
         presenter.getCurrentUserData()
     }
 
-    override fun onVerificationFailed(e: FirebaseException) {
-//        Toast.makeText(this, "Invalid Phone Number", Toast.LENGTH_LONG).show();
-        Toast.makeText(this, e.message, Toast.LENGTH_LONG).show()
+    override fun onVerificationFailed(e: FirebaseException?) {
+        e?.printStackTrace()
     }
 }

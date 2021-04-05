@@ -13,14 +13,15 @@ import com.whiteside.cafe.model.Product
 import java.util.*
 
 class SearchResults : AppCompatActivity() {
-    private var searchWord: String? = null
-    private var fStore: FirebaseFirestore? = null
-    private var paths: MutableList<String?>? = null
-    private var filters: MutableMap<String?, Any?>? = null
-    private var adapter: CategoryProductsRecyclerViewAdapter? = null
-    private var results: RecyclerView? = null
-    private var products: MutableList<Product?>? = null
-    private var searchBar: MaterialSearchBar? = null
+    private lateinit var searchWord: String
+    private lateinit var fStore: FirebaseFirestore
+    private lateinit var paths: MutableList<String>
+    private lateinit var filters: MutableMap<String, Any>
+    private lateinit var adapter: CategoryProductsRecyclerViewAdapter
+    private lateinit var results: RecyclerView
+    private lateinit var products: MutableList<Product>
+    private lateinit var searchBar: MaterialSearchBar
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_search_results)
@@ -28,15 +29,15 @@ class SearchResults : AppCompatActivity() {
         paths = ArrayList()
         filters = HashMap()
         products = ArrayList()
-        searchWord = intent.extras.getString("text")
+        searchWord = intent.extras!!.getString("text")!!
         filters["title"] = searchWord
         searchBar = findViewById(R.id.search_view)
-        searchBar.setText(searchWord)
+        searchBar.text = searchWord
         results = findViewById(R.id.results)
         results.setHasFixedSize(true)
-        results.setLayoutManager(LinearLayoutManager(this))
+        results.layoutManager = LinearLayoutManager(this)
         adapter = CategoryProductsRecyclerViewAdapter(products, this)
-        results.setAdapter(adapter)
+        results.adapter = adapter
         getResults()
         setSearchBarListeners()
     }
@@ -61,10 +62,10 @@ class SearchResults : AppCompatActivity() {
                 .get()
                 .addOnSuccessListener { querySnapshot ->
                     for (ds in querySnapshot.documents) {
-                        val title = ds.getString("title")
+                        val title = ds.getString("title")!!
                         if (title.contains(searchWord)) {
-                            val product = ds.toObject(Product::class.java)
-                            product.setProductId(ds.id)
+                            val product = ds.toObject(Product::class.java)!!
+                            product.productId = (ds.id)
                             products.add(product)
                             adapter.notifyDataSetChanged()
                         }
@@ -73,7 +74,7 @@ class SearchResults : AppCompatActivity() {
         }
     }
 
-    private fun getProduct(path: String?) {
+    private fun getProduct(path: String) {
         fStore.document(path)
             .get()
             .addOnSuccessListener { }

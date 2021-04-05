@@ -3,7 +3,6 @@ package com.whiteside.cafe
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
-import android.net.ConnectivityManager
 import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
@@ -21,11 +20,12 @@ import com.squareup.picasso.Picasso.LoadedFrom
 import com.squareup.picasso.Target
 import com.whiteside.cafe.model.Offer
 import com.whiteside.cafe.model.User
+import com.whiteside.cafe.utils.Connection
 import java.io.ByteArrayOutputStream
 
 class MainActivity : AppCompatActivity() {
-    private var fStore: FirebaseFirestore? = null
-    private var auth: FirebaseAuth? = null
+    private lateinit var fStore: FirebaseFirestore
+    private lateinit var auth: FirebaseAuth
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -35,7 +35,7 @@ class MainActivity : AppCompatActivity() {
         val animation = AnimationUtils.loadAnimation(this, R.anim.waiting_page_transition)
         val cafe_name = findViewById<TextView?>(R.id.cafe_name)
         cafe_name.startAnimation(animation)
-        Handler().postDelayed({ checkInternet() }, 3000)
+        Handler(mainLooper).postDelayed({ checkInternet() }, 3000)
     }
 
     private fun initFirebase() {
@@ -51,10 +51,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun checkInternet() {
-        val cm = getSystemService(CONNECTIVITY_SERVICE) as ConnectivityManager
-        val isConnected = cm.activeNetworkInfo != null && cm.activeNetworkInfo.isConnected()
-        if (isConnected) {
-            if (auth.getCurrentUser() == null) {
+        if (Connection.checkConnection(this)) {
+            if (auth.currentUser == null) {
                 signInAnonymously()
             } else {
                 val intent = Intent(this@MainActivity, HomeActivity::class.java)
@@ -76,19 +74,27 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun addUserToFirebase() {
-        val user = User()
-        user.name = "NA"
-        user.phoneNumber = "NA"
-        user.uid = auth.getUid()
-        fStore.collection("Users")
-            .document(auth.getUid())
-            .set(user)
-        fStore.collection("Users")
-            .document(auth.getUid())
-            .collection("Cart")
-        fStore.collection("Users")
-            .document(auth.getUid())
-            .collection("WishList")
+        auth.uid!!.let {
+
+            val user = User(
+                phoneNumber = "NA",
+                uid = it,
+                cartItems = arrayListOf(),
+                wishList = arrayListOf(),
+                name = "unknown"
+            )
+
+            fStore.collection("Users")
+                .document(it)
+                .set(user)
+            fStore.collection("Users")
+                .document(it)
+                .collection("Cart")
+            fStore.collection("Users")
+                .document(it)
+                .collection("WishList")
+
+        }
     }
 
     fun setOffer(i: Int) {
@@ -96,22 +102,26 @@ class MainActivity : AppCompatActivity() {
             Uri.parse("https://image.shutterstock.com/image-vector/special-offer-banner-vector-format-600w-586903514.jpg"),
             Uri.parse("https://addconn.com/images/limited.png")
         )
-        val productsIds = arrayOf<String?>(
+        val productsIds = arrayOf<String>(
             "xZvcdItmvKWqilQ9ikbm",
             "Lnslv4jK5o7GFrITi5vm"
         )
         Picasso.get().load(imagesURL[i]).into(object : Target {
             override fun onBitmapLoaded(bitmap: Bitmap?, from: LoadedFrom?) {
-                val time = Timestamp.now()
-                val offer = Offer()
-                offer.productId = productsIds[i]
-                offer.discountPercentage = 33f
-                offer.startTime = time
-                offer.endTime = Timestamp(time.seconds + 86400, time.nanoseconds)
-                offer.categoryName = "Meals"
                 val stream = ByteArrayOutputStream()
-                bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream)
-                offer.offerPic = Blob.fromBytes(stream.toByteArray())
+
+
+                val time = Timestamp.now()
+                val offer = Offer(
+                    "Meals",
+                    endTime = Timestamp(time.seconds + 86400, time.nanoseconds),
+                    productId = productsIds[i],
+                    discountPercentage = 33f,
+                    startTime = time,
+                    offerPic = Blob.fromBytes(stream.toByteArray()),
+                    type = 1
+                )
+                bitmap!!.compress(Bitmap.CompressFormat.PNG, 100, stream)
                 fStore.collection("Offers").document().set(offer)
             }
 

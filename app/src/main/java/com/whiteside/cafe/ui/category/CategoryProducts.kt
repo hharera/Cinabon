@@ -24,17 +24,18 @@ import java.io.ByteArrayOutputStream
 import java.util.*
 
 class CategoryProducts : AppCompatActivity(), OnGetProductListener {
-    private var categoryName: String? = null
-    private var itemList: MutableList<Product?>? = null
-    private var fStore: FirebaseFirestore? = null
-    private var adapter: CategoryProductsRecyclerViewAdapter? = null
-    private var searchBar: MaterialSearchBar? = null
+    private lateinit var categoryName: String
+    private lateinit var itemList: MutableList<Product>
+    private lateinit var fStore: FirebaseFirestore
+    private lateinit var adapter: CategoryProductsRecyclerViewAdapter
+    private lateinit var searchBar: MaterialSearchBar
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_category_products)
         searchBar = findViewById(R.id.search_view)
         fStore = FirebaseFirestore.getInstance()
-        categoryName = intent.extras.getString("category")
+        categoryName = intent.extras!!.getString("category")!!
         val recyclerView = findViewById<RecyclerView?>(R.id.products)
         recyclerView.setHasFixedSize(true)
         recyclerView.layoutManager = LinearLayoutManager(this)
@@ -63,26 +64,35 @@ class CategoryProducts : AppCompatActivity(), OnGetProductListener {
             "http://www.cullinsyard.co.uk/wp-content/uploads/2018/01/special-offer.jpg"
         )
         Picasso.get().load(imagesURL[i]).into(object : Target {
-            override fun onBitmapLoaded(bitmap: Bitmap?, from: LoadedFrom?) {
+            override fun onBitmapLoaded(bitmap: Bitmap, from: LoadedFrom?) {
                 val time = Timestamp.now()
-                val product = Product()
-                product.title = "Buy 2 cups of Black Coffee and take the third as a gift"
-                product.carts = HashMap()
-                product.wishes = HashMap()
-                product.categoryName = categoryName
-                product.price = 20f
                 val stream = ByteArrayOutputStream()
                 bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream)
-                product.mainPic = Blob.fromBytes(stream.toByteArray())
-                val blobs: MutableList<Blob?> = ArrayList()
+                val blobs: MutableList<Blob> = ArrayList()
                 blobs.add(Blob.fromBytes(stream.toByteArray()))
-                product.productPics = blobs
-                product.wishes = HashMap()
-                product.price = 20f
-                fStore.collection("Categories")
+
+
+                val productId = fStore.collection("Categories")
                     .document(categoryName)
                     .collection("Products")
                     .document()
+                    .id
+
+                val product = Product(
+                    title = "Buy 2 cups of Black Coffee and take the third as a gift",
+                    carts = HashMap(),
+                    wishes = HashMap(),
+                    categoryName = categoryName,
+                    price = 20f,
+                    productPics = blobs,
+                    mainPic = Blob.fromBytes(stream.toByteArray()),
+                    productId = productId
+                )
+
+                fStore.collection("Categories")
+                    .document(categoryName)
+                    .collection("Products")
+                    .document(product.productId)
                     .set(product)
             }
 
@@ -91,12 +101,12 @@ class CategoryProducts : AppCompatActivity(), OnGetProductListener {
         })
     }
 
-    override fun onGetProductSuccess(product: Product?) {
+    override fun onGetProductSuccess(product: Product) {
         itemList.add(product)
         adapter.notifyDataSetChanged()
     }
 
-    override fun onGetProductFailed(e: Exception?) {}
+    override fun onGetProductFailed(e: Exception) {}
 
     companion object {
         private val TAG: String? = "CategoryProducts"

@@ -6,11 +6,11 @@ import android.os.CountDownTimer
 import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
-import androidx.viewpager2.widget.ViewPager2
 import com.google.firebase.Timestamp
 import com.google.firebase.auth.FirebaseAuth
 import com.whiteside.cafe.R
 import com.whiteside.cafe.adapter.ProductPicturesRecyclerViewAdapter
+import com.whiteside.cafe.databinding.ActivityOfferViewBinding
 import com.whiteside.cafe.model.Offer
 import com.whiteside.cafe.model.Product
 import com.whiteside.cafe.ui.cart.CartPresenter
@@ -25,45 +25,40 @@ import com.whiteside.cafe.ui.wishList.WishListPresenter
 
 class OfferView : AppCompatActivity(), OnGetOffersListener, OnAddCartItem, OnRemoveCartItem,
     OnAddWishListItem, OnRemoveWishListItemListener, OnGetProductListener {
-    private var auth: FirebaseAuth? = null
-    private var wish: ImageView? = null
-    private var cart: ImageView? = null
-    private var title: TextView? = null
-    private var endTime: TextView? = null
-    private var price: TextView? = null
-    private var productPics: ViewPager2? = null
-    private var product: Product? = null
-    private var offer: Offer? = null
-    private var offerId: String? = null
-    private var offerPresenter: OfferPresenter? = null
-    private var productPresenter: ProductPresenter? = null
-    private var cartPresenter: CartPresenter? = null
-    private var wishListPresenter: WishListPresenter? = null
+
+    private lateinit var bind: ActivityOfferViewBinding
+    private var auth: FirebaseAuth = FirebaseAuth.getInstance()
+
+    private lateinit var product: Product
+    private lateinit var offer: Offer
+    private lateinit var offerId: String
+    private lateinit var offerPresenter: OfferPresenter
+    private lateinit var productPresenter: ProductPresenter
+    private lateinit var cartPresenter: CartPresenter
+    private lateinit var wishListPresenter: WishListPresenter
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_offer_view)
         auth = FirebaseAuth.getInstance()
-        offerId = intent.extras.getString("offerId")
-        wish = findViewById(R.id.wish)
-        cart = findViewById(R.id.cart)
+
+        val offerId = intent.extras!!.getString("offerId")!!
         title = findViewById(R.id.title)
-        productPics = findViewById(R.id.product_pics)
-        endTime = findViewById(R.id.end_Time)
-        price = findViewById(R.id.price)
+
         productPresenter = ProductPresenter()
         productPresenter.setListener(this)
         cartPresenter = CartPresenter()
-        cartPresenter.setOnAddCartItem(this)
-        cartPresenter.setOnRemoveCartItem(this)
+        cartPresenter.onAddCartItem = (this)
+        cartPresenter.onRemoveCartItem = (this)
         wishListPresenter = WishListPresenter()
-        wishListPresenter.setOnAddWishListItem(this)
-        wishListPresenter.setOnRemoveWishListItemListener(this)
+        wishListPresenter.onAddWishListItem = (this)
+        wishListPresenter.onRemoveWishListItemListener = (this)
         offerPresenter = OfferPresenter(this)
         offerPresenter.getOffer(offerId)
     }
 
     fun cartClicked(view: View?) {
-        if (product.getCarts().containsKey(auth.getUid())) {
+        if (product.carts.containsKey(auth.uid)) {
             cartPresenter.removeItem(product)
         } else {
             cartPresenter.addItem(product)
@@ -71,7 +66,7 @@ class OfferView : AppCompatActivity(), OnGetOffersListener, OnAddCartItem, OnRem
     }
 
     fun wishClicked(view: View?) {
-        if (product.getWishes().containsKey(auth.getUid())) {
+        if (product.wishes.containsKey(auth.uid)) {
             wishListPresenter.removeItem(product)
         } else {
             wishListPresenter.addItem(product)
@@ -83,16 +78,16 @@ class OfferView : AppCompatActivity(), OnGetOffersListener, OnAddCartItem, OnRem
     }
 
     @SuppressLint("SetTextI18n")
-    override fun onGetOfferSuccess(offer: Offer?) {
+    override fun onGetOfferSuccess(offer: Offer) {
         this.offer = offer
         setEndTime()
-        productPresenter.getProductInfo(offer.getCategoryName(), offer.getProductId())
+        productPresenter.getProductInfo(offer.categoryName, offer.productId)
     }
 
     @SuppressLint("SetTextI18n")
     private fun setEndTime() {
         object :
-            CountDownTimer((offer.getEndTime().seconds - Timestamp.now().seconds) * 1000, 1000) {
+            CountDownTimer((offer.endTime.seconds - Timestamp.now().seconds) * 1000, 1000) {
             @SuppressLint("SetTextI18n")
             override fun onTick(millisUntilFinished: Long) {
                 var millisUntilFinished = millisUntilFinished
@@ -101,66 +96,67 @@ class OfferView : AppCompatActivity(), OnGetOffersListener, OnAddCartItem, OnRem
                 val hours = millisUntilFinished / 3600000
                 millisUntilFinished = millisUntilFinished % 60000
                 val miens = millisUntilFinished / 60000
-                endTime.setText("$days days $hours hours $miens Miens")
+                bind.endTime.text = "$days days $hours hours $miens Miens"
             }
 
             override fun onFinish() {
-                endTime.setText("Offer is Expired")
+                bind.endTime.text = "Offer is Expired"
             }
         }.start()
-        endTime.setText("Ends In " + (offer.getEndTime().seconds - Timestamp.now().seconds) / 86400 + " days")
+        bind.endTime.text =
+            "Ends In " + (offer.endTime.seconds - Timestamp.now().seconds) / 86400 + " days"
     }
 
-    override fun onGetOfferFailed(e: Exception?) {}
-    override fun onGetProductSuccess(product: Product?) {
-        title.setText(product.getTitle())
-        price.setText(product.getPrice().toString() + " EGP")
-        val pics = product.getProductPics()
-        productPics.setAdapter(ProductPicturesRecyclerViewAdapter(pics, this@OfferView))
-        if (product.getCarts().containsKey(auth.getUid())) {
-            cart.setImageResource(R.drawable.carted)
+    override fun onGetOfferFailed(e: Exception) {}
+    override fun onGetProductSuccess(product: Product) {
+        bind.title.text = product.title
+        bind.price.text = "${product.price} EGP"
+        val pics = product.productPics
+        bind.productPics.adapter = ProductPicturesRecyclerViewAdapter(pics, this@OfferView)
+        if (product.carts.containsKey(auth.uid)) {
+            bind.cart.setImageResource(R.drawable.carted)
         }
-        if (product.getWishes().containsKey(auth.getUid())) {
-            wish.setImageResource(R.drawable.wished)
+        if (product.wishes.containsKey(auth.uid)) {
+            bind.wish.setImageResource(R.drawable.wished)
         }
         this.product = product
     }
 
-    override fun onGetProductFailed(e: Exception?) {
+    override fun onGetProductFailed(e: Exception) {
         Toast.makeText(this, "Failed to load product", Toast.LENGTH_SHORT).show()
     }
 
     override fun onRemoveCartItemSuccess() {
-        cart.setImageResource(R.drawable.cart)
+        bind.cart.setImageResource(R.drawable.cart)
         Toast.makeText(this, "Product removed from the cart", Toast.LENGTH_SHORT).show()
     }
 
     override fun onAddWishListItemSuccess() {
-        wish.setImageResource(R.drawable.wished)
+        bind.wish.setImageResource(R.drawable.wished)
         Toast.makeText(this, "Product Added to the wishList", Toast.LENGTH_SHORT).show()
     }
 
-    override fun onRemoveCartItemFailed(e: Exception?) {
+    override fun onRemoveCartItemFailed(e: Exception) {
         Toast.makeText(this, "Operation Failed", Toast.LENGTH_SHORT).show()
     }
 
-    override fun onAddWishListItemFailed(e: Exception?) {
+    override fun onAddWishListItemFailed(e: Exception) {
         Toast.makeText(this, "Operation Failed", Toast.LENGTH_SHORT).show()
     }
 
     override fun onAddCartItemSuccess() {
-        cart.setImageResource(R.drawable.carted)
+        bind.cart.setImageResource(R.drawable.carted)
         Toast.makeText(this@OfferView, "product added to the cart", Toast.LENGTH_SHORT).show()
     }
 
-    override fun onAddCartItemFailed(e: Exception?) {}
+    override fun onAddCartItemFailed(e: Exception) {}
     override fun onRemoveWishListItemSuccess() {
-        wish.setImageResource(R.drawable.wish)
+        bind.wish.setImageResource(R.drawable.wish)
         Toast.makeText(this@OfferView, "product removed from the wishList", Toast.LENGTH_SHORT)
             .show()
     }
 
-    override fun onRemoveWishListItemFailed(e: Exception?) {
+    override fun onRemoveWishListItemFailed(e: Exception) {
         Toast.makeText(this, "Operation Failed", Toast.LENGTH_SHORT).show()
     }
 }

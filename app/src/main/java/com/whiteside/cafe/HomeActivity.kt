@@ -9,6 +9,7 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
+import androidx.databinding.DataBindingUtil
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import androidx.navigation.ui.*
@@ -20,22 +21,24 @@ import com.mancj.materialsearchbar.SimpleOnSearchActionListener
 import com.squareup.picasso.Picasso
 import com.squareup.picasso.Picasso.LoadedFrom
 import com.squareup.picasso.Target
+import com.whiteside.cafe.databinding.ActivityHomeBinding
 import com.whiteside.cafe.model.Offer
 import com.whiteside.cafe.ui.search.SearchResults
-import kotlinx.android.synthetic.main.activity_home.*
-import kotlinx.android.synthetic.main.fragment_cart.*
-import kotlinx.android.synthetic.main.fragment_wishlist.*
 import java.io.ByteArrayOutputStream
 
 
 class HomeActivity : AppCompatActivity() {
     private lateinit var navController: NavController
+
     private lateinit var appBarConfiguration: AppBarConfiguration
+    private lateinit var bind: ActivityHomeBinding
+
     private var searchBar: MaterialSearchBar? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_home)
-        setSupportActionBar(tool_bar)
+
+        bind = DataBindingUtil.setContentView(this, R.layout.activity_home)
+        setSupportActionBar(bind.toolBar)
 
         navController = Navigation.findNavController(this, R.id.nav_host_fragment)
         appBarConfiguration = AppBarConfiguration(
@@ -56,7 +59,6 @@ class HomeActivity : AppCompatActivity() {
 
         setUpWithBottomNav()
         setUpWithSideNav()
-        setShoppingListener()
     }
 
     private fun setUpWithDrawer() {
@@ -65,13 +67,13 @@ class HomeActivity : AppCompatActivity() {
     }
 
     private fun setUpWithBottomNav() {
-        bottom_nav?.let {
+        bind.bottomNav?.let {
             NavigationUI.setupWithNavController(it, navController)
         }
     }
 
     private fun setUpWithSideNav() {
-        nav_view?.let {
+        bind.navView?.let {
             NavigationUI.setupWithNavController(it, navController)
         }
     }
@@ -87,15 +89,6 @@ class HomeActivity : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return item.onNavDestinationSelected(navController) || super.onOptionsItemSelected(item)
-    }
-
-    private fun setShoppingListener() {
-        cart_shopping?.setOnClickListener {
-            navController.navigate(R.id.cart_shop_action)
-        }
-        wishlist_shopping?.setOnClickListener {
-            navController.navigate(R.id.wishlist_shop_action)
-        }
     }
 
     private fun serSearchListeners() {
@@ -120,16 +113,19 @@ class HomeActivity : AppCompatActivity() {
         )
         Picasso.get().load(imagesURL[i]).into(object : Target {
             override fun onBitmapLoaded(bitmap: Bitmap, from: LoadedFrom) {
-                val time = Timestamp.now()
-                val offer = Offer()
-                offer.productId = productsIds[i]
-                offer.discountPercentage = 33f
-                offer.startTime = time
-                offer.endTime = Timestamp(time.seconds + 86400, time.nanoseconds)
-                offer.categoryName = "Meals"
                 val stream = ByteArrayOutputStream()
                 bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream)
-                offer.offerPic = Blob.fromBytes(stream.toByteArray())
+                val time = Timestamp.now()
+                val offer = Offer(
+                    productId = productsIds[i],
+                    discountPercentage = 33f,
+                    startTime = time,
+                    endTime = Timestamp(time.seconds + 86400, time.nanoseconds),
+                    categoryName = "Meals",
+                    offerPic = Blob.fromBytes(stream.toByteArray()),
+                    type = 1
+                )
+
                 val fStore = FirebaseFirestore.getInstance()
                 fStore.collection("Offers").document().set(offer)
             }

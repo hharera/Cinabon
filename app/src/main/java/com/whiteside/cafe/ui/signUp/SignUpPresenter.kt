@@ -10,17 +10,16 @@ import com.google.firebase.auth.PhoneAuthProvider
 import com.google.firebase.auth.PhoneAuthProvider.ForceResendingToken
 import com.google.firebase.auth.PhoneAuthProvider.OnVerificationStateChangedCallbacks
 import com.google.firebase.firestore.FirebaseFirestore
-import com.whiteside.cafe.model.FirebaseUser
 import com.whiteside.cafe.model.Item
 import com.whiteside.cafe.model.User
-import java.util.*
 import java.util.concurrent.TimeUnit
 
-class SignUpPresenter(listener: OnSignUpListener?, activity: Activity?) {
-    private val auth: FirebaseAuth?
-    private val listener: OnSignUpListener?
-    private val activity: Activity?
-    private val fStore: FirebaseFirestore?
+class SignUpPresenter(listener: OnSignUpListener?, private val activity: Activity) {
+    private val auth: FirebaseAuth = FirebaseAuth.getInstance()
+    private val fStore: FirebaseFirestore = FirebaseFirestore.getInstance()
+
+    private lateinit var listener: OnSignUpListener
+
     fun sendVerificationCode(phoneNumber: String?) {
         val mCallbacks: OnVerificationStateChangedCallbacks =
             object : OnVerificationStateChangedCallbacks() {
@@ -58,28 +57,25 @@ class SignUpPresenter(listener: OnSignUpListener?, activity: Activity?) {
     }
 
     fun getCurrentUserData() {
-        val user = FirebaseUser()
         val cart: MutableList<Item?> = ArrayList()
         val wishList: MutableList<Item?> = ArrayList()
+
         val getUser: Thread = object : Thread() {
             override fun run() {
                 fStore.collection("Users")
-                    .document(auth.getUid())
+                    .document(auth.uid!!)
                     .get()
-                    .addOnSuccessListener { ds ->
-                        user.name = ds.getString("name")
-                        user.phoneNumber = ds.getString("phoneNumber")
-                        user.cartItems = cart
-                        user.wishList = wishList
-                        listener.onGetUserDataSuccess(user)
+                    .addOnSuccessListener {
+                        val user = it.toObject(User::class.java)
                     }
                     .addOnFailureListener { e -> listener.onGetUserDataFailed(e) }
             }
         }
+
         val getCart: Thread = object : Thread() {
             override fun run() {
                 fStore.collection("Users")
-                    .document(auth.getUid())
+                    .document(auth.uid!!)
                     .collection("Cart")
                     .get()
                     .addOnSuccessListener { querySnapshot ->
@@ -93,7 +89,7 @@ class SignUpPresenter(listener: OnSignUpListener?, activity: Activity?) {
         val getWishList: Thread = object : Thread() {
             override fun run() {
                 fStore.collection("Users")
-                    .document(auth.getUid())
+                    .document(auth.uid!!)
                     .collection("WishList")
                     .get()
                     .addOnSuccessListener { querySnapshot ->
@@ -107,32 +103,35 @@ class SignUpPresenter(listener: OnSignUpListener?, activity: Activity?) {
         getWishList.start()
     }
 
-    fun setNewUserData(firebaseUser: FirebaseUser?) {
-        firebaseUser.setUID(auth.getUid())
-        val user = User()
-        user.uid = firebaseUser.getUID()
-        user.name = firebaseUser.getName()
-        user.phoneNumber = firebaseUser.getPhoneNumber()
+    fun setNewUserData(user: User) {
+        val user = User(
+            uid = auth.uid!!,
+            name = user.name,
+            phoneNumber = user.phoneNumber,
+            wishList = ArrayList(),
+            cartItems = ArrayList()
+        )
+
         fStore.collection("Users")
-            .document(auth.getUid())
+            .document(auth.uid!!)
             .set(user)
-        for (item in firebaseUser.getCartItems()) {
+        for (item in user.cartItems) {
             fStore.collection("Users")
-                .document(auth.getUid())
+                .document(auth.uid!!)
                 .collection("Cart")
                 .document()
                 .set(item)
         }
-        for (item in firebaseUser.getWishList()) {
+        for (item in user.wishList) {
             fStore.collection("Users")
-                .document(auth.getUid())
+                .document(auth.uid!!)
                 .collection("WishList")
                 .document()
                 .set(item)
         }
     }
 
-    fun removeUserData(oldUserID: String?) {
+    fun removeUserData(oldUserID: String) {
         fStore.collection("Users")
             .document(oldUserID)
             .delete()
@@ -156,10 +155,4 @@ class SignUpPresenter(listener: OnSignUpListener?, activity: Activity?) {
             }
     }
 
-    init {
-        fStore = FirebaseFirestore.getInstance()
-        auth = FirebaseAuth.getInstance()
-        this.activity = activity
-        this.listener = listener
-    }
 }

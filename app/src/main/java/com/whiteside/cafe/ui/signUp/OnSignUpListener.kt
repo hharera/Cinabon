@@ -3,7 +3,7 @@ package com.whiteside.cafe.ui.signUp
 import com.google.firebase.FirebaseException
 import com.google.firebase.auth.PhoneAuthCredential
 import com.google.firebase.auth.PhoneAuthProvider.ForceResendingToken
-import com.whiteside.cafe.model.FirebaseUser
+import com.whiteside.cafe.model.User
 
 interface OnSignUpListener {
     open fun onVerificationCompleted(credential: PhoneAuthCredential?)
@@ -13,8 +13,8 @@ interface OnSignUpListener {
         token: ForceResendingToken
     )
 
-    open fun onGetUserDataSuccess(firebaseUser: FirebaseUser?)
-    open fun onGetUserDataFailed(e: Exception?)
+    open fun onGetUserDataSuccess(user: User)
+    open fun onGetUserDataFailed(e: Exception)
     open fun onSignInFailed()
     open fun onSignInSuccess()
 }

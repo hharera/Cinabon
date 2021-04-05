@@ -7,48 +7,38 @@ import com.whiteside.cafe.model.Item
 import com.whiteside.cafe.model.Product
 
 class CartPresenter {
-    private val fStore: FirebaseFirestore?
-    private val auth: FirebaseAuth?
-    var onGetCartItem: OnGetCartItem? = null
-    var onAddCartItem: OnAddCartItem? = null
-    var onRemoveCartItem: OnRemoveCartItem? = null
-    fun setOnGetCartItem(onGetCartItem: OnGetCartItem?) {
-        this.onGetCartItem = onGetCartItem
-    }
+    private var fStore: FirebaseFirestore = FirebaseFirestore.getInstance()
+    private var auth: FirebaseAuth = FirebaseAuth.getInstance()
+    lateinit var onGetCartItem: OnGetCartItem
+    lateinit var onAddCartItem: OnAddCartItem
+    lateinit var onRemoveCartItem: OnRemoveCartItem
 
-    fun setOnAddCartItem(onAddCartItem: OnAddCartItem?) {
-        this.onAddCartItem = onAddCartItem
-    }
-
-    fun setOnRemoveCartItem(onRemoveCartItem: OnRemoveCartItem?) {
-        this.onRemoveCartItem = onRemoveCartItem
-    }
-
-    fun addItem(product: Product?) {
-        val carts = product.getCarts()
-        carts[auth.getUid()] = 1
-        product.setCarts(carts)
+    fun addItem(product: Product) {
+        val carts = product.carts
+        carts[auth.uid!!] = 1
+        product.carts = (carts)
         val thread2: Thread = object : Thread() {
             override fun run() {
                 fStore.collection("Categories")
-                    .document(product.getCategoryName())
+                    .document(product.categoryName)
                     .collection("Products")
-                    .document(product.getProductId())
+                    .document(product.productId)
                     .update("carts", carts)
                     .addOnSuccessListener { onAddCartItem.onAddCartItemSuccess() }
             }
         }
-        val item = Item()
-        item.time = Timestamp.now()
-        item.categoryName = product.getCategoryName()
-        item.productId = product.getProductId()
-        item.quantity = 1
+        val item = Item(
+            categoryName = product.categoryName,
+            time = Timestamp.now(),
+            productId = product.productId,
+            quantity = 1
+        )
         val thread1: Thread = object : Thread() {
             override fun run() {
                 fStore.collection("Users")
-                    .document(auth.getUid())
+                    .document(auth.uid!!)
                     .collection("Cart")
-                    .document(product.getCategoryName() + product.getProductId())
+                    .document(product.categoryName + product.productId)
                     .set(item)
                     .addOnSuccessListener { thread2.start() }
             }
@@ -56,16 +46,16 @@ class CartPresenter {
         thread1.start()
     }
 
-    fun removeItem(product: Product?) {
-        val carts = product.getCarts()
-        carts.remove(auth.getUid())
-        product.setCarts(carts)
+    fun removeItem(product: Product) {
+        val carts = product.carts
+        carts.remove(auth.uid)
+        product.carts = (carts)
         val thread2: Thread = object : Thread() {
             override fun run() {
                 fStore.collection("Categories")
-                    .document(product.getCategoryName())
+                    .document(product.categoryName)
                     .collection("Products")
-                    .document(product.getProductId())
+                    .document(product.productId)
                     .update("carts", carts)
                     .addOnSuccessListener { onRemoveCartItem.onRemoveCartItemSuccess() }
             }
@@ -73,9 +63,9 @@ class CartPresenter {
         val thread1: Thread = object : Thread() {
             override fun run() {
                 fStore.collection("Users")
-                    .document(auth.getUid())
+                    .document(auth.uid!!)
                     .collection("Cart")
-                    .document(product.getCategoryName() + product.getProductId())
+                    .document(product.categoryName + product.productId)
                     .delete()
                     .addOnSuccessListener { thread2.start() }
             }
@@ -87,7 +77,7 @@ class CartPresenter {
         val fStore = FirebaseFirestore.getInstance()
         val auth = FirebaseAuth.getInstance()
         fStore.collection("Users")
-            .document(auth.uid)
+            .document(auth.uid!!)
             .collection("Cart")
             .get()
             .addOnCompleteListener { task ->
@@ -96,19 +86,19 @@ class CartPresenter {
                         onGetCartItem.onCartIsEmpty()
                     }
                     for (ds in task.result.documents) {
-                        onGetCartItem.onGetCartItemSuccess(ds.toObject(Item::class.java))
+                        onGetCartItem.onGetCartItemSuccess(ds.toObject(Item::class.java)!!)
                     }
                 } else {
-                    onGetCartItem.onGetCartItemFailed(task.exception)
+                    onGetCartItem.onGetCartItemFailed(task.exception!!)
                 }
             }
     }
 
-    fun updateQuantity(item: Item?, quantity: Int) {
+    fun updateQuantity(item: Item, quantity: Int) {
         fStore.collection("Users")
-            .document(auth.getUid())
+            .document(auth.uid!!)
             .collection("Cart")
-            .document(item.getCategoryName() + item.getProductId())
+            .document(item.categoryName + item.productId)
             .update("quantity", quantity)
     }
 
@@ -116,8 +106,4 @@ class CartPresenter {
         getItemsFromFirebase()
     }
 
-    init {
-        fStore = FirebaseFirestore.getInstance()
-        auth = FirebaseAuth.getInstance()
-    }
 }

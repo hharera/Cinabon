@@ -18,23 +18,25 @@ import com.whiteside.cafe.ui.wishList.OnRemoveWishListItemListener
 import com.whiteside.cafe.ui.wishList.WishListPresenter
 
 class ProductView : AppCompatActivity(), OnRemoveCartItem, OnAddCartItem, OnAddWishListItem,
+
     OnRemoveWishListItemListener, OnGetProductListener {
-    private var auth: FirebaseAuth? = null
-    private var wish: ImageView? = null
-    private var cart: ImageView? = null
-    private var title: TextView? = null
-    private var price: TextView? = null
-    private var productPics: ViewPager2? = null
-    private var product: Product? = null
-    private var cartPresenter: CartPresenter? = null
-    private var wishListPresenter: WishListPresenter? = null
-    private var productPresenter: ProductPresenter? = null
+    private lateinit var auth: FirebaseAuth
+    private lateinit var wish: ImageView
+    private lateinit var cart: ImageView
+    private lateinit var title: TextView
+    private lateinit var price: TextView
+    private lateinit var productPics: ViewPager2
+    private lateinit var product: Product
+    private lateinit var cartPresenter: CartPresenter
+    private lateinit var wishListPresenter: WishListPresenter
+    private lateinit var productPresenter: ProductPresenter
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_product_view)
         auth = FirebaseAuth.getInstance()
-        val productId = intent.extras.getString("productId")
-        val categoryName = intent.extras.getString("categoryName")
+        val productId = intent.extras!!.getString("productId")!!
+        val categoryName = intent.extras!!.getString("categoryName")!!
         wish = findViewById(R.id.wish)
         cart = findViewById(R.id.cart)
         title = findViewById(R.id.title)
@@ -44,15 +46,15 @@ class ProductView : AppCompatActivity(), OnRemoveCartItem, OnAddCartItem, OnAddW
         productPresenter.setListener(this)
         productPresenter.getProductInfo(categoryName, productId)
         cartPresenter = CartPresenter()
-        cartPresenter.setOnRemoveCartItem(this)
-        cartPresenter.setOnAddCartItem(this)
+        cartPresenter.onRemoveCartItem = (this)
+        cartPresenter.onAddCartItem = (this)
         wishListPresenter = WishListPresenter()
-        wishListPresenter.setOnRemoveWishListItemListener(this)
-        wishListPresenter.setOnAddWishListItem(this)
+        wishListPresenter.onRemoveWishListItemListener = (this)
+        wishListPresenter.onAddWishListItem = (this)
     }
 
     fun cartClicked(view: View?) {
-        if (product.getCarts().containsKey(auth.getUid())) {
+        if (product.carts.containsKey(auth.uid)) {
             cartPresenter.removeItem(product)
         } else {
             cartPresenter.addItem(product)
@@ -60,7 +62,7 @@ class ProductView : AppCompatActivity(), OnRemoveCartItem, OnAddCartItem, OnAddW
     }
 
     fun wishClicked(view: View?) {
-        if (product.getWishes().containsKey(auth.getUid())) {
+        if (product.wishes.containsKey(auth.uid)) {
             wishListPresenter.removeItem(product)
         } else {
             wishListPresenter.addItem(product)
@@ -76,40 +78,40 @@ class ProductView : AppCompatActivity(), OnRemoveCartItem, OnAddCartItem, OnAddW
         Toast.makeText(this, "Product removed from the cart", Toast.LENGTH_SHORT).show()
     }
 
-    override fun onRemoveCartItemFailed(e: Exception?) {}
+    override fun onRemoveCartItemFailed(e: Exception) {}
     override fun onAddCartItemSuccess() {
         cart.setImageResource(R.drawable.carted)
         Toast.makeText(this, "Offer added to the cart", Toast.LENGTH_SHORT).show()
     }
 
-    override fun onAddCartItemFailed(e: Exception?) {}
+    override fun onAddCartItemFailed(e: Exception) {}
 
     @SuppressLint("SetTextI18n")
-    override fun onGetProductSuccess(product: Product?) {
+    override fun onGetProductSuccess(product: Product) {
         this.product = product
-        if (product.getCarts().containsKey(auth.getUid())) {
+        if (product.carts.containsKey(auth.uid)) {
             cart.setImageResource(R.drawable.carted)
         }
-        if (product.getWishes().containsKey(auth.getUid())) {
+        if (product.wishes.containsKey(auth.uid)) {
             wish.setImageResource(R.drawable.wished)
         }
-        title.setText(product.getTitle())
-        price.setText(product.getPrice().toString() + " EGP")
-        val pics = product.getProductPics()
-        productPics.setAdapter(ProductPicturesRecyclerViewAdapter(pics, this@ProductView))
+        title.text = product.title
+        price.text = product.price.toString() + " EGP"
+        val pics = product.productPics
+        productPics.adapter = ProductPicturesRecyclerViewAdapter(pics, this@ProductView)
     }
 
-    override fun onGetProductFailed(e: Exception?) {}
+    override fun onGetProductFailed(e: Exception) {}
     override fun onAddWishListItemSuccess() {
         wish.setImageResource(R.drawable.wished)
         Toast.makeText(this@ProductView, "Product added to the WishList", Toast.LENGTH_SHORT).show()
     }
 
-    override fun onAddWishListItemFailed(e: Exception?) {}
+    override fun onAddWishListItemFailed(e: Exception) {}
     override fun onRemoveWishListItemSuccess() {
         wish.setImageResource(R.drawable.wish)
         Toast.makeText(this, "Product removed to the WishList", Toast.LENGTH_SHORT).show()
     }
 
-    override fun onRemoveWishListItemFailed(e: Exception?) {}
+    override fun onRemoveWishListItemFailed(e: Exception) {}
 }

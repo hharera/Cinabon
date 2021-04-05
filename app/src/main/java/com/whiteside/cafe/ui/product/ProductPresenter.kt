@@ -1,42 +1,33 @@
 package com.whiteside.cafe.ui.product
 
 import com.google.firebase.firestore.FirebaseFirestore
-import com.whiteside.cafe.model.Item
 import com.whiteside.cafe.model.Product
 
 class ProductPresenter {
-    var listener: OnGetProductListener? = null
-    fun setListener(listener: OnGetProductListener?) {
+    private lateinit var listener: OnGetProductListener
+
+    fun setListener(listener: OnGetProductListener) {
         this.listener = listener
     }
 
-    private fun getProductFromFirebase(item: Item?) {
+    private fun getProductFromFirebase(categoryName: String, productId: String) {
         val fStore = FirebaseFirestore.getInstance()
         fStore.collection("Categories")
-            .document(item.getCategoryName())
+            .document(categoryName)
             .collection("Products")
-            .document(item.getProductId())
+            .document(productId)
             .get()
-            .addOnCompleteListener { task ->
-                if (task.isSuccessful) {
-                    val ds = task.result
-                    val product = ds.toObject(Product::class.java)
-                    product.setProductId(ds.id)
-                    listener.onGetProductSuccess(product)
-                } else {
-                    listener.onGetProductFailed(task.exception)
-                }
+            .addOnSuccessListener {
+                val product = it.toObject(Product::class.java)!!
+                product.productId = (it.id)
+                listener.onGetProductSuccess(product)
+            }
+            .addOnFailureListener {
+                listener.onGetProductFailed(it)
             }
     }
 
-    fun getProduct(item: Item?) {
-        getProductFromFirebase(item)
-    }
-
-    fun getProductInfo(categoryName: String?, productId: String?) {
-        val item = Item()
-        item.categoryName = categoryName
-        item.productId = productId
-        getProduct(item)
+    fun getProductInfo(categoryName: String, productId: String) {
+        getProductFromFirebase(categoryName, productId)
     }
 }

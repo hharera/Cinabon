@@ -11,8 +11,8 @@ import com.google.firebase.firestore.Blob
 import com.whiteside.cafe.R
 
 class ProductPicturesRecyclerViewAdapter(
-    private val pics: MutableList<Blob?>?,
-    private val context: Context?
+    private val pics: MutableList<Blob>,
+    private val context: Context
 ) : RecyclerView.Adapter<ProductPicturesRecyclerViewAdapter.ViewHolder?>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view =
@@ -34,10 +34,7 @@ class ProductPicturesRecyclerViewAdapter(
     }
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        var imageView: ImageView?
+        var imageView: ImageView = itemView.findViewById(R.id.item_image)
 
-        init {
-            imageView = itemView.findViewById(R.id.item_image)
-        }
     }
 }

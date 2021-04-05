@@ -7,12 +7,13 @@ import android.widget.ViewFlipper
 import androidx.appcompat.app.AppCompatActivity
 
 class StartingAppPage : AppCompatActivity() {
-    var viewFlipper: ViewFlipper? = null
+    lateinit var viewFlipper: ViewFlipper
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_pre_view)
         viewFlipper = findViewById(R.id.view_flipper)
-        viewFlipper.setAutoStart(true)
+        viewFlipper.isAutoStart = true
         viewFlipper.startFlipping()
         hide()
     }

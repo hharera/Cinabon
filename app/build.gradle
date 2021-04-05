@@ -5,7 +5,7 @@ plugins {
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
 apply plugin: "androidx.navigation.safeargs"
-apply plugin: 'kotlin-android-extensions'
+//apply plugin: 'kotlin-android-extensions'
 android {
     compileSdkVersion 30
     buildToolsVersion "30.0.2"
@@ -28,7 +28,6 @@ android {
     }
     buildFeatures {
         dataBinding true
-        viewBinding true
     }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
