@@ -1,6 +1,7 @@
 package com.whiteside.cafe
 
 import android.content.Intent
+import android.content.SharedPreferences
 import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
 import android.net.Uri
@@ -29,25 +30,26 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
         initFirebase()
-        fStore = FirebaseFirestore.getInstance()
-        auth = FirebaseAuth.getInstance()
+
         val animation = AnimationUtils.loadAnimation(this, R.anim.waiting_page_transition)
-        val cafe_name = findViewById<TextView?>(R.id.cafe_name)
-        cafe_name.startAnimation(animation)
+        val cafeName = findViewById<TextView?>(R.id.cafe_name)
+        cafeName.startAnimation(animation)
         Handler(mainLooper).postDelayed({ checkInternet() }, 3000)
     }
 
     private fun initFirebase() {
-        if (FirebaseApp.getApps(this).isEmpty()) {
+        if (FirebaseApp.getApps(applicationContext).isNullOrEmpty()) {
             val options = FirebaseOptions.Builder()
-                //old ApplicationId .setApplicationId("1:261802668850:android:3d7d1afc9f8f3d21b0dd2b")
-                .setApplicationId("1:261802668850:android:ef229656eca7e9c0b0dd2b")
-                .setApiKey("AIzaSyDNwH033gu0gBUBRcINWhNHfbeameUpFFw")
+                .setApplicationId("1:261802668850:android:c88ecf82d1a11c7bb0dd2b")
+                .setApiKey("AIzaSyD067FAA98I17gvHxINUNmjo4GeObS2DSQ")
                 .setProjectId("ecommerce-55b58")
                 .build()
-            FirebaseApp.initializeApp(this, options, "Cafe")
+            FirebaseApp.initializeApp(applicationContext, options, "Cafe")
         }
+        fStore = FirebaseFirestore.getInstance()
+        auth = FirebaseAuth.getInstance()
     }
 
     private fun checkInternet() {
@@ -67,33 +69,36 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun signInAnonymously() {
-        auth.signInAnonymously().addOnSuccessListener { addUserToFirebase() }
+        auth.signInAnonymously()
+            .addOnSuccessListener { addUserToFirebase() }
+            .addOnFailureListener { it.printStackTrace() }
         val intent = Intent(this, StartingAppPage::class.java)
         startActivity(intent)
         finish()
     }
 
     private fun addUserToFirebase() {
-        auth.uid!!.let {
+        val user = User()
+        user.let {
+            it.phoneNumber = "NA"
+            it.uid = auth.uid!!
+            it.cartItems = arrayListOf()
+            it.wishList = arrayListOf()
+            it.name = "unknown"
+        }
 
-            val user = User(
-                phoneNumber = "NA",
-                uid = it,
-                cartItems = arrayListOf(),
-                wishList = arrayListOf(),
-                name = "unknown"
-            )
-
+        user.uid.let {
             fStore.collection("Users")
                 .document(it)
                 .set(user)
+
             fStore.collection("Users")
                 .document(it)
                 .collection("Cart")
+
             fStore.collection("Users")
                 .document(it)
                 .collection("WishList")
-
         }
     }
 
@@ -111,18 +116,22 @@ class MainActivity : AppCompatActivity() {
                 val stream = ByteArrayOutputStream()
 
 
+                val sh: SharedPreferences
                 val time = Timestamp.now()
-                val offer = Offer(
-                    "Meals",
-                    endTime = Timestamp(time.seconds + 86400, time.nanoseconds),
-                    productId = productsIds[i],
-                    discountPercentage = 33f,
-                    startTime = time,
-                    offerPic = Blob.fromBytes(stream.toByteArray()),
-                    type = 1
-                )
+                val offer = Offer()
+                offer.let {
+                    it.productId = productsIds[i]
+                    it.discountPercentage = 33f
+                    it.startTime = time
+                    it.endTime = Timestamp(time.seconds + 86400, time.nanoseconds)
+                    it.categoryName = "Meals"
+                    it.offerPic = Blob.fromBytes(stream.toByteArray())
+                    it.type = 1
+                    it.offerId = fStore.collection("Offers").document().id
+                }
                 bitmap!!.compress(Bitmap.CompressFormat.PNG, 100, stream)
-                fStore.collection("Offers").document().set(offer)
+                fStore.collection("Offers").document(offer.offerId).set(offer)
+
             }
 
             override fun onBitmapFailed(e: Exception?, errorDrawable: Drawable?) {}

@@ -73,7 +73,7 @@ class SignUp : AppCompatActivity(), OnSignUpListener {
         builder.setTitle("Enter Code")
         builder.setPositiveButton("Submit") { dialog, which ->
             val code = editText.text.toString()
-            phoneAuthCredential = PhoneAuthProvider.getCredential(verificationId, code)
+            phoneAuthCredential = PhoneAuthProvider.getCredential(verificationId!!, code)
             presenter.getCurrentUserData()
         }
         builder.setNegativeButton("Cancel") { dialog, which -> dialog.cancel() }
@@ -82,7 +82,7 @@ class SignUp : AppCompatActivity(), OnSignUpListener {
 
     override fun onGetUserDataSuccess(user: User) {
         this.user = user
-        presenter.signInWithPhoneAuthCredential(phoneAuthCredential)
+        presenter.signInWithPhoneAuthCredential(phoneAuthCredential!!)
     }
 
     override fun onGetUserDataFailed(e: Exception) {
@@ -95,7 +95,7 @@ class SignUp : AppCompatActivity(), OnSignUpListener {
     }
 
     override fun onSignInSuccess() {
-        auth.currentUser.updatePassword(passwordString)
+        auth.currentUser!!.updatePassword(passwordString!!)
         user.name = (nameString)!!
         user.phoneNumber = (phoneNumber)
         presenter.setNewUserData(user)

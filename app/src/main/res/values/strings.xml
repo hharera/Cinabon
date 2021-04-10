@@ -33,6 +33,5 @@
     <string name="open_in_map">Open In Map</string>
     <string name="egp">EGP</string>
     <string name="price_value">%1$d EGP</string>
-
-
+    <string name="empty_list">There is no items added to the list!</string>
 </resources>

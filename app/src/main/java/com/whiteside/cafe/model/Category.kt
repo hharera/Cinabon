@@ -1,7 +1,7 @@
 package com.whiteside.cafe.model
 
-class Category(
-    var title: String,
-    var drawableId: Int,
-    var itemList: MutableList<Product?>
-)
+class Category {
+    lateinit var title: String
+    var drawableId: Int? = null
+    lateinit var itemList: MutableList<Product?>
+}

@@ -26,21 +26,13 @@
         android:id="@+id/navigation_cart"
         android:name="com.whiteside.cafe.ui.cart.CartFragment"
         android:label="@string/cart"
-        tools:layout="@layout/fragment_cart">
-        <action
-            android:id="@+id/cart_shop_action"
-            app:destination="@id/navigation_shop" />
-    </fragment>
+        tools:layout="@layout/fragment_cart" />
 
     <fragment
         android:id="@+id/navigation_wishlist"
         android:name="com.whiteside.cafe.ui.wishList.WishListFragment"
         android:label="@string/wishlist"
-        tools:layout="@layout/fragment_wishlist">
-        <action
-            android:id="@+id/wishlist_shop_action"
-            app:destination="@id/navigation_shop" />
-    </fragment>
+        tools:layout="@layout/fragment_wishlist" />
 
     <fragment
         android:id="@+id/navigation_search"
@@ -48,9 +40,14 @@
         android:label="Search"
         tools:layout="@layout/search_fragment" />
 
-    <!--    <fragment-->
-    <!--        android:id="@+id/navigation_settings"-->
-    <!--        android:name="com.example.elsafa.ui.settings.SettingsFragment"-->
-    <!--        android:label="@string/action_settings"-->
-    <!--        tools:layout="@layout/fragment_settings" />-->
+    <fragment
+        android:id="@+id/navigation_empty_list"
+        android:name="com.whiteside.cafe.EmptyList"
+        tools:layout="@layout/fragment_empty_list">
+
+        <action
+
+            android:id="@+id/action_shop"
+            app:destination="@id/navigation_shop" />
+    </fragment>
 </navigation>

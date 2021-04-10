@@ -1,67 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="WishListFragment">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/wish_list"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:padding="5sp" />
+        android:layout_height="match_parent">
 
-    <LinearLayout
-        android:visibility="invisible"
-        android:id="@+id/empty_wish_list"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center|top"
-        android:orientation="vertical">
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/cart"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-
-        <TextView
-            android:layout_width="200sp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="50sp"
-            android:gravity="center"
-            android:textColor="#2c3e50"
-            android:text="There is no items added to the wishlist!"
-            android:textSize="18sp"
-            android:textStyle="bold" />
-
-        <ImageView
-            android:layout_width="200sp"
-            android:layout_height="100sp"
-            android:layout_marginTop="15sp"
-            android:src="@drawable/empty_cart" />
-
-        <LinearLayout
-            android:id="@+id/wishlist_shopping"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_marginTop="30sp"
-            android:background="#2c3e50"
-            android:orientation="horizontal">
-
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="3sp"
-                android:fontFamily="@font/anton"
-                android:text="@string/go_shopping"
-                android:textColor="#FFF"
-                android:textSize="18sp" />
-
-            <ImageView
-                android:layout_width="30sp"
-                android:layout_height="30sp"
-                android:layout_gravity="center"
-                android:layout_margin="3sp"
-                android:src="@drawable/shopping_bag" />
-        </LinearLayout>
-    </LinearLayout>
-
-</RelativeLayout>
+        <include
+            android:id="@+id/fragment_empty_list"
+            layout="@layout/fragment_empty_list"
+            android:visibility="invisible" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

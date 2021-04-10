@@ -20,14 +20,14 @@ class SignUpPresenter(listener: OnSignUpListener?, private val activity: Activit
 
     private lateinit var listener: OnSignUpListener
 
-    fun sendVerificationCode(phoneNumber: String?) {
+    fun sendVerificationCode(phoneNumber: String) {
         val mCallbacks: OnVerificationStateChangedCallbacks =
             object : OnVerificationStateChangedCallbacks() {
-                override fun onVerificationCompleted(credential: PhoneAuthCredential?) {
+                override fun onVerificationCompleted(credential: PhoneAuthCredential) {
 //                        listener.onVerificationCompleted(credential);
                 }
 
-                override fun onVerificationFailed(e: FirebaseException?) {
+                override fun onVerificationFailed(e: FirebaseException) {
                     listener.onVerificationFailed(e)
                 }
 
@@ -49,7 +49,7 @@ class SignUpPresenter(listener: OnSignUpListener?, private val activity: Activit
         PhoneAuthProvider.verifyPhoneNumber(options)
     }
 
-    fun signInWithPhoneAuthCredential(credential: PhoneAuthCredential?) {
+    fun signInWithPhoneAuthCredential(credential: PhoneAuthCredential) {
         auth.signOut()
         auth.signInWithCredential(credential)
             .addOnSuccessListener { listener.onSignInSuccess() }
@@ -104,13 +104,14 @@ class SignUpPresenter(listener: OnSignUpListener?, private val activity: Activit
     }
 
     fun setNewUserData(user: User) {
-        val user = User(
-            uid = auth.uid!!,
-            name = user.name,
-            phoneNumber = user.phoneNumber,
-            wishList = ArrayList(),
-            cartItems = ArrayList()
-        )
+        val user = User()
+        user.let {
+            it.uid = auth.uid!!
+            it.name = user.name
+            it.phoneNumber = user.phoneNumber
+            it.wishList = ArrayList()
+            it.cartItems = ArrayList()
+        }
 
         fStore.collection("Users")
             .document(auth.uid!!)

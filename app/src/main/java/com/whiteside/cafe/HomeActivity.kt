@@ -28,6 +28,7 @@ import java.io.ByteArrayOutputStream
 
 
 class HomeActivity : AppCompatActivity() {
+    private var fStore: FirebaseFirestore = FirebaseFirestore.getInstance()
     private lateinit var navController: NavController
 
     private lateinit var appBarConfiguration: AppBarConfiguration
@@ -116,18 +117,20 @@ class HomeActivity : AppCompatActivity() {
                 val stream = ByteArrayOutputStream()
                 bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream)
                 val time = Timestamp.now()
-                val offer = Offer(
-                    productId = productsIds[i],
-                    discountPercentage = 33f,
-                    startTime = time,
-                    endTime = Timestamp(time.seconds + 86400, time.nanoseconds),
-                    categoryName = "Meals",
-                    offerPic = Blob.fromBytes(stream.toByteArray()),
-                    type = 1
-                )
+                val offer = Offer()
+                offer.let {
+                    it.productId = productsIds[i]
+                    it.discountPercentage = 33f
+                    it.startTime = time
+                    it.endTime = Timestamp(time.seconds + 86400, time.nanoseconds)
+                    it.categoryName = "Meals"
+                    it.offerPic = Blob.fromBytes(stream.toByteArray())
+                    it.type = 1
+                    it.offerId = fStore.collection("Offers").document().id
+                }
 
-                val fStore = FirebaseFirestore.getInstance()
-                fStore.collection("Offers").document().set(offer)
+                fStore = FirebaseFirestore.getInstance()
+                fStore.collection("Offers").document(offer.offerId).set(offer)
             }
 
             override fun onBitmapFailed(e: Exception, errorDrawable: Drawable) {}

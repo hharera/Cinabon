@@ -27,12 +27,13 @@ class CartPresenter {
                     .addOnSuccessListener { onAddCartItem.onAddCartItemSuccess() }
             }
         }
-        val item = Item(
-            categoryName = product.categoryName,
-            time = Timestamp.now(),
-            productId = product.productId,
-            quantity = 1
-        )
+        val item = Item()
+        item.let {
+            it.categoryName = product.categoryName
+            it.time = Timestamp.now()
+            it.productId = product.productId
+            it.quantity = 1
+        }
         val thread1: Thread = object : Thread() {
             override fun run() {
                 fStore.collection("Users")

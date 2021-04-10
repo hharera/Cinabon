@@ -2,9 +2,9 @@ package com.whiteside.cafe.model
 
 import com.google.firebase.Timestamp
 
-class Item(
-    var categoryName: String,
-    var productId: String,
-    var quantity: Int,
-    var time: Timestamp,
-)
+class Item {
+    lateinit var categoryName: String
+    lateinit var productId: String
+    var quantity: Int? = null
+    lateinit var time: Timestamp
+}

@@ -12,6 +12,8 @@ class CategoryProductsPresenter(var listener: OnGetProductListener) {
         fStore.collection("Categories")
             .document(categoryName)
             .collection("Products")
+            //TODO add mechanism to load more when end
+            .limit(10)
             .get()
             .addOnSuccessListener {
                 for (ds in it.documents) {

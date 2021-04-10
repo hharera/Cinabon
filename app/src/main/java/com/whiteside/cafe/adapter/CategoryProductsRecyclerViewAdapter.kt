@@ -36,8 +36,8 @@ class CategoryProductsRecyclerViewAdapter(
         holder.title.text = products[position].price.toString()
         holder.productCardView.setOnClickListener(View.OnClickListener {
             val intent = Intent(context, ProductView::class.java)
-            intent.putExtra("productId", products.get(position).productId)
-            intent.putExtra("categoryName", products.get(position).categoryName)
+            intent.putExtra("productId", products[position].productId)
+            intent.putExtra("categoryName", products[position].categoryName)
             context.startActivity(intent)
         })
     }

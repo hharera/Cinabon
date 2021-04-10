@@ -1,12 +1,15 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 buildscript {
+    ext {
+        kotlin_version = '1.4.31'
+    }
     repositories {
         google()
         jcenter()
     }
     dependencies {
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.4.31"
-        classpath 'com.android.tools.build:gradle:4.2.0-beta05'
+        classpath 'com.android.tools.build:gradle:4.2.0-beta06'
         classpath 'com.google.gms:google-services:4.3.5'
 
         def nav_version = "2.3.1"
@@ -22,6 +25,11 @@ allprojects {
         google()
         jcenter()
         maven { url 'https://jitpack.io' }
+    }
+    repositories.all {
+        if (url.host == 'jcenter.bintray.com') {
+            new Throwable('jcenter repository was just added').printStackTrace()
+        }
     }
 }
 

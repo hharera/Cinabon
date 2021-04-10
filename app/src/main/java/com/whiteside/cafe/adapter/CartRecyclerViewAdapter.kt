@@ -50,7 +50,7 @@ class CartRecyclerViewAdapter(
                 holder.title!!.text = product.title
                 val quantity = list[position].quantity
                 holder.quantity!!.text = quantity.toString()
-                val totalPrice = product.price * quantity
+                val totalPrice = product.price * quantity!!
                 holder.total_price!!.text = "$totalPrice EGP"
                 cartFragment.editTotalBill(totalPrice.toDouble())
                 setListener(holder, position, product)

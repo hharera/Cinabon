@@ -50,12 +50,14 @@ class WishListPresenter {
                     .addOnSuccessListener { onAddWishListItem.onAddWishListItemSuccess() }
             }
         }
-        val item = Item(
-            time = Timestamp.now(),
-            categoryName = product.categoryName,
-            productId = product.productId,
-            quantity = 1
-        )
+
+        val item = Item()
+        item.let {
+            it.categoryName = product.categoryName
+            it.time = Timestamp.now()
+            it.productId = product.productId
+            it.quantity = 1
+        }
 
         val thread1: Thread = object : Thread() {
             override fun run() {

@@ -2,14 +2,17 @@ package com.whiteside.cafe.model
 
 import com.google.firebase.firestore.Blob
 
-class Product(
-    private var mainPic: Blob,
-    var productPics: MutableList<Blob>,
-    var wishes: MutableMap<String, Int>,
-    var carts: MutableMap<String, Int>,
-    var productId: String,
+class Product {
+
+    //    var mainPic: Blob? = null
+    lateinit var productPics: ArrayList<Blob>
+    lateinit var wishes: HashMap<String, Int>
+    lateinit var carts: HashMap<String, Int>
+    lateinit var productId: String
+
     // TODO static list of category names
-    var categoryName: String,
-    var title: String,
-    var price: Float,
-)
+    lateinit var categoryName: String
+    lateinit var title: String
+    var price: Float = 0.0f
+
+}

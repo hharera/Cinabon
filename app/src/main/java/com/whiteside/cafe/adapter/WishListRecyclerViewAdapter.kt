@@ -1,7 +1,6 @@
 package com.whiteside.cafe.adapter
 
 import android.content.Context
-import android.content.res.Resources
 import android.graphics.BitmapFactory
 import android.view.LayoutInflater
 import android.view.View
@@ -41,27 +40,30 @@ class WishListRecyclerViewAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val productPresenter = ProductPresenter()
-        productPresenter.setListener(object : OnGetProductListener {
-            override fun onGetProductSuccess(product: Product) {
-                holder.itemImage.setImageBitmap(
-                    BitmapFactory.decodeByteArray(
-                        product.productPics[0].toBytes(), 0, product.productPics[0].toBytes().size
+        with(productPresenter) {
+            setListener(object : OnGetProductListener {
+                override fun onGetProductSuccess(product: Product) {
+                    holder.itemImage.setImageBitmap(
+                        BitmapFactory.decodeByteArray(
+                            product.productPics[0].toBytes(),
+                            0,
+                            product.productPics[0].toBytes().size
+                        )
                     )
-                )
-                holder.title.text = product.title
-                val quantity = list.get(position).quantity
-                val totalPrice = product.price * quantity
-                holder.price.text =
-                    Resources.getSystem().getString(R.string.price_value, totalPrice)
-                setListeners(holder, product)
-            }
+                    holder.title.text = product.title
+                    val quantity = list[position].quantity
+                    val totalPrice = product.price * quantity!!
+                    holder.price.text = "$totalPrice EGP"
+                    setListeners(holder, product)
+                }
 
-            override fun onGetProductFailed(e: Exception) {}
-        })
-        productPresenter.getProductInfo(
-            list.get(position).categoryName,
-            list.get(position).productId
-        )
+                override fun onGetProductFailed(e: Exception) {}
+            })
+            getProductInfo(
+                list[position].categoryName,
+                list[position].productId
+            )
+        }
     }
 
     private fun setListeners(holder: ViewHolder, product: Product) {

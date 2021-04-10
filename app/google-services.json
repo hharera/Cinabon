@@ -8,18 +8,18 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:261802668850:android:ef229656eca7e9c0b0dd2b",
+        "mobilesdk_app_id": "1:261802668850:android:c88ecf82d1a11c7bb0dd2b",
         "android_client_info": {
           "package_name": "com.whiteside.cafe"
         }
       },
       "oauth_client": [
         {
-          "client_id": "261802668850-69j0j6b04be5l1b1ppeoos5269fjf7d3.apps.googleusercontent.com",
+          "client_id": "261802668850-1vlp6lrrmtr4v4t6uncjtjtnvqij7kbt.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.whiteside.cafe",
-            "certificate_hash": "105e6944eebbe4521bc5bf67244947540c151e37"
+            "certificate_hash": "624f481adc8c4d1fc03f18403f825042f97a8208"
           }
         },
         {
@@ -29,7 +29,7 @@
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyCQ8ocHVHfwyFYVmYpV7Q1JBGlYivvOjNk"
+          "current_key": "AIzaSyD067FAA98I17gvHxINUNmjo4GeObS2DSQ"
         }
       ],
       "services": {
