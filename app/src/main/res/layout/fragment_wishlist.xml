@@ -10,13 +10,19 @@
             android:id="@+id/cart"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:visibility="invisible"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <include
-            android:id="@+id/fragment_empty_list"
-            layout="@layout/fragment_empty_list"
-            android:visibility="invisible" />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <include
+                android:id="@+id/fragment_empty_list"
+                layout="@layout/fragment_empty_list"
+                android:visibility="visible" />
+        </RelativeLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

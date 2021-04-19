@@ -1,33 +1,19 @@
 package com.whiteside.cafe.ui.product
 
-import com.google.firebase.firestore.FirebaseFirestore
+import com.whiteside.cafe.common.firebase.FirebaseProductRepository
 import com.whiteside.cafe.model.Product
+import javax.inject.Inject
 
-class ProductPresenter {
-    private lateinit var listener: OnGetProductListener
+class ProductPresenter @Inject constructor(val productRepository: FirebaseProductRepository) {
 
-    fun setListener(listener: OnGetProductListener) {
-        this.listener = listener
-    }
-
-    private fun getProductFromFirebase(categoryName: String, productId: String) {
-        val fStore = FirebaseFirestore.getInstance()
-        fStore.collection("Categories")
-            .document(categoryName)
-            .collection("Products")
-            .document(productId)
-            .get()
+    fun getProduct(categoryName: String, productId: String, result: (Product) -> Unit) {
+        productRepository.getProduct(categoryName, productId)
             .addOnSuccessListener {
                 val product = it.toObject(Product::class.java)!!
-                product.productId = (it.id)
-                listener.onGetProductSuccess(product)
+                result(product)
             }
             .addOnFailureListener {
-                listener.onGetProductFailed(it)
+                it.printStackTrace()
             }
-    }
-
-    fun getProductInfo(categoryName: String, productId: String) {
-        getProductFromFirebase(categoryName, productId)
     }
 }

@@ -7,15 +7,16 @@ import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.viewpager2.widget.ViewPager2
 import com.google.firebase.auth.FirebaseAuth
+import com.whiteside.cafe.CafeApp
 import com.whiteside.cafe.R
 import com.whiteside.cafe.adapter.ProductPicturesRecyclerViewAdapter
 import com.whiteside.cafe.model.Product
 import com.whiteside.cafe.ui.cart.CartPresenter
 import com.whiteside.cafe.ui.cart.OnAddCartItem
 import com.whiteside.cafe.ui.cart.OnRemoveCartItem
-import com.whiteside.cafe.ui.wishList.OnAddWishListItem
-import com.whiteside.cafe.ui.wishList.OnRemoveWishListItemListener
-import com.whiteside.cafe.ui.wishList.WishListPresenter
+import com.whiteside.cafe.ui.wishlist.OnAddWishListItem
+import com.whiteside.cafe.ui.wishlist.OnRemoveWishListItemListener
+import com.whiteside.cafe.ui.wishlist.WishListPresenter
 
 class ProductView : AppCompatActivity(), OnRemoveCartItem, OnAddCartItem, OnAddWishListItem,
 
@@ -45,7 +46,7 @@ class ProductView : AppCompatActivity(), OnRemoveCartItem, OnAddCartItem, OnAddW
         productPresenter = ProductPresenter()
         productPresenter.setListener(this)
         productPresenter.getProductInfo(categoryName, productId)
-        cartPresenter = CartPresenter()
+        cartPresenter = CartPresenter(application as CafeApp)
         cartPresenter.onRemoveCartItem = (this)
         cartPresenter.onAddCartItem = (this)
         wishListPresenter = WishListPresenter()

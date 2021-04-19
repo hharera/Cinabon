@@ -33,13 +33,13 @@ class CategoryProductsRecyclerViewAdapter(
             )
         )
         holder.price.text = products[position].price.toString() + " EGP"
-        holder.title.text = products[position].price.toString()
-        holder.productCardView.setOnClickListener(View.OnClickListener {
+        holder.title.text = products[position].title
+        holder.productCardView.setOnClickListener {
             val intent = Intent(context, ProductView::class.java)
             intent.putExtra("productId", products[position].productId)
             intent.putExtra("categoryName", products[position].categoryName)
             context.startActivity(intent)
-        })
+        }
     }
 
     override fun getItemCount(): Int {

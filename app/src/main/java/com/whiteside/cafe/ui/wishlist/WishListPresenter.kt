@@ -1,4 +1,4 @@
-package com.whiteside.cafe.ui.wishList
+package com.whiteside.cafe.ui.wishlist
 
 import com.google.firebase.Timestamp
 import com.google.firebase.auth.FirebaseAuth

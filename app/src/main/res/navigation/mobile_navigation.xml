@@ -30,7 +30,7 @@
 
     <fragment
         android:id="@+id/navigation_wishlist"
-        android:name="com.whiteside.cafe.ui.wishList.WishListFragment"
+        android:name="com.whiteside.cafe.ui.wishlist.WishListFragment"
         android:label="@string/wishlist"
         tools:layout="@layout/fragment_wishlist" />
 

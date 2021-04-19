@@ -10,6 +10,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.whiteside.cafe.CafeApp
 import com.whiteside.cafe.R
 import com.whiteside.cafe.model.Item
 import com.whiteside.cafe.model.Product
@@ -17,13 +18,14 @@ import com.whiteside.cafe.ui.cart.CartPresenter
 import com.whiteside.cafe.ui.cart.OnAddCartItem
 import com.whiteside.cafe.ui.product.OnGetProductListener
 import com.whiteside.cafe.ui.product.ProductPresenter
-import com.whiteside.cafe.ui.wishList.OnRemoveWishListItemListener
-import com.whiteside.cafe.ui.wishList.WishListFragment
-import com.whiteside.cafe.ui.wishList.WishListPresenter
+import com.whiteside.cafe.ui.wishlist.OnRemoveWishListItemListener
+import com.whiteside.cafe.ui.wishlist.WishListFragment
+import com.whiteside.cafe.ui.wishlist.WishListPresenter
 
 class WishListRecyclerViewAdapter(
     private val list: MutableList<Item>,
     private val context: Context,
+    private val application: CafeApp,
     private val wishListFragment: WishListFragment?
 ) : RecyclerView.Adapter<WishListRecyclerViewAdapter.ViewHolder?>(), OnRemoveWishListItemListener,
     OnAddCartItem {
@@ -106,7 +108,7 @@ class WishListRecyclerViewAdapter(
         auth = FirebaseAuth.getInstance()
         wishListPresenter = WishListPresenter()
         wishListPresenter.onRemoveWishListItemListener = (this)
-        cartPresenter = CartPresenter()
+        cartPresenter = CartPresenter(application)
         cartPresenter.onAddCartItem = (this)
     }
 }

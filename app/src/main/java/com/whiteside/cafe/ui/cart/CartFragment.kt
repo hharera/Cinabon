@@ -8,9 +8,8 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.auth.FirebaseAuth
+import com.whiteside.cafe.CafeApp
 import com.whiteside.cafe.R
 import com.whiteside.cafe.Receipt
 import com.whiteside.cafe.adapter.CartRecyclerViewAdapter
@@ -18,43 +17,47 @@ import com.whiteside.cafe.databinding.CartCheckoutBinding
 import com.whiteside.cafe.databinding.FragmentCartBinding
 import com.whiteside.cafe.model.Item
 import com.whiteside.cafe.ui.signUp.SignUp
+import dagger.hilt.android.AndroidEntryPoint
 import java.util.*
+import javax.inject.Inject
 
-class CartFragment : Fragment(), OnGetCartItem {
+@AndroidEntryPoint
+class CartFragment : Fragment() {
     private var auth: FirebaseAuth = FirebaseAuth.getInstance()
 
     private var items: ArrayList<Item> = ArrayList<Item>()
-    private lateinit var adapter: CartRecyclerViewAdapter
+    private var adapter: CartRecyclerViewAdapter
     private var totalBill: Double
-    private lateinit var presenter: CartPresenter
-    private lateinit var recyclerView: RecyclerView
+
+    @Inject
+    lateinit var presenter: CartPresenter
 
     private lateinit var bind: FragmentCartBinding
     private lateinit var checkoutBinding: CartCheckoutBinding
-
-    private lateinit var viewGroup: ViewGroup
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         bind = DataBindingUtil.inflate(inflater, R.layout.fragment_cart, container, false)
+
         checkoutBinding = bind.checkout
 
-        viewGroup = container!!
+        bind.cart.setHasFixedSize(true)
+        bind.cart.adapter = adapter
 
-        recyclerView = bind.cart
-        recyclerView.layoutManager = LinearLayoutManager(context)
-        recyclerView.setHasFixedSize(true)
-        adapter = CartRecyclerViewAdapter(items, requireContext(), this)
-        recyclerView.adapter = adapter
+        getCart()
 
-        presenter = CartPresenter()
-        presenter.onGetCartItem = (this)
-        presenter.getCartItems()
         setCheckOutListener()
 
         return bind.root
+    }
+
+    private fun getCart() {
+        presenter.getCartItems(
+            { onGetCartItem(it) },
+            { onCartIsEmpty() }
+        )
     }
 
     private fun setCheckOutListener() {
@@ -74,7 +77,7 @@ class CartFragment : Fragment(), OnGetCartItem {
         items.clear()
         adapter.notifyDataSetChanged()
         totalBill = 0.0
-        presenter.getCartItems()
+//        presenter.getCartItems()
     }
 
     fun editTotalBill(price: Double) {
@@ -82,15 +85,12 @@ class CartFragment : Fragment(), OnGetCartItem {
         checkoutBinding.billCost.text = ("$totalBill EGP")
     }
 
-    override fun onGetCartItemSuccess(item: Item) {
+    private fun onGetCartItem(item: Item) {
         items.add(item)
         adapter.notifyDataSetChanged()
     }
 
-    override fun onGetCartItemFailed(e: Exception) {
-    }
-
-    override fun onCartIsEmpty() {
+    private fun onCartIsEmpty() {
         bind.fragmentEmptyList.root.visibility = View.VISIBLE
         bind.checkoutLayout.visibility = View.INVISIBLE
 
@@ -100,6 +100,12 @@ class CartFragment : Fragment(), OnGetCartItem {
     }
 
     init {
+        adapter = CartRecyclerViewAdapter(
+            items,
+            requireContext(),
+            requireActivity().application as CafeApp,
+            this
+        )
         totalBill = 0.0
     }
 }

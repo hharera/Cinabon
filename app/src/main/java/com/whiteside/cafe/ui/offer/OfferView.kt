@@ -1,6 +1,5 @@
 package com.whiteside.cafe.ui.offer
 
-import android.annotation.SuppressLint
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.view.View
@@ -14,17 +13,11 @@ import com.whiteside.cafe.databinding.ActivityOfferViewBinding
 import com.whiteside.cafe.model.Offer
 import com.whiteside.cafe.model.Product
 import com.whiteside.cafe.ui.cart.CartPresenter
-import com.whiteside.cafe.ui.cart.OnAddCartItem
-import com.whiteside.cafe.ui.cart.OnRemoveCartItem
-import com.whiteside.cafe.ui.product.OnGetProductListener
 import com.whiteside.cafe.ui.product.ProductPresenter
-import com.whiteside.cafe.ui.shop.OnGetOffersListener
-import com.whiteside.cafe.ui.wishList.OnAddWishListItem
-import com.whiteside.cafe.ui.wishList.OnRemoveWishListItemListener
-import com.whiteside.cafe.ui.wishList.WishListPresenter
+import com.whiteside.cafe.ui.wishlist.WishListPresenter
+import javax.inject.Inject
 
-class OfferView : AppCompatActivity(), OnGetOffersListener, OnAddCartItem, OnRemoveCartItem,
-    OnAddWishListItem, OnRemoveWishListItemListener, OnGetProductListener {
+class OfferView : AppCompatActivity() {
 
     private lateinit var bind: ActivityOfferViewBinding
     private var auth: FirebaseAuth = FirebaseAuth.getInstance()
@@ -32,10 +25,18 @@ class OfferView : AppCompatActivity(), OnGetOffersListener, OnAddCartItem, OnRem
     private lateinit var product: Product
     private lateinit var offer: Offer
     private lateinit var offerId: String
-    private lateinit var offerPresenter: OfferPresenter
-    private lateinit var productPresenter: ProductPresenter
-    private lateinit var cartPresenter: CartPresenter
-    private lateinit var wishListPresenter: WishListPresenter
+
+    @Inject
+    lateinit var offerPresenter: OfferPresenter
+
+    @Inject
+    lateinit var productPresenter: ProductPresenter
+
+    @Inject
+    lateinit var cartPresenter: CartPresenter
+
+    @Inject
+    lateinit var wishListPresenter: WishListPresenter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,24 +46,39 @@ class OfferView : AppCompatActivity(), OnGetOffersListener, OnAddCartItem, OnRem
         val offerId = intent.extras!!.getString("offerId")!!
         title = findViewById(R.id.title)
 
-        productPresenter = ProductPresenter()
-        productPresenter.setListener(this)
-        cartPresenter = CartPresenter()
-        cartPresenter.onAddCartItem = (this)
-        cartPresenter.onRemoveCartItem = (this)
-        wishListPresenter = WishListPresenter()
-        wishListPresenter.onAddWishListItem = (this)
-        wishListPresenter.onRemoveWishListItemListener = (this)
-        offerPresenter = OfferPresenter(this)
-        offerPresenter.getOffer(offerId)
+        getOffer()
+    }
+
+    private fun getOffer() {
+        offerPresenter.getOfferById(offerId) {
+            offer = it
+            setOfferView()
+            getProduct()
+        }
+    }
+
+    private fun getProduct() {
+        productPresenter.getProduct(offer.categoryName, offer.productId) {
+            product = it
+        }
     }
 
     fun cartClicked(view: View?) {
-        if (product.carts.containsKey(auth.uid)) {
-            cartPresenter.removeItem(product)
-        } else {
-            cartPresenter.addItem(product)
+        cartPresenter.checkItem(product) {
+            if (it) {
+                cartPresenter.removeItem {
+                }
+            } else {
+                cartPresenter.addItem {
+
+                }
+
+            }
         }
+        cartPresenter.removeItem(product) {
+            Toast.makeText(this, "Failed to load product", Toast.LENGTH_SHORT).show()
+        }
+
     }
 
     fun wishClicked(view: View?) {
@@ -77,26 +93,15 @@ class OfferView : AppCompatActivity(), OnGetOffersListener, OnAddCartItem, OnRem
         finish()
     }
 
-    @SuppressLint("SetTextI18n")
-    override fun onGetOfferSuccess(offer: Offer) {
-        this.offer = offer
+    fun setOfferView() {
         setEndTime()
-        productPresenter.getProductInfo(offer.categoryName, offer.productId)
     }
 
-    @SuppressLint("SetTextI18n")
     private fun setEndTime() {
         object :
             CountDownTimer((offer.endTime.seconds - Timestamp.now().seconds) * 1000, 1000) {
-            @SuppressLint("SetTextI18n")
             override fun onTick(millisUntilFinished: Long) {
-                var millisUntilFinished = millisUntilFinished
-                val days = millisUntilFinished / 86400000
-                millisUntilFinished = millisUntilFinished % 86400000
-                val hours = millisUntilFinished / 3600000
-                millisUntilFinished = millisUntilFinished % 60000
-                val miens = millisUntilFinished / 60000
-                bind.endTime.text = "$days days $hours hours $miens Miens"
+
             }
 
             override fun onFinish() {
@@ -107,7 +112,6 @@ class OfferView : AppCompatActivity(), OnGetOffersListener, OnAddCartItem, OnRem
             "Ends In " + (offer.endTime.seconds - Timestamp.now().seconds) / 86400 + " days"
     }
 
-    override fun onGetOfferFailed(e: Exception) {}
     override fun onGetProductSuccess(product: Product) {
         bind.title.text = product.title
         bind.price.text = "${product.price} EGP"
@@ -123,7 +127,6 @@ class OfferView : AppCompatActivity(), OnGetOffersListener, OnAddCartItem, OnRem
     }
 
     override fun onGetProductFailed(e: Exception) {
-        Toast.makeText(this, "Failed to load product", Toast.LENGTH_SHORT).show()
     }
 
     override fun onRemoveCartItemSuccess() {

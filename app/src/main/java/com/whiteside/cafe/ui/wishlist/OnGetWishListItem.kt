@@ -1,4 +1,4 @@
-package com.whiteside.cafe.ui.wishList
+package com.whiteside.cafe.ui.wishlist
 
 import com.whiteside.cafe.model.Item
 

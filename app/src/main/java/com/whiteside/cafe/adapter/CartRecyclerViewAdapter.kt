@@ -13,6 +13,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.whiteside.cafe.CafeApp
 import com.whiteside.cafe.R
 import com.whiteside.cafe.model.Item
 import com.whiteside.cafe.model.Product
@@ -25,6 +26,7 @@ import com.whiteside.cafe.ui.product.ProductPresenter
 class CartRecyclerViewAdapter(
     private val list: ArrayList<Item>,
     private val context: Context,
+    private val application: CafeApp,
     private val cartFragment: CartFragment
 ) : RecyclerView.Adapter<CartRecyclerViewAdapter.ViewHolder?>(), OnRemoveCartItem {
 
@@ -66,12 +68,12 @@ class CartRecyclerViewAdapter(
         setRemoveListener(holder, product)
     }
 
-    private fun setRemoveListener(holder: ViewHolder?, product: Product?) {
-        holder!!.remove!!.setOnClickListener(View.OnClickListener {
+    private fun setRemoveListener(holder: ViewHolder?, product: Product) {
+        holder!!.remove!!.setOnClickListener {
             cartPresenter!!.removeItem(
-                product!!
+                product
             )
-        })
+        }
     }
 
     private fun setEditListener(holder: ViewHolder?, position: Int, price: Float) {
@@ -131,7 +133,7 @@ class CartRecyclerViewAdapter(
     init {
         fStore = FirebaseFirestore.getInstance()
         auth = FirebaseAuth.getInstance()
-        cartPresenter = CartPresenter()
+        cartPresenter = CartPresenter(application)
         cartPresenter.onRemoveCartItem = (this)
     }
 }

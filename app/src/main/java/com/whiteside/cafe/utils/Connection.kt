@@ -1,16 +1,9 @@
 package com.whiteside.cafe.utils
 
-import android.content.Context
-import android.net.ConnectivityManager
-import androidx.appcompat.app.AppCompatActivity
+import dagger.Module
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
 
-class Connection {
-
-    companion object {
-        fun checkConnection(context: Context): Boolean {
-            val cm =
-                context.getSystemService(AppCompatActivity.CONNECTIVITY_SERVICE) as ConnectivityManager
-            return cm.activeNetwork != null
-        }
-    }
-}
+@Module
+@InstallIn(SingletonComponent::class)
+class Connection

@@ -6,6 +6,7 @@
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
+        android:name=".CafeApp"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -22,7 +23,7 @@
             android:name=".CafeLocation"
             android:label="@string/title_activity_cafe_location" />
         <activity android:name="com.whiteside.cafe.ui.search.SearchResults" />
-        <activity android:name=".InternetActivity" />
+        <activity android:name=".NoInternetActivity" />
         <activity android:name="com.whiteside.cafe.ui.offer.OfferView" />
         <activity android:name=".HomeActivity" />
         <activity android:name="com.whiteside.cafe.ui.category.CategoryProducts" />
@@ -34,7 +35,7 @@
 
         <activity android:name=".StartingAppPage" />
         <activity
-            android:name=".MainActivity"
+            android:name=".ui.main.MainActivity"
             android:theme="@style/Theme.Design.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

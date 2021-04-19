@@ -1,23 +1,47 @@
 package com.whiteside.cafe.ui.offer
 
-import com.google.firebase.firestore.FirebaseFirestore
+import android.app.Application
+import com.whiteside.cafe.common.firebase.FirebaseOfferRepository
 import com.whiteside.cafe.model.Offer
-import com.whiteside.cafe.ui.shop.OnGetOffersListener
+import javax.inject.Inject
 
-class OfferPresenter(private val listener: OnGetOffersListener) {
+class OfferPresenter @Inject constructor(
+    val application: Application,
+    val repo: FirebaseOfferRepository
+) {
 
-    private fun getOfferFromFirebase(offerId: String) {
-        val fStore = FirebaseFirestore.getInstance()
-        fStore.collection("Offers")
-            .document(offerId)
-            .get()
-            .addOnSuccessListener { ds ->
-                val offer = ds.toObject(Offer::class.java)!!
-                listener.onGetOfferSuccess(offer)
+    fun getOfferById(offerId: String, result: (Offer) -> (Unit)) {
+        repo.getOfferById(offerId)
+            .addOnSuccessListener {
+                val offer = it.toObject(Offer::class.java)!!
+                result(offer)
             }
     }
 
-    fun getOffer(offerId: String) {
-        getOfferFromFirebase(offerId)
+    fun getBestOffers(result: (Offer) -> Unit) {
+        repo.getBestOffers()
+            .addOnSuccessListener {
+                it.documents.forEach {
+                    val offer = it.toObject(Offer::class.java)!!
+                    result(offer)
+                }
+            }
+    }
+
+    fun getLastOffers(result: (Offer) -> Unit) {
+        repo.getLastOffers()
+            .addOnSuccessListener {
+                it.documents.forEach {
+                    val offer = it.toObject(Offer::class.java)!!
+                    result(offer)
+                }
+            }
+    }
+
+    fun setBestOffer(offer: Offer, result: (Unit) -> Unit) {
+        repo.setBestOffer(offer)
+            .addOnSuccessListener {
+                result
+            }
     }
 }

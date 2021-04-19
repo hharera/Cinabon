@@ -16,7 +16,6 @@ import androidx.navigation.ui.*
 import com.google.firebase.Timestamp
 import com.google.firebase.firestore.Blob
 import com.google.firebase.firestore.FirebaseFirestore
-import com.mancj.materialsearchbar.MaterialSearchBar
 import com.mancj.materialsearchbar.SimpleOnSearchActionListener
 import com.squareup.picasso.Picasso
 import com.squareup.picasso.Picasso.LoadedFrom
@@ -24,22 +23,24 @@ import com.squareup.picasso.Target
 import com.whiteside.cafe.databinding.ActivityHomeBinding
 import com.whiteside.cafe.model.Offer
 import com.whiteside.cafe.ui.search.SearchResults
+import dagger.hilt.android.AndroidEntryPoint
 import java.io.ByteArrayOutputStream
 
 
+@AndroidEntryPoint
 class HomeActivity : AppCompatActivity() {
     private var fStore: FirebaseFirestore = FirebaseFirestore.getInstance()
     private lateinit var navController: NavController
 
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var bind: ActivityHomeBinding
-
-    private var searchBar: MaterialSearchBar? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         bind = DataBindingUtil.setContentView(this, R.layout.activity_home)
         setSupportActionBar(bind.toolBar)
+
+        serSearchListeners()
 
         navController = Navigation.findNavController(this, R.id.nav_host_fragment)
         appBarConfiguration = AppBarConfiguration(
@@ -80,7 +81,7 @@ class HomeActivity : AppCompatActivity() {
     }
 
     private fun setUpWithToolBar() {
-        NavigationUI.setupActionBarWithNavController(this, navController)
+        NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration)
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -93,7 +94,7 @@ class HomeActivity : AppCompatActivity() {
     }
 
     private fun serSearchListeners() {
-        searchBar!!.setOnSearchActionListener(object : SimpleOnSearchActionListener() {
+        bind.searchView!!.setOnSearchActionListener(object : SimpleOnSearchActionListener() {
             override fun onSearchConfirmed(text: CharSequence) {
                 super.onSearchConfirmed(text)
                 val intent = Intent(this@HomeActivity, SearchResults::class.java)

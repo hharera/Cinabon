@@ -4,7 +4,6 @@ import com.google.firebase.firestore.Blob
 
 class Product {
 
-    //    var mainPic: Blob? = null
     lateinit var productPics: ArrayList<Blob>
     lateinit var wishes: HashMap<String, Int>
     lateinit var carts: HashMap<String, Int>
