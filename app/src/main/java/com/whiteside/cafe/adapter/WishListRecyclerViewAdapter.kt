@@ -81,7 +81,7 @@ class WishListRecyclerViewAdapter(
     }
 
     override fun onRemoveWishListItemSuccess() {
-        wishListFragment!!.updateView()
+        wishListFragment!!.getWishList()
     }
 
     override fun onRemoveWishListItemFailed(e: Exception) {}

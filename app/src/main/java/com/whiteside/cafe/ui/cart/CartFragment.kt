@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.google.firebase.auth.FirebaseAuth
 import com.whiteside.cafe.CafeApp
@@ -17,6 +18,7 @@ import com.whiteside.cafe.databinding.CartCheckoutBinding
 import com.whiteside.cafe.databinding.FragmentCartBinding
 import com.whiteside.cafe.model.Item
 import com.whiteside.cafe.ui.signUp.SignUp
+import com.whiteside.cafe.view_model.CartViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.*
 import javax.inject.Inject
@@ -33,18 +35,26 @@ class CartFragment : Fragment() {
     lateinit var presenter: CartPresenter
 
     private lateinit var bind: FragmentCartBinding
+    private lateinit var cartViewModel: CartViewModel
+
     private lateinit var checkoutBinding: CartCheckoutBinding
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
+
         bind = DataBindingUtil.inflate(inflater, R.layout.fragment_cart, container, false)
+        cartViewModel = ViewModelProvider(this).get(CartViewModel::class.java)
+
+        bind.viewModel = cartViewModel
 
         checkoutBinding = bind.checkout
 
         bind.cart.setHasFixedSize(true)
         bind.cart.adapter = adapter
+
+        cartViewModel.getCartItems()
 
         getCart()
 

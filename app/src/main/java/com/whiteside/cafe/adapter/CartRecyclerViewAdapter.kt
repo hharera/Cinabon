@@ -19,16 +19,18 @@ import com.whiteside.cafe.model.Item
 import com.whiteside.cafe.model.Product
 import com.whiteside.cafe.ui.cart.CartFragment
 import com.whiteside.cafe.ui.cart.CartPresenter
-import com.whiteside.cafe.ui.cart.OnRemoveCartItem
-import com.whiteside.cafe.ui.product.OnGetProductListener
 import com.whiteside.cafe.ui.product.ProductPresenter
+import javax.inject.Inject
 
 class CartRecyclerViewAdapter(
     private val list: ArrayList<Item>,
     private val context: Context,
     private val application: CafeApp,
     private val cartFragment: CartFragment
-) : RecyclerView.Adapter<CartRecyclerViewAdapter.ViewHolder?>(), OnRemoveCartItem {
+) : RecyclerView.Adapter<CartRecyclerViewAdapter.ViewHolder?>() {
+
+    @Inject
+    lateinit var productPresenter: ProductPresenter
 
     private val fStore: FirebaseFirestore?
     private val auth: FirebaseAuth?
@@ -40,27 +42,24 @@ class CartRecyclerViewAdapter(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val productPresenter = ProductPresenter()
+        productPresenter.getProduct(list[position].categoryName, list[position].productId) {
+            updateView(it)
+        }
+    }
 
-        productPresenter.setListener(object : OnGetProductListener {
-            override fun onGetProductSuccess(product: Product) {
-                holder.imageView!!.setImageBitmap(
-                    BitmapFactory.decodeByteArray(
-                        product.productPics[0].toBytes(), 0, product.productPics[0].toBytes().size
-                    )
-                )
-                holder.title!!.text = product.title
-                val quantity = list[position].quantity
-                holder.quantity!!.text = quantity.toString()
-                val totalPrice = product.price * quantity!!
-                holder.total_price!!.text = "$totalPrice EGP"
-                cartFragment.editTotalBill(totalPrice.toDouble())
-                setListener(holder, position, product)
-            }
-
-            override fun onGetProductFailed(e: Exception) {}
-        })
-        productPresenter.getProductInfo(list[position].categoryName, list[position].productId)
+    private fun updateView(product: Product) {
+        holder.imageView!!.setImageBitmap(
+            BitmapFactory.decodeByteArray(
+                product.productPics[0].toBytes(), 0, product.productPics[0].toBytes().size
+            )
+        )
+        holder.title!!.text = product.title
+        val quantity = list[position].quantity
+        holder.quantity!!.text = quantity.toString()
+        val totalPrice = product.price * quantity!!
+        holder.total_price!!.text = "$totalPrice EGP"
+        cartFragment.editTotalBill(totalPrice.toDouble())
+        setListener(holder, position, product)
     }
 
     private fun setListener(holder: ViewHolder?, position: Int, product: Product) {
@@ -70,9 +69,9 @@ class CartRecyclerViewAdapter(
 
     private fun setRemoveListener(holder: ViewHolder?, product: Product) {
         holder!!.remove!!.setOnClickListener {
-            cartPresenter!!.removeItem(
-                product
-            )
+            cartPresenter!!.removeItem(product) {
+
+            }
         }
     }
 
@@ -111,7 +110,6 @@ class CartRecyclerViewAdapter(
 //        cartFragment.updateView()
     }
 
-    override fun onRemoveCartItemFailed(e: Exception) {}
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         var imageView: ImageView?
         var title: TextView?

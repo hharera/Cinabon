@@ -1,11 +1,14 @@
 package com.whiteside.cafe.ui.cart
 
+import com.google.firebase.auth.FirebaseAuth
 import com.whiteside.cafe.common.firebase.FirebaseCartRepository
 import com.whiteside.cafe.model.Item
 import com.whiteside.cafe.model.Product
 import javax.inject.Inject
 
 class CartPresenter @Inject constructor(private val cartRepository: FirebaseCartRepository) {
+    val auth by lazy { FirebaseAuth.getInstance() }
+
     fun addItem(product: Product, result: (Void) -> (Unit)) {
         addItemToUserCart(product, result)
     }
@@ -26,8 +29,13 @@ class CartPresenter @Inject constructor(private val cartRepository: FirebaseCart
                 result(it)
             }
             .addOnFailureListener {
+                removeItemFromUserCart(product, result)
                 it.printStackTrace()
             }
+    }
+
+    fun removeItem(product: Product, result: (Void) -> Unit) {
+        removeItemFromUserCart(product, result)
     }
 
     private fun removeItemFromUserCart(product: Product, result: (Void) -> Unit) {
@@ -45,12 +53,9 @@ class CartPresenter @Inject constructor(private val cartRepository: FirebaseCart
             .addOnSuccessListener {
             }
             .addOnFailureListener {
+                addItemToUserCart(product, result)
                 it.printStackTrace()
             }
-    }
-
-    fun removeItem(product: Product, result: (Void) -> Unit) {
-        removeItemFromUserCart(product, result)
     }
 
     fun updateQuantity(item: Item, quantity: Int, result: (Int) -> Void) {
@@ -78,11 +83,11 @@ class CartPresenter @Inject constructor(private val cartRepository: FirebaseCart
             }
     }
 
-    fun checkItem(product: Product, emptyList: (Boolean) -> Unit) {
+    fun checkItem(product: Product, result: (Boolean) -> Unit) {
         if (product.carts.containsKey(auth.uid)) {
-
+            result(true)
         } else {
-            cartPresenter.addItem(product)
+            result(false)
         }
     }
 }

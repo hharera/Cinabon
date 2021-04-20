@@ -1,7 +1,6 @@
 package com.whiteside.cafe.ui.offer
 
 import android.os.Bundle
-import android.os.CountDownTimer
 import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
@@ -15,6 +14,7 @@ import com.whiteside.cafe.model.Product
 import com.whiteside.cafe.ui.cart.CartPresenter
 import com.whiteside.cafe.ui.product.ProductPresenter
 import com.whiteside.cafe.ui.wishlist.WishListPresenter
+import com.whiteside.cafe.utils.Time
 import javax.inject.Inject
 
 class OfferView : AppCompatActivity() {
@@ -43,7 +43,7 @@ class OfferView : AppCompatActivity() {
         setContentView(R.layout.activity_offer_view)
         auth = FirebaseAuth.getInstance()
 
-        val offerId = intent.extras!!.getString("offerId")!!
+        offerId = intent.extras!!.getString("offerId")!!
         title = findViewById(R.id.title)
 
         getOffer()
@@ -52,7 +52,7 @@ class OfferView : AppCompatActivity() {
     private fun getOffer() {
         offerPresenter.getOfferById(offerId) {
             offer = it
-            setOfferView()
+            updateOfferView()
             getProduct()
         }
     }
@@ -60,32 +60,55 @@ class OfferView : AppCompatActivity() {
     private fun getProduct() {
         productPresenter.getProduct(offer.categoryName, offer.productId) {
             product = it
+            updateProductView()
         }
     }
 
     fun cartClicked(view: View?) {
         cartPresenter.checkItem(product) {
-            if (it) {
-                cartPresenter.removeItem {
-                }
-            } else {
-                cartPresenter.addItem {
-
-                }
-
+            when (it) {
+                true -> removeCartItem()
+                false -> addCartItem()
             }
         }
-        cartPresenter.removeItem(product) {
-            Toast.makeText(this, "Failed to load product", Toast.LENGTH_SHORT).show()
-        }
+    }
 
+    private fun addCartItem() {
+        cartPresenter.addItem(product) {
+            bind.cart.setImageResource(R.drawable.carted)
+            Toast.makeText(this@OfferView, "product added to the cart", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    private fun removeCartItem() {
+        cartPresenter.removeItem(product) {
+            bind.cart.setImageResource(R.drawable.cart)
+            Toast.makeText(this@OfferView, "product removed from the cart", Toast.LENGTH_SHORT)
+                .show()
+        }
     }
 
     fun wishClicked(view: View?) {
-        if (product.wishes.containsKey(auth.uid)) {
-            wishListPresenter.removeItem(product)
-        } else {
-            wishListPresenter.addItem(product)
+        wishListPresenter.checkItem(product) {
+            when (it) {
+                true -> removeWishListItem()
+                false -> addWishListItem()
+            }
+        }
+    }
+
+    private fun addWishListItem() {
+        wishListPresenter.addItem(product) {
+            bind.wish.setImageResource(R.drawable.wished)
+            Toast.makeText(this, "Product Added to the wishList", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    private fun removeWishListItem() {
+        wishListPresenter.removeItem(product) {
+            bind.wish.setImageResource(R.drawable.wish)
+            Toast.makeText(this@OfferView, "product removed from the wishList", Toast.LENGTH_SHORT)
+                .show()
         }
     }
 
@@ -93,26 +116,12 @@ class OfferView : AppCompatActivity() {
         finish()
     }
 
-    fun setOfferView() {
-        setEndTime()
-    }
-
-    private fun setEndTime() {
-        object :
-            CountDownTimer((offer.endTime.seconds - Timestamp.now().seconds) * 1000, 1000) {
-            override fun onTick(millisUntilFinished: Long) {
-
-            }
-
-            override fun onFinish() {
-                bind.endTime.text = "Offer is Expired"
-            }
-        }.start()
+    fun updateOfferView() {
         bind.endTime.text =
-            "Ends In " + (offer.endTime.seconds - Timestamp.now().seconds) / 86400 + " days"
+            Time.timeStampToCountDown(offer.endTime.seconds - Timestamp.now().seconds)
     }
 
-    override fun onGetProductSuccess(product: Product) {
+    fun updateProductView() {
         bind.title.text = product.title
         bind.price.text = "${product.price} EGP"
         val pics = product.productPics
@@ -124,42 +133,5 @@ class OfferView : AppCompatActivity() {
             bind.wish.setImageResource(R.drawable.wished)
         }
         this.product = product
-    }
-
-    override fun onGetProductFailed(e: Exception) {
-    }
-
-    override fun onRemoveCartItemSuccess() {
-        bind.cart.setImageResource(R.drawable.cart)
-        Toast.makeText(this, "Product removed from the cart", Toast.LENGTH_SHORT).show()
-    }
-
-    override fun onAddWishListItemSuccess() {
-        bind.wish.setImageResource(R.drawable.wished)
-        Toast.makeText(this, "Product Added to the wishList", Toast.LENGTH_SHORT).show()
-    }
-
-    override fun onRemoveCartItemFailed(e: Exception) {
-        Toast.makeText(this, "Operation Failed", Toast.LENGTH_SHORT).show()
-    }
-
-    override fun onAddWishListItemFailed(e: Exception) {
-        Toast.makeText(this, "Operation Failed", Toast.LENGTH_SHORT).show()
-    }
-
-    override fun onAddCartItemSuccess() {
-        bind.cart.setImageResource(R.drawable.carted)
-        Toast.makeText(this@OfferView, "product added to the cart", Toast.LENGTH_SHORT).show()
-    }
-
-    override fun onAddCartItemFailed(e: Exception) {}
-    override fun onRemoveWishListItemSuccess() {
-        bind.wish.setImageResource(R.drawable.wish)
-        Toast.makeText(this@OfferView, "product removed from the wishList", Toast.LENGTH_SHORT)
-            .show()
-    }
-
-    override fun onRemoveWishListItemFailed(e: Exception) {
-        Toast.makeText(this, "Operation Failed", Toast.LENGTH_SHORT).show()
     }
 }

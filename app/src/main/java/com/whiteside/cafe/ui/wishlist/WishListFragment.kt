@@ -10,18 +10,17 @@ import androidx.navigation.fragment.findNavController
 import com.whiteside.cafe.CafeApp
 import com.whiteside.cafe.R
 import com.whiteside.cafe.adapter.WishListRecyclerViewAdapter
-import com.whiteside.cafe.databinding.FragmentEmptyListBinding
 import com.whiteside.cafe.databinding.FragmentWishlistBinding
 import com.whiteside.cafe.model.Item
-import java.util.*
+import javax.inject.Inject
 
-class WishListFragment : Fragment(), OnGetWishListItem {
-    private var wishListItems: MutableList<Item> = ArrayList<Item>()
-
+class WishListFragment : Fragment() {
+    private var wishListItems: ArrayList<Item> = ArrayList()
     private lateinit var adapter: WishListRecyclerViewAdapter
-    private lateinit var wishListPresenter: WishListPresenter
 
-    private lateinit var emptyListBinding: FragmentEmptyListBinding
+    @Inject
+    lateinit var wishListPresenter: WishListPresenter
+
     private lateinit var bind: FragmentWishlistBinding
 
     override fun onCreateView(
@@ -36,36 +35,26 @@ class WishListFragment : Fragment(), OnGetWishListItem {
             requireActivity().application as CafeApp,
             this
         )
+
         bind.cart.adapter = adapter
 
-        wishListPresenter = WishListPresenter()
-        wishListPresenter.onGetWishListItem = (this)
-        wishListPresenter.getWishListItems()
+        bind.fragmentEmptyList.cartShopping.setOnClickListener {
+            findNavController().navigate(R.id.navigation_shop)
+        }
 
         return bind.root
     }
 
-    fun updateView() {
-        wishListItems.clear()
-        adapter.notifyDataSetChanged()
-        wishListPresenter.getWishListItems()
+    fun getWishList() {
+        wishListPresenter.getWishList {
+            wishListItems.add(it)
+            adapter.notifyDataSetChanged()
+            updateView()
+        }
     }
 
-    override fun onGetWishListItemSuccess(item: Item) {
+    private fun updateView() {
         bind.cart.visibility = View.VISIBLE
         bind.fragmentEmptyList.root.visibility = View.INVISIBLE
-
-        wishListItems.add(item)
-        adapter.notifyDataSetChanged()
-    }
-
-    override fun onGetWishListItemFailed(e: Exception) {
-        e.printStackTrace()
-    }
-
-    override fun onWishListIsEmpty() {
-        bind.fragmentEmptyList.cartShopping.setOnClickListener {
-            findNavController().navigate(R.id.navigation_shop)
-        }
     }
 }
