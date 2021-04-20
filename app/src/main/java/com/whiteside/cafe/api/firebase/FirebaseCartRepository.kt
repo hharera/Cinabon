@@ -1,36 +1,21 @@
-package com.whiteside.cafe.common.firebase
+package com.whiteside.cafe.api.firebase
 
 import com.google.android.gms.tasks.Task
 import com.google.firebase.Timestamp
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.QuerySnapshot
-import com.whiteside.cafe.common.repository.WishListRepository
+import com.whiteside.cafe.api.repository.CartRepository
 import com.whiteside.cafe.model.Item
 import com.whiteside.cafe.model.Product
 import javax.inject.Inject
 
-class FirebaseWishListRepository @Inject constructor() : WishListRepository {
+class FirebaseCartRepository @Inject constructor() : CartRepository {
     private val auth: FirebaseAuth by lazy { FirebaseAuth.getInstance() }
     private val fStore: FirebaseFirestore by lazy { FirebaseFirestore.getInstance() }
 
-    override fun getWishListItems(): Task<QuerySnapshot> =
-        fStore.collection("Users")
-            .document(auth.uid!!)
-            .collection("WishList")
-            .get()
 
-//    override fun addItem(product: Product) {
-//        addItemToUserWishList(product)
-//        addWishListToProduct(product)
-//    }
-//
-//    override fun removeItem(product: Product) {
-//        removeWishListFromProduct(product)
-//        return removeItemFromUserWishList(product)
-//    }
-
-    override fun addItemToUserWishList(product: Product): Task<Void> {
+    override fun addItemToUserCart(product: Product): Task<Void> {
         val item = Item()
         item.let {
             it.categoryName = product.categoryName
@@ -38,36 +23,50 @@ class FirebaseWishListRepository @Inject constructor() : WishListRepository {
             it.productId = product.productId
             it.quantity = 1
         }
-
         return fStore.collection("Users")
             .document(auth.uid!!)
-            .collection("WishList")
+            .collection("Cart")
             .document(product.categoryName + product.productId)
             .set(item)
     }
 
-    override fun addWishListToProduct(product: Product): Task<Void> {
-        product.wishes[auth.uid!!] = 1
+    override fun addCartToItem(product: Product): Task<Void> {
+        product.carts[auth.uid!!] = 1
+
         return fStore.collection("Categories")
             .document(product.categoryName)
             .collection("Products")
             .document(product.productId)
-            .update("wishes", product.wishes)
+            .update("carts", product.carts)
     }
 
-    override fun removeItemFromUserWishList(product: Product) =
+    override fun removeItemFromUserCart(product: Product): Task<Void> =
         fStore.collection("Users")
             .document(auth.uid!!)
-            .collection("WishList")
+            .collection("Cart")
             .document(product.categoryName + product.productId)
             .delete()
 
-    override fun removeWishListFromProduct(product: Product): Task<Void> {
-        product.wishes.remove(auth.uid!!)
+    override fun removeCartFromProduct(product: Product): Task<Void> {
+        product.carts.remove(auth.uid)
+
         return fStore.collection("Categories")
             .document(product.categoryName)
             .collection("Products")
             .document(product.productId)
-            .update("wishes", product.wishes)
+            .update("carts", product.carts)
     }
+
+    override fun updateQuantity(item: Item, quantity: Int): Task<Void> =
+        fStore.collection("Users")
+            .document(auth.uid!!)
+            .collection("Cart")
+            .document(item.categoryName + item.productId)
+            .update("quantity", quantity)
+
+    override fun getCartItems(): Task<QuerySnapshot> =
+        fStore.collection("Users")
+            .document(auth.uid!!)
+            .collection("Cart")
+            .get()
 }

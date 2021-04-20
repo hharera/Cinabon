@@ -1,9 +1,9 @@
 package com.whiteside.cafe.ui.main
 
 import com.google.firebase.auth.FirebaseUser
+import com.whiteside.cafe.api.firebase.FirebaseAuthRepository
+import com.whiteside.cafe.api.firebase.FirebaseUserRepo
 import com.whiteside.cafe.common.BaseListener
-import com.whiteside.cafe.common.firebase.FirebaseAuthRepository
-import com.whiteside.cafe.common.firebase.FirebaseUserRepo
 import com.whiteside.cafe.model.User
 import javax.inject.Inject
 

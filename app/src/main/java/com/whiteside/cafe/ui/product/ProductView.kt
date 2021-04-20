@@ -12,10 +12,6 @@ import com.whiteside.cafe.R
 import com.whiteside.cafe.adapter.ProductPicturesRecyclerViewAdapter
 import com.whiteside.cafe.model.Product
 import com.whiteside.cafe.ui.cart.CartPresenter
-import com.whiteside.cafe.ui.cart.OnAddCartItem
-import com.whiteside.cafe.ui.cart.OnRemoveCartItem
-import com.whiteside.cafe.ui.wishlist.OnAddWishListItem
-import com.whiteside.cafe.ui.wishlist.OnRemoveWishListItemListener
 import com.whiteside.cafe.ui.wishlist.WishListPresenter
 
 class ProductView : AppCompatActivity(), OnRemoveCartItem, OnAddCartItem, OnAddWishListItem,

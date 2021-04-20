@@ -1,8 +1,8 @@
-package com.whiteside.cafe.common.firebase
+package com.whiteside.cafe.api.firebase
 
 import com.google.android.gms.tasks.Task
 import com.google.firebase.firestore.FirebaseFirestore
-import com.whiteside.cafe.common.repository.OfferRepository
+import com.whiteside.cafe.api.repository.OfferRepository
 import com.whiteside.cafe.model.Offer
 import javax.inject.Inject
 

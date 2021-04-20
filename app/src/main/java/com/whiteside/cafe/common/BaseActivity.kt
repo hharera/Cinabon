@@ -1,4 +1,4 @@
-package com.whiteside.cafe.common.ui
+package com.whiteside.cafe.common
 
 import android.net.ConnectivityManager
 import androidx.appcompat.app.AppCompatActivity

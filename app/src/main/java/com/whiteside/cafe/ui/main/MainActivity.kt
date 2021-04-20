@@ -9,8 +9,8 @@ import com.google.firebase.auth.FirebaseUser
 import com.whiteside.cafe.HomeActivity
 import com.whiteside.cafe.NoInternetActivity
 import com.whiteside.cafe.R
+import com.whiteside.cafe.common.BaseActivity
 import com.whiteside.cafe.common.BaseListener
-import com.whiteside.cafe.common.ui.BaseActivity
 import com.whiteside.cafe.model.User
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject

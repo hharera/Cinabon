@@ -12,7 +12,6 @@ import com.whiteside.cafe.databinding.ActivityOfferViewBinding
 import com.whiteside.cafe.model.Offer
 import com.whiteside.cafe.model.Product
 import com.whiteside.cafe.ui.cart.CartPresenter
-import com.whiteside.cafe.ui.product.ProductPresenter
 import com.whiteside.cafe.ui.wishlist.WishListPresenter
 import com.whiteside.cafe.utils.Time
 import javax.inject.Inject

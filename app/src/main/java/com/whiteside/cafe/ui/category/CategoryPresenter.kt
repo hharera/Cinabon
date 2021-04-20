@@ -1,6 +1,6 @@
 package com.whiteside.cafe.ui.category
 
-import com.whiteside.cafe.common.firebase.FirebaseCategoryRepository
+import com.whiteside.cafe.api.firebase.FirebaseCategoryRepository
 import com.whiteside.cafe.model.Product
 import javax.inject.Inject
 

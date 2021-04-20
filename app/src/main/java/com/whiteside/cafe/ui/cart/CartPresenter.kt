@@ -1,7 +1,7 @@
 package com.whiteside.cafe.ui.cart
 
 import com.google.firebase.auth.FirebaseAuth
-import com.whiteside.cafe.common.firebase.FirebaseCartRepository
+import com.whiteside.cafe.api.firebase.FirebaseCartRepository
 import com.whiteside.cafe.model.Item
 import com.whiteside.cafe.model.Product
 import javax.inject.Inject

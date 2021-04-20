@@ -1,7 +1,7 @@
 package com.whiteside.cafe.ui.wishlist
 
 import com.google.firebase.auth.FirebaseAuth
-import com.whiteside.cafe.common.firebase.FirebaseWishListRepository
+import com.whiteside.cafe.api.firebase.FirebaseWishListRepository
 import com.whiteside.cafe.model.Item
 import com.whiteside.cafe.model.Product
 import javax.inject.Inject

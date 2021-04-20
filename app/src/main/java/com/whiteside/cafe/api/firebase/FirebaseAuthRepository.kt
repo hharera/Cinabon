@@ -1,9 +1,9 @@
-package com.whiteside.cafe.common.firebase
+package com.whiteside.cafe.api.firebase
 
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
-import com.whiteside.cafe.common.repository.AuthManager
+import com.whiteside.cafe.api.repository.AuthManager
 import javax.inject.Inject
 
 class FirebaseAuthRepository @Inject constructor() : AuthManager {
@@ -15,7 +15,7 @@ class FirebaseAuthRepository @Inject constructor() : AuthManager {
 
     override fun signInAnonymously(): Task<AuthResult> = auth.signInAnonymously()
 
-    override fun signInPhoneNumber() {
+    override fun signInByPhoneNumber() {
         TODO("Not yet implemented")
     }
 

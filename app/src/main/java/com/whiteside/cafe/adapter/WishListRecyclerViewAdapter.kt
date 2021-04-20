@@ -1,7 +1,6 @@
 package com.whiteside.cafe.adapter
 
 import android.content.Context
-import android.graphics.BitmapFactory
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,10 +14,6 @@ import com.whiteside.cafe.R
 import com.whiteside.cafe.model.Item
 import com.whiteside.cafe.model.Product
 import com.whiteside.cafe.ui.cart.CartPresenter
-import com.whiteside.cafe.ui.cart.OnAddCartItem
-import com.whiteside.cafe.ui.product.OnGetProductListener
-import com.whiteside.cafe.ui.product.ProductPresenter
-import com.whiteside.cafe.ui.wishlist.OnRemoveWishListItemListener
 import com.whiteside.cafe.ui.wishlist.WishListFragment
 import com.whiteside.cafe.ui.wishlist.WishListPresenter
 

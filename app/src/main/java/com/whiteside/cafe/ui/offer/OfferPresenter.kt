@@ -1,7 +1,7 @@
 package com.whiteside.cafe.ui.offer
 
 import android.app.Application
-import com.whiteside.cafe.common.firebase.FirebaseOfferRepository
+import com.whiteside.cafe.api.firebase.FirebaseOfferRepository
 import com.whiteside.cafe.model.Offer
 import javax.inject.Inject
 

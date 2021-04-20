@@ -1,7 +1,7 @@
-package com.whiteside.cafe.common.firebase
+package com.whiteside.cafe.api.firebase
 
 import com.google.firebase.firestore.FirebaseFirestore
-import com.whiteside.cafe.common.repository.UserRepository
+import com.whiteside.cafe.api.repository.UserRepository
 import com.whiteside.cafe.model.User
 import javax.inject.Inject
 
