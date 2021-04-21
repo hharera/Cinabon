@@ -4,94 +4,138 @@ import android.app.AlertDialog
 import android.os.Bundle
 import android.text.InputType
 import android.view.View
-import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.google.firebase.FirebaseException
-import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.PhoneAuthCredential
-import com.google.firebase.auth.PhoneAuthProvider
-import com.google.firebase.auth.PhoneAuthProvider.ForceResendingToken
-import com.google.firebase.firestore.FirebaseFirestore
 import com.hbb20.CountryCodePicker
 import com.whiteside.cafe.R
+import com.whiteside.cafe.api.repository.AuthManager
+import com.whiteside.cafe.api.repository.UserRepository
+import com.whiteside.cafe.databinding.ActivitySignupBinding
+import com.whiteside.cafe.model.Item
 import com.whiteside.cafe.model.User
+import com.whiteside.cafe.ui.cart.CartPresenter
+import com.whiteside.cafe.ui.wishlist.WishListPresenter
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class SignUp : AppCompatActivity(), OnSignUpListener {
-    private lateinit var name: EditText
-    private lateinit var password: EditText
-    private lateinit var phone: EditText
+class SignUp : AppCompatActivity() {
     private lateinit var country_code: CountryCodePicker
-    private lateinit var sign_up: Button
     private lateinit var phoneNumber: String
-    private lateinit var auth: FirebaseAuth
-    private lateinit var fStore: FirebaseFirestore
     private lateinit var oldUserID: String
-    private lateinit var presenter: SignUpPresenter
+
+    @Inject
+    lateinit var signupPresenter: SignUpPresenter
+
+    @Inject
+    lateinit var cartPresenter: CartPresenter
+
+    @Inject
+    lateinit var wishListPresenter: WishListPresenter
+
+    @Inject
+    lateinit var authManager: AuthManager
+
+    @Inject
+    lateinit var userRepository: UserRepository
+
+    lateinit var bind: ActivitySignupBinding
+
     private lateinit var user: User
+    private lateinit var newUser: User
+
     private var phoneAuthCredential: PhoneAuthCredential? = null
     private var nameString: String? = null
     private var passwordString: String? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_signup)
-        phone = findViewById(R.id.phone_number)
+
+        bind = ActivitySignupBinding.inflate(layoutInflater)
         country_code = findViewById(R.id.country_code)
-        name = findViewById(R.id.name)
-        password = findViewById(R.id.password)
-        sign_up = findViewById(R.id.sign_up)
-        auth = FirebaseAuth.getInstance()
-        fStore = FirebaseFirestore.getInstance()
-        presenter = SignUpPresenter(this, this)
-        oldUserID = auth.uid!!
+
     }
 
     fun signUpClicked(view: View?) {
-        passwordString = password.text.toString()
-        nameString = name.text.toString()
+        passwordString = bind.password.text.toString()
+        nameString = bind.name.text.toString()
+        phoneNumber = "+" +
+                country_code.selectedCountryCode +
+                "${bind.phoneNumber.text}"
 
-        if (name.equals("")) {
-            name.error = "Name is required"
-        } else if ("" == phone.text.toString()) {
-            Toast.makeText(this, "Phone Number is required", Toast.LENGTH_LONG).show()
-        } else if ("" == passwordString) {
-            password.error = "Password is required"
-        } else {
-            phoneNumber = "+" + country_code.selectedCountryCode + phone.text.toString()
-            nameString = name.text.toString()
-            presenter.sendVerificationCode(phoneNumber)
+        when (nameString) {
+            "" -> bind.name.error = "Name is required"
+        }
+
+        when (bind.phoneNumber.text.toString()) {
+            "" ->
+                Toast.makeText(this, "Phone Number is required", Toast.LENGTH_LONG).show()
+        }
+
+        when (passwordString) {
+            "" -> bind.password.error = "Password is required"
+        }
+
+        signupPresenter.sendVerificationCode(phoneNumber) {
+            when (it) {
+                "wrong" -> Toast.makeText(this, "Something went wrong", Toast.LENGTH_LONG).show()
+                else -> promptCode(it)
+            }
         }
     }
 
-    private fun promptCode(verificationId: String?) {
-        val builder = AlertDialog.Builder(this)
+    private fun promptCode(verificationId: String) {
         val editText = EditText(this)
         editText.inputType = InputType.TYPE_CLASS_NUMBER
-        builder.setView(editText)
-        builder.setCancelable(false)
-        builder.setTitle("Enter Code")
-        builder.setPositiveButton("Submit") { dialog, which ->
-            val code = editText.text.toString()
-            phoneAuthCredential = PhoneAuthProvider.getCredential(verificationId!!, code)
-            presenter.getCurrentUserData()
-        }
-        builder.setNegativeButton("Cancel") { dialog, which -> dialog.cancel() }
-        builder.show()
+
+        AlertDialog.Builder(this)
+            .setView(editText)
+            .setCancelable(false)
+            .setTitle("Enter Code")
+            .setNegativeButton("Cancel") { _, _a -> }
+            .setPositiveButton("Submit") { _, _a ->
+                val code = editText.text.toString()
+                checkCredential(signupPresenter.createCredential(code, verificationId))
+            }.show()
     }
 
-    override fun onGetUserDataSuccess(user: User) {
-        this.user = user
-        presenter.signInWithPhoneAuthCredential(phoneAuthCredential!!)
+    private fun checkCredential(phoneAuthCredential: PhoneAuthCredential) {
+        GlobalScope.launch {
+            getOldUserData()
+            signupPresenter.signInWithPhoneAuthCredential(phoneAuthCredential) {
+                when (it) {
+                    null -> Toast.makeText(this, "Wrong Verification code", Toast.LENGTH_LONG)
+                        .show()
+                    else -> set
+                }
+            }
+        }
+    }
+
+    suspend fun getOldUserData() {
+        GlobalScope.launch {
+            val cart = ArrayList<Item>()
+            cartPresenter.getCartItems {
+                cart.add(it)
+            }
+
+            val wishlist = ArrayList<Item>()
+            wishListPresenter.getWishList {
+                wishlist.add(it)
+            }
+
+            val user = signupPresenter.getUser(
+                authManager.getCurrentUser().uid
+            ) {
+                it
+            }
+        }
     }
 
     override fun onGetUserDataFailed(e: Exception) {
         Toast.makeText(this, "Something went wrong", Toast.LENGTH_LONG).show()
         e.printStackTrace()
-    }
-
-    override fun onSignInFailed() {
-        Toast.makeText(this, "Invalid Verification Code", Toast.LENGTH_LONG).show()
     }
 
     override fun onSignInSuccess() {
@@ -102,16 +146,10 @@ class SignUp : AppCompatActivity(), OnSignUpListener {
         presenter.removeUserData(oldUserID)
     }
 
-    override fun onCodeSent(verificationId: String, forceResendingToken: ForceResendingToken) {
-        promptCode(verificationId)
-    }
 
     override fun onVerificationCompleted(credential: PhoneAuthCredential?) {
         this.phoneAuthCredential = phoneAuthCredential
         presenter.getCurrentUserData()
     }
 
-    override fun onVerificationFailed(e: FirebaseException?) {
-        e?.printStackTrace()
-    }
 }

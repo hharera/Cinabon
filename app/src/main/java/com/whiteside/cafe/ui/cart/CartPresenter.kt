@@ -68,7 +68,7 @@ class CartPresenter @Inject constructor(private val cartRepository: FirebaseCart
             }
     }
 
-    fun getCartItems(result: (Item) -> Unit, emptyList: (Boolean) -> Unit) {
+    fun getCartItems(result: (Item) -> Unit) {
         cartRepository
             .getCartItems()
             .addOnSuccessListener {

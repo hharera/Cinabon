@@ -1,61 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".EmptyList">
 
-    <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
+    <LinearLayout
+        android:id="@+id/empty_cart"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".EmptyList">
+        android:gravity="center|top"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="200sp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="50sp"
+            android:gravity="center"
+            android:text="@string/empty_list"
+            android:textColor="#2c3e50"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <ImageView
+            android:layout_width="200sp"
+            android:layout_height="100sp"
+            android:layout_marginTop="15sp"
+            android:src="@drawable/empty_cart" />
 
         <LinearLayout
-            android:id="@+id/empty_cart"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center|top"
-            android:orientation="vertical">
+            android:id="@+id/cart_shopping"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30sp"
+            android:background="#2c3e50"
+            android:orientation="horizontal">
+
 
             <TextView
-                android:layout_width="200sp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="50sp"
-                android:gravity="center"
-                android:text="@string/empty_list"
-                android:textColor="#2c3e50"
-                android:textSize="18sp"
-                android:textStyle="bold" />
-
-            <ImageView
-                android:layout_width="200sp"
-                android:layout_height="100sp"
-                android:layout_marginTop="15sp"
-                android:src="@drawable/empty_cart" />
-
-            <LinearLayout
-                android:id="@+id/cart_shopping"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="30sp"
-                android:background="#2c3e50"
-                android:orientation="horizontal">
+                android:layout_margin="3sp"
+                android:fontFamily="@font/anton"
+                android:text="@string/go_shopping"
+                android:textColor="#FFF"
+                android:textSize="18sp" />
 
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="3sp"
-                    android:fontFamily="@font/anton"
-                    android:text="@string/go_shopping"
-                    android:textColor="#FFF"
-                    android:textSize="18sp" />
-
-                <ImageView
-                    android:layout_width="30sp"
-                    android:layout_height="30sp"
-                    android:layout_gravity="center"
-                    android:layout_margin="3sp"
-                    android:src="@drawable/shopping_bag" />
-            </LinearLayout>
+            <ImageView
+                android:layout_width="30sp"
+                android:layout_height="30sp"
+                android:layout_gravity="center"
+                android:layout_margin="3sp"
+                android:src="@drawable/shopping_bag" />
         </LinearLayout>
-    </FrameLayout>
-
-</layout>
+    </LinearLayout>
+</FrameLayout>

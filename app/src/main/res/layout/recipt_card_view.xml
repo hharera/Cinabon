@@ -24,5 +24,4 @@
         android:text="1800 EGP"
         android:textColor="#000"
         android:textSize="18sp" />
-
 </RelativeLayout>

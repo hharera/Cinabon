@@ -2,14 +2,14 @@ package com.whiteside.cafe.ui.main
 
 import com.google.firebase.auth.FirebaseUser
 import com.whiteside.cafe.api.firebase.FirebaseAuthRepository
-import com.whiteside.cafe.api.firebase.FirebaseUserRepo
+import com.whiteside.cafe.api.repository.UserRepository
 import com.whiteside.cafe.common.BaseListener
 import com.whiteside.cafe.model.User
 import javax.inject.Inject
 
 class MainPresenter @Inject constructor(
     val authRepo: FirebaseAuthRepository,
-    val userRepo: FirebaseUserRepo
+    val userRepo: UserRepository
 ) {
 
     fun signInAnonymously(listener: BaseListener<FirebaseUser>) {

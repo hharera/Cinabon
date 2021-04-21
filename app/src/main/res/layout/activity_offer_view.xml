@@ -1,110 +1,96 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.offer.OfferView">
 
-    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/app_bar"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:context=".ui.offer.OfferView">
-
-        <com.google.android.material.appbar.AppBarLayout
-            android:id="@+id/app_bar"
-            android:layout_width="match_parent"
-            android:layout_height="45sp"
-            android:background="#FFF"
-            android:gravity="center">
-
-            <ImageView
-                android:layout_width="35sp"
-                android:layout_height="35sp"
-                android:layout_gravity="start"
-                android:layout_margin="4sp"
-                android:onClick="goBack"
-                android:src="@drawable/ic_arrow_left_black_48dp" />
-        </com.google.android.material.appbar.AppBarLayout>
-
-
-        <androidx.viewpager2.widget.ViewPager2
-            android:id="@+id/product_pics"
-            android:layout_width="match_parent"
-            android:layout_height="250sp"
-            android:layout_below="@id/app_bar" />
+        android:layout_height="45sp"
+        android:background="#FFF"
+        android:gravity="center">
 
         <ImageView
-            android:id="@+id/wish"
-            android:layout_width="25sp"
-            android:layout_height="25sp"
-            android:layout_below="@id/app_bar"
-            android:layout_marginStart="8sp"
-            android:layout_marginTop="100sp"
-            android:onClick="wishClicked"
-            android:src="@drawable/wish" />
+            android:layout_width="35sp"
+            android:layout_height="35sp"
+            android:layout_gravity="start"
+            android:layout_margin="4sp"
+            android:onClick="goBack"
+            android:src="@drawable/ic_arrow_left_black_48dp" />
+    </com.google.android.material.appbar.AppBarLayout>
 
 
-        <ImageView
-            android:id="@+id/cart"
-            android:layout_width="25sp"
-            android:layout_height="25sp"
-            android:layout_below="@id/app_bar"
-            android:layout_marginStart="8sp"
-            android:layout_marginTop="135sp"
-            android:onClick="cartClicked"
-            android:src="@drawable/cart" />
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/product_pics"
+        android:layout_width="match_parent"
+        android:layout_height="250sp"
+        android:layout_below="@id/app_bar" />
 
-        <TextView
-            android:id="@+id/title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/product_pics"
-            android:layout_margin="3sp"
-            android:fontFamily="@font/basic"
-            android:padding="5sp"
-            android:text="ماوس كومباكت لاسلكى نت لينوفو 300"
-            android:textColor="#000"
-            android:textSize="20sp" />
+    <ImageView
+        android:id="@+id/wish"
+        android:layout_width="25sp"
+        android:layout_height="25sp"
+        android:layout_below="@id/app_bar"
+        android:layout_marginStart="8sp"
+        android:layout_marginTop="100sp"
+        android:onClick="wishClicked"
+        android:src="@drawable/wish" />
 
-        <TextView
-            android:id="@+id/price"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/title"
-            android:layout_alignParentLeft="true"
-            android:layout_marginTop="10sp"
-            android:paddingStart="12sp"
-            android:paddingTop="3sp"
-            android:paddingEnd="12sp"
-            android:paddingBottom="3sp"
-            android:text="210 جنيه"
-            android:textColor="#000"
-            android:textSize="20sp"
-            android:textStyle="bold" />
 
-        <TextView
-            android:id="@+id/end_Time"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/title"
-            android:layout_alignParentRight="true"
-            android:layout_marginStart="20sp"
-            android:layout_marginTop="10sp"
-            android:fontFamily="@font/shadows_into_light_two"
-            android:gravity="center"
-            android:padding="3sp"
-            android:paddingBottom="3sp"
-            android:text="Ends On "
-            android:textColor="#000"
-            android:textSize="14sp"
-            android:textStyle="bold" />
+    <ImageView
+        android:id="@+id/cart"
+        android:layout_width="25sp"
+        android:layout_height="25sp"
+        android:layout_below="@id/app_bar"
+        android:layout_marginStart="8sp"
+        android:layout_marginTop="135sp"
+        android:onClick="cartClicked"
+        android:src="@drawable/cart" />
 
-        <!--    <RatingBar-->
-        <!--        style="@style/rating_bar"-->
-        <!--        android:layout_width="wrap_content"-->
-        <!--        android:layout_height="wrap_content"-->
-        <!--        android:layout_below="@+id/title"-->
-        <!--        android:layout_marginStart="20sp"-->
-        <!--        android:layout_marginTop="20sp"-->
-        <!--        android:numStars="5"-->
-        <!--        android:rating="3" />-->
-    </RelativeLayout>
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/product_pics"
+        android:layout_margin="3sp"
+        android:fontFamily="@font/basic"
+        android:padding="5sp"
+        android:text="ماوس كومباكت لاسلكى نت لينوفو 300"
+        android:textColor="#000"
+        android:textSize="20sp" />
 
-</layout>
+    <TextView
+        android:id="@+id/price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/title"
+        android:layout_alignParentLeft="true"
+        android:layout_marginTop="10sp"
+        android:paddingStart="12sp"
+        android:paddingTop="3sp"
+        android:paddingEnd="12sp"
+        android:paddingBottom="3sp"
+        android:text="210 جنيه"
+        android:textColor="#000"
+        android:textSize="20sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/end_Time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/title"
+        android:layout_alignParentRight="true"
+        android:layout_marginStart="20sp"
+        android:layout_marginTop="10sp"
+        android:fontFamily="@font/shadows_into_light_two"
+        android:gravity="center"
+        android:padding="3sp"
+        android:paddingBottom="3sp"
+        android:text="Ends On "
+        android:textColor="#000"
+        android:textSize="14sp"
+        android:textStyle="bold" />
+</RelativeLayout>

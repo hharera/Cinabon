@@ -55,10 +55,9 @@ class CartFragment : Fragment() {
     }
 
     private fun getCart() {
-        presenter.getCartItems(
-            { onGetCartItem(it) },
-            { onCartIsEmpty() }
-        )
+        presenter.getCartItems {
+            onGetCartItem(it)
+        }
     }
 
     private fun setCheckOutListener() {

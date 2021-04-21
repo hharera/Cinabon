@@ -1,59 +1,54 @@
 package com.whiteside.cafe.ui.signUp
 
-import android.app.Activity
-import android.util.Log
 import com.google.firebase.FirebaseException
-import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.PhoneAuthCredential
-import com.google.firebase.auth.PhoneAuthOptions
 import com.google.firebase.auth.PhoneAuthProvider
 import com.google.firebase.auth.PhoneAuthProvider.ForceResendingToken
 import com.google.firebase.auth.PhoneAuthProvider.OnVerificationStateChangedCallbacks
-import com.google.firebase.firestore.FirebaseFirestore
+import com.whiteside.cafe.api.repository.AuthManager
+import com.whiteside.cafe.api.repository.CartRepository
+import com.whiteside.cafe.api.repository.UserRepository
+import com.whiteside.cafe.api.repository.WishListRepository
 import com.whiteside.cafe.model.Item
 import com.whiteside.cafe.model.User
-import java.util.concurrent.TimeUnit
+import javax.inject.Inject
 
-class SignUpPresenter(listener: OnSignUpListener?, private val activity: Activity) {
-    private val auth: FirebaseAuth = FirebaseAuth.getInstance()
-    private val fStore: FirebaseFirestore = FirebaseFirestore.getInstance()
+class SignUpPresenter @Inject constructor(
+    val authManager: AuthManager,
+    val cartRepository: CartRepository,
+    val wishListRepository: WishListRepository,
+    val userRepository: UserRepository
+) {
 
-    private lateinit var listener: OnSignUpListener
 
-    fun sendVerificationCode(phoneNumber: String) {
-        val mCallbacks: OnVerificationStateChangedCallbacks =
-            object : OnVerificationStateChangedCallbacks() {
-                override fun onVerificationCompleted(credential: PhoneAuthCredential) {
-//                        listener.onVerificationCompleted(credential);
-                }
-
-                override fun onVerificationFailed(e: FirebaseException) {
-                    listener.onVerificationFailed(e)
-                }
-
-                override fun onCodeSent(
-                    verificationId: String,
-                    token: ForceResendingToken
-                ) {
-                    listener.onCodeSent(verificationId, token)
-                    Log.d("onCodeSent", token.toString())
-                }
-            }
-        auth.useAppLanguage()
-        val options = PhoneAuthOptions.newBuilder(auth)
-            .setPhoneNumber(phoneNumber)
-            .setTimeout(60L, TimeUnit.SECONDS)
-            .setActivity(activity)
-            .setCallbacks(mCallbacks)
-            .build()
-        PhoneAuthProvider.verifyPhoneNumber(options)
+    fun sendVerificationCode(phoneNumber: String, result: (String) -> Unit) {
+        authManager.sendVerificationCode(phoneNumber, createCallBack(result))
     }
 
-    fun signInWithPhoneAuthCredential(credential: PhoneAuthCredential) {
-        auth.signOut()
-        auth.signInWithCredential(credential)
-            .addOnSuccessListener { listener.onSignInSuccess() }
-            .addOnFailureListener { listener.onSignInFailed() }
+    private fun createCallBack(result: (String) -> Unit) =
+        object : OnVerificationStateChangedCallbacks() {
+            override fun onVerificationCompleted(credential: PhoneAuthCredential) {
+            }
+
+            override fun onVerificationFailed(e: FirebaseException) {
+                result("wrong")
+                e.printStackTrace()
+            }
+
+            override fun onCodeSent(
+                verificationId: String,
+                token: ForceResendingToken
+            ) {
+                result(verificationId)
+            }
+        }
+
+    fun signInWithPhoneAuthCredential(
+        credential: PhoneAuthCredential,
+        result: (FirebaseUser?) -> Unit
+    ) {
+        result(authManager.signInWithCredential(credential).result.user)
     }
 
     fun getCurrentUserData() {
@@ -103,57 +98,27 @@ class SignUpPresenter(listener: OnSignUpListener?, private val activity: Activit
         getWishList.start()
     }
 
-    fun setNewUserData(user: User) {
-        val user = User()
-        user.let {
-            it.uid = auth.uid!!
-            it.name = user.name
-            it.phoneNumber = user.phoneNumber
-            it.wishList = ArrayList()
-            it.cartItems = ArrayList()
-        }
-
-        fStore.collection("Users")
-            .document(auth.uid!!)
-            .set(user)
-        for (item in user.cartItems) {
-            fStore.collection("Users")
-                .document(auth.uid!!)
-                .collection("Cart")
-                .document()
-                .set(item)
-        }
-        for (item in user.wishList) {
-            fStore.collection("Users")
-                .document(auth.uid!!)
-                .collection("WishList")
-                .document()
-                .set(item)
-        }
+    fun removeUser(userID: String) {
+        userRepository.removeUser(userID)
     }
 
-    fun removeUserData(oldUserID: String) {
-        fStore.collection("Users")
-            .document(oldUserID)
-            .delete()
-        fStore.collection("Users")
-            .document(oldUserID)
-            .collection("Cart")
-            .get()
-            .addOnSuccessListener { qs ->
-                for (ds in qs.documents) {
-                    fStore.document(ds.reference.path).delete()
-                }
-            }
-        fStore.collection("Users")
-            .document(oldUserID)
-            .collection("WishList")
-            .get()
-            .addOnSuccessListener { qs ->
-                for (ds in qs.documents) {
-                    fStore.document(ds.reference.path).delete()
-                }
+    fun addUser(user: User) {
+        userRepository.addUser(user)
+            .addOnSuccessListener {
+
             }
     }
 
+    fun getUser(userID: String, result: (User) -> User) {
+        userRepository.getUser(userID)
+            .addOnSuccessListener {
+                result(it.toObject(User::class.java)!!)
+            }
+            .addOnFailureListener {
+                it.printStackTrace()
+            }
+    }
+
+    fun createCredential(code: String, verificationId: String) =
+        PhoneAuthProvider.getCredential(verificationId, code)
 }

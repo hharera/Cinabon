@@ -11,6 +11,4 @@ interface WishListRepository {
     fun removeItemFromUserWishList(product: Product): Task<Void>
     fun removeWishListFromProduct(product: Product): Task<Void>
     fun getWishListItems(): Task<QuerySnapshot>
-//    fun addItem(product: Product)
-//    fun removeItem(product: Product)
 }
