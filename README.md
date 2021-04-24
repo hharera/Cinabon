@@ -1,6 +1,6 @@
 # Cafe Screenshots
 
-<h1>Insta App Screenshots</h1>
+<h1>Cafe App Screenshots</h1>
 
 <div>
 <img src="screenshots/1 (1).jpg" width="300" height="600">
