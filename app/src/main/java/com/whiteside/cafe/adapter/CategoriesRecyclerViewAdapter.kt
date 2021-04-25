@@ -24,11 +24,11 @@ class CategoriesRecyclerViewAdapter(private val context: Context?) :
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.category_title!!.text = categoryName!!.get(position)
         holder.category_img!!.setImageResource(categoryDrawable!!.getResourceId(position, 0))
-        holder.category_img!!.setOnClickListener(View.OnClickListener {
+        holder.category_img!!.setOnClickListener {
             val intent = Intent(context, CategoryProducts::class.java)
             intent.putExtra("category", categoryName.get(position))
             context!!.startActivity(intent)
-        })
+        }
     }
 
     override fun getItemCount(): Int {

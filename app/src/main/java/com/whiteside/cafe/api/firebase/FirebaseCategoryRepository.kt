@@ -8,8 +8,8 @@ class FirebaseCategoryRepository @Inject constructor() : CategoryRepository {
     val fStore by lazy { FirebaseFirestore.getInstance() }
 
     override fun getProducts(categoryName: String) =
-        fStore.collection("Categories")
-            .document(categoryName)
-            .collection("Products")
-            .get()
+            fStore.collection("Categories")
+                .document(categoryName)
+                .collection("Products")
+                .get()
 }

@@ -1,14 +1,11 @@
 package com.whiteside.cafe.ui.shop
 
 import android.os.Bundle
-import android.transition.TransitionInflater
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import com.whiteside.cafe.OffersPagerAdapter
-import com.whiteside.cafe.R
 import com.whiteside.cafe.databinding.FragmentShopBinding
 import com.whiteside.cafe.model.Offer
 import com.whiteside.cafe.ui.offer.OfferPresenter
@@ -20,8 +17,8 @@ class ShopFragment : Fragment() {
     private var lastOffers: ArrayList<Offer> = ArrayList()
     private var bestOffers: ArrayList<Offer> = ArrayList()
 
-    private lateinit var lastOffersPagerAdapter: OffersPagerAdapter
-    private lateinit var bestOffersPagerAdapter: OffersPagerAdapter
+    private var lastOffersPagerAdapter= OffersPagerAdapter(lastOffers, "LastOffers")
+    private var bestOffersPagerAdapter= OffersPagerAdapter(bestOffers, "BestOffers")
 
     private lateinit var bind: FragmentShopBinding
 
@@ -31,20 +28,13 @@ class ShopFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
-        bind = DataBindingUtil.inflate(inflater, R.layout.fragment_shop, container, false)
-
-        lastOffersPagerAdapter = OffersPagerAdapter(lastOffers, requireActivity())
-        bestOffersPagerAdapter = OffersPagerAdapter(bestOffers, requireActivity())
+        bind = FragmentShopBinding.inflate(layoutInflater)
 
         bind.lastOffersPager.adapter = lastOffersPagerAdapter
         bind.bestOffersPager.adapter = bestOffersPagerAdapter
 
         bind.bestDotsIndicator.setViewPager2(bind.bestOffersPager)
         bind.lastDotsIndicator.setViewPager2(bind.lastOffersPager)
-
-        val inflater1 = TransitionInflater.from(context)
-        exitTransition = inflater1.inflateTransition(R.transition.fragment_in)
-        enterTransition = inflater1.inflateTransition(R.transition.fragment_out)
 
         offerPresenter.getLastOffers {
             refreshLastOffers(it)

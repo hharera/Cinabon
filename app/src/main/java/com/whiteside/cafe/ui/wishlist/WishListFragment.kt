@@ -6,40 +6,37 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
-import com.whiteside.cafe.CafeApp
 import com.whiteside.cafe.R
 import com.whiteside.cafe.adapter.WishListRecyclerViewAdapter
 import com.whiteside.cafe.databinding.FragmentWishlistBinding
 import com.whiteside.cafe.model.Item
+import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
+@AndroidEntryPoint
 class WishListFragment : Fragment() {
+    private lateinit var bind: FragmentWishlistBinding
     private var wishListItems: ArrayList<Item> = ArrayList()
-    private lateinit var adapter: WishListRecyclerViewAdapter
 
     @Inject
     lateinit var wishListPresenter: WishListPresenter
 
-    private lateinit var bind: FragmentWishlistBinding
+    @Inject
+    lateinit var adapter: WishListRecyclerViewAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         bind = FragmentWishlistBinding.inflate(inflater, container, false)
-
-        adapter = WishListRecyclerViewAdapter(
-            wishListItems,
-            requireContext(),
-            requireActivity().application as CafeApp,
-            this
-        )
-
         bind.cart.adapter = adapter
+        adapter.list = wishListItems
 
         bind.fragmentEmptyList.cartShopping.setOnClickListener {
             findNavController().navigate(R.id.navigation_shop)
         }
+
+        getWishList()
 
         return bind.root
     }

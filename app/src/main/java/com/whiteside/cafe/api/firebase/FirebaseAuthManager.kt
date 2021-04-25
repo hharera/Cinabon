@@ -6,7 +6,7 @@ import com.whiteside.cafe.api.repository.AuthManager
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
-class FirebaseAuthRepository @Inject constructor() : AuthManager {
+class FirebaseAuthManager @Inject constructor() : AuthManager {
     val auth: FirebaseAuth by lazy { FirebaseAuth.getInstance() }
 
     override fun signIn() {
@@ -22,8 +22,7 @@ class FirebaseAuthRepository @Inject constructor() : AuthManager {
     override fun signInWithCredential(credential: PhoneAuthCredential) =
         auth.signInWithCredential(credential)
 
-    override fun getCurrentUser(): FirebaseUser =
-        auth.currentUser!!
+    override fun getCurrentUser(): FirebaseUser? = auth.currentUser
 
     override fun sendVerificationCode(
         phoneNumber: String,
@@ -37,4 +36,7 @@ class FirebaseAuthRepository @Inject constructor() : AuthManager {
             .build()
         PhoneAuthProvider.verifyPhoneNumber(options)
     }
+
+    override fun updatePassword(password : String) =
+        auth.currentUser!!.updatePassword(password)
 }

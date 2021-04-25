@@ -10,6 +10,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.whiteside.cafe.R
 import com.whiteside.cafe.adapter.CategoriesRecyclerViewAdapter
+import dagger.hilt.android.AndroidEntryPoint
+
+@AndroidEntryPoint
 
 class CategoriesFragment : Fragment() {
     override fun onCreateView(

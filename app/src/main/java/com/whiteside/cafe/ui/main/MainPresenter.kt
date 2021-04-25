@@ -1,19 +1,20 @@
 package com.whiteside.cafe.ui.main
 
 import com.google.firebase.auth.FirebaseUser
-import com.whiteside.cafe.api.firebase.FirebaseAuthRepository
+import com.whiteside.cafe.api.firebase.FirebaseAuthManager
 import com.whiteside.cafe.api.repository.UserRepository
 import com.whiteside.cafe.common.BaseListener
 import com.whiteside.cafe.model.User
 import javax.inject.Inject
 
 class MainPresenter @Inject constructor(
-    val authRepo: FirebaseAuthRepository,
-    val userRepo: UserRepository
+    private val authManager: FirebaseAuthManager,
+    private val userRepo: UserRepository
 ) {
 
     fun signInAnonymously(listener: BaseListener<FirebaseUser>) {
-        authRepo.signInAnonymously()
+        listener.onLoading()
+        authManager.signInAnonymously()
             .addOnSuccessListener {
                 listener.onSuccess(it.user)
             }
@@ -22,7 +23,23 @@ class MainPresenter @Inject constructor(
             }
     }
 
-    fun addUserToFirebase(user: User, listener: BaseListener<Unit>) {
-        userRepo.addUser(user)
+    fun addNewUser(listener: BaseListener<User>) {
+        listener.onLoading()
+        val user = User()
+        user.let {
+            it.phoneNumber = "NA"
+            it.uid = authManager.getCurrentUser()!!.uid
+            it.cartItems = arrayListOf()
+            it.wishList = arrayListOf()
+            it.name = "unknown"
+        }
+
+        userRepo.addNewUser(user)
+            .addOnCanceledListener {
+                listener.onSuccess(user)
+            }
+            .addOnFailureListener {
+                listener.onFailed(it)
+            }
     }
 }

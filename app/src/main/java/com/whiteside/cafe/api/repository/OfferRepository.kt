@@ -12,4 +12,6 @@ interface OfferRepository {
     fun getOfferById(offerId: String): Task<DocumentSnapshot>
     fun setLastOffer(offer: Offer): Task<Void>
     fun setBestOffer(offer: Offer): Task<Void>
+    fun getBestOffer(offerId: String): Task<DocumentSnapshot>
+    fun getLastOffer(offerId: String): Task<DocumentSnapshot>
 }

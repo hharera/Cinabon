@@ -1,82 +1,97 @@
 package com.whiteside.cafe.ui.search
 
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.google.firebase.firestore.FirebaseFirestore
 import com.mancj.materialsearchbar.MaterialSearchBar
 import com.mancj.materialsearchbar.SimpleOnSearchActionListener
 import com.whiteside.cafe.R
 import com.whiteside.cafe.adapter.CategoryProductsRecyclerViewAdapter
+import com.whiteside.cafe.common.BaseActivity
 import com.whiteside.cafe.model.Product
-import java.util.*
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import javax.inject.Inject
 
-class SearchResults : AppCompatActivity() {
-    private lateinit var searchWord: String
-    private lateinit var fStore: FirebaseFirestore
-    private lateinit var paths: MutableList<String>
-    private lateinit var filters: MutableMap<String, Any>
+@AndroidEntryPoint
+class SearchResults : BaseActivity() {
     private lateinit var adapter: CategoryProductsRecyclerViewAdapter
     private lateinit var results: RecyclerView
-    private lateinit var products: MutableList<Product>
+    private var products = ArrayList<Product>()
     private lateinit var searchBar: MaterialSearchBar
+
+    @Inject
+    lateinit var searchResultsPresenter: SearchResultsPresenter
+
+    var searchChannel = Channel<String>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_search_results)
-        fStore = FirebaseFirestore.getInstance()
-        paths = ArrayList()
-        filters = HashMap()
-        products = ArrayList()
-        searchWord = intent.extras!!.getString("text")!!
-        filters["title"] = searchWord
+
+        val searchWord = intent.extras!!.getString("text")!!
         searchBar = findViewById(R.id.search_view)
         searchBar.text = searchWord
         results = findViewById(R.id.results)
         results.setHasFixedSize(true)
         results.layoutManager = LinearLayoutManager(this)
-        adapter = CategoryProductsRecyclerViewAdapter(products, this)
+        adapter = CategoryProductsRecyclerViewAdapter(products)
         results.adapter = adapter
-        getResults()
-        setSearchBarListeners()
+
+        waitForSearch()
+        setupSearchListener()
+        GlobalScope.launch {
+            searchChannel.send(searchWord)
+        }
     }
 
-    private fun setSearchBarListeners() {
+    private fun setupSearchListener() {
         searchBar.setOnSearchActionListener(object : SimpleOnSearchActionListener() {
             override fun onSearchConfirmed(text: CharSequence?) {
-                searchWord = text.toString()
-                products.clear()
-                adapter.notifyDataSetChanged()
-                getResults()
+                GlobalScope.launch {
+                    searchChannel.send(text.toString())
+                }
             }
         })
     }
 
-    private fun getResults() {
-        for (categoryName in resources.getStringArray(R.array.categories)) {
-            fStore.collection("Categories")
-                .document(categoryName)
-                .collection("Products")
-                .whereLessThanOrEqualTo("title", searchWord)
-                .get()
-                .addOnSuccessListener { querySnapshot ->
-                    for (ds in querySnapshot.documents) {
-                        val title = ds.getString("title")!!
-                        if (title.contains(searchWord)) {
-                            val product = ds.toObject(Product::class.java)!!
-                            product.productId = (ds.id)
-                            products.add(product)
-                            adapter.notifyDataSetChanged()
-                        }
-                    }
+    private fun waitForSearch() {
+        GlobalScope.launch {
+            searchChannel.receive().let {
+                withContext(Dispatchers.Main) {
+                    searchChannel.poll()
+                    search(it)
                 }
+            }
         }
     }
 
-    private fun getProduct(path: String) {
-        fStore.document(path)
-            .get()
-            .addOnSuccessListener { }
+    private fun search(searchWord: String) {
+        searchResultsPresenter.searchProduct(searchWord,
+
+            object : SearchListener<Product> {
+                override fun onSuccess(result: Product) {
+                    handleSuccess()
+                    products.add(result)
+                    adapter.notifyDataSetChanged()
+                }
+
+                override fun onFailed(exception: Exception) {
+                    handleFailure(exception)
+                }
+
+                override fun onLoading() {
+                    products.clear()
+                    handleLoading()
+                }
+
+                override fun onEmptySearch() {
+                    handleSuccess()
+                }
+            })
     }
 }

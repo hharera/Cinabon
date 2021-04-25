@@ -6,7 +6,7 @@ import com.whiteside.cafe.model.User
 
 interface UserRepository {
 
-    fun addUser(user: User): Task<Void>
+    fun addNewUser(user: User): Task<Void>
     fun removeUser(userId: String): Task<Void>
     fun getUser(userId: String): Task<DocumentSnapshot>
 }

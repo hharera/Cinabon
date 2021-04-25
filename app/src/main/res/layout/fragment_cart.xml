@@ -8,10 +8,11 @@
 
 
     <androidx.recyclerview.widget.RecyclerView
+        android:layout_marginTop="10dp"
         android:id="@+id/cart"
-        cart="@{viewModel.cartList}"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:visibility="invisible"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintBottom_toTopOf="@+id/checkout_layout"
         app:layout_constraintTop_toTopOf="parent"
@@ -21,6 +22,7 @@
         android:id="@+id/checkout_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent">
 
         <include
@@ -30,6 +32,5 @@
 
     <include
         android:id="@+id/fragment_empty_list"
-        layout="@layout/fragment_empty_list"
-        android:visibility="invisible" />
+        layout="@layout/fragment_empty_list" />
 </androidx.constraintlayout.widget.ConstraintLayout>

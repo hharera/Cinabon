@@ -14,7 +14,17 @@ class FirebaseOfferRepository @Inject constructor() : OfferRepository {
             .get()
 
     override fun getBestOffers() =
+        fStore.collection("BestOffers")
+            .get()
+
+    override fun getBestOffer(offerId: String) =
+        fStore.collection("BestOffers")
+            .document(offerId)
+            .get()
+
+    override fun getLastOffer(offerId: String) =
         fStore.collection("LastOffers")
+            .document(offerId)
             .get()
 
     override fun getOfferById(offerId: String) =

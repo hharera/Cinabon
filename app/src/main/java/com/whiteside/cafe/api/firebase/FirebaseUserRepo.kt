@@ -10,7 +10,7 @@ import javax.inject.Inject
 class FirebaseUserRepo @Inject constructor() : UserRepository {
     val fStore by lazy { FirebaseFirestore.getInstance() }
 
-    override fun addUser(user: User) =
+    override fun addNewUser(user: User) =
         fStore.collection("Users")
             .document(user.uid)
             .set(user)

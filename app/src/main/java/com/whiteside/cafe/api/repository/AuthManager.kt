@@ -13,9 +13,11 @@ interface AuthManager {
     fun signInByPhoneNumber()
     fun signOut()
     fun signInWithCredential(credential: PhoneAuthCredential): Task<AuthResult>
-    fun getCurrentUser(): FirebaseUser
+    fun getCurrentUser(): FirebaseUser?
     fun sendVerificationCode(
         phoneNumber: String,
         createCallBack: PhoneAuthProvider.OnVerificationStateChangedCallbacks
     )
+
+    fun updatePassword(password: String): Task<Void>
 }

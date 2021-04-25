@@ -23,6 +23,11 @@
         tools:layout="@layout/fragment_account" />
 
     <fragment
+        android:id="@+id/navigation_unsigned_account"
+        android:name="com.whiteside.cafe.ui.account.UnsignedAccountFragment"
+        android:label="@string/account"
+        tools:layout="@layout/fragment_unsigned_account" />
+    <fragment
         android:id="@+id/navigation_cart"
         android:name="com.whiteside.cafe.ui.cart.CartFragment"
         android:label="@string/cart"

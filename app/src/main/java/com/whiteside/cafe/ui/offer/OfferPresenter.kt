@@ -1,17 +1,22 @@
 package com.whiteside.cafe.ui.offer
 
-import android.app.Application
 import com.whiteside.cafe.api.firebase.FirebaseOfferRepository
 import com.whiteside.cafe.model.Offer
 import javax.inject.Inject
 
 class OfferPresenter @Inject constructor(
-    val application: Application,
     val repo: FirebaseOfferRepository
 ) {
+    fun getBestOffer(offerId: String, result: (Offer) -> (Unit)) {
+        repo.getBestOffer(offerId)
+            .addOnSuccessListener {
+                val offer = it.toObject(Offer::class.java)!!
+                result(offer)
+            }
+    }
 
-    fun getOfferById(offerId: String, result: (Offer) -> (Unit)) {
-        repo.getOfferById(offerId)
+    fun getLastOffer(offerId: String, result: (Offer) -> (Unit)) {
+        repo.getLastOffer(offerId)
             .addOnSuccessListener {
                 val offer = it.toObject(Offer::class.java)!!
                 result(offer)
@@ -40,6 +45,13 @@ class OfferPresenter @Inject constructor(
 
     fun setBestOffer(offer: Offer, result: (Unit) -> Unit) {
         repo.setBestOffer(offer)
+            .addOnSuccessListener {
+                result
+            }
+    }
+
+    fun setLastOffer(offer: Offer, result: (Unit) -> Unit) {
+        repo.setLastOffer(offer)
             .addOnSuccessListener {
                 result
             }

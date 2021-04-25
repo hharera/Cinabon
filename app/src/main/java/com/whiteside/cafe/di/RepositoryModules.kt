@@ -1,34 +1,38 @@
 package com.whiteside.cafe.di
 
+import com.whiteside.cafe.api.firebase.*
 import com.whiteside.cafe.api.repository.*
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
-import dagger.hilt.components.SingletonComponent
+import dagger.hilt.android.components.ActivityComponent
 
 @Module
-@InstallIn(SingletonComponent::class)
+@InstallIn(ActivityComponent::class)
 abstract class RepositoryModules {
 
     @Binds
-    abstract fun bindAuthManager(): AuthManager
+    abstract fun bindAuthManager(manager: FirebaseAuthManager): AuthManager
 
     @Binds
-    abstract fun bindCartRepository(): CartRepository
+    abstract fun bindCartRepository(repository: FirebaseCartRepository): CartRepository
 
     @Binds
-    abstract fun bindCategoryRepository(): CategoryRepository
+    abstract fun bindCategoryRepository(repository: FirebaseCategoryRepository): CategoryRepository
 
     @Binds
-    abstract fun bindOfferRepository(): OfferRepository
+    abstract fun bindOfferRepository(repository: FirebaseOfferRepository): OfferRepository
 
     @Binds
-    abstract fun bindWishListRepository(): WishListRepository
+    abstract fun bindWishListRepository(repository: FirebaseWishListRepository): WishListRepository
 
     @Binds
-    abstract fun bindUserRepository(): UserRepository
+    abstract fun bindUserRepository(repository: FirebaseUserRepo): UserRepository
 
     @Binds
-    abstract fun bindProductRepository(): ProductRepository
+    abstract fun bindProductRepository(repository: FirebaseProductRepository): ProductRepository
+
+    @Binds
+    abstract fun bindSearchRepository(repository: FirebaseSearchRepository): SearchRepository
 
 }

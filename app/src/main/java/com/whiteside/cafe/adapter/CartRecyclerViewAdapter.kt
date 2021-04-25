@@ -1,119 +1,99 @@
 package com.whiteside.cafe.adapter
 
 import android.app.AlertDialog
-import android.content.Context
-import android.graphics.BitmapFactory
 import android.text.InputType
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.FirebaseFirestore
+import com.whiteside.cafe.common.BaseListener
+import com.whiteside.cafe.common.BaseViewHolder
 import com.whiteside.cafe.databinding.CartItemCardViewBinding
 import com.whiteside.cafe.model.Item
 import com.whiteside.cafe.model.Product
-import com.whiteside.cafe.ui.cart.CartFragment
 import com.whiteside.cafe.ui.cart.CartPresenter
+import com.whiteside.cafe.ui.product.ProductPresenter
+import com.whiteside.cafe.utils.BlobBitmap
 import javax.inject.Inject
 
-class CartRecyclerViewAdapter(
-    private val list: ArrayList<Item>,
-    private val context: Context,
-    private val cartFragment: CartFragment
-) : RecyclerView.Adapter<CartRecyclerViewAdapter.ViewHolder>() {
+class CartRecyclerViewAdapter @Inject constructor(
+    var cartPresenter: CartPresenter,
+    var productPresenter: ProductPresenter
+) : RecyclerView.Adapter<CartRecyclerViewAdapter.ViewViewHolder>() {
 
-    @Inject
-    lateinit var productPresenter: ProductPresenter
+    var list: ArrayList<Item> = ArrayList()
 
-    @Inject
-    lateinit var cartPresenter: CartPresenter
-
-    private val fStore: FirebaseFirestore?
-    private val auth: FirebaseAuth?
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        return ViewHolder(
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewViewHolder {
+        return ViewViewHolder(
             CartItemCardViewBinding.inflate(LayoutInflater.from(parent.context))
-//            LayoutInflater.from(parent.context).inflate(R.layout.cart_item_card_view, parent, false)
         )
     }
 
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: ViewViewHolder, position: Int) {
         productPresenter.getProduct(list[position].categoryName, list[position].productId) {
-            holder.setView(it)
+            holder.updateView(it, list[position])
         }
-    }
-
-    private fun updateView(product: Product) {
-
-    }
-
-    private fun setListener(holder: ViewHolder?, position: Int, product: Product) {
-        setEditListener(holder, position, product.price)
-        setRemoveListener(holder, product)
-    }
-
-    private fun setRemoveListener(holder: ViewHolder?, product: Product) {
-        holder!!.remove!!.setOnClickListener {
-            cartPresenter.removeItem(product) {}
-        }
-    }
-
-    private fun setEditListener(holder: ViewHolder?, position: Int, price: Float) {
-        holder!!.edit!!.setOnClickListener(View.OnClickListener {
-            editClicked(
-                holder,
-                position,
-                price
-            )
-        })
-    }
-
-    private fun editClicked(holder: ViewHolder?, position: Int, price: Float) {
-        val builder = AlertDialog.Builder(context)
-        val editText = EditText(context)
-        editText.inputType = InputType.TYPE_CLASS_NUMBER
-        builder.setView(editText)
-        builder.setTitle("Enter Quantity")
-        builder.setPositiveButton("Change") { dialog, which ->
-            val quantity = editText.text.toString().toInt()
-            holder!!.quantity!!.text = quantity.toString()
-//            holder.total_price!!.text = "${Integer.toString(quantity  * list!![position].)} EGP"
-            cartPresenter.updateQuantity(list[position], quantity)
-//            cartFragment.editTotalBill((quantity * price).toDouble())
-        }
-        builder.setNegativeButton("Cancel") { dialog, _ -> dialog.cancel() }
-        builder.show()
     }
 
     override fun getItemCount(): Int {
         return list.size
     }
 
-    override fun onRemoveCartItemSuccess() {
-//        cartFragment.updateView()
-    }
 
-    inner class ViewHolder(val bind: CartItemCardViewBinding) : RecyclerView.ViewHolder(itemView) {
-        fun setView(product: Product) {
-            holder.imageView!!.setImageBitmap(
-                BitmapFactory.decodeByteArray(
-                    product.productPics[0].toBytes(), 0, product.productPics[0].toBytes().size
-                )
-            )
+    inner class ViewViewHolder(val bind: CartItemCardViewBinding) : BaseViewHolder(bind) {
+        fun updateView(product: Product, item: Item) {
+            bind.itemImage.setImageBitmap(BlobBitmap.convertBlobToBitmap(product.productPics[0]))
             bind.title.text = product.title
-            val quantity = list[position].quantity
-            bind.quantity.text = quantity.toString()
-            val totalPrice = product.price * quantity!!
-            bind.totalPrice.text = "$totalPrice EGP"
-            cartFragment.editTotalBill(totalPrice.toDouble())
-            setListener(holder, position, product)
-        }
-    }
+            bind.quantity.text = item.quantity.toString()
+            bind.totalPrice.text = "${product.price * item.quantity!!}"
 
-    init {
-        fStore = FirebaseFirestore.getInstance()
-        auth = FirebaseAuth.getInstance()
+            bind.edit.setOnClickListener {
+                showDialog(item)
+            }
+
+            bind.remove.setOnClickListener {
+                cartPresenter.removeItem(product,
+                    object : BaseListener<Product> {
+                        override fun onSuccess(result: Product) {
+                            handleSuccess()
+                            bind.root.removeAllViews()
+                            notifyDataSetChanged()
+                            Toast.makeText(
+                                bind.root.context,
+                                "Item removed from cart",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
+
+                        override fun onFailed(exception: Exception) {
+                            handleFailure(exception)
+                        }
+
+                        override fun onLoading() {
+                            handleLoading()
+                        }
+                    })
+            }
+        }
+
+        private fun showDialog(item: Item) {
+            val editText = EditText(bind.root.context)
+            editText.inputType = InputType.TYPE_CLASS_NUMBER
+
+            AlertDialog.Builder(bind.root.context)
+                .setView(editText)
+                .setTitle("Enter Quantity")
+                .setPositiveButton("Change") { _d, _ ->
+
+                    cartPresenter.updateQuantity(item, editText.text.toString().toInt()) {
+                        bind.quantity.text = editText.text.toString()
+                        _d.cancel()
+                    }
+
+                }.setNegativeButton("Cancel") { _d, _ ->
+                    _d.cancel()
+                }.show()
+        }
     }
 }

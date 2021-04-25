@@ -4,7 +4,6 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
-import com.google.firebase.firestore.FirebaseFirestore
 import com.mancj.materialsearchbar.MaterialSearchBar
 import com.mancj.materialsearchbar.SimpleOnSearchActionListener
 import com.whiteside.cafe.R
@@ -12,6 +11,9 @@ import com.whiteside.cafe.adapter.CategoryProductsRecyclerViewAdapter
 import com.whiteside.cafe.model.Product
 import com.whiteside.cafe.ui.search.SearchResults
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import java.util.*
 import javax.inject.Inject
 import kotlin.collections.ArrayList
@@ -20,7 +22,6 @@ import kotlin.collections.ArrayList
 class CategoryProducts : AppCompatActivity() {
     private lateinit var categoryName: String
     private var productList: ArrayList<Product> = ArrayList()
-    private var fStore: FirebaseFirestore = FirebaseFirestore.getInstance()
     private lateinit var adapter: CategoryProductsRecyclerViewAdapter
     private lateinit var searchBar: MaterialSearchBar
 
@@ -35,12 +36,14 @@ class CategoryProducts : AppCompatActivity() {
         categoryName = intent.extras!!.getString("category")!!
 
         val recyclerView = findViewById<RecyclerView>(R.id.products)
-        adapter = CategoryProductsRecyclerViewAdapter(productList, this)
+        adapter = CategoryProductsRecyclerViewAdapter(productList)
         recyclerView.adapter = adapter
 
         presenter.getCategoryProducts(categoryName) {
-            productList.add(it)
-            adapter.notifyDataSetChanged()
+            GlobalScope.launch(Dispatchers.Main) {
+                productList.add(it)
+                adapter.notifyDataSetChanged()
+            }
         }
         setSearchListeners()
     }

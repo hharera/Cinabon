@@ -4,8 +4,10 @@
 
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
 
     <application
+        android:requestLegacyExternalStorage="true"
         android:name=".CafeApp"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -13,6 +15,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+        <activity android:name=".ui.make_offer.MakeOffer"/>
         <activity android:name=".Receipt" />
 
         <meta-data
@@ -22,13 +25,13 @@
         <activity
             android:name=".CafeLocation"
             android:label="@string/title_activity_cafe_location" />
-        <activity android:name="com.whiteside.cafe.ui.search.SearchResults" />
+        <activity android:name=".ui.search.SearchResults" />
         <activity android:name=".NoInternetActivity" />
-        <activity android:name="com.whiteside.cafe.ui.offer.OfferView" />
+        <activity android:name=".ui.offer.OfferActivity" />
         <activity android:name=".HomeActivity" />
-        <activity android:name="com.whiteside.cafe.ui.category.CategoryProducts" />
-        <activity android:name="com.whiteside.cafe.ui.product.ProductView" />
-        <activity android:name="com.whiteside.cafe.ui.signUp.SignUp" /> <!-- <meta-data -->
+        <activity android:name=".ui.category.CategoryProducts" />
+        <activity android:name=".ui.product.ProductActivity" />
+        <activity android:name=".ui.signUp.SignUp" /> <!-- <meta-data -->
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />

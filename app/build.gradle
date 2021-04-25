@@ -6,6 +6,7 @@ plugins {
 apply plugin: 'kotlin-kapt'
 apply plugin: "androidx.navigation.safeargs"
 apply plugin: 'dagger.hilt.android.plugin'
+apply plugin: 'com.google.gms.google-services'
 android {
     compileSdkVersion 30
     buildToolsVersion "30.0.3"
@@ -46,6 +47,7 @@ dependencies {
 
     implementation 'com.google.android.gms:play-services-maps:17.0.0'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
 
     //test
     testImplementation 'junit:junit:4.13.2'
@@ -86,8 +88,16 @@ dependencies {
     implementation "androidx.navigation:navigation-fragment-ktx:$nav_version"
     implementation "androidx.navigation:navigation-ui-ktx:$nav_version"
 
+    //image picker
+    implementation 'com.github.dhaval2404:imagepicker:1.8'
+
     //dagger hilt
     ext.hilt_version = '2.33-beta'
     implementation "com.google.dagger:hilt-android:$hilt_version"
     kapt "com.google.dagger:hilt-compiler:$hilt_version"
+
+    //circle image
+    implementation 'de.hdodenhof:circleimageview:3.1.0'
+    //intuit
+    implementation 'com.intuit.sdp:sdp-android:1.0.6'
 }

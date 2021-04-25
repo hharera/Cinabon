@@ -1,10 +1,8 @@
 package com.whiteside.cafe.common
 
 
-abstract class BaseListener<T> {
-
-    abstract fun onSuccess(result: T)
-    fun onFailed(exception: Exception) {
-        exception.printStackTrace()
-    }
+interface BaseListener<T> {
+    fun onSuccess(result: T)
+    fun onFailed(exception: Exception)
+    fun onLoading()
 }

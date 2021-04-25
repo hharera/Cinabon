@@ -1,64 +1,51 @@
 package com.whiteside.cafe.ui.cart
 
 import com.google.firebase.auth.FirebaseAuth
-import com.whiteside.cafe.api.firebase.FirebaseCartRepository
+import com.whiteside.cafe.api.repository.CartRepository
+import com.whiteside.cafe.common.BaseListener
 import com.whiteside.cafe.model.Item
 import com.whiteside.cafe.model.Product
+import kotlinx.coroutines.CancellationException
 import javax.inject.Inject
 
-class CartPresenter @Inject constructor(private val cartRepository: FirebaseCartRepository) {
+class CartPresenter @Inject constructor(val cartRepository: CartRepository) {
     val auth by lazy { FirebaseAuth.getInstance() }
 
-    fun addItem(product: Product, result: (Void) -> (Unit)) {
-        addItemToUserCart(product, result)
+    fun addItem(product: Product, response: BaseListener<Product>) {
+        response.onLoading()
+        addItemToUserCart(product).addOnSuccessListener {
+            addCartToProduct(product).addOnSuccessListener {
+                response.onSuccess(product)
+            }
+        }.addOnFailureListener {
+            response.onFailed(it)
+        }
     }
 
-    private fun addItemToUserCart(product: Product, result: (Void) -> Unit) {
+    private fun addItemToUserCart(product: Product) =
         cartRepository.addItemToUserCart(product)
-            .addOnSuccessListener {
-                addCartToProduct(product, result)
-            }
-            .addOnFailureListener {
-                it.printStackTrace()
-            }
-    }
 
-    private fun addCartToProduct(product: Product, result: (Void) -> Unit) {
+    private fun addCartToProduct(product: Product) =
         cartRepository.addCartToItem(product)
-            .addOnSuccessListener {
-                result(it)
+
+    fun removeItem(product: Product, response: BaseListener<Product>) {
+        response.onLoading()
+        removeItemFromUserCart(product).addOnSuccessListener {
+            removeCartFromProduct(product).addOnSuccessListener {
+                response.onSuccess(product)
             }
-            .addOnFailureListener {
-                removeItemFromUserCart(product, result)
-                it.printStackTrace()
-            }
+        }.addOnFailureListener {
+            response.onFailed(CancellationException())
+        }
     }
 
-    fun removeItem(product: Product, result: (Void) -> Unit) {
-        removeItemFromUserCart(product, result)
-    }
-
-    private fun removeItemFromUserCart(product: Product, result: (Void) -> Unit) {
+    private fun removeItemFromUserCart(product: Product) =
         cartRepository.removeItemFromUserCart(product)
-            .addOnSuccessListener {
-                removeCartFromProduct(product, result)
-            }
-            .addOnFailureListener {
-                it.printStackTrace()
-            }
-    }
 
-    private fun removeCartFromProduct(product: Product, result: (Void) -> Unit) {
+    private fun removeCartFromProduct(product: Product) =
         cartRepository.removeCartFromProduct(product)
-            .addOnSuccessListener {
-            }
-            .addOnFailureListener {
-                addItemToUserCart(product, result)
-                it.printStackTrace()
-            }
-    }
 
-    fun updateQuantity(item: Item, quantity: Int, result: (Int) -> Void) {
+    fun updateQuantity(item: Item, quantity: Int, result: (Int) -> Unit) {
         cartRepository.updateQuantity(item, quantity)
             .addOnSuccessListener {
                 result(quantity)
@@ -75,19 +62,12 @@ class CartPresenter @Inject constructor(private val cartRepository: FirebaseCart
                 it.documents.forEach {
                     result(it.toObject(Item::class.java)!!)
                 }
-                if (it.isEmpty) {
-                    emptyList(true)
-                }
             }.addOnFailureListener {
                 it.printStackTrace()
             }
     }
 
     fun checkItem(product: Product, result: (Boolean) -> Unit) {
-        if (product.carts.containsKey(auth.uid)) {
-            result(true)
-        } else {
-            result(false)
-        }
+        result(product.carts.containsKey(auth.uid))
     }
 }

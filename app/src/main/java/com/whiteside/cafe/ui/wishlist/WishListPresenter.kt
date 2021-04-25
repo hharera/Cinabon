@@ -2,6 +2,7 @@ package com.whiteside.cafe.ui.wishlist
 
 import com.google.firebase.auth.FirebaseAuth
 import com.whiteside.cafe.api.firebase.FirebaseWishListRepository
+import com.whiteside.cafe.common.BaseListener
 import com.whiteside.cafe.model.Item
 import com.whiteside.cafe.model.Product
 import javax.inject.Inject
@@ -9,54 +10,48 @@ import javax.inject.Inject
 class WishListPresenter @Inject constructor(val wishListRepository: FirebaseWishListRepository) {
     private var auth: FirebaseAuth = FirebaseAuth.getInstance()
 
-    fun addItem(product: Product, result: (Void) -> (Unit)) {
-        addItemToUserWishList(product, result)
+    fun addItem(product: Product, response: BaseListener<Product>) {
+        response.onLoading()
+        addItemToUserWishList(product).addOnSuccessListener {
+            addWishListToProduct(product).addOnSuccessListener {
+                onSuccess(product, response)
+            }
+        }.addOnFailureListener {
+            onFailed(it, response)
+        }
     }
 
-    private fun addItemToUserWishList(product: Product, result: (Void) -> Unit) {
+    private fun onSuccess(product: Product, response: BaseListener<Product>) {
+        response.onSuccess(product)
+    }
+
+    private fun onFailed(exception: Exception, response: BaseListener<Product>) {
+        response.onFailed(exception)
+    }
+
+    private fun addItemToUserWishList(product: Product) =
         wishListRepository.addItemToUserWishList(product)
-            .addOnSuccessListener {
-                addWishListToProduct(product, result)
-            }
-            .addOnFailureListener {
-                it.printStackTrace()
-            }
-    }
 
-    private fun addWishListToProduct(product: Product, result: (Void) -> Unit) {
+    private fun addWishListToProduct(product: Product) =
         wishListRepository.addWishListToProduct(product)
-            .addOnSuccessListener {
-                result(it)
+
+
+    fun removeItem(product: Product, response: BaseListener<Product>) {
+        response.onLoading()
+        removeItemFromUserWishList(product).addOnSuccessListener {
+            removeWishListFromProduct(product).addOnSuccessListener {
+                onSuccess(product, response)
             }
-            .addOnFailureListener {
-                removeItemFromUserWishList(product, result)
-                it.printStackTrace()
-            }
+        }.addOnFailureListener {
+            onFailed(it, response)
+        }
     }
 
-    fun removeItem(product: Product, result: (Void) -> Unit) {
-        removeItemFromUserWishList(product, result)
-    }
-
-    private fun removeItemFromUserWishList(product: Product, result: (Void) -> Unit) {
+    private fun removeItemFromUserWishList(product: Product) =
         wishListRepository.removeItemFromUserWishList(product)
-            .addOnSuccessListener {
-                removeWishListFromProduct(product, result)
-            }
-            .addOnFailureListener {
-                it.printStackTrace()
-            }
-    }
 
-    private fun removeWishListFromProduct(product: Product, result: (Void) -> Unit) {
+    private fun removeWishListFromProduct(product: Product) =
         wishListRepository.removeWishListFromProduct(product)
-            .addOnSuccessListener {
-            }
-            .addOnFailureListener {
-                addItemToUserWishList(product, result)
-                it.printStackTrace()
-            }
-    }
 
     fun getWishList(result: (Item) -> Unit) {
         wishListRepository.getWishListItems()
@@ -70,10 +65,6 @@ class WishListPresenter @Inject constructor(val wishListRepository: FirebaseWish
     }
 
     fun checkItem(product: Product, result: (Boolean) -> Unit) {
-        if (product.wishes.containsKey(auth.uid)) {
-            result(true)
-        } else {
-            result(false)
-        }
+        result(product.wishes.containsKey(auth.uid))
     }
 }
