@@ -6,12 +6,14 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.DividerItemDecoration
 import com.whiteside.cafe.R
 import com.whiteside.cafe.adapter.WishListRecyclerViewAdapter
 import com.whiteside.cafe.databinding.FragmentWishlistBinding
 import com.whiteside.cafe.model.Item
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
+
 
 @AndroidEntryPoint
 class WishListFragment : Fragment() {
@@ -29,12 +31,18 @@ class WishListFragment : Fragment() {
         container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         bind = FragmentWishlistBinding.inflate(inflater, container, false)
+
+        val itemDecorator = DividerItemDecoration(context, DividerItemDecoration.VERTICAL)
+        bind.cart.addItemDecoration(itemDecorator)
         bind.cart.adapter = adapter
+        bind.cart.setHasFixedSize(true)
         adapter.list = wishListItems
 
         bind.fragmentEmptyList.cartShopping.setOnClickListener {
             findNavController().navigate(R.id.navigation_shop)
         }
+
+//        itemDecorator.setDrawable(ContextCompat.getDrawable(requireContext(), R.drawable.divider)!!)
 
         getWishList()
 
