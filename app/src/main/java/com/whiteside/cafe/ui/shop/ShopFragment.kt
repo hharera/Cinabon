@@ -5,7 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import com.whiteside.cafe.OffersPagerAdapter
+import com.whiteside.cafe.adapter.OffersPagerAdapter
 import com.whiteside.cafe.databinding.FragmentShopBinding
 import com.whiteside.cafe.model.Offer
 import com.whiteside.cafe.ui.offer.OfferPresenter

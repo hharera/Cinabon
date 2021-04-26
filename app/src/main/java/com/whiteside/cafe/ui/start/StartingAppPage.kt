@@ -1,10 +1,12 @@
-package com.whiteside.cafe
+package com.whiteside.cafe.ui.start
 
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.ViewFlipper
 import androidx.appcompat.app.AppCompatActivity
+import com.whiteside.cafe.HomeActivity
+import com.whiteside.cafe.R
 
 class StartingAppPage : AppCompatActivity() {
     lateinit var viewFlipper: ViewFlipper

@@ -16,14 +16,14 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
         <activity android:name=".ui.make_offer.MakeOffer"/>
-        <activity android:name=".Receipt" />
+        <activity android:name=".ui.receipt.Receipt" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
 
         <activity
-            android:name=".CafeLocation"
+            android:name=".ui.location.CafeLocation"
             android:label="@string/title_activity_cafe_location" />
         <activity android:name=".ui.search.SearchResults" />
         <activity android:name=".NoInternetActivity" />
@@ -36,7 +36,7 @@
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
 
-        <activity android:name=".StartingAppPage" />
+        <activity android:name=".ui.start.StartingAppPage" />
         <activity
             android:name=".ui.main.MainActivity"
             android:theme="@style/Theme.Design.NoActionBar">

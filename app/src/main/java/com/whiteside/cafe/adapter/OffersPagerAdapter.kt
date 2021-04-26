@@ -1,4 +1,4 @@
-package com.whiteside.cafe
+package com.whiteside.cafe.adapter
 
 import android.content.Intent
 import android.view.LayoutInflater
@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
+import com.whiteside.cafe.R
 import com.whiteside.cafe.model.Offer
 import com.whiteside.cafe.ui.offer.OfferActivity
 import com.whiteside.cafe.utils.BlobBitmap

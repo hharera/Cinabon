@@ -7,13 +7,14 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.DividerItemDecoration
 import com.whiteside.cafe.R
-import com.whiteside.cafe.Receipt
 import com.whiteside.cafe.adapter.CartRecyclerViewAdapter
 import com.whiteside.cafe.api.repository.AuthManager
 import com.whiteside.cafe.databinding.CartCheckoutBinding
 import com.whiteside.cafe.databinding.FragmentCartBinding
 import com.whiteside.cafe.model.Item
+import com.whiteside.cafe.ui.receipt.Receipt
 import com.whiteside.cafe.ui.signUp.SignUp
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.*
@@ -43,6 +44,9 @@ class CartFragment : Fragment() {
 
         checkoutBinding = bind.checkout
         bind.cart.adapter = adapter
+        bind.cart.setHasFixedSize(true)
+        val itemDecorator = DividerItemDecoration(context, DividerItemDecoration.VERTICAL)
+        bind.cart.addItemDecoration(itemDecorator)
 
         adapter.list = (items)
 
