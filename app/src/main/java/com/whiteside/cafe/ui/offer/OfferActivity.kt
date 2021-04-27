@@ -1,12 +1,14 @@
 package com.whiteside.cafe.ui.offer
 
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
-import android.widget.*
+import android.view.ViewGroup
+import android.widget.Toast
 import com.google.firebase.Timestamp
 import com.whiteside.cafe.R
 import com.whiteside.cafe.adapter.ProductPicturesRecyclerViewAdapter
-import com.whiteside.cafe.common.BaseActivity
+import com.whiteside.cafe.common.BaseFragment
 import com.whiteside.cafe.common.BaseListener
 import com.whiteside.cafe.databinding.ActivityOfferViewBinding
 import com.whiteside.cafe.model.Offer
@@ -19,8 +21,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
 @AndroidEntryPoint
-
-class OfferActivity : BaseActivity() {
+class OfferActivity : BaseFragment() {
 
     private lateinit var bind: ActivityOfferViewBinding
 
@@ -43,17 +44,37 @@ class OfferActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        bind = ActivityOfferViewBinding.inflate(layoutInflater)
-        setContentView(bind.root)
 
-        offerId = intent.extras!!.getString("offerId")!!
-        offerType = intent.extras!!.getString("offerType")!!
+        arguments?.let {
+            offerId = it.getString("offerId")!!
+            offerType = it.getString("offerType")!!
+
+        }
+    }
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        super.onCreateView(inflater, container, savedInstanceState)
+
+        bind = ActivityOfferViewBinding.inflate(layoutInflater)
+
+        cartClicked()
+        wishClicked()
+        return bind.root
+    }
+
+    override fun onStart() {
+        super.onStart()
 
         when (offerType) {
             "BestOffers" -> getBestOffer()
             "LastOffers" -> getLastOffer()
         }
     }
+
 
     private fun getBestOffer() {
         offerPresenter.getBestOffer(offerId) {
@@ -78,24 +99,27 @@ class OfferActivity : BaseActivity() {
         }
     }
 
-    fun cartClicked(view: View?) {
-        cartPresenter.checkItem(product) {
-            when (it) {
-                true -> removeCartItem()
-                false -> addCartItem()
+    fun cartClicked() {
+        bind.cart.setOnClickListener {
+            cartPresenter.checkItem(product) {
+                when (it) {
+                    true -> removeCartItem()
+                    false -> addCartItem()
+                }
             }
         }
     }
 
     private fun addCartItem() {
-        cartPresenter.addItem(product,
+        cartPresenter.addItem(
+            product,
 
             object : BaseListener<Product> {
                 override fun onSuccess(result: Product) {
                     handleSuccess()
                     bind.cart.setImageResource(R.drawable.carted)
                     Toast.makeText(
-                        this@OfferActivity,
+                        context,
                         "product added to the cart",
                         Toast.LENGTH_SHORT
                     ).show()
@@ -120,7 +144,7 @@ class OfferActivity : BaseActivity() {
                     handleSuccess()
                     bind.cart.setImageResource(R.drawable.cart)
                     Toast.makeText(
-                        this@OfferActivity,
+                        context,
                         "product removed from the cart",
                         Toast.LENGTH_SHORT
                     )
@@ -137,24 +161,27 @@ class OfferActivity : BaseActivity() {
             })
     }
 
-    fun wishClicked(view: View?) {
-        wishListPresenter.checkItem(product) {
-            when (it) {
-                true -> removeWishListItem()
-                false -> addWishListItem()
+    private fun wishClicked() {
+        bind.wish.setOnClickListener {
+            wishListPresenter.checkItem(product) {
+                when (it) {
+                    true -> removeWishListItem()
+                    false -> addWishListItem()
+                }
             }
         }
     }
 
     private fun addWishListItem() {
-        wishListPresenter.addItem(product,
+        wishListPresenter.addItem(
+            product,
 
             object : BaseListener<Product> {
                 override fun onSuccess(result: Product) {
                     handleSuccess()
                     bind.wish.setImageResource(R.drawable.wished)
                     Toast.makeText(
-                        this@OfferActivity,
+                        context,
                         "Product Added to the wishList",
                         Toast.LENGTH_SHORT
                     ).show()
@@ -178,7 +205,7 @@ class OfferActivity : BaseActivity() {
                     handleSuccess()
                     bind.wish.setImageResource(R.drawable.wish)
                     Toast.makeText(
-                        this@OfferActivity,
+                        context,
                         "product removed from the wishList",
                         Toast.LENGTH_SHORT
                     ).show()
@@ -192,10 +219,6 @@ class OfferActivity : BaseActivity() {
                     handleLoading()
                 }
             })
-    }
-
-    fun goBack(view: View?) {
-        finish()
     }
 
     fun updateOfferView() {

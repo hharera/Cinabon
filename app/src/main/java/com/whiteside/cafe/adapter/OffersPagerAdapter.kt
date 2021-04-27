@@ -1,18 +1,23 @@
 package com.whiteside.cafe.adapter
 
-import android.content.Intent
+import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import androidx.navigation.NavController
 import androidx.recyclerview.widget.RecyclerView
 import com.whiteside.cafe.R
 import com.whiteside.cafe.model.Offer
-import com.whiteside.cafe.ui.offer.OfferActivity
 import com.whiteside.cafe.utils.BlobBitmap
 
-class OffersPagerAdapter(private val offers: MutableList<Offer>, val type: String) :
+class OffersPagerAdapter(
+    private val offers: MutableList<Offer>,
+    var navController: NavController,
+    val type: String,
+) :
     RecyclerView.Adapter<OffersPagerAdapter.ViewHolder>() {
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view =
             LayoutInflater.from(parent.context).inflate(R.layout.offer_card_view, parent, false)
@@ -34,12 +39,12 @@ class OffersPagerAdapter(private val offers: MutableList<Offer>, val type: Strin
             imageView.setImageBitmap(BlobBitmap.convertBlobToBitmap(offer.offerPic))
 
             imageView.setOnClickListener {
-                val intent = Intent(itemView.context, OfferActivity::class.java)
-                intent.putExtra("productId", offer.productId)
-                intent.putExtra("categoryName", offer.categoryName)
-                intent.putExtra("offerId", offer.offerId)
-                intent.putExtra("offerType", type)
-                itemView.context.startActivity(intent)
+                val bundle = Bundle()
+                bundle.putString("offerId", offer.offerId)
+                bundle.putString("offerType", type)
+                navController.navigate(R.id.view_offer, bundle)
+//                val intent = Intent(itemView.context, OfferActivity::class.java)
+//                itemView.context.startActivity(intent)
             }
         }
     }

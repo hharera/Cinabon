@@ -3,7 +3,6 @@ package com.whiteside.cafe
 import android.content.Intent
 import android.content.res.Configuration
 import android.os.Bundle
-import android.view.Menu
 import android.view.MenuItem
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
@@ -37,7 +36,8 @@ class HomeActivity : BaseActivity() {
                 R.id.navigation_cart,
                 R.id.navigation_wishlist,
                 R.id.navigation_unsigned_account,
-                R.id.navigation_search
+                R.id.navigation_search,
+                R.id.navigation_offer,
             )
         )
 
@@ -51,7 +51,7 @@ class HomeActivity : BaseActivity() {
     }
 
     private fun setUpWithDrawer() {
-//        val appBarConfiguration = AppBarConfiguration(navController.graph, drawer_layout)
+        val appBarConfiguration = AppBarConfiguration(navController.graph, bind.drawerLayout)
         setupActionBarWithNavController(navController, appBarConfiguration)
     }
 
@@ -68,13 +68,13 @@ class HomeActivity : BaseActivity() {
     }
 
     private fun setUpWithToolBar() {
-        NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration)
+        NavigationUI.setupActionBarWithNavController(this, navController)
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-//        menuInflater.inflate(R.menu.tool_bar_menu, menu)
-        return true
-    }
+//    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+////        menuInflater.inflate(R.menu.tool_bar_menu, menu)
+//        return true
+//    }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return item.onNavDestinationSelected(navController) || super.onOptionsItemSelected(item)
@@ -89,5 +89,9 @@ class HomeActivity : BaseActivity() {
                 startActivity(intent)
             }
         })
+    }
+
+    override fun onSupportNavigateUp(): Boolean {
+        return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
     }
 }

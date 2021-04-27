@@ -8,7 +8,11 @@
         android:id="@+id/navigation_shop"
         android:name="com.whiteside.cafe.ui.shop.ShopFragment"
         android:label="@string/shop"
-        tools:layout="@layout/fragment_shop" />
+        tools:layout="@layout/fragment_shop">
+        <action
+            android:id="@+id/view_offer"
+            app:destination="@id/navigation_offer" />
+    </fragment>
 
     <fragment
         android:id="@+id/navigation_categories"
@@ -40,19 +44,8 @@
         tools:layout="@layout/fragment_wishlist" />
 
     <fragment
-        android:id="@+id/navigation_search"
-        android:name="com.whiteside.cafe.SearchFragment"
-        android:label="Search"
-        tools:layout="@layout/search_fragment" />
-
-    <fragment
-        android:id="@+id/navigation_empty_list"
-        android:name="com.whiteside.cafe.EmptyList"
-        tools:layout="@layout/fragment_empty_list">
-
-        <action
-
-            android:id="@+id/action_shop"
-            app:destination="@id/navigation_shop" />
-    </fragment>
+        android:id="@+id/navigation_offer"
+        android:name="com.whiteside.cafe.ui.offer.OfferActivity"
+        android:label="@string/wishlist"
+        tools:layout="@layout/fragment_wishlist"></fragment>
 </navigation>
