@@ -1,4 +1,4 @@
-package com.hassanharera.padna
+package com.harera.panda
 
 import android.content.Intent
 import android.os.Bundle
@@ -6,16 +6,14 @@ import android.view.animation.AnimationUtils
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.activity.viewModels
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.liveData
 import androidx.lifecycle.viewModelScope
-import com.google.android.gms.tasks.Tasks
-import com.hassanharera.padna.common.BaseActivity
-import com.hassanharera.padna.db.remote.repository.AuthManager
-import com.hassanharera.padna.db.remote.repository.UserRepository
-import com.hassanharera.padna.ui.HomeActivity
-import com.hassanharera.padna.ui.internet.NoInternetActivity
-import com.hassanharera.padna.utils.Response
+import com.harera.panda.common.BaseActivity
+import com.harera.panda.db.remote.repository.AuthManager
+import com.harera.panda.db.remote.repository.UserRepository
+import com.harera.panda.ui.HomeActivity
+import com.harera.panda.ui.internet.NoInternetActivity
 import dagger.hilt.android.AndroidEntryPoint
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.*
@@ -36,11 +34,27 @@ class MainActivity : BaseActivity() {
     }
 
     private fun waitDelay() {
-        GlobalScope.launch(Dispatchers.Main) {
-            delay(1500)
-            startActivity(
-                Intent(this@MainActivity, HomeActivity::class.java)
+        mainViewModel.startDelay()
+
+        mainViewModel.delayEnded.observe(this) { delayFinished ->
+            if (delayFinished) {
+                mainViewModel.isLoggedIn.observe(this) { isLoggedIn ->
+                    if (isLoggedIn) {
+                        finishActivity()
+                    }
+                }
+            }
+        }
+    }
+
+    private fun finishActivity() {
+        startActivity(
+            Intent(
+                this@MainActivity,
+                HomeActivity::class.java
             )
+        ).also {
+            finish()
         }
     }
 
@@ -66,23 +80,27 @@ class MainViewModel @Inject constructor(
     private val userRepo: UserRepository
 ) : ViewModel() {
 
-    fun signInAnonymously() = liveData {
-        viewModelScope.launch(Dispatchers.IO) {
-            emit(Response.loading(null))
-
-            val task = authManager.loginAnonymously()
-            Tasks.await(task)
-            emit(
-                if (task.isSuccessful)
-                    Response.success(data = task.result)
-                else
-                    Response.error(error = task.exception, data = null)
-            )
-        }
-    }
+    val delayEnded: MutableLiveData<Boolean> = MutableLiveData(false)
+    val isLoggedIn: MutableLiveData<Boolean> = MutableLiveData(false)
 
     fun checkLogin() {
         if (authManager.getCurrentUser() == null)
-            authManager.loginAnonymously()
+            authManager
+                .loginAnonymously()
+                .addOnSuccessListener {
+                    isLoggedIn.value = true
+                }
+                .addOnFailureListener {
+                    it.printStackTrace()
+                }
+        else
+            isLoggedIn.value = true
+    }
+
+    fun startDelay() {
+        viewModelScope.launch {
+            delay(1500)
+            delayEnded.value = true
+        }
     }
 }
