@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    app:startDestination="@id/navigation_dashboard">
+
+    <fragment
+        android:id="@+id/navigation_dashboard"
+        android:name="com.harera.managehyper.ui.dashboard.DashboardFragment"
+        android:label="Dashboard"
+        tools:layout="@layout/fragment_dashboard" />
+
+    <fragment
+        android:id="@+id/navigation_addCategory"
+        android:name="AddCategoryFragment"
+        android:label="Add Category"
+        tools:layout="@layout/fragment_add_category" />
+
+    <fragment
+        android:id="@+id/navigation_categories"
+        android:name="com.harera.categories.AddCategoryFragment"
+        android:label="Add Category"
+        tools:layout="@layout/fragment_add_category">
+
+        <argument android:name="categoryId" />
+        <deepLink app:uri="HyperPanda://categories/{categoryId}" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/navigation_edit_product"
+        android:name="com.harera.edit_product.EditProductFragment"
+        android:label="Categories"
+        tools:layout="@layout/fragment_products" >
+
+        <argument android:name="productId" />
+        <deepLink app:uri="HyperPanda://products/{productId}" />
+    </fragment>
+
+</navigation>
