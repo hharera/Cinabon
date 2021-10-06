@@ -2,7 +2,8 @@ package com.harera.repository.firebase
 
 import com.google.android.gms.tasks.Tasks
 import com.google.firebase.Timestamp
-import com.harera.data.remote.repository.OfferRepository
+import com.harera.model.modelget.Offer
+import com.harera.repository.repository.OfferRepository
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import junit.framework.TestCase
@@ -67,7 +68,7 @@ class FirebaseOfferRepositoryTest  {
     fun testAddOffer() {
         val task =  offerRepository
             .addOffer(
-                com.harera.data.modelset.Offer(
+                com.harera.model.modelset.Offer(
                     productId = "brx94M1zVzRuMftoqrv7",
                     startTime = Timestamp.now(),
                     endTime = Timestamp(Timestamp.now().seconds + 100000, 0),

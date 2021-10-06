@@ -2,9 +2,9 @@ package com.harera.repository.firebase
 
 import com.google.android.gms.tasks.Tasks
 import com.google.firebase.Timestamp
-import com.harera.data.remote.repository.AuthManager
-import com.harera.data.remote.repository.WishListRepository
-import com.harera.data.modelset.WishListItem
+import com.harera.model.modelset.WishListItem
+import com.harera.repository.repository.AuthManager
+import com.harera.repository.repository.WishListRepository
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import org.junit.Assert

@@ -2,9 +2,9 @@ package com.harera.repository.firebase
 
 import com.google.android.gms.tasks.Tasks
 import com.google.firebase.Timestamp
-import com.harera.data.remote.repository.AuthManager
-import com.harera.data.remote.repository.CartRepository
-import com.harera.data.modelset.CartItem
+import com.harera.model.modelset.CartItem
+import com.harera.repository.repository.AuthManager
+import com.harera.repository.repository.CartRepository
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import org.junit.Assert

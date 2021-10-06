@@ -3,8 +3,8 @@ package com.harera.repository.firebase
 import android.graphics.Bitmap
 import android.util.Log
 import com.google.android.gms.tasks.Tasks
-import com.harera.data.remote.repository.CategoryRepository
-import com.harera.data.modelset.Category
+import com.harera.model.modelset.Category
+import com.harera.repository.repository.CategoryRepository
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import org.junit.Assert
