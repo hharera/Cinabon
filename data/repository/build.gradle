@@ -1,0 +1,55 @@
+apply from: '../../common-android-library.gradle'
+
+android {
+    compileSdk 31
+
+    defaultConfig {
+        minSdk 21
+        targetSdk 31
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles "consumer-rules.pro"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+}
+
+dependencies {
+    //gms play
+    implementation Libs.playServicesAuth
+    implementation Libs.playServicesAuthPhone
+    implementation Libs.playServicesMaps
+    implementation Libs.playServicesTasks
+
+    //firebase
+    api Libs.firebaseAuth
+    api Libs.firebaseDatabase
+    api Libs.firebaseBom
+    api Libs.firebaseFirestore
+    api Libs.firebaseStorage
+
+    //hilt
+    kapt(Libs.hiltAndroidCompiler)
+    implementation(Libs.hiltAndroid)
+    implementation Libs.testRunner
+
+    //test
+    androidTestImplementation Libs.androidCoreTesting
+    androidTestImplementation Libs.junit4
+
+    api project(Modules.model)
+}
