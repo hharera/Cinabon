@@ -1,0 +1,52 @@
+apply from: '../common-android-library.gradle'
+android {
+    compileSdk 31
+
+    defaultConfig {
+        minSdk 21
+        targetSdk 31
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles "consumer-rules.pro"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    viewBinding{
+        enabled true
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+}
+
+dependencies {
+    implementation project(Modules.loading)
+
+    api(Libs.intuit)
+    implementation(Libs.viewModels)
+    implementation(Libs.activity)
+
+    implementation(Libs.hiltAndroid)
+    kapt(Libs.hiltAndroidCompiler)
+
+    implementation(Libs.appcompat)
+    implementation(Libs.androidxCore)
+    implementation(Libs.searchBar)
+    implementation(Libs.materialDesign)
+    implementation(Libs.gligarPicker)
+
+
+    implementation(Libs.playServicesMaps)
+    api Libs.navigationSafeArgsPlugin
+}
