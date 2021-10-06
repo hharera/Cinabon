@@ -11,19 +11,18 @@
         android:icon="@drawable/categories"
         android:title="@string/categories" />
 
-
     <item
         android:id="@+id/navigation_cart"
-        android:icon="@drawable/cart"
+        android:icon="@drawable/ic_shopping_cart"
         android:title="@string/cart" />
 
     <item
         android:id="@+id/navigation_wishlist"
-        android:icon="@drawable/wish"
+        android:icon="@drawable/baseline_favorite_border_white_24dp"
         android:title="@string/wishlist" />
 
     <item
         android:id="@+id/navigation_account"
-        android:icon="@drawable/user"
+        android:icon="@drawable/ic_baseline_person_pin_24"
         android:title="@string/account" />
 </menu>

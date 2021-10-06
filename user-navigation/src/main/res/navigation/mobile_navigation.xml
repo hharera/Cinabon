@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    app:startDestination="@+id/navigation_shop">
+
+    <fragment
+        android:id="@+id/navigation_shop"
+        android:name="ShopFragment"
+        android:label="@string/shop"
+        tools:layout="@layout/fragment_shop">
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/navigation_categories"
+        android:name="com.harera.categories.CategoriesFragment"
+        android:label="@string/categories"
+        tools:layout="@layout/fragment_categories">
+
+        <argument android:name="categoryId" />
+        <deepLink app:uri="HyperPanda://categories/{categoryId}" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/navigation_map"
+        android:name="com.harera.hyperpanda.ui.location.CafeLocation"
+        tools:layout="@layout/fragment_cafe_location" />
+
+    <fragment
+        android:id="@+id/navigation_account"
+        android:name="com.harera.hyperpanda.ui.account.AccountFragment"
+        android:label="@string/account"
+        tools:layout="@layout/fragment_account" />
+
+    <fragment
+        android:id="@+id/navigation_unsigned_account"
+        android:name="com.harera.hyperpanda.ui.account.UnsignedAccountFragment"
+        tools:layout="@layout/fragment_unsigned_account" />
+
+    <fragment
+        android:id="@+id/navigation_cart"
+        android:name="com.harera.hyperpanda.ui.cart.CartFragment"
+        android:label="@string/cart"
+        tools:layout="@layout/fragment_cart" />
+
+    <fragment
+        android:id="@+id/navigation_wishlist"
+        android:name="com.harera.hyperpanda.ui.wishlist.WishListFragment"
+        android:label="@string/wishlist"
+        tools:layout="@layout/fragment_wishlist" />
+
+    <fragment
+        android:id="@+id/navigation_search"
+        android:name="com.harera.search.SearchFragment"
+        android:label="Search"
+        tools:layout="@layout/fragment_search" />
+
+    <fragment
+        android:id="@+id/navigation_product"
+        android:name="ProductFragment"
+        android:label="Search"
+        tools:layout="@layout/fragment_product_view">
+
+        <argument android:name="productId" />
+        <deepLink app:uri="HyperPanda://product/{productId}" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/navigation_empty_list"
+        tools:layout="@layout/fragment_empty_list">
+        <action
+            android:id="@+id/action_shop"
+            app:destination="@id/navigation_shop" />
+    </fragment>
+</navigation>
