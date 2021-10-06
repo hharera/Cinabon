@@ -9,7 +9,7 @@ android {
         versionCode 1
         versionName "1.0"
 
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner "com.harera.repository.HiltTestRunner"
         consumerProguardFiles "consumer-rules.pro"
     }
 
@@ -50,6 +50,8 @@ dependencies {
     //test
     androidTestImplementation Libs.androidCoreTesting
     androidTestImplementation Libs.junit4
+    androidTestImplementation(Libs.hiltTesting)
+    kaptAndroidTest(Libs.hiltAndroidCompiler)
 
     api project(Modules.model)
 }

@@ -33,7 +33,7 @@ android {
 dependencies {
     implementation project(Modules.repository)
     implementation project(Modules.common)
-    implementation project(Modules.chooseLocation)
+    implementation project(Modules.userLocator)
 
     implementation Libs.picasso
     implementation Libs.liveData

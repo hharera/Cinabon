@@ -14,9 +14,9 @@ object DefaultConfig {
 object Modules {
     const val loading = ":ui-components:loading"
     const val categoryName = ":ui-components:category-name"
-    const val imageSlider = ":ui-components:image-slider"
+    const val imageSlider = ":ui-components:image-card"
     const val product = ":ui-components:product"
-    const val chooseLocation = ":ui-components:choose-location"
+    const val userLocator = ":ui-components:user-locator"
 
     const val addCategory = ":manager-features:add-category"
     const val managerNavigation = ":manager-navigation"
@@ -119,6 +119,7 @@ object Libs {
     const val hiltPlugin = "com.google.dagger:hilt-android-gradle-plugin:${Versions.HILT_VERSION}"
     //Hilt
     const val hiltAndroid = "com.google.dagger:hilt-android:${Versions.HILT_VERSION}"
+    const val hiltTesting = "com.google.dagger:hilt-android-testing:${Versions.HILT_VERSION}"
     const val hiltAndroidCompiler =
         "com.google.dagger:hilt-android-compiler:${Versions.HILT_VERSION}"
 
