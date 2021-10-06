@@ -1,0 +1,51 @@
+apply from: '../../common-android-library.gradle'
+
+android {
+    compileSdk 31
+
+    defaultConfig {
+        minSdk 21
+        targetSdk 31
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles "consumer-rules.pro"
+    }
+    buildFeatures {
+        viewBinding true
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+}
+
+dependencies {
+    implementation project(Modules.common)
+    implementation project(Modules.repository)
+    implementation project(Modules.product)
+    implementation project(Modules.imageSlider)
+
+    implementation Libs.adMob
+    implementation Libs.firebaseFirestore
+    implementation Libs.firebaseAuth
+    implementation Libs.viewModels
+    implementation Libs.navigationUi
+    implementation Libs.navigationFragment
+
+    implementation Libs.liveData
+    kapt(Libs.hiltAndroidCompiler)
+    implementation(Libs.hiltAndroid)
+    implementation Libs.lifeCycleRuntime
+    implementation Libs.playServicesTasks
+}
