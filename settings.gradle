@@ -1,2 +1,41 @@
-include ':app'
-rootProject.name = "Cafe"
+//dependencyResolutionManagement {
+//    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+//    repositories {
+//        google()
+//        mavenCentral()
+//        jcenter() // Warning: this repository is going to shut down soon
+//    }
+//}
+rootProject.name = "Hyper Panda"
+include ':user'
+include ':manager'
+include ':common'
+include ':ui-components'
+include ':data'
+include ':features'
+include ':features:shop'
+include ':ui-components:product'
+include ':user-navigation'
+include ':manager-navigation'
+include ':data:repository'
+include ':data:model'
+include ':ui-components:loading'
+include ':features:product'
+include ':ui-components:image-slider'
+include ':features:add-category'
+include ':user-features'
+include ':manager-features'
+include ':manager-features:add-category'
+include ':manager-features:product'
+include ':manager-features:edit-product'
+include ':user-features:search'
+include ':user-features:categories'
+include ':ui-components:category-name'
+include ':user-features:market-location'
+include ':ui-components:choose-location'
+include ':ui-components:category-image'
+include ':user-features:shop'
+include ':user-features:product'
+include ':user-features:login'
+include ':user-features:account-form'
+include ':user-features:offer'
