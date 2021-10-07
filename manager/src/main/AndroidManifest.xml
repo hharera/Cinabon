@@ -12,7 +12,6 @@
         android:supportsRtl="true"
         android:theme="@style/HyperPanda">
 
-
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
@@ -23,13 +22,13 @@
 
         <activity
             android:name=".HomeActivity"
-            android:exported="false">
+            android:exported="true">
             <nav-graph android:value="@navigation/mobile_navigation" />
         </activity>
 
         <activity
             android:name=".MainActivity"
-            android:exported="false">
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
