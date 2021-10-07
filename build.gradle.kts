@@ -12,14 +12,6 @@ buildscript {
     }
 }
 
-allprojects {
-    repositories {
-//        jcenter()
-//        google()
-//        maven { url = uri("https://jitpack.io") }
-    }
-}
-
 tasks.register("clean", Delete::class) {
     delete(rootProject.buildDir)
 }
