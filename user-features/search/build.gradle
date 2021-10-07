@@ -47,9 +47,10 @@ dependencies {
     implementation Libs.playServicesTasks
 
     implementation Libs.gligarPicker
-    implementation Libs.androidxCore
-    implementation Libs.kotlin
-    implementation Libs.appcompat
+
+    testImplementation(Libs.junit4)
+    androidTestImplementation(Libs.junitExt)
+    androidTestImplementation(Libs.espresso)
 
     implementation Libs.navigationFragment
     implementation Libs.materialDesign

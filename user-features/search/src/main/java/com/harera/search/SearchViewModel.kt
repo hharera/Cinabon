@@ -1,4 +1,4 @@
-package com.harera.hyperpanda.ui.search
+package com.harera.search
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

@@ -46,7 +46,6 @@ dependencies {
 
     implementation(Libs.navigationUi)
     implementation(Libs.navigationFragment)
-    implementation(Libs.navigationSafeArgsPlugin)
 
     implementation(Libs.picasso)
 

@@ -33,6 +33,5 @@ android {
 
 dependencies {
     implementation Libs.androidxCore
-    implementation Libs.constraintLayout
     implementation Libs.materialDesign
 }

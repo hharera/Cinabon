@@ -46,7 +46,9 @@ dependencies {
     implementation(Libs.materialDesign)
     implementation(Libs.gligarPicker)
 
+    testImplementation(Libs.junit4)
+    androidTestImplementation(Libs.junitExt)
+    androidTestImplementation(Libs.espresso)
 
     implementation(Libs.playServicesMaps)
-    api Libs.navigationSafeArgsPlugin
 }

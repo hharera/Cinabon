@@ -9,7 +9,6 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.harera.common.base.BaseFragment
 import com.harera.common.onSearchConfirmed
-import com.harera.hyperpanda.ui.search.SearchViewModel
 import com.harera.model.modelget.Product
 import com.harera.product.ProductsAdapter
 import com.harera.search.databinding.FragmentSearchBinding
@@ -37,9 +36,9 @@ class SearchFragment : BaseFragment() {
             setProducts(it)
         }
 
-        bind.searchBar.onSearchConfirmed {
-            searchViewModel.searchProducts(it)
-        }
+//        bind.searchBar.onSearchConfirmed {
+//            searchViewModel.searchProducts(it)
+//        }
     }
 
     private fun setProducts(products: List<Product>) {

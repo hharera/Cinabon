@@ -18,7 +18,6 @@ object Modules {
     const val product = ":ui-components:product"
     const val userLocator = ":ui-components:user-locator"
 
-    const val addCategory = ":manager-features:add-category"
     const val managerNavigation = ":manager-navigation"
 
     const val userNavigation = ":user-navigation"
@@ -26,7 +25,6 @@ object Modules {
     const val common = ":common"
     const val model = ":data:model"
     const val repository = ":data:repository"
-    const val featureCategories = ":features:categories"
 }
 
 object Core {
@@ -37,8 +35,8 @@ object Core {
 }
 
 object Features {
-    const val movies = ":features:movies"
-    const val actors = ":features:actors"
+    const val featureCategories = ":features:categories"
+    const val addCategory = ":manager-features:add-category"
 }
 
 object Common {
@@ -56,6 +54,7 @@ object Versions {
     const val GLIGER_VERSION = "1.1.0"
     const val SEARCH_BAR = "0.7.5"
     const val CIRCLE_IMAGE = "3.1.0"
+    const val ESPRESSO = "3.4"
 
     //Firebase
     const val FIREBASE_DATABASE_VERSION = "20.0.2"
@@ -105,7 +104,6 @@ object Versions {
     const val ANDROIDX_CORE_VERSION = "1.3.2"
     const val ANDROIDX_APP_COMPAT_VERSION = "1.3.1"
     const val GOOGLE_MATERIAL_VERSION = "1.4.0"
-    const val ANDROIDX_RAINT_LAYOUT_VERSION = "2.1.1"
     const val ANDROIDX_SWIPE_REFRESH_LAYOUT_VERSION = "1.1.0"
     const val ANDROIDX_FRAGMENT_TESTING_VERSION = "1.3.3"
 
@@ -126,8 +124,6 @@ object Libs {
     //UI
     const val activity = "androidx.activity:activity-ktx:${Versions.ACTIVITY_VERSION}"
 
-    const val constraintLayout =
-        "androidx.constraintlayout:constraintlayout:${Versions.CONSTRAINT_LAYOUT_VERSION}"
     const val appcompat = "androidx.appcompat:appcompat:${Versions.ANDROIDX_APP_COMPAT_VERSION}"
     const val materialDesign =
         "com.google.android.material:material:${Versions.GOOGLE_MATERIAL_VERSION}"
@@ -149,9 +145,6 @@ object Libs {
         "com.google.android.gms:play-services-tasks:${Versions.PLAY_SERVICE_TASKS}"
     const val playServicesAuth =
         "com.google.android.gms:play-services-auth:${Versions.GOOGLE_AUTH_VERSION}"
-
-    const val awareness = "com.google.android.gms:play-services-:18.0.2"
-    const val safetynet = "com.google.android.gms:play-services-:17.0.1"
 
     const val playServicesAuthPhone =
         "com.google.android.gms:play-services-auth-api-phone:${Versions.GOOGLE_AUTH_PHONE_VERSION}"
@@ -177,6 +170,8 @@ object Libs {
     //dots indicator
     const val indicator = "com.tbuonomo:dotsindicator:4.2"
 
+    const val gradleTools = "com.android.tools.build:gradle:${Versions.GRADLE_TOOLS_VERSION}"
+
     //circle image
     const val circleImage = "de.hdodenhof:circleimageview:${Versions.CIRCLE_IMAGE}"
 
@@ -185,15 +180,11 @@ object Libs {
 
     //intuit
     const val intuit = "com.intuit.sdp:sdp-android:${Versions.INTUIT_VERSION}"
-
     //places
     const val googlePlaces = "com.google.android.libraries.places:places:${Versions.GOOGLE_PLACES}"
 
-    const val gradleTools = "com.android.tools.build:gradle:${Versions.GRADLE_TOOLS_VERSION}"
-
     // Kotlin
     const val kotlinPlugin = "org.jetbrains.kotlin:kotlin-gradle-plugin:${Versions.KOTLIN_VERSION}"
-
     const val kotlin = "org.jetbrains.kotlin:kotlin-stdlib:${Versions.KOTLIN_VERSION}"
 
     // Coroutines
@@ -201,39 +192,10 @@ object Libs {
         "org.jetbrains.kotlinx:kotlinx-coroutines-test:${Versions.COROUTINES_VERSION}"
     const val coroutinesCore =
         "org.jetbrains.kotlinx:kotlinx-coroutines-core:${Versions.COROUTINES_VERSION}"
-
     const val coroutinesAndroid =
         "org.jetbrains.kotlinx:kotlinx-coroutines-android:${Versions.COROUTINES_VERSION}"
+
     const val androidxCore = "androidx.core:core-ktx:${Versions.ANDROIDX_CORE_VERSION}"
-    const val androidxAppCompat =
-        "androidx.appcompat:appcompat:${Versions.ANDROIDX_APP_COMPAT_VERSION}"
-    const val googleMaterial =
-        "com.google.android.material:material:${Versions.GOOGLE_MATERIAL_VERSION}"
-
-    const val androidXraintLayout =
-        "androidx.raintlayout:raintlayout:${Versions.ANDROIDX_RAINT_LAYOUT_VERSION}"
-
-    // Retrofit
-    const val retrofit = "com.squareup.retrofit2:retrofit:${Versions.RETROFIT_VERSION}"
-    const val moshi = "com.squareup.retrofit2:converter-moshi:${Versions.RETROFIT_VERSION}"
-
-    const val interceptor =
-        "com.squareup.okhttp3:logging-interceptor:${Versions.LOGGING_INTERCEPTOR_VERSION}"
-
-    // MockWebServer
-    const val mockwebServer =
-        "com.squareup.okhttp3:mockwebserver:${Versions.MOCK_WEB_SERVER_VERSION}"
-
-    // Timber
-    const val timber = "com.jakewharton.timber:timber:${Versions.TIMBER_VERSION}"
-
-    // Coil
-    const val coil = "io.coil-kt:coil:${Versions.COIL_VERSION}"
-
-    // DI Koin
-    const val koinAndroidx = "io.insert-koin:koin-android:${Versions.DI_KOIN_VERSION}"
-
-    const val koinJvmTest = "io.insert-koin:koin-test-junit4:${Versions.DI_KOIN_VERSION}"
 
     // Fragments
     const val fragments = "androidx.fragment:fragment-ktx:${Versions.FRAGMENT_VERSION}"
@@ -263,20 +225,10 @@ object Libs {
     // TESTING
     // ||
 
-    // Mockk
-    const val testMockk = "io.mockk:mockk:${Versions.TEST_MOCKK_VERSION}"
-    const val testMockkInstrumented = "io.mockk:mockk-android:${Versions.TEST_MOCKK_VERSION}"
-
     // Junit 4
     const val junit4 = "junit:junit:${Versions.TEST_JUNIT_VERSION}"
     const val junitExt = "androidx.test.ext:junit:1.1.2"
-
-    // Leak Canary
-    const val leakCanary =
-        "com.squareup.leakcanary:leakcanary-android:${Versions.LEAK_CANARY_VERSION}"
-
-    // Espresso
-    const val espresso = "androidx.test.espresso:espresso-core:3.3.0"
+    const val espresso = "androidx.test.espresso:espresso-core:${Versions.ESPRESSO}"
 
     // Fragments
     const val fragmentTest =

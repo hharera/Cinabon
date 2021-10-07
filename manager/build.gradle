@@ -59,7 +59,7 @@ android {
         implementation project(Modules.common)
         implementation project(Modules.repository)
         implementation project(Modules.managerNavigation)
-        implementation project(Modules.addCategory)
+        implementation project(Features.addCategory)
 
         //hilt
         implementation Libs.hiltAndroid
@@ -73,7 +73,6 @@ android {
 
         implementation(Libs.navigationFragment)
         implementation(Libs.navigationUi)
-        implementation(Libs.navigationSafeArgsPlugin)
 
         implementation(Libs.materialDesign)
         implementation(Libs.circleImage)
