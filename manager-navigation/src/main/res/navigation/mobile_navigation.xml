@@ -6,19 +6,19 @@
 
     <fragment
         android:id="@+id/navigation_dashboard"
-        android:name="com.harera.managehyper.ui.dashboard.DashboardFragment"
+        android:name="com.harera.managehyper.DashboardFragment"
         android:label="Dashboard"
         tools:layout="@layout/fragment_dashboard" />
 
     <fragment
         android:id="@+id/navigation_addCategory"
-        android:name="AddCategoryFragment"
+        android:name="com.harera.add_category.AddCategoryFragment/"
         android:label="Add Category"
         tools:layout="@layout/fragment_add_category" />
 
     <fragment
         android:id="@+id/navigation_categories"
-        android:name="com.harera.categories.AddCategoryFragment"
+        android:name="com.harera.add_category.AddCategoryFragment"
         android:label="Add Category"
         tools:layout="@layout/fragment_add_category">
 
