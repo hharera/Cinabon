@@ -1,4 +1,4 @@
-package com.harera.managehyper.ui.add_category
+package com.harera.add_category
 
 data class CategoryFormState(
     val categoryNameError:  Int? = null,

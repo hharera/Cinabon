@@ -9,6 +9,7 @@
     <string name="wellcome_text">مرحبا!\nهايبر بندا\nمتعة التسوق</string>
     <string name="start">Start</string>
     <string name="password">Password</string>
+    <string name="email">الايميل</string>
     <string name="best_offers">Best offers</string>
     <string name="last_offers">Last offers</string>
     <string name="wishlist">قائمة المفضلات</string>
@@ -147,5 +148,7 @@
     <string name="loren">"لوريم إيبسوم هو ببساطة نص شكلي (بمعنى أن الغاية هي الشكل وليس المحتوى) ويُستخدم في صناعات المطابع ودور النشر. كان لوريم إيبسوم ولايزال المعيار للنص الشكلي منذ القرن الخامس عشر عندما قامت مطبعة مجهولة برص مجموعة من الأحرف بشكل عشوائي أخذتها من نص، لتكوّن كتيّب بمثابة دليل أو مرجع شكلي لهذه الأحرف. خمسة قرون من الزمن لم تقضي على هذا النص، بل انه حتى صار مستخدماً وبشكله الأصلي في الطباعة والتنضيد الإلكتروني. انتشر بشكل كبير في ستينيّات هذا القرن مع إصدار رقائ البلاستيكية تحوي مقاطع من هذا النص، وعاد لينتشر مرة أخرى مؤخراَ مع ظهور برامج النشر الإلكتروني مثل  والتي حوت أيضاً على نسخ من نص لوريم إيبسوم.  "</string>
     <string name="category_name">اسم القسم</string>
     <string name="show_products">عرض المنتجات</string>
+    <string name="password_error">كلمة مرور خاطئه</string>
+    <string name="email_error">حساب خاطئ</string>
 </resources>
 

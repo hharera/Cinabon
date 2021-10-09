@@ -5,19 +5,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.harera.common.base.BaseFragment
-import com.harera.common.onSearchConfirmed
 import com.harera.model.modelget.Product
-import com.harera.product.ProductsAdapter
+import com.harera.components.product.ProductsAdapter
 import com.harera.search.databinding.FragmentSearchBinding
 
 
 class SearchFragment : BaseFragment() {
     private val searchViewModel: SearchViewModel by viewModels()
     private lateinit var productsAdapter: ProductsAdapter
-    private lateinit var bind : FragmentSearchBinding
+    private lateinit var bind: FragmentSearchBinding
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -25,7 +23,11 @@ class SearchFragment : BaseFragment() {
         savedInstanceState: Bundle?
     ): View {
         bind = FragmentSearchBinding.inflate(layoutInflater)
-        productsAdapter = ProductsAdapter(ArrayList(), findNavController())
+        productsAdapter = ProductsAdapter(
+            onProductClicked = {
+//                TODO
+            }
+        )
         return bind.root
     }
 

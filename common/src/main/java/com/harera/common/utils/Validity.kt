@@ -24,5 +24,8 @@ class Validity {
 
         fun checkCodeValidity(code: String): Boolean =
             code.matches(Regex("^[0-9]{6}\$"))
+
+        fun checkEmail(email: String) : Boolean =
+            email.matches(Regex("^[\\w]+@([\\w]+\\.)+[\\w]{2,4}\$"))
     }
 }

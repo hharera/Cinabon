@@ -36,9 +36,9 @@ android {
 }
 
 dependencies {
-    implementation project(Modules.product)
-    implementation project(Modules.repository)
-    implementation project(Modules.common)
+    implementation project(UIComponents.product)
+    implementation project(UIComponents.repository)
+    implementation project(UIComponents.common)
 
     implementation Libs.liveData
 

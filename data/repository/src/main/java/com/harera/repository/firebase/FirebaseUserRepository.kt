@@ -6,9 +6,9 @@ import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.UploadTask
+import com.harera.model.modelset.User
 import com.harera.repository.DBConstants
 import com.harera.repository.repository.UserRepository
-import com.harera.model.modelset.User
 import java.io.ByteArrayOutputStream
 import javax.inject.Inject
 

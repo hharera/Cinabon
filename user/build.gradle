@@ -1,8 +1,11 @@
-apply plugin: 'com.android.application'
-apply from: '../android_commons.gradle'
-apply plugin: ("dagger.hilt.android.plugin")
+plugins {
+    id 'com.android.application'
+    id 'com.google.gms.google-services'
+    id 'kotlin-android'
+}
 apply plugin: 'kotlin-kapt'
 apply plugin: "androidx.navigation.safeargs"
+apply plugin: 'dagger.hilt.android.plugin'
 android {
     compileSdkVersion DefaultConfig.compileSdk
     buildToolsVersion DefaultConfig.buildToolsVersion
@@ -40,20 +43,32 @@ android {
 }
 
 dependencies {
-    implementation project(Modules.userNavigation)
-    implementation project(Modules.common)
-    implementation project(Modules.repository)
+    implementation project(UIComponents.userNavigation)
+    implementation project(UIComponents.common)
+    implementation project(UserFeatures.shop)
+    api project(UIComponents.repository)
 
-    implementation Libs.circleImage
-    implementation Libs.materialDesign
-
-    implementation Libs.liveData
-    implementation Libs.viewModels
-    kapt(Libs.hiltAndroidCompiler)
+    //hilt
     implementation(Libs.hiltAndroid)
-    implementation Libs.lifeCycleRuntime
+    kapt(Libs.hiltAndroidCompiler)
+
+    implementation(Libs.playServicesTasks)
+
+    implementation(Libs.androidxCore)
+    implementation(Libs.appcompat)
+    implementation(Libs.activity)
+    implementation(Libs.fragments)
+
     implementation Libs.navigationUi
     implementation Libs.navigationFragment
-    implementation Libs.appcompat
-    implementation Libs.androidxCore
+
+    implementation(Libs.materialDesign)
+    implementation(Libs.circleImage)
+
+    implementation(Libs.liveData)
+    implementation(Libs.viewModels)
+    kapt(Libs.lifeCycleCompiler)
+}
+kapt {
+    correctErrorTypes = true
 }

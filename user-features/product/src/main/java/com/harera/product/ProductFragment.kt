@@ -5,13 +5,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
-import com.harera.common.utils.navigation.Arguments.PRODUCT_ID
 import com.harera.common.base.BaseFragment
-import com.harera.model.modelget.Product
 import com.harera.common.utils.Status
+import com.harera.common.utils.navigation.Arguments.PRODUCT_ID
+import com.harera.components.product.ProductsAdapter
 import com.harera.image_slider.ProductPicturesAdapter
+import com.harera.model.modelget.Product
 import com.harera.product.databinding.FragmentProductViewBinding
 
 class ProductFragment : BaseFragment() {
@@ -35,7 +35,11 @@ class ProductFragment : BaseFragment() {
     ): View {
         super.onCreateView(inflater, container, savedInstanceState)
         bind = FragmentProductViewBinding.inflate(layoutInflater)
-        productsAdapter = ProductsAdapter(navController = findNavController(), products = emptyList())
+        productsAdapter = ProductsAdapter(
+            onProductClicked = {
+
+            }
+        )
         return bind.root
     }
 

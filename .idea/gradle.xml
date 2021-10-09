@@ -22,7 +22,10 @@
             <option value="$PROJECT_DIR$/manager" />
             <option value="$PROJECT_DIR$/manager-features" />
             <option value="$PROJECT_DIR$/manager-features/add-category" />
+            <option value="$PROJECT_DIR$/manager-features/categories" />
+            <option value="$PROJECT_DIR$/manager-features/dashboard" />
             <option value="$PROJECT_DIR$/manager-features/edit-product" />
+            <option value="$PROJECT_DIR$/manager-features/login" />
             <option value="$PROJECT_DIR$/manager-features/product" />
             <option value="$PROJECT_DIR$/manager-navigation" />
             <option value="$PROJECT_DIR$/ui-components" />

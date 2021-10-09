@@ -1,19 +1,14 @@
-package com.harera.categories
+package com.harera.categories_name
 
-import android.net.Uri
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.navigation.NavController
 import androidx.recyclerview.widget.RecyclerView
-import com.harera.categories.databinding.CardViewCategoriesCategoryBinding
-import com.harera.common.utils.navigation.Arguments
-import com.harera.common.utils.navigation.Destinations
-import com.harera.common.utils.navigation.NavigationUtils
+import com.harera.categories_name.databinding.CardViewCategoriesCategoryBinding
 import com.harera.model.modelget.Category
 
 class CategoriesAdapter(
     private var categories: List<Category> = emptyList(),
-    private val navController: NavController,
+    private val onCategoryClicked: (String) -> Unit,
 ) : RecyclerView.Adapter<CategoriesAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -26,15 +21,7 @@ class CategoriesAdapter(
 
         holder.bind.categoryName.text = categoryName
         holder.bind.root.setOnClickListener {
-            navController.navigate(
-                Uri.parse(
-                    NavigationUtils.getUriNavigation(
-                        Arguments.HYPER_PANDA_DOMAIN,
-                        Destinations.CATEGORIES,
-                        categoryName
-                    )
-                )
-            )
+            onCategoryClicked(categoryName)
         }
     }
 

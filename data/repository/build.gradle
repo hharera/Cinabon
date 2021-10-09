@@ -53,5 +53,5 @@ dependencies {
     androidTestImplementation(Libs.hiltTesting)
     kaptAndroidTest(Libs.hiltAndroidCompiler)
 
-    api project(Modules.model)
+    api project(UIComponents.model)
 }

@@ -16,7 +16,7 @@ interface AuthManager {
         callback: PhoneAuthProvider.OnVerificationStateChangedCallbacks
     )
     fun updatePassword(password: String): Task<Void>
-    fun signInWithEmailAndRandomPassword(email: String): Task<AuthResult>
+    fun signInWithEmailAndPassword(email: String, password: String): Task<AuthResult>
     fun createCredential(verificationId: String, code: String): PhoneAuthCredential
     fun login(credential: AuthCredential): Task<AuthResult>
 }

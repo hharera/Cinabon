@@ -14,7 +14,6 @@ import javax.inject.Singleton
 class UtilsModule {
 
     companion object {
-
         @Provides
         @Singleton
         fun provideConnectionLiveData(application: Application) =

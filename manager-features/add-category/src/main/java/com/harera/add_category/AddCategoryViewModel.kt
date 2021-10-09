@@ -3,23 +3,20 @@ package com.harera.add_category
 import android.graphics.Bitmap
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.android.gms.tasks.Tasks
+import com.harera.common.base.BaseViewModel
 import com.harera.common.utils.Validity
-import com.harera.managehyper.ui.add_category.CategoryFormState
 import com.harera.model.modelset.Category
 import com.harera.repository.repository.CategoryRepository
-import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-@HiltViewModel
 class AddCategoryViewModel @Inject constructor(
     private val categoryRepository: CategoryRepository,
-) : ViewModel() {
+) : BaseViewModel() {
 
     private val _categoryName: MutableLiveData<String> = MutableLiveData()
     val categoryName: LiveData<String> = _categoryName
@@ -34,7 +31,6 @@ class AddCategoryViewModel @Inject constructor(
     val error: LiveData<Exception> = _error
 
     private val _loading: MutableLiveData<Boolean> = MutableLiveData()
-    val loading: LiveData<Boolean> = _loading
 
     private val _operationCompleted: MutableLiveData<Boolean> = MutableLiveData()
     val operationCompleted: LiveData<Boolean> = _operationCompleted

@@ -31,7 +31,7 @@ android {
 }
 
 dependencies {
-    implementation project(Modules.loading)
+    implementation project(UIComponents.loading)
 
     api(Libs.intuit)
     implementation(Libs.viewModels)

@@ -1,20 +1,16 @@
-package com.harera.shop
+package com.harera.category_image
 
 import android.net.Uri
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.navigation.NavController
 import androidx.recyclerview.widget.RecyclerView
 import com.harera.category_image.databinding.CardViewShopCategoryBinding
-import com.harera.common.utils.navigation.Arguments.HYPER_PANDA_DOMAIN
-import com.harera.common.utils.navigation.Destinations.CATEGORIES
-import com.harera.common.utils.navigation.NavigationUtils
 import com.harera.model.modelget.Category
 import com.squareup.picasso.Picasso
 
 class CategoriesAdapter(
     private var categories: List<Category> = emptyList(),
-    private val navController: NavController,
+    private val onCategoryClicked: (String) -> Unit,
 ) : RecyclerView.Adapter<CategoriesAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -35,14 +31,14 @@ class CategoriesAdapter(
         notifyDataSetChanged()
     }
 
-    inner class ViewHolder(val bind: CardViewShopCategoryBinding) : RecyclerView.ViewHolder(bind.root) {
+    inner class ViewHolder(val bind: CardViewShopCategoryBinding) :
+        RecyclerView.ViewHolder(bind.root) {
         fun updateView(category: Category) {
             bind.categoryTitle.text = category.categoryName
             Picasso.get().load(Uri.parse(category.categoryImagerUrl)).fit().into(bind.categoryImage)
 
             bind.categoryImage.setOnClickListener {
-                val uri = Uri.parse(NavigationUtils.getUriNavigation(HYPER_PANDA_DOMAIN, CATEGORIES, category.categoryName))
-                navController.navigate(uri)
+                onCategoryClicked(category.categoryName)
             }
         }
     }

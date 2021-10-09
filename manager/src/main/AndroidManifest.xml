@@ -20,8 +20,9 @@
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
 
+        <activity android:name="com.harera.manager.login.LoginActivity" />
         <activity
-            android:name=".HomeActivity"
+            android:name="com.harera.manager_navigation.HomeActivity"
             android:exported="true">
             <nav-graph android:value="@navigation/mobile_navigation" />
         </activity>

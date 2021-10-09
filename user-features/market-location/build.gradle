@@ -32,7 +32,7 @@ android {
 }
 
 dependencies {
-    implementation project(Modules.common)
+    implementation project(UIComponents.common)
 
     implementation Libs.playServicesMaps
     implementation Libs.androidxCore

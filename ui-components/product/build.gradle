@@ -40,6 +40,6 @@ dependencies {
     implementation Libs.picasso
     implementation Libs.navigationUi
 
-    implementation project(Modules.common)
-    implementation project(Modules.repository)
+    implementation project(UIComponents.common)
+    implementation project(UIComponents.repository)
 }

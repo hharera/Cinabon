@@ -1,5 +1,6 @@
 package com.harera.categories
 
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -9,14 +10,15 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.harera.categories.databinding.FragmentCategoriesBinding
+import com.harera.categories_name.CategoriesAdapter
 import com.harera.common.base.BaseFragment
 import com.harera.common.utils.navigation.Arguments
+import com.harera.common.utils.navigation.Destinations
+import com.harera.common.utils.navigation.NavigationUtils
 import com.harera.model.modelget.Category
 import com.harera.model.modelget.Product
-import com.harera.product.ProductsAdapter
-import dagger.hilt.android.AndroidEntryPoint
+import com.harera.components.product.ProductsAdapter
 
-@AndroidEntryPoint
 class CategoriesFragment : BaseFragment() {
 
     private val categoriesViewModel: CategoriesViewModel by viewModels()
@@ -28,7 +30,7 @@ class CategoriesFragment : BaseFragment() {
         super.onCreate(savedInstanceState)
 
         arguments?.let {
-            it.getString(Arguments.CATEGORY)!!.let { category ->
+            it.getString(Arguments.CATEGORY_ID)?.let { category ->
                 categoriesViewModel.setCategoryName(category)
             }
         }
@@ -39,12 +41,33 @@ class CategoriesFragment : BaseFragment() {
         container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         bind = FragmentCategoriesBinding.inflate(layoutInflater)
-        productsAdapter = ProductsAdapter(navController = findNavController())
-
-        categoriesAdapter = CategoriesAdapter(
-            navController = findNavController()
+        productsAdapter = ProductsAdapter(
+            onProductClicked = { productId ->
+                findNavController().navigate(
+                    Uri.parse(
+                        NavigationUtils.getUriNavigation(
+                            Arguments.HYPER_PANDA_DOMAIN,
+                            Destinations.PRODUCT,
+                            productId
+                        )
+                    )
+                )
+            }
         )
 
+        categoriesAdapter = CategoriesAdapter(
+            onCategoryClicked = {
+                findNavController().navigate(
+                    Uri.parse(
+                        NavigationUtils.getUriNavigation(
+                            Arguments.HYPER_PANDA_DOMAIN,
+                            Destinations.CATEGORIES,
+                            it
+                        )
+                    )
+                )
+            }
+        )
         return bind.root
     }
 

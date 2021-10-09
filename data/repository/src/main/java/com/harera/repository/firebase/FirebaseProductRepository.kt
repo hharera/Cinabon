@@ -6,9 +6,9 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.QuerySnapshot
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.UploadTask
+import com.harera.model.modelset.Product
 import com.harera.repository.DBConstants.PRODUCTS
 import com.harera.repository.repository.ProductRepository
-import com.harera.model.modelset.Product
 import java.io.ByteArrayOutputStream
 import javax.inject.Inject
 

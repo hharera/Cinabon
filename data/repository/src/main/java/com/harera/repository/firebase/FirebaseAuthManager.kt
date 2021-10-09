@@ -41,8 +41,8 @@ class FirebaseAuthManager @Inject constructor(
     override fun updatePassword(password: String) =
         auth.currentUser!!.updatePassword(password)
 
-    override fun signInWithEmailAndRandomPassword(email: String): Task<AuthResult> =
-        auth.signInWithEmailAndPassword(email, "harera")
+    override fun signInWithEmailAndPassword(email: String, password : String): Task<AuthResult> =
+        auth.signInWithEmailAndPassword(email, password)
 
     override fun createCredential(verificationId : String, code: String) =
         PhoneAuthProvider.getCredential(verificationId, code)

@@ -32,8 +32,8 @@ android {
 }
 
 dependencies {
-    implementation project(Modules.repository)
-    implementation project(Modules.common)
+    implementation project(UIComponents.repository)
+    implementation project(UIComponents.common)
 
     implementation Libs.liveData
     implementation Libs.picasso

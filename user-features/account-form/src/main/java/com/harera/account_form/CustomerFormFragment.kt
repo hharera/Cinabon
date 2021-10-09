@@ -20,12 +20,10 @@ import com.harera.common.utils.BitmapUtils
 import com.harera.common.utils.location.LocationUtils
 import com.harera.common.utils.navigation.Arguments.LOCATION_RESULT
 import com.opensooq.supernova.gligar.GligarPicker
-import dagger.hilt.android.AndroidEntryPoint
 import java.io.IOException
 import java.util.*
 
 
-@AndroidEntryPoint
 class CustomerFormFragment : BaseFragment() {
     companion object {
         private val CHOOSE_LOCATION_CODE: Int = 3005

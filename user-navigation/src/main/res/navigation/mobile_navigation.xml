@@ -6,15 +6,13 @@
 
     <fragment
         android:id="@+id/navigation_shop"
-        android:name="ShopFragment"
+        android:name="com.harera.shop.ShopFragment"
         android:label="@string/shop"
-        tools:layout="@layout/fragment_shop">
-
-    </fragment>
+        tools:layout="@layout/fragment_shop" />
 
     <fragment
         android:id="@+id/navigation_categories"
-        android:name="com.harera.categories.CategoriesFragment"
+        android:name="com.harera.manger.categories.CategoriesFragment"
         android:label="@string/categories"
         tools:layout="@layout/fragment_categories">
 

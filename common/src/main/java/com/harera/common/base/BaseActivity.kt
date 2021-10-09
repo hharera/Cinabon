@@ -1,15 +1,15 @@
 package com.harera.common.base
 
+import android.content.Intent
 import android.view.WindowManager
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.harera.ui_components.loading.LoadingDialog
 import com.harera.common.R
+import com.harera.ui_components.loading.LoadingDialog
 import dagger.hilt.android.AndroidEntryPoint
 
-@AndroidEntryPoint
 open class BaseActivity : AppCompatActivity() {
-    val loadingDialog: LoadingDialog by lazy {
+    private val loadingDialog: LoadingDialog by lazy {
         LoadingDialog(
             this
         )
@@ -46,5 +46,16 @@ open class BaseActivity : AppCompatActivity() {
 
     private fun dismissLoading() {
         loadingDialog.dismiss()
+    }
+
+    fun <T : AppCompatActivity> gotToActivity(activityClass: Class<T>) {
+        startActivity(
+            Intent(
+                this,
+                activityClass
+            )
+        ).also {
+            finish()
+        }
     }
 }

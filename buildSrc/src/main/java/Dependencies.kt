@@ -12,36 +12,53 @@ object DefaultConfig {
 }
 
 object Modules {
+
+}
+
+object UIComponents {
+    const val repository = ":data:repository"
     const val loading = ":ui-components:loading"
     const val categoryName = ":ui-components:category-name"
-    const val imageSlider = ":ui-components:image-card"
+    const val image = ":ui-components:image-card"
     const val product = ":ui-components:product"
+
     const val userLocator = ":ui-components:user-locator"
 
     const val managerNavigation = ":manager-navigation"
 
     const val userNavigation = ":user-navigation"
-
     const val common = ":common"
     const val model = ":data:model"
-    const val repository = ":data:repository"
 }
 
 object Core {
-    // For Styles, colors & anything COMMON view related.
-    const val views = ":core:views" // TODO: Rename this to designSystem.
+    const val views = ":core:views"
     const val network = ":core:network"
     const val navigation = ":core:navigation"
 }
 
-object Features {
-    const val featureCategories = ":features:categories"
+object UserFeatures {
+    const val categories = ":user-features:categories"
+    const val search = ":user-features:search"
+    const val marketLocation = ":user-features:market-location"
+    const val shop = ":user-features:shop"
+    const val product = ":user-features:product"
+    const val login = ":user-features:login"
+    const val accountForm = ":user-features:account-form"
+    const val offer = ":user-features:offer"
+}
+
+object ManagerFeatures {
     const val addCategory = ":manager-features:add-category"
+    const val product = ":manager-features:product"
+    const val editProduct = ":manager-features:edit-product"
+    const val categories = ":manager-features:categories"
+    const val login = ":manager-features:login"
+    const val dashboard = ":manager-features:dashboard"
 }
 
 object Common {
     const val models = ":common:models"
-    const val uiComponents = ":common:ui-components"
 }
 
 object Versions {
@@ -115,11 +132,14 @@ object Libs {
     const val adMob = "com.google.android.gms:play-services-ads-lite:${Versions.Ad_MOB_VERSION}"
 
     const val hiltPlugin = "com.google.dagger:hilt-android-gradle-plugin:${Versions.HILT_VERSION}"
+
     //Hilt
     const val hiltAndroid = "com.google.dagger:hilt-android:${Versions.HILT_VERSION}"
     const val hiltTesting = "com.google.dagger:hilt-android-testing:${Versions.HILT_VERSION}"
     const val hiltAndroidCompiler =
         "com.google.dagger:hilt-android-compiler:${Versions.HILT_VERSION}"
+    const val hiltViewModel = "androidx.hilt:hilt-lifecycle-viewmodel:${Versions.HILT_VERSION}"
+    const val hiltAnnotation = "androidx.hilt:hilt-compiler:${Versions.HILT_VERSION}"
 
     //UI
     const val activity = "androidx.activity:activity-ktx:${Versions.ACTIVITY_VERSION}"
@@ -137,10 +157,11 @@ object Libs {
         "androidx.arch.core:core-testing:${Versions.ANDROIDX_CORE_Testing_VERSION}"
 
     //gms play
+    const val playServicesPlugin = "com.google.gms.google-services"
     const val playServicesMaps =
         "com.google.android.gms:play-services-maps:${Versions.GOOGLE_MAPS_VERSION}"
 
-    const val googleServices = "com.google.gms:google-services:4.3.10"
+    const val googleServices = "com.google.gms:google-services:${Versions.GMS_GOOGLE_SERVICES}"
     const val playServicesTasks =
         "com.google.android.gms:play-services-tasks:${Versions.PLAY_SERVICE_TASKS}"
     const val playServicesAuth =
@@ -180,6 +201,7 @@ object Libs {
 
     //intuit
     const val intuit = "com.intuit.sdp:sdp-android:${Versions.INTUIT_VERSION}"
+
     //places
     const val googlePlaces = "com.google.android.libraries.places:places:${Versions.GOOGLE_PLACES}"
 

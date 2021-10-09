@@ -14,10 +14,8 @@ import com.harera.edit_product.databinding.FragmentEditProductBinding
 import com.harera.model.modelget.Product
 import com.opensooq.supernova.gligar.GligarPicker
 import com.squareup.picasso.Picasso
-import dagger.hilt.android.AndroidEntryPoint
 
 
-@AndroidEntryPoint
 class EditProductFragment : BaseFragment() {
     companion object {
         private val IMAGE_REQ_CODE = 3004

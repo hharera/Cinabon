@@ -3,8 +3,8 @@ package com.harera.repository.firebase
 import com.google.android.gms.tasks.Task
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.QuerySnapshot
-import com.harera.repository.DBConstants.PRODUCTS
 import com.harera.model.modelset.Product
+import com.harera.repository.DBConstants.PRODUCTS
 import com.harera.repository.repository.SearchRepository
 import javax.inject.Inject
 

@@ -48,7 +48,7 @@ class AuthManagerTest {
 
     @Test
     fun signInWithAnonEmail() {
-        val task = authManager.signInWithEmailAndRandomPassword("hassan.shaban.harera@gmail.com")
+        val task = authManager.signInWithEmailAndPassword("hassan.shaban.harera@gmail.com", "harera")
         Tasks.await(task)
         Assert.assertNull(task.exception)
     }

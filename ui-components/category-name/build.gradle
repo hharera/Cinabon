@@ -35,8 +35,8 @@ android {
 
 dependencies {
     implementation Libs.navigationUi
-    implementation project(Modules.repository)
-    implementation project(Modules.common)
+    implementation project(UIComponents.repository)
+    implementation project(UIComponents.common)
 
     implementation Libs.androidxCore
     implementation Libs.materialDesign

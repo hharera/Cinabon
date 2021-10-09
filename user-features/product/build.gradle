@@ -31,10 +31,10 @@ android {
 }
 
 dependencies {
-    implementation project(Modules.common)
-    implementation project(Modules.repository)
-    implementation project(Modules.product)
-    implementation project(Modules.imageSlider)
+    implementation project(UIComponents.common)
+    implementation project(UIComponents.repository)
+    implementation project(UIComponents.product)
+    implementation project(UIComponents.image)
 
     implementation Libs.adMob
     implementation Libs.firebaseFirestore

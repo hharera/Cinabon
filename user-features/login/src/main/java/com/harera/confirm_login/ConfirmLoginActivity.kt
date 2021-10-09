@@ -1,6 +1,5 @@
 package com.harera.confirm_login
 
-import android.content.Intent
 import android.os.Bundle
 import androidx.core.view.forEach
 import androidx.lifecycle.ViewModelProvider

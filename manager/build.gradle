@@ -29,7 +29,6 @@ android {
     }
     buildFeatures {
         viewBinding true
-        dataBinding true
     }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
@@ -56,10 +55,10 @@ android {
 
     dependencies {
         //modules
-        implementation project(Modules.common)
-        implementation project(Modules.repository)
-        implementation project(Modules.managerNavigation)
-        implementation project(Features.addCategory)
+        implementation project(UIComponents.common)
+        api project(UIComponents.repository)
+        implementation project(UIComponents.managerNavigation)
+        implementation project(ManagerFeatures.login)
 
         //hilt
         implementation Libs.hiltAndroid

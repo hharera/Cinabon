@@ -35,8 +35,8 @@ android {
 }
 
 dependencies {
-    implementation project(Modules.common)
-    implementation project(Modules.repository)
+    implementation project(UIComponents.common)
+    implementation project(UIComponents.repository)
 
     implementation Libs.androidxCore
     implementation Libs.materialDesign

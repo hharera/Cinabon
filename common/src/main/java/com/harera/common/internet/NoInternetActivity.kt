@@ -1,11 +1,9 @@
 package com.harera.common.internet
 
-import android.net.ConnectivityManager
 import android.os.Bundle
-import androidx.activity.viewModels
+import com.harera.common.R
 import com.harera.common.base.BaseActivity
 import com.harera.common.network.ConnectionLiveData
-import com.harera.common.R
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
