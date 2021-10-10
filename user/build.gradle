@@ -45,7 +45,6 @@ android {
 dependencies {
     implementation project(UIComponents.userNavigation)
     implementation project(UIComponents.common)
-    implementation project(UserFeatures.shop)
     api project(UIComponents.repository)
 
     //hilt

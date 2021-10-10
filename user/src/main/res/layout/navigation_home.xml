@@ -144,7 +144,7 @@
                 android:layout_height="30sp"
                 android:layout_gravity="end|center"
                 android:layout_margin="5sp"
-                android:src="@raw/map"
+                android:src="@drawable/location_24"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
