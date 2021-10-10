@@ -25,7 +25,7 @@
     <string name="go_shopping">Go Shopping</string>
     <string name="dark_theme">Dark Theme</string>
     <string name="title_activity_cafe_location">Map</string>
-    <string name="phone_number">Phone Number</string>
+    <string name="phone_number">رقم الهاتف</string>
     <string name="name">Name</string>
     <string name="receipt">RECEIPT</string>
     <string name="confirm">تأكيد</string>
@@ -150,5 +150,7 @@
     <string name="show_products">عرض المنتجات</string>
     <string name="password_error">كلمة مرور خاطئه</string>
     <string name="email_error">حساب خاطئ</string>
+    <string name="move_to_fsvourite">Move to Favourite</string>
+    <string name="register_now">سجل الآن</string>
 </resources>
 

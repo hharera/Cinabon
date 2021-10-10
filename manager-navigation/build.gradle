@@ -41,9 +41,10 @@ dependencies {
     implementation Libs.materialDesign
 
     implementation project(UIComponents.common)
-    implementation project(ManagerFeatures.categories)
-    implementation project(ManagerFeatures.addCategory)
-    implementation project(ManagerFeatures.editProduct)
-    implementation project(ManagerFeatures.product)
-    implementation project(ManagerFeatures.dashboard)
+    //features
+    api project(ManagerFeatures.categories)
+    api project(ManagerFeatures.addCategory)
+    api project(ManagerFeatures.editProduct)
+    api project(ManagerFeatures.product)
+    api project(ManagerFeatures.dashboard)
 }

@@ -59,11 +59,9 @@ class ProductViewModel @Inject constructor(
     }
 
     fun getCartState() = viewModelScope.launch(Dispatchers.IO) {
-        val task = cartRepository
-            .getCartItem(
-                _productId.value!!,
-                authManager.getCurrentUser()!!.uid
-            )
+        val task = cartRepository.getCartItem(
+            productId.value!! + authManager.getCurrentUser()!!.uid
+        )
         val result = Tasks.await(task)
 
         if (task.isSuccessful) {
@@ -171,8 +169,7 @@ class ProductViewModel @Inject constructor(
 
     private fun removeCartItem() = viewModelScope.launch(Dispatchers.IO) {
         val task = cartRepository.removeCartItem(
-            productId = _productId.value!!,
-            uid = authManager.getCurrentUser()!!.uid
+            _productId.value!! + authManager.getCurrentUser()!!.uid
         )
         Tasks.await(task)
 

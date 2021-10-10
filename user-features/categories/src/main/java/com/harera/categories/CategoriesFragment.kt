@@ -15,12 +15,11 @@ import com.harera.common.base.BaseFragment
 import com.harera.common.utils.navigation.Arguments
 import com.harera.common.utils.navigation.Destinations
 import com.harera.common.utils.navigation.NavigationUtils
+import com.harera.components.product.ProductsAdapter
 import com.harera.model.modelget.Category
 import com.harera.model.modelget.Product
-import com.harera.components.product.ProductsAdapter
 
 class CategoriesFragment : BaseFragment() {
-
     private val categoriesViewModel: CategoriesViewModel by viewModels()
     private lateinit var categoriesAdapter: CategoriesAdapter
     private lateinit var productsAdapter: ProductsAdapter
@@ -31,7 +30,8 @@ class CategoriesFragment : BaseFragment() {
 
         arguments?.let {
             it.getString(Arguments.CATEGORY_ID)?.let { category ->
-                categoriesViewModel.setCategoryName(category)
+                if (category != "null")
+                    categoriesViewModel.setCategoryName(category)
             }
         }
     }
@@ -57,15 +57,8 @@ class CategoriesFragment : BaseFragment() {
 
         categoriesAdapter = CategoriesAdapter(
             onCategoryClicked = {
-                findNavController().navigate(
-                    Uri.parse(
-                        NavigationUtils.getUriNavigation(
-                            Arguments.HYPER_PANDA_DOMAIN,
-                            Destinations.CATEGORIES,
-                            it
-                        )
-                    )
-                )
+                categoriesViewModel.setCategoryName(it)
+                categoriesViewModel.getProducts()
             }
         )
         return bind.root

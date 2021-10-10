@@ -12,7 +12,7 @@
 
     <fragment
         android:id="@+id/navigation_categories"
-        android:name="com.harera.manger.categories.CategoriesFragment"
+        android:name="com.harera.categories.CategoriesFragment"
         android:label="@string/categories"
         tools:layout="@layout/fragment_categories">
 
@@ -22,31 +22,38 @@
 
     <fragment
         android:id="@+id/navigation_map"
-        android:name="com.harera.hyperpanda.ui.location.CafeLocation"
-        tools:layout="@layout/fragment_cafe_location" />
+        android:name="com.harera.market_location.MarketLocation"
+        tools:layout="@layout/fragment_market_location">
+
+        <argument android:name="location" />
+        <deepLink app:uri="HyperPanda://map/{location}" />
+    </fragment>
 
     <fragment
         android:id="@+id/navigation_account"
-        android:name="com.harera.hyperpanda.ui.account.AccountFragment"
+        android:name="com.harera.account.AccountFragment"
         android:label="@string/account"
         tools:layout="@layout/fragment_account" />
 
     <fragment
-        android:id="@+id/navigation_unsigned_account"
-        android:name="com.harera.hyperpanda.ui.account.UnsignedAccountFragment"
-        tools:layout="@layout/fragment_unsigned_account" />
-
-    <fragment
         android:id="@+id/navigation_cart"
-        android:name="com.harera.hyperpanda.ui.cart.CartFragment"
+        android:name="com.harera.features.cart.CartFragment"
         android:label="@string/cart"
-        tools:layout="@layout/fragment_cart" />
+        tools:layout="@layout/fragment_cart">
+
+        <argument android:name="productId" />
+        <deepLink app:uri="HyperPanda://cart/{productId}" />
+    </fragment>
 
     <fragment
         android:id="@+id/navigation_wishlist"
-        android:name="com.harera.hyperpanda.ui.wishlist.WishListFragment"
+        android:name="com.harera.wishlist.WishListFragment"
         android:label="@string/wishlist"
-        tools:layout="@layout/fragment_wishlist" />
+        tools:layout="@layout/fragment_wishlist">
+
+        <argument android:name="itemId" />
+        <deepLink app:uri="HyperPanda://wishlist/{itemId}" />
+    </fragment>
 
     <fragment
         android:id="@+id/navigation_search"
@@ -56,9 +63,9 @@
 
     <fragment
         android:id="@+id/navigation_product"
-        android:name="ProductFragment"
+        android:name="com.harera.product.ProductFragment"
         android:label="Search"
-        tools:layout="@layout/fragment_product_view">
+        tools:layout="@layout/fragment_product">
 
         <argument android:name="productId" />
         <deepLink app:uri="HyperPanda://product/{productId}" />

@@ -78,8 +78,7 @@ class OfferViewModel @Inject constructor(
     fun getCartState() = viewModelScope.launch(Dispatchers.IO) {
         val task = cartRepository
             .getCartItem(
-                _offerId.value!!,
-                authManager.getCurrentUser()!!.uid
+                _offerId.value!! + authManager.getCurrentUser()!!.uid
             )
         val result = Tasks.await(task)
 
@@ -188,8 +187,7 @@ class OfferViewModel @Inject constructor(
 
     private fun removeCartItem() = viewModelScope.launch(Dispatchers.IO) {
         val task = cartRepository.removeCartItem(
-            productId = _offerId.value!!,
-            uid = authManager.getCurrentUser()!!.uid
+            _offerId.value!! + authManager.getCurrentUser()!!.uid
         )
         Tasks.await(task)
 

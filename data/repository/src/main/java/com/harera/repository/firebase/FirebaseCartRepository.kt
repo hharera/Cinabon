@@ -17,25 +17,21 @@ class FirebaseCartRepository @Inject constructor(
     override fun addCartItem(cartItem: CartItem) =
         fStore
             .collection(CART)
-            .document("${cartItem.productId}${cartItem.uid}")
+            .document("${cartItem.productId}${cartItem.uid}").apply {
+                cartItem.cartItemId = id
+            }
             .set(cartItem)
 
-    override fun removeCartItem(itemId: String): Task<Void> =
+    override fun removeCartItem(itemItemId: String): Task<Void> =
         fStore
             .collection(CART)
-            .document(itemId)
+            .document(itemItemId)
             .delete()
 
-    override fun removeCartItem(productId: String, uid: String): Task<Void> =
+    override fun updateQuantity(itemItemId: String, quantity: Int) =
         fStore
             .collection(CART)
-            .document("${productId}${uid}")
-            .delete()
-
-    override fun updateQuantity(productId: String, uid: String, quantity: Int) =
-        fStore
-            .collection(CART)
-            .document("${productId}${uid}")
+            .document(itemItemId)
             .update(CartItem::quantity.name, quantity)
 
     override fun updateItemUid(itemId: String, uid: String): Task<Void> =
@@ -43,6 +39,12 @@ class FirebaseCartRepository @Inject constructor(
             .collection(CART)
             .document(itemId)
             .update(CartItem::uid.name, uid)
+
+    override fun getCartItem(cartItemId: String): Task<QuerySnapshot> =
+        fStore
+            .collection(CART)
+            .whereEqualTo(CartItem::cartItemId.name, cartItemId)
+            .get()
 
     override fun getCartItem(productId: String, uid: String): Task<QuerySnapshot> =
         fStore

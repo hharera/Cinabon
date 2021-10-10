@@ -7,6 +7,7 @@ import com.google.firebase.firestore.IgnoreExtraProperties
 class CartItem {
     lateinit var uid: String
     lateinit var productId: String
+    lateinit var cartItemId: String
     var quantity: Int = -1
     lateinit var time: Timestamp
     lateinit var productImageUrl: String

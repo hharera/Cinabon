@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.android.gms.tasks.Tasks
+import com.harera.common.base.BaseViewModel
 import com.harera.model.modelget.Category
 import com.harera.model.modelget.Offer
 import com.harera.model.modelget.Product
@@ -21,7 +22,10 @@ class ShopViewModel @Inject constructor(
     private val offerRepository: OfferRepository,
     private val productRepository: ProductRepository,
     private val categoryRepository: CategoryRepository,
-) : ViewModel() {
+) : BaseViewModel() {
+
+    private val page: MutableLiveData<Int> = MutableLiveData(1)
+    private val PAGE_SIZE = 20
 
     private val _products: MutableLiveData<List<Product>> = MutableLiveData()
     val products: LiveData<List<Product>> = _products
@@ -32,11 +36,6 @@ class ShopViewModel @Inject constructor(
     private val _offers: MutableLiveData<List<Offer>> = MutableLiveData()
     val offers: LiveData<List<Offer>> = _offers
 
-    private val _loading: MutableLiveData<Boolean> = MutableLiveData()
-    val loading: LiveData<Boolean> = _loading
-
-    private val _exception: MutableLiveData<Exception> = MutableLiveData()
-    val exception: LiveData<Exception> = _exception
 
     fun getCategories() {
         updateLoading(true)
@@ -61,7 +60,7 @@ class ShopViewModel @Inject constructor(
     fun getProducts() {
         updateLoading(true)
         viewModelScope.launch(Dispatchers.IO) {
-            val task = productRepository.getProducts(20)
+            val task = productRepository.getProducts(page.value!! * PAGE_SIZE)
             val result = Tasks.await(task)
 
             updateLoading(false)
@@ -104,24 +103,15 @@ class ShopViewModel @Inject constructor(
         }
     }
 
-    private fun updateLoading(state: Boolean) {
-        viewModelScope.launch(Dispatchers.Main) {
-            _loading.value = state
-        }
-    }
-
-    private fun updateException(exception: Exception?) {
-        viewModelScope.launch(Dispatchers.Main) {
-            exception?.let {
-                _exception.value = it
-            }
-        }
-    }
-
     private fun updateCategories(categories: List<Category>) {
         viewModelScope.launch(Dispatchers.Main) {
             _categories.value = categories
         }
+    }
+
+    fun nextPage() {
+        page.value = page.value!! + 1
+        getProducts()
     }
 
     private fun updateOffers(offers: List<Offer>) {

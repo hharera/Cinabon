@@ -16,15 +16,16 @@ object Modules {
 }
 
 object UIComponents {
-    const val repository = ":data:repository"
     const val loading = ":ui-components:loading"
+    const val cart = ":ui-components:cart-item"
+    const val wishItem = ":ui-components:wish-item"
     const val categoryName = ":ui-components:category-name"
     const val image = ":ui-components:image-card"
     const val product = ":ui-components:product"
-
     const val userLocator = ":ui-components:user-locator"
 
     const val managerNavigation = ":manager-navigation"
+    const val repository = ":data:repository"
 
     const val userNavigation = ":user-navigation"
     const val common = ":common"
@@ -43,9 +44,12 @@ object UserFeatures {
     const val marketLocation = ":user-features:market-location"
     const val shop = ":user-features:shop"
     const val product = ":user-features:product"
+    const val wishlist = ":user-features:wishlist"
     const val login = ":user-features:login"
     const val accountForm = ":user-features:account-form"
     const val offer = ":user-features:offer"
+    const val cart = ":user-features:cart"
+    const val account = ":user-features:account"
 }
 
 object ManagerFeatures {

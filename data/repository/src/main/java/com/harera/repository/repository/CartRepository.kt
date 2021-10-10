@@ -6,11 +6,11 @@ import com.harera.model.modelset.CartItem
 
 interface CartRepository {
 
-    fun removeCartItem(itemId: String): Task<Void>
-    fun updateQuantity(itemId: String, uid: String, quantity: Int): Task<Void>
+    fun removeCartItem(cartItemId: String): Task<Void>
+    fun updateQuantity(cartItemId: String, quantity: Int): Task<Void>
     fun getCartItems(uid: String): Task<QuerySnapshot>
     fun addCartItem(cartItem: CartItem): Task<Void>
     fun updateItemUid(itemId: String, uid: String): Task<Void>
+    fun getCartItem(cartItemId: String): Task<QuerySnapshot>
     fun getCartItem(productId: String, uid: String): Task<QuerySnapshot>
-    fun removeCartItem(productId: String, uid: String): Task<Void>
 }

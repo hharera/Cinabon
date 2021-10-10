@@ -33,11 +33,17 @@ android {
 
 dependencies {
     implementation project(UIComponents.common)
-    implementation project(UserFeatures.search)
-    implementation project(UserFeatures.shop)
-    implementation project(UserFeatures.offer)
-    implementation project(UserFeatures.product)
-    implementation project(UserFeatures.categories)
-    implementation project(UserFeatures.marketLocation)
     implementation Libs.navigationUi
+
+    //features
+    api project(UserFeatures.shop)
+    api project(UserFeatures.offer)
+    api project(UserFeatures.cart)
+    api project(UserFeatures.product)
+    api project(UserFeatures.categories)
+    api project(UserFeatures.login)
+    api project(UserFeatures.search)
+    api project(UserFeatures.accountForm)
+    api project(UserFeatures.wishlist)
+    api project(UserFeatures.account)
 }

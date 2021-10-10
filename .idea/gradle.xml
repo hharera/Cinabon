@@ -29,15 +29,19 @@
             <option value="$PROJECT_DIR$/manager-features/product" />
             <option value="$PROJECT_DIR$/manager-navigation" />
             <option value="$PROJECT_DIR$/ui-components" />
+            <option value="$PROJECT_DIR$/ui-components/cart-item" />
             <option value="$PROJECT_DIR$/ui-components/category-image" />
             <option value="$PROJECT_DIR$/ui-components/category-name" />
             <option value="$PROJECT_DIR$/ui-components/image-card" />
             <option value="$PROJECT_DIR$/ui-components/loading" />
             <option value="$PROJECT_DIR$/ui-components/product" />
             <option value="$PROJECT_DIR$/ui-components/user-locator" />
+            <option value="$PROJECT_DIR$/ui-components/wish-item" />
             <option value="$PROJECT_DIR$/user" />
             <option value="$PROJECT_DIR$/user-features" />
+            <option value="$PROJECT_DIR$/user-features/account" />
             <option value="$PROJECT_DIR$/user-features/account-form" />
+            <option value="$PROJECT_DIR$/user-features/cart" />
             <option value="$PROJECT_DIR$/user-features/categories" />
             <option value="$PROJECT_DIR$/user-features/login" />
             <option value="$PROJECT_DIR$/user-features/market-location" />
@@ -45,6 +49,7 @@
             <option value="$PROJECT_DIR$/user-features/product" />
             <option value="$PROJECT_DIR$/user-features/search" />
             <option value="$PROJECT_DIR$/user-features/shop" />
+            <option value="$PROJECT_DIR$/user-features/wishlist" />
             <option value="$PROJECT_DIR$/user-navigation" />
           </set>
         </option>

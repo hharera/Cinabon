@@ -24,7 +24,7 @@ class FirebaseCartRepositoryTest {
     lateinit var carRepository: CartRepository
 
     @Inject
-    lateinit var authManager : AuthManager
+    lateinit var authManager: AuthManager
 
     @Before
     fun setUp() {
@@ -50,7 +50,7 @@ class FirebaseCartRepositoryTest {
     fun testRemoveICartItem() {
         val task = carRepository
             .removeCartItem(
-                    itemId = "HnYFLstRzxJUBf4T62bI"
+                cartItemId = "HnYFLstRzxJUBf4T62bI"
             )
         Tasks.await(task)
         Assert.assertTrue(task.isSuccessful)
@@ -60,8 +60,7 @@ class FirebaseCartRepositoryTest {
     fun testUpdateQuantity() {
         val task = carRepository
             .updateQuantity(
-                itemId = "yVBmE1h0kfr0wcSip49b",
-                uid = authManager.getCurrentUser()!!.uid,
+                cartItemId = "yVBmE1h0kfr0wcSip49b",
                 quantity = 5
             )
         Tasks.await(task)

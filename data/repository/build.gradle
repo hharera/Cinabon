@@ -47,11 +47,11 @@ dependencies {
     implementation(Libs.hiltAndroid)
     implementation Libs.testRunner
 
-    //test
-    androidTestImplementation Libs.androidCoreTesting
-    androidTestImplementation Libs.junit4
     androidTestImplementation(Libs.hiltTesting)
     kaptAndroidTest(Libs.hiltAndroidCompiler)
+
+    testImplementation(Libs.hiltTesting)
+    kaptTest(Libs.hiltAndroidCompiler)
 
     api project(UIComponents.model)
 }

@@ -12,10 +12,10 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.harera.categories_name.CategoriesAdapter
-import com.harera.common.base.BaseFragment
 import com.harera.common.utils.navigation.Arguments
 import com.harera.common.utils.navigation.Destinations
 import com.harera.common.utils.navigation.NavigationUtils
+import com.harera.components.product.ProductsAdapter
 import com.harera.model.modelget.Category
 import com.harera.model.modelget.Offer
 import com.harera.model.modelget.Product
@@ -39,7 +39,20 @@ class ShopFragment : Fragment() {
         bind = FragmentShopBinding.inflate(layoutInflater)
         shopViewModel = ViewModelProvider(this).get(ShopViewModel::class.java)
         offersAdapter = OffersAdapter(ArrayList(), findNavController())
-        productsAdapter = ProductsAdapter(ArrayList(), findNavController())
+        productsAdapter = ProductsAdapter(
+            onProductClicked = { productId ->
+                findNavController().navigate(
+                    Uri.parse(
+                        NavigationUtils.getUriNavigation(
+                            Arguments.HYPER_PANDA_DOMAIN,
+                            Destinations.PRODUCT,
+                            productId
+                        )
+                    )
+                )
+            }
+        )
+
         categoriesAdapter = CategoriesAdapter(
             ArrayList(),
             onCategoryClicked = {
@@ -64,10 +77,37 @@ class ShopFragment : Fragment() {
         setupProductsAdapter()
         setupCategoriesAdapter()
         setupObserves()
+        setupListeners()
 
         shopViewModel.getOffers()
         shopViewModel.getProducts()
         shopViewModel.getCategories()
+    }
+
+    private fun setupRecyclerListener() {
+        bind.products.addOnScrollListener(
+            object : RecyclerView.OnScrollListener() {
+                override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                    if (!recyclerView.canScrollVertically(1))
+                        shopViewModel.nextPage()
+                    bind.products.removeOnScrollListener(this)
+                }
+            }
+        )
+    }
+
+    private fun setupListeners() {
+        bind.btnViewMore.setOnClickListener {
+            findNavController().navigate(
+                Uri.parse(
+                    NavigationUtils.getUriNavigation(
+                        Arguments.HYPER_PANDA_DOMAIN,
+                        Destinations.CATEGORIES,
+                        "null"
+                    )
+                )
+            )
+        }
     }
 
     private fun setupOffersAdapter() {
@@ -113,5 +153,6 @@ class ShopFragment : Fragment() {
 
     private fun updateProducts(products: List<Product>) {
         productsAdapter.setProducts(products)
+        setupRecyclerListener()
     }
 }
