@@ -1,0 +1,61 @@
+plugins {
+    id 'com.android.library'
+    id 'kotlin-android'
+    id("androidx.navigation.safeargs")
+}
+apply plugin: 'kotlin-kapt'
+apply plugin: 'dagger.hilt.android.plugin'
+android {
+    compileSdk 31
+
+    defaultConfig {
+        minSdk 21
+        targetSdk 31
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles "consumer-rules.pro"
+    }
+    buildFeatures {
+        viewBinding true
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+}
+
+dependencies {
+    kapt(Libs.hiltAndroidCompiler)
+    implementation(Libs.hiltAndroid)
+
+    implementation(Libs.playServicesTasks)
+    implementation(Libs.viewModels)
+    implementation(Libs.fragments)
+
+    implementation(Libs.androidxCore)
+    implementation(Libs.appcompat)
+
+    implementation(Libs.navigationUi)
+    implementation(Libs.navigationFragment)
+
+    implementation(Libs.picasso)
+    implementation(Libs.circleImage)
+    implementation(Libs.gligarPicker)
+    kapt(Libs.lifeCycleCompiler)
+
+    //modules
+    implementation project(UIComponents.common)
+    implementation project(UIComponents.repository)
+    api project(UserFeatures.marketLocation)
+}
