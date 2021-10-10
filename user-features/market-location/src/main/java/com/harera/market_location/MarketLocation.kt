@@ -6,6 +6,7 @@ import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
+import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 
@@ -22,8 +23,13 @@ class MarketLocation : FragmentActivity(), OnMapReadyCallback {
     override fun onMapReady(googleMap: GoogleMap?) {
         mMap = googleMap
 
-        val hyperMarketLocation = LatLng(29.066694349888117, 31.108040190221338)
-        mMap!!.addMarker(MarkerOptions().position(hyperMarketLocation).title(getString(R.string.app_name)))
-        mMap!!.moveCamera(CameraUpdateFactory.newLatLng(hyperMarketLocation))
+        val hyperMarketLocation = LatLng(28.924572599601724, 30.977850336925275)
+        mMap!!.addMarker(
+            MarkerOptions()
+                .position(hyperMarketLocation)
+                .title(getString(R.string.app_name))
+                .icon(BitmapDescriptorFactory.fromResource(R.drawable.marker))
+        )
+        mMap!!.moveCamera(CameraUpdateFactory.newLatLngZoom(hyperMarketLocation, 20f))
     }
 }
