@@ -1,4 +1,4 @@
-package com.harera.hyperpanda.ui.login
+package com.harera.login
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -24,7 +24,7 @@ class LoginViewModel @Inject constructor(
 
     fun changePhoneNumber(ch: String) {
         phoneNumber.value?.let {
-            if (it.length < 10) {
+            if (it.length < 11) {
                 _phoneNumber.value = it.plus(ch)
             }
         }
@@ -39,7 +39,7 @@ class LoginViewModel @Inject constructor(
     }
 
     fun removeChar() {
-        if (_phoneNumber.value!!.length > 0) {
+        if (_phoneNumber.value!!.isNotEmpty()) {
             _phoneNumber.value = _phoneNumber.value!!.dropLast(1)
         }
     }
@@ -48,4 +48,9 @@ class LoginViewModel @Inject constructor(
         runBlocking {
             authManager.getCurrentUser()!!.isAnonymous
         }
+
+    fun setPhoneNumber(phoneNumber: String) {
+        _phoneNumber.value = phoneNumber
+        checkPhoneNumberValidity()
+    }
 }

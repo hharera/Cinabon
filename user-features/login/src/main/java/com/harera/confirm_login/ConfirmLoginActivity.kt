@@ -6,9 +6,9 @@ import androidx.lifecycle.ViewModelProvider
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.PhoneAuthOptions
 import com.google.firebase.auth.PhoneAuthProvider
-import com.harera.common.ExtrasConstants
 import com.harera.common.base.BaseActivity
 import com.harera.common.utils.Status
+import com.harera.common.utils.navigation.Arguments
 import com.harera.login.R
 import com.harera.login.databinding.ActivityLoginConfirmBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -22,10 +22,9 @@ import java.util.concurrent.TimeUnit
 class ConfirmLoginActivity : BaseActivity() {
 
     private lateinit var waitDialog: PromptCodeDialog
-    lateinit var confirmLoginViewMode: ConfirmLoginViewModel
-    lateinit var bind: ActivityLoginConfirmBinding
+    private lateinit var confirmLoginViewMode: ConfirmLoginViewModel
+    private lateinit var bind: ActivityLoginConfirmBinding
 
-    private lateinit var phoneNumber: String
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         confirmLoginViewMode = ViewModelProvider(this).get(ConfirmLoginViewModel::class.java)
@@ -33,19 +32,11 @@ class ConfirmLoginActivity : BaseActivity() {
         bind = ActivityLoginConfirmBinding.inflate(layoutInflater)
         setContentView(bind.root)
 
-        phoneNumber = intent.extras!!.getString(ExtrasConstants.phoneNumber)!!
         observeCode()
         showWaitingDialog()
-        sendVerificationCode(phoneNumber)
+        getPhoneNumber()
+        setupObservers()
 
-        confirmLoginViewMode.code.observe(this) {
-            bind.code.text = it
-            confirmLoginViewMode.checkCodeValidity()
-        }
-
-        confirmLoginViewMode.codeValidity.observe(this) {
-            bind.next.isEnabled = it
-        }
 
         bind.gridLayout.forEach {
             it.setOnClickListener {
@@ -71,6 +62,27 @@ class ConfirmLoginActivity : BaseActivity() {
         }
     }
 
+    private fun setupObservers() {
+        confirmLoginViewMode.phoneNumber.observe(this) {
+            sendVerificationCode("+2$it")
+        }
+
+        confirmLoginViewMode.code.observe(this) {
+            bind.code.text = it
+            confirmLoginViewMode.checkCodeValidity()
+        }
+
+        confirmLoginViewMode.codeValidity.observe(this) {
+            bind.next.isEnabled = it
+        }
+    }
+
+    private fun getPhoneNumber() {
+        intent.extras?.getString(Arguments.PHONE_NUMBER)?.let {
+            confirmLoginViewMode.setPhoneNumber(it)
+        }
+    }
+
     private fun observeOperation() {
         confirmLoginViewMode.loginOperation.observe(this) {
             when (it.status) {
@@ -91,8 +103,6 @@ class ConfirmLoginActivity : BaseActivity() {
     }
 
     private fun goToHomeActivity() {
-//        val intent = Intent(this, HomeActivity::class.java)
-//        startActivity(intent)
         finish()
         overridePendingTransition(R.anim.slide_in_right, 0)
     }
@@ -129,7 +139,6 @@ class ConfirmLoginActivity : BaseActivity() {
                 waitDialog.dismiss()
                 handleFailure(it.error!!)
                 showWaitingDialog()
-                sendVerificationCode(phoneNumber)
             }
         }
     }

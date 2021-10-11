@@ -3,6 +3,9 @@
     package="com.harera.hyperpanda">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
     <application
         android:name=".HyperPandaApp"
         android:allowBackup="true"
@@ -31,6 +34,8 @@
             android:hardwareAccelerated="true" />
 
         <activity android:name="com.harera.market_location.MarketLocation" />
+        <activity android:name="com.harera.login.LoginActivity" />
+        <activity android:name="com.harera.confirm_login.ConfirmLoginActivity" />
 
         <activity
             android:name="com.harera.hyperpanda.MainActivity"

@@ -3,6 +3,7 @@ package com.harera.offer
 import androidx.lifecycle.*
 import com.google.android.gms.tasks.Tasks
 import com.google.firebase.Timestamp
+import com.harera.common.base.BaseViewModel
 import com.harera.model.modelget.Offer
 import com.harera.model.modelget.Product
 import com.harera.model.modelset.CartItem
@@ -19,17 +20,10 @@ class OfferViewModel @Inject constructor(
     private val productRepository: ProductRepository,
     private val cartRepository: CartRepository,
     private val wishListRepository: WishListRepository,
-    private val categoryRepository: CategoryRepository,
     private val authManager: AuthManager,
-) : ViewModel() {
+) : BaseViewModel() {
 
     private val _offerId = MutableLiveData<String>()
-
-    private val _loadingState = MutableLiveData<Boolean>()
-    val loadingState: LiveData<Boolean> = _loadingState
-
-    private val _exception = MutableLiveData<Exception?>()
-    val exception: LiveData<Exception?> = _exception
 
     private val _wishState = MutableLiveData<Boolean>()
     val wishState: LiveData<Boolean> = _wishState
@@ -47,28 +41,28 @@ class OfferViewModel @Inject constructor(
     val offers: LiveData<List<Offer>> = _offers
 
     fun getOffer() {
-        viewModelScope.launch(Dispatchers.IO) {
-            val offerTask = offerRepository.getOfferById(_offerId.value!!)
-            val offerResult = Tasks.await(offerTask)
-            if (offerTask.isSuccessful) {
-                offerResult.toObject(Offer::class.java)!!.let {
+        offerRepository
+            .getOfferById(_offerId.value!!)
+            .addOnSuccessListener {
+                it.toObject(Offer::class.java)!!.let {
                     _offer.value = it
-                    getProduct()
                 }
+            }.addOnFailureListener {
+                getProduct()
             }
-        }
     }
 
     private fun getProduct() {
-        viewModelScope.launch(Dispatchers.IO) {
-            val task = productRepository.getProduct(offer.value!!.productId)
-            val result = Tasks.await(task)
-            if (task.isSuccessful) {
-                result.toObject(Product::class.java)!!.let {
+        productRepository
+            .getProduct(offer.value!!.productId)
+            .addOnSuccessListener {
+                it.toObject(Product::class.java)!!.let {
                     _product.value = it
                 }
             }
-        }
+            .addOnFailureListener {
+                updateException(it)
+            }
     }
 
     fun setOfferId(productId: String) {
@@ -89,10 +83,6 @@ class OfferViewModel @Inject constructor(
         }
     }
 
-    private fun updateException(exception: Exception?) = viewModelScope.launch(Dispatchers.Main) {
-        _exception.value = exception
-    }
-
     private fun updateCartState(state: Boolean) = viewModelScope.launch(Dispatchers.Main) {
         _cartState.value = state
     }
@@ -108,7 +98,7 @@ class OfferViewModel @Inject constructor(
         if (task.isSuccessful) {
             updateWishState(result.documents.isNotEmpty())
         } else {
-            _exception.value = (task.exception)
+            updateException(task.exception)
         }
     }
 

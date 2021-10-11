@@ -23,6 +23,9 @@ class ConfirmLoginViewModel @Inject constructor(
     private var _code = MutableLiveData<String>("")
     val code: LiveData<String> = _code
 
+    private var _phoneNumber = MutableLiveData<String>()
+    val phoneNumber: LiveData<String> = _phoneNumber
+
     private var _codeValidity = MutableLiveData<Boolean>(false)
     val codeValidity: LiveData<Boolean> = _codeValidity
 
@@ -82,5 +85,9 @@ class ConfirmLoginViewModel @Inject constructor(
                     _loginOperation.value = Response.error(it, null)
                 }
         }
+    }
+
+    fun setPhoneNumber(phoneNumber: String) {
+        _phoneNumber.value = phoneNumber
     }
 }

@@ -1,6 +1,8 @@
 package com.harera.common.utils.navigation
+
 object Arguments {
-    const val HYPER_PANDA_MANAGER_DOMAIN =  "HyperPandaManager"
+    const val PHONE_NUMBER = "phoneNumber"
+    const val HYPER_PANDA_MANAGER_DOMAIN = "HyperPandaManager"
     const val SEARCH_TEXT = "text"
     const val CATEGORY_ID = "categoryId"
     const val PRODUCT_ID = "productId"

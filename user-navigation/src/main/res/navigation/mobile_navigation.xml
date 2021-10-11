@@ -21,6 +21,16 @@
     </fragment>
 
     <fragment
+        android:id="@+id/navigation_offer"
+        android:name="com.harera.offer.OfferFragment"
+        android:label="@string/offer"
+        tools:layout="@layout/fragment_offer">
+
+        <argument android:name="offerId" />
+        <deepLink app:uri="HyperPanda://offer/{offerId}" />
+    </fragment>
+
+    <fragment
         android:id="@+id/navigation_map"
         android:name="com.harera.market_location.MarketLocation"
         tools:layout="@layout/fragment_market_location">

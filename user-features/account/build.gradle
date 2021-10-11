@@ -58,4 +58,5 @@ dependencies {
     implementation project(UIComponents.common)
     implementation project(UIComponents.repository)
     api project(UserFeatures.marketLocation)
+    api project(UserFeatures.login)
 }

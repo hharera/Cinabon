@@ -9,15 +9,20 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import com.harera.account.databinding.FragmentAccountBinding
+import com.harera.common.afterTextChanged
 import com.harera.common.base.BaseFragment
 import com.harera.common.utils.navigation.Arguments
 import com.harera.common.utils.navigation.Destinations
 import com.harera.common.utils.navigation.NavigationUtils
+import com.harera.confirm_login.ConfirmLoginActivity
 import com.harera.market_location.MarketLocation
 import com.opensooq.supernova.gligar.GligarPicker
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 class AccountFragment : BaseFragment() {
     private val IMAGE_REQ_CODE = 3004
@@ -45,6 +50,8 @@ class AccountFragment : BaseFragment() {
     }
 
     private fun setupObservers() {
+        bind.phoneNumber.setText(accountViewModel.phoneNumber.value)
+
         accountViewModel.userIsAnonymous.observe(viewLifecycleOwner) {
             updateUI(it)
         }
@@ -55,9 +62,33 @@ class AccountFragment : BaseFragment() {
             }
         }
 
+        accountViewModel.numberValidity.observe(viewLifecycleOwner) { isValid ->
+            if (isValid) {
+                handleLoading()
+                lifecycleScope.launch {
+                    delay(500)
+                    handleSuccess()
+                    goLogin()
+                }
+            } else {
+                bind.phoneNumber.error =  getString(R.string.wrong_phone_number)
+            }
+        }
+
         accountViewModel.exception.observe(viewLifecycleOwner) { exception ->
             handleError(exception)
         }
+    }
+
+    private fun goLogin() {
+        startActivity(
+            Intent(
+                context,
+                ConfirmLoginActivity::class.java
+            ).apply {
+                putExtra(Arguments.PHONE_NUMBER, accountViewModel.phoneNumber.value!!)
+            },
+        )
     }
 
     private fun updateUI(loggedInAnonymously: Boolean) {
@@ -70,6 +101,10 @@ class AccountFragment : BaseFragment() {
     }
 
     private fun setupListeners() {
+        bind.phoneNumber.afterTextChanged {
+            accountViewModel.setPhoneNumber(it)
+        }
+
         bind.openInMap.setOnClickListener {
             startActivity(
                 Intent(
@@ -77,15 +112,6 @@ class AccountFragment : BaseFragment() {
                     MarketLocation::class.java
                 )
             )
-//            navController.navigate(
-//                Uri.parse(
-//                    NavigationUtils.getUriNavigation(
-//                        Arguments.HYPER_PANDA_DOMAIN,
-//                        Destinations.MAP,
-//                        null
-//                    )
-//                )
-//            )
         }
 
         bind.cart.setOnClickListener {

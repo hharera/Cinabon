@@ -45,7 +45,7 @@ class OfferFragment : BaseFragment() {
         offerViewModel.getRelatedOffers()
         setupProductsAdapter()
 
-        offerViewModel.loadingState.observe(viewLifecycleOwner) {
+        offerViewModel.loading.observe(viewLifecycleOwner) {
             handleLoading()
         }
 

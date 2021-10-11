@@ -6,8 +6,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.forEach
 import androidx.lifecycle.ViewModelProvider
 import com.harera.common.ExtrasConstants
+import com.harera.common.utils.navigation.Arguments
 import com.harera.confirm_login.ConfirmLoginActivity
-import com.harera.hyperpanda.ui.login.LoginViewModel
 import com.harera.login.databinding.ActivityLoginBinding
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -61,16 +61,19 @@ class LoginActivity : AppCompatActivity() {
         }
 
         bind.next.setOnClickListener {
-            val phoneNumber = bind.phoneNumber.text.toString()
-            val intent = Intent(this, ConfirmLoginActivity::class.java).apply {
-                putExtra(ExtrasConstants.phoneNumber, "+20${phoneNumber}")
-            }
-            startActivity(intent)
-            overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_right)
+            confirmLogin(loginViewModel.phoneNumber.value!!)
         }
 
         bind.acceptPolicy.setOnClickListener {
             loginViewModel.acceptPolicy()
         }
+    }
+
+    private fun confirmLogin(phoneNumber : String) {
+        val intent = Intent(this, ConfirmLoginActivity::class.java).apply {
+            putExtra(Arguments.PHONE_NUMBER, phoneNumber)
+        }
+        startActivity(intent)
+        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_right)
     }
 }

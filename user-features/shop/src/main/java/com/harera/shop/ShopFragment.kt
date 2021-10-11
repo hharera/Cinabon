@@ -38,36 +38,61 @@ class ShopFragment : Fragment() {
     ): View {
         bind = FragmentShopBinding.inflate(layoutInflater)
         shopViewModel = ViewModelProvider(this).get(ShopViewModel::class.java)
-        offersAdapter = OffersAdapter(ArrayList(), findNavController())
+
+        offersAdapter = OffersAdapter(
+            onOfferClicked = {
+                viewOffer(it)
+            }
+        )
+
         productsAdapter = ProductsAdapter(
             onProductClicked = { productId ->
-                findNavController().navigate(
-                    Uri.parse(
-                        NavigationUtils.getUriNavigation(
-                            Arguments.HYPER_PANDA_DOMAIN,
-                            Destinations.PRODUCT,
-                            productId
-                        )
-                    )
-                )
+                viewProduct(productId)
             }
         )
 
         categoriesAdapter = CategoriesAdapter(
-            ArrayList(),
             onCategoryClicked = {
-                findNavController().navigate(
-                    Uri.parse(
-                        NavigationUtils.getUriNavigation(
-                            Arguments.HYPER_PANDA_DOMAIN,
-                            Destinations.CATEGORIES,
-                            it
-                        )
-                    )
-                )
+                viewCategoryProducts(it)
             }
         )
         return bind.root
+    }
+
+    private fun viewCategoryProducts(categoryId: String) {
+        findNavController().navigate(
+            Uri.parse(
+                NavigationUtils.getUriNavigation(
+                    Arguments.HYPER_PANDA_DOMAIN,
+                    Destinations.CATEGORIES,
+                    categoryId
+                )
+            )
+        )
+    }
+
+    private fun viewProduct(productId: String) {
+        findNavController().navigate(
+            Uri.parse(
+                NavigationUtils.getUriNavigation(
+                    Arguments.HYPER_PANDA_DOMAIN,
+                    Destinations.PRODUCT,
+                    productId
+                )
+            )
+        )
+    }
+
+    private fun viewOffer(offerId: String) {
+        findNavController().navigate(
+            Uri.parse(
+                NavigationUtils.getUriNavigation(
+                    Arguments.HYPER_PANDA_DOMAIN,
+                    Destinations.OFFER,
+                    offerId
+                )
+            )
+        )
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

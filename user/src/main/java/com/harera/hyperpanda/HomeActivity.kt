@@ -1,6 +1,7 @@
 package com.harera.hyperpanda
 
 import android.os.Bundle
+import androidx.core.view.GravityCompat
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import androidx.navigation.ui.NavigationUI
@@ -60,7 +61,7 @@ class HomeActivity : BaseActivity() {
                 }
 
                 R.id.navigation_menu -> {
-                    bind.navView.bringToFront()
+                    bind.drawerLayout.openDrawer(GravityCompat.END)
                 }
             }
             return@setOnMenuItemClickListener true

@@ -2,15 +2,14 @@ package com.harera.shop
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.navigation.NavController
 import androidx.recyclerview.widget.RecyclerView
 import com.harera.image_slider.databinding.CardViewImageBinding
 import com.harera.model.modelget.Offer
 import com.squareup.picasso.Picasso
 
 class OffersAdapter(
-    private var imageUrls: List<String>,
-    findNavController: NavController
+    private var offers: List<Offer> = emptyList(),
+    private val onOfferClicked: (String) -> Unit
 ) : RecyclerView.Adapter<OffersAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -20,21 +19,25 @@ class OffersAdapter(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        Picasso.get().load(imageUrls[position % imageUrls.size]).fit().into(holder.bind.image)
+        holder.updateUI(offer = offers[position])
     }
 
     override fun getItemCount(): Int {
-        return imageUrls.size
+        return offers.size
     }
 
     fun setOffers(offers: List<Offer>) {
-        imageUrls = offers.map { it.offerImageUrl }
+        this.offers = offers
         notifyDataSetChanged()
     }
 
     inner class ViewHolder(val bind: CardViewImageBinding) : RecyclerView.ViewHolder(bind.root) {
-        init {
-            bind.root.setOnClickListener {}
+        fun updateUI(offer: Offer) {
+            Picasso.get().load(offer.offerImageUrl).fit().into(bind.image)
+
+            bind.image.setOnClickListener {
+                onOfferClicked(offer.offerId)
+            }
         }
     }
 }
