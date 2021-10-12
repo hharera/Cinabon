@@ -1,6 +1,7 @@
 package com.harera.common.utils.navigation
 
 object Destinations {
+    const val SHOP = "shop"
     const val OFFER: String = "offer"
     const val ADD_CATEGORY = "addCategory"
     const val CART = "cart"

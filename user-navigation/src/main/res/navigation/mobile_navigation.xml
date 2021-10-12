@@ -8,7 +8,11 @@
         android:id="@+id/navigation_shop"
         android:name="com.harera.shop.ShopFragment"
         android:label="@string/shop"
-        tools:layout="@layout/fragment_shop" />
+        tools:layout="@layout/fragment_shop">
+
+        <argument android:name="shop" />
+        <deepLink app:uri="HyperPanda://shop/{shop}" />
+    </fragment>
 
     <fragment
         android:id="@+id/navigation_categories"

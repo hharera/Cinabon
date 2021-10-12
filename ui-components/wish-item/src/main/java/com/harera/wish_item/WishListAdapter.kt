@@ -12,6 +12,7 @@ class WishListAdapter @Inject constructor(
     private var list: List<WishItem> = emptyList(),
     private val onRemoveItemClicked : (String) -> Unit,
     private val onAddToCartClicked : (String) -> Unit,
+    private val onItemClicked : (String) -> Unit,
 ) : RecyclerView.Adapter<WishListAdapter.CartItemViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CartItemViewHolder {
@@ -44,6 +45,10 @@ class WishListAdapter @Inject constructor(
 
             bind.remove.setOnClickListener {
                 onRemoveItemClicked(item.productId)
+            }
+
+            bind.itemImage.setOnClickListener {
+                onItemClicked(item.productId)
             }
         }
     }

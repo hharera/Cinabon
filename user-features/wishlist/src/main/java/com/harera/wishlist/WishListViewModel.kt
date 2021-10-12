@@ -2,10 +2,10 @@ package com.harera.wishlist
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.android.gms.tasks.Tasks
 import com.google.firebase.Timestamp
+import com.harera.common.base.BaseViewModel
 import com.harera.model.modelget.Product
 import com.harera.model.modelget.WishItem
 import com.harera.model.modelset.CartItem
@@ -25,15 +25,9 @@ class WishListViewModel @Inject constructor(
     private val cartRepository: CartRepository,
     private val authManager: AuthManager,
     private val productRepository: ProductRepository,
-) : ViewModel() {
+) : BaseViewModel() {
 
     private val _productId = MutableLiveData<String>()
-
-    private val _loadingState = MutableLiveData<Boolean>()
-    val loadingState: LiveData<Boolean> = _loadingState
-
-    private val _exception = MutableLiveData<Exception?>()
-    val exception: LiveData<Exception?> = _exception
 
     private val _wishList = MutableLiveData<Map<String, WishItem>>()
     val wishList: LiveData<Map<String, WishItem>> = _wishList
@@ -48,6 +42,7 @@ class WishListViewModel @Inject constructor(
             getWishListItemsDetails(result.documents.map { it.toObject(WishItem::class.java)!! })
         else
             updateException(task.exception)
+        updateLoading(false)
     }
 
     private fun getWishListItemsDetails(list: List<WishItem>) =
@@ -67,8 +62,10 @@ class WishListViewModel @Inject constructor(
         }
 
     fun addWishItemToCart(productId: String) = viewModelScope.launch(Dispatchers.IO) {
+        updateLoading(true)
         removeWishItem(productId = productId)
         addCartItem(productId).await()
+        updateLoading(false)
     }
 
     private fun addCartItem(productId: String) = viewModelScope.async(Dispatchers.IO) {
@@ -83,6 +80,7 @@ class WishListViewModel @Inject constructor(
     }
 
     fun removeWishItem(productId: String) = viewModelScope.launch(Dispatchers.IO) {
+        updateLoading(true)
         viewModelScope.launch(Dispatchers.IO) {
             updateLoading(true)
 
@@ -96,15 +94,8 @@ class WishListViewModel @Inject constructor(
                 }
             else
                 updateException(task.exception)
+            updateLoading(false)
         }
-    }
-
-    private fun updateLoading(state: Boolean) = viewModelScope.launch(Dispatchers.Main) {
-        _loadingState.value = state
-    }
-
-    private fun updateException(exception: Exception?) = viewModelScope.launch(Dispatchers.Main) {
-        _exception.value = exception
     }
 
     private fun updateWishList(list: List<WishItem>) = viewModelScope.launch(Dispatchers.Main) {

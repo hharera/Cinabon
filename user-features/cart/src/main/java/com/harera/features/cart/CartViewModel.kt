@@ -55,6 +55,8 @@ class CartViewModel @Inject constructor(
             getCartItemsDetails(result.documents.map { it.toObject(CartItem::class.java)!! })
         else
             updateException(task.exception)
+
+        updateLoading(false)
     }
 
     private fun getCartItemsDetails(list: List<CartItem>) = viewModelScope.launch(Dispatchers.IO) {
@@ -87,6 +89,7 @@ class CartViewModel @Inject constructor(
             updateCartList(_cartList.value!!.map { it.value })
         } else
             updateException(task.exception)
+        updateLoading(false)
     }
 
     private fun updateCartList(list: List<CartItem>) = viewModelScope.launch(Dispatchers.Main) {
@@ -121,9 +124,11 @@ class CartViewModel @Inject constructor(
 
     fun moveToFavourite(cartItemId: String) {
         viewModelScope.launch {
+            updateLoading(true)
             val result = addItemToFavourite(cartItemId)
             if (result)
                 removeItem(cartItemId)
+            updateLoading(false)
         }
     }
 

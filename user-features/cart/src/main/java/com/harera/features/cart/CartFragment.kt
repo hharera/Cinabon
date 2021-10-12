@@ -30,6 +30,7 @@ class CartFragment : BaseFragment() {
     ): View {
         bind = FragmentCartBinding.inflate(layoutInflater, container, false)
         setupCartAdapter()
+        setupListeners()
 
         return bind.root
     }
@@ -41,10 +42,61 @@ class CartFragment : BaseFragment() {
         cartViewModel.cartList.observe(viewLifecycleOwner) {
             updateCartList(it.map { it.value })
         }
+
+        cartViewModel.loading.observe(viewLifecycleOwner) {
+            handleLoading(it)
+        }
+
+        cartViewModel.exception.observe(viewLifecycleOwner) {
+            handleError(it)
+        }
+
+        cartViewModel.cartList.observe(viewLifecycleOwner) {
+            updateCartList(it.map { it.value })
+        }
     }
 
     private fun updateCartList(cartList: List<CartItem>) {
-        cartAdapter.setCartList(cartList)
+        if(cartList.isNotEmpty()) {
+            bind.emptyList.root.visibility = View.INVISIBLE
+            bind.carts.visibility = View.VISIBLE
+            bind.checkout.visibility = View.VISIBLE
+            cartAdapter.setCartList(cartList)
+        } else {
+            bind.emptyList.root.visibility = View.VISIBLE
+            bind.carts.visibility = View.INVISIBLE
+            bind.checkout.visibility = View.INVISIBLE
+        }
+    }
+
+    private fun setupListeners() {
+        bind.emptyList.cartShopping.setOnClickListener {
+            goShop()
+        }
+    }
+
+    private fun goShop() {
+        findNavController().navigate(
+            Uri.parse(
+                NavigationUtils.getUriNavigation(
+                    Arguments.HYPER_PANDA_DOMAIN,
+                    Destinations.SHOP,
+                    null
+                )
+            )
+        )
+    }
+
+    private fun viewProduct(productId: String) {
+        findNavController().navigate(
+            Uri.parse(
+                NavigationUtils.getUriNavigation(
+                    Arguments.HYPER_PANDA_DOMAIN,
+                    Destinations.PRODUCT,
+                    productId
+                )
+            )
+        )
     }
 
     private fun setupCartAdapter() {
@@ -54,15 +106,7 @@ class CartFragment : BaseFragment() {
                 cartViewModel.removeItem(it)
             },
             onItemClicked = { productId ->
-                findNavController().navigate(
-                    Uri.parse(
-                        NavigationUtils.getUriNavigation(
-                            Arguments.HYPER_PANDA_DOMAIN,
-                            Destinations.PRODUCT,
-                            productId
-                        )
-                    )
-                )
+                viewProduct(productId)
             },
             onMoveToFavouriteClicked = {
                 cartViewModel.moveToFavourite(it)

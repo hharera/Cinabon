@@ -1,12 +1,17 @@
 package com.harera.wishlist
 
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import com.harera.common.base.BaseFragment
+import com.harera.common.utils.navigation.Arguments
+import com.harera.common.utils.navigation.Destinations
+import com.harera.common.utils.navigation.NavigationUtils
 import com.harera.model.modelget.WishItem
 import com.harera.wish_item.WishListAdapter
 import com.harera.wishlist.databinding.FragmentWishlistBinding
@@ -29,16 +34,33 @@ class WishListFragment : BaseFragment() {
             onAddToCartClicked = {
                 wishListViewModel.addWishItemToCart(it)
             },
+            onItemClicked = { productId ->
+                viewProduct(productId)
+            },
             onRemoveItemClicked = {
                 wishListViewModel.removeWishItem(it)
-            }
-        )
+            },
+
+            )
         return bind.root
+    }
+
+    private fun viewProduct(productId: String) {
+        findNavController().navigate(
+            Uri.parse(
+                NavigationUtils.getUriNavigation(
+                    Arguments.HYPER_PANDA_DOMAIN,
+                    Destinations.PRODUCT,
+                    productId
+                )
+            )
+        )
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupAdapter()
+        setupListeners()
 
         wishListViewModel.wishList.observe(viewLifecycleOwner) { map ->
             updateWishList(map.map {
@@ -46,7 +68,33 @@ class WishListFragment : BaseFragment() {
             })
         }
 
+        wishListViewModel.loading.observe(viewLifecycleOwner) {
+            handleLoading(it)
+        }
+
+        wishListViewModel.exception.observe(viewLifecycleOwner) {
+            handleError(it)
+        }
+
         wishListViewModel.getWishListItems()
+    }
+
+    private fun setupListeners() {
+        bind.emptyList.cartShopping.setOnClickListener {
+            goShop()
+        }
+    }
+
+    private fun goShop() {
+        findNavController().navigate(
+            Uri.parse(
+                NavigationUtils.getUriNavigation(
+                    Arguments.HYPER_PANDA_DOMAIN,
+                    Destinations.SHOP,
+                    null
+                )
+            )
+        )
     }
 
     private fun setupAdapter() {
@@ -57,7 +105,14 @@ class WishListFragment : BaseFragment() {
     }
 
     private fun updateWishList(list: List<WishItem>) {
-        wishListAdapter.updateWishList(list)
-        wishListAdapter.notifyDataSetChanged()
+        if (list.isNotEmpty()) {
+            bind.emptyList.root.visibility = View.INVISIBLE
+            bind.wishlist.visibility = View.VISIBLE
+            wishListAdapter.updateWishList(list)
+            wishListAdapter.notifyDataSetChanged()
+        } else {
+            bind.emptyList.root.visibility = View.VISIBLE
+            bind.wishlist.visibility = View.INVISIBLE
+        }
     }
 }

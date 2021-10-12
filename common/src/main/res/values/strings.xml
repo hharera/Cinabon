@@ -22,7 +22,7 @@
     <string name="cafe_name">Lamera</string>
     <string name="price">Price</string>
     <string name="quantity">Quantity</string>
-    <string name="go_shopping">Go Shopping</string>
+    <string name="go_shopping">تسوق الآن</string>
     <string name="dark_theme">Dark Theme</string>
     <string name="title_activity_cafe_location">Map</string>
     <string name="phone_number">رقم الهاتف</string>
@@ -35,7 +35,7 @@
     <string name="open_in_map">Open In Map</string>
     <string name="egp">EGP</string>
     <string name="price_value">%1$d EGP</string>
-    <string name="empty_list">There is no items added to the list!</string>
+    <string name="empty_list">العربه فارغه ،، انتقل الي التسوق</string>
     <string name="error_toast">Something went wrong</string>
     <string name="loading">جاري التحميل</string>
     <string name="chaneg">Change</string>

@@ -58,6 +58,6 @@ dependencies {
     implementation project(UIComponents.common)
     implementation project(UIComponents.image)
     implementation project(UIComponents.repository)
-    implementation project(UIComponents.categoryName)
+    implementation project(UIComponents.categoryImage)
     implementation project(UIComponents.product)
 }
