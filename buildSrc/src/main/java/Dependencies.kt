@@ -1,5 +1,5 @@
 object Releases {
-    const val versionCode = 1
+    const val versionCode = 2
     const val versionName = "1.0"
 }
 
@@ -77,6 +77,7 @@ object Versions {
     const val SEARCH_BAR = "0.7.5"
     const val CIRCLE_IMAGE = "3.1.0"
     const val ESPRESSO = "3.4"
+    const val ROOM_VERSION = "2.3.0"
 
     //Firebase
     const val FIREBASE_DATABASE_VERSION = "20.0.2"
@@ -155,6 +156,10 @@ object Libs {
 
     //Image Loader
     const val picasso = "com.squareup.picasso:picasso:${Versions.PICASSO_VERSION}"
+
+    //Room
+    const val roomRunTime = "androidx.room:room-runtime:${Versions.ROOM_VERSION}"
+    const val roomCompiler = "androidx.room:room-compiler:${Versions.ROOM_VERSION}"
 
     //test
     const val testRunner = "androidx.test:runner:${Versions.TEST_RUNNER_VERSION}"

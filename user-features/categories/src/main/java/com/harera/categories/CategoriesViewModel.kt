@@ -76,6 +76,7 @@ class CategoriesViewModel @Inject constructor(
 
     fun setCategoryName(category: String) {
         _categoryName.value = category
+        getProducts()
     }
 
     fun getProducts() {

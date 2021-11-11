@@ -61,8 +61,8 @@ class CategoriesFragment : BaseFragment() {
                     Uri.parse(
                         NavigationUtils.getUriNavigation(
                             Arguments.HYPER_PANDA_MANAGER_DOMAIN,
-                            Destinations.PRODUCT,
-                            null
+                            Destinations.CATEGORIES,
+                            it
                         )
                     )
                 )

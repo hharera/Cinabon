@@ -104,7 +104,7 @@ class CustomerFormFragment : BaseFragment() {
             if (it.firstNameError != null) {
                 bind.firstName.error = getString(it.firstNameError)
             } else if (it.lastNameError != null) {
-                bind.lastName!!.error = getString(it.lastNameError)
+                bind.lastName.error = getString(it.lastNameError)
             } else if (it.addressError != null) {
                 Toast.makeText(context, getString(R.string.empty_location_error), Toast.LENGTH_SHORT).show()
             }

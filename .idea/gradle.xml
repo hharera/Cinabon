@@ -13,6 +13,7 @@
             <option value="$PROJECT_DIR$/buildSrc" />
             <option value="$PROJECT_DIR$/common" />
             <option value="$PROJECT_DIR$/data" />
+            <option value="$PROJECT_DIR$/data/local" />
             <option value="$PROJECT_DIR$/data/model" />
             <option value="$PROJECT_DIR$/data/repository" />
             <option value="$PROJECT_DIR$/features" />
