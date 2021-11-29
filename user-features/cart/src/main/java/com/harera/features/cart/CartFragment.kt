@@ -14,7 +14,7 @@ import com.harera.common.utils.navigation.Arguments
 import com.harera.common.utils.navigation.Destinations
 import com.harera.common.utils.navigation.NavigationUtils
 import com.harera.features.cart.databinding.FragmentCartBinding
-import com.harera.model.modelget.CartItem
+import com.harera.local.model.CartItem
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

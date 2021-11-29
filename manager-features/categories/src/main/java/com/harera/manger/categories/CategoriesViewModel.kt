@@ -7,8 +7,9 @@ import androidx.lifecycle.viewModelScope
 import com.google.android.gms.tasks.Tasks
 import com.harera.common.base.BaseViewModel
 import com.harera.common.utils.Response
-import com.harera.model.modelget.Category
-import com.harera.model.modelget.Product
+import com.harera.hyperpanda.local.MarketDao
+import com.harera.local.model.Category
+import com.harera.local.model.Product
 import com.harera.repository.repository.CategoryRepository
 import com.harera.repository.repository.ProductRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -21,6 +22,7 @@ import com.harera.model.modelset.Category as CategorySet
 class CategoriesViewModel @Inject constructor(
     private val categoryRepository: CategoryRepository,
     private val productRepository: ProductRepository,
+    private val marketDao: MarketDao,
 ) : BaseViewModel() {
 
     private val _categories: MutableLiveData<List<Category>> = MutableLiveData()
@@ -112,10 +114,17 @@ class CategoriesViewModel @Inject constructor(
                     it.toObject(Product::class.java)!!
                 }.let {
                     updateProducts(it)
+                    cacheProducts(it)
                 }
             } else {
                 updateException(task.exception)
             }
+        }
+    }
+
+    private fun cacheProducts(list: List<Product>) {
+        kotlin.runCatching {
+            marketDao.insertProducts(list)
         }
     }
 }

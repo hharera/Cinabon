@@ -2,7 +2,7 @@ package com.harera.repository.firebase
 
 import com.google.android.gms.tasks.Tasks
 import com.google.firebase.Timestamp
-import com.harera.model.modelget.Offer
+import com.harera.local.model.Offer
 import com.harera.repository.repository.OfferRepository
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest

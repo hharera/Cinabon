@@ -11,7 +11,7 @@ import com.harera.common.utils.Status
 import com.harera.common.utils.navigation.Arguments.PRODUCT_ID
 import com.harera.components.product.ProductsAdapter
 import com.harera.image_slider.ProductPicturesAdapter
-import com.harera.model.modelget.Product
+import com.harera.local.model.Product
 import com.harera.product.databinding.FragmentProductViewBinding
 
 class ProductFragment : BaseFragment() {
@@ -83,7 +83,7 @@ class ProductFragment : BaseFragment() {
     }
 
     private fun updateProducts(products: List<Product>) {
-        productsAdapter.setProducts(products = products)
+        productsAdapter.setProducts(productList = products)
     }
 
     private fun setupProductsAdapter() {

@@ -15,7 +15,7 @@ import com.harera.common.utils.navigation.Destinations
 import com.harera.common.utils.navigation.NavigationUtils
 import com.harera.image_slider.ProductPicturesAdapter
 import com.harera.manger.product.databinding.FragmentProductBinding
-import com.harera.model.modelget.Product
+import com.harera.local.model.Product
 import com.harera.components.product.ProductsAdapter
 
 class ProductFragment : BaseFragment() {
@@ -85,7 +85,7 @@ class ProductFragment : BaseFragment() {
     }
 
     private fun updateProducts(products: List<Product>) {
-        productsAdapter.setProducts(products = products)
+        productsAdapter.setProducts(productList = products)
     }
 
     private fun setupProductsAdapter() {

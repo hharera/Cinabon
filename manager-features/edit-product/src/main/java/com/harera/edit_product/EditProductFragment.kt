@@ -11,7 +11,7 @@ import com.harera.common.base.BaseFragment
 import com.harera.common.utils.BitmapUtils
 import com.harera.common.utils.navigation.Arguments.PRODUCT_ID
 import com.harera.edit_product.databinding.FragmentEditProductBinding
-import com.harera.model.modelget.Product
+import com.harera.local.model.Product
 import com.opensooq.supernova.gligar.GligarPicker
 import com.squareup.picasso.Picasso
 
@@ -68,7 +68,7 @@ class EditProductFragment : BaseFragment() {
 
     private fun updateUI(it: Product) {
         bind.produtName.text = it.title
-        Picasso.get().load(it.productPictureUrls[0]).into(bind.image)
+        Picasso.get().load(it.productPictureUrls.first()).into(bind.image)
     }
 
     private fun onAddingFailed(exception: Exception) {

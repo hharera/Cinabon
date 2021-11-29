@@ -32,7 +32,6 @@ class FirebaseAuthManager @Inject constructor(
         val options = PhoneAuthOptions.newBuilder(auth)
             .setPhoneNumber(phoneNumber)
             .setTimeout(60L, TimeUnit.SECONDS)
-//            .setActivity(activity)
             .setCallbacks(callback)
             .build()
         PhoneAuthProvider.verifyPhoneNumber(options)

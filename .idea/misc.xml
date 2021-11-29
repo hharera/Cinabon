@@ -37,7 +37,7 @@
         <entry key="..\:/Users/Harera/AndroidStudioProjects/HyperPanda/manager-features/categories/src/main/res/layout/fragment_categories.xml" value="0.2" />
         <entry key="..\:/Users/Harera/AndroidStudioProjects/HyperPanda/manager-features/dashboard/src/main/res/layout/fragment_dashboard.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/Harera/AndroidStudioProjects/HyperPanda/manager-features/edit-product/src/main/res/layout/fragment_edit_product.xml" value="0.19375" />
-        <entry key="..\:/Users/Harera/AndroidStudioProjects/HyperPanda/manager-features/login/src/main/res/layout/activity_login.xml" value="0.22" />
+        <entry key="..\:/Users/Harera/AndroidStudioProjects/HyperPanda/manager-features/login/src/main/res/layout/activity_login.xml" value="0.25" />
         <entry key="..\:/Users/Harera/AndroidStudioProjects/HyperPanda/manager-features/login/src/main/res/layout/activity_signup.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/Harera/AndroidStudioProjects/HyperPanda/manager-features/product/src/main/res/layout/fragment_product.xml" value="0.2078125" />
         <entry key="..\:/Users/Harera/AndroidStudioProjects/HyperPanda/manager-features/product/src/main/res/layout/fragment_product_view.xml" value="0.19375" />
@@ -63,6 +63,7 @@
         <entry key="..\:/Users/Harera/AndroidStudioProjects/HyperPanda/ui-components/categories/src/main/res/drawable/category_background.xml" value="0.22395833333333334" />
         <entry key="..\:/Users/Harera/AndroidStudioProjects/HyperPanda/ui-components/categories/src/main/res/layout/card_view_categories_category.xml" value="0.2078125" />
         <entry key="..\:/Users/Harera/AndroidStudioProjects/HyperPanda/ui-components/category-image/src/main/res/layout/card_view_shop_category.xml" value="0.2078125" />
+        <entry key="..\:/Users/Harera/AndroidStudioProjects/HyperPanda/ui-components/category-name/src/main/res/layout/card_view_categories_category.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/Harera/AndroidStudioProjects/HyperPanda/ui-components/choose-location/src/main/res/layout/activity_choose_location.xml" value="0.1796875" />
         <entry key="..\:/Users/Harera/AndroidStudioProjects/HyperPanda/ui-components/image-card/src/main/res/layout/card_view_image.xml" value="0.20520833333333333" />
         <entry key="..\:/Users/Harera/AndroidStudioProjects/HyperPanda/ui-components/image-slider/src/main/res/layout/card_view_image.xml" value="0.2078125" />

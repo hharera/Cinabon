@@ -10,7 +10,7 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import javax.inject.Inject
-import com.harera.model.modelget.User as UserGet
+import com.harera.local.model.User as UserGet
 
 @HiltAndroidTest
 class FirebaseUserRepositoryTest {

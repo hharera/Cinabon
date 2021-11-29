@@ -52,32 +52,32 @@ android {
         exclude 'META-INF/gradle/incremental.annotation.processors'
         exclude("META-INF/*.kotlin_module")
     }
+}
 
-    dependencies {
-        //modules
-        implementation project(UIComponents.common)
-        api project(UIComponents.repository)
-        implementation project(UIComponents.managerNavigation)
-        implementation project(ManagerFeatures.login)
+dependencies {
+    //modules
+    implementation project(UIComponents.common)
+    api project(UIComponents.repository)
+    implementation project(UIComponents.managerNavigation)
+    implementation project(ManagerFeatures.login)
 
-        //hilt
-        implementation Libs.hiltAndroid
-        kapt(Libs.hiltAndroidCompiler)
+    //hilt
+    implementation Libs.hiltAndroid
+    kapt(Libs.hiltAndroidCompiler)
 
-        implementation(Libs.playServicesTasks)
+    implementation(Libs.playServicesTasks)
 
-        implementation(Libs.androidxCore)
-        implementation(Libs.appcompat)
-        implementation(Libs.activity)
+    implementation(Libs.androidxCore)
+    implementation(Libs.appcompat)
+    implementation(Libs.activity)
 
-        implementation(Libs.navigationFragment)
-        implementation(Libs.navigationUi)
+    implementation(Libs.navigationFragment)
+    implementation(Libs.navigationUi)
 
-        implementation(Libs.materialDesign)
-        implementation(Libs.circleImage)
+    implementation(Libs.materialDesign)
+    implementation(Libs.circleImage)
 
-        implementation(Libs.liveData)
-        implementation(Libs.viewModels)
-        kapt(Libs.lifeCycleCompiler)
-    }
+    implementation(Libs.liveData)
+    implementation(Libs.viewModels)
+    kapt(Libs.lifeCycleCompiler)
 }

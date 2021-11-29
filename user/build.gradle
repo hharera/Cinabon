@@ -53,6 +53,8 @@ dependencies {
 
     implementation(Libs.playServicesTasks)
 
+    implementation project(Data.local)
+
     implementation(Libs.androidxCore)
     implementation(Libs.appcompat)
     implementation(Libs.activity)

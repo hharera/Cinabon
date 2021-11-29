@@ -16,8 +16,8 @@ import com.harera.common.utils.navigation.Arguments
 import com.harera.common.utils.navigation.Destinations
 import com.harera.common.utils.navigation.NavigationUtils
 import com.harera.components.product.ProductsAdapter
-import com.harera.model.modelget.Category
-import com.harera.model.modelget.Product
+import com.harera.local.model.Category
+import com.harera.local.model.Product
 
 class CategoriesFragment : BaseFragment() {
     private val categoriesViewModel: CategoriesViewModel by viewModels()
@@ -58,7 +58,6 @@ class CategoriesFragment : BaseFragment() {
         categoriesAdapter = CategoriesAdapter(
             onCategoryClicked = {
                 categoriesViewModel.setCategoryName(it)
-                categoriesViewModel.getProducts()
             }
         )
         return bind.root

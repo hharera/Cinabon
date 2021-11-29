@@ -1,12 +1,15 @@
 package com.harera.shop
 
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isNotEmpty
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -16,11 +19,13 @@ import com.harera.common.utils.navigation.Arguments
 import com.harera.common.utils.navigation.Destinations
 import com.harera.common.utils.navigation.NavigationUtils
 import com.harera.components.product.ProductsAdapter
-import com.harera.model.modelget.Category
-import com.harera.model.modelget.Offer
-import com.harera.model.modelget.Product
+import com.harera.local.model.Category
+import com.harera.local.model.Offer
+import com.harera.local.model.Product
 import com.harera.shop.databinding.FragmentShopBinding
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
+
 
 @AndroidEntryPoint
 class ShopFragment : Fragment() {
@@ -34,7 +39,7 @@ class ShopFragment : Fragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater,
-        container: ViewGroup?, savedInstanceState: Bundle?
+        container: ViewGroup?, savedInstanceState: Bundle?,
     ): View {
         bind = FragmentShopBinding.inflate(layoutInflater)
         shopViewModel = ViewModelProvider(this).get(ShopViewModel::class.java)
@@ -101,7 +106,9 @@ class ShopFragment : Fragment() {
         setupOffersAdapter()
         setupProductsAdapter()
         setupCategoriesAdapter()
-        setupObserves()
+        lifecycleScope.launch {
+            setupObserves()
+        }
         setupListeners()
 
         shopViewModel.getOffers()
@@ -113,9 +120,8 @@ class ShopFragment : Fragment() {
         bind.products.addOnScrollListener(
             object : RecyclerView.OnScrollListener() {
                 override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
-                    if (!recyclerView.canScrollVertically(1))
+                    if (bind.products.isNotEmpty() && !bind.products.canScrollVertically(View.SCROLL_AXIS_VERTICAL))
                         shopViewModel.nextPage()
-                    bind.products.removeOnScrollListener(this)
                 }
             }
         )

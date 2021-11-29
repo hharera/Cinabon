@@ -6,8 +6,8 @@ import androidx.lifecycle.viewModelScope
 import com.google.android.gms.tasks.Tasks
 import com.google.firebase.Timestamp
 import com.harera.common.base.BaseViewModel
-import com.harera.model.modelget.CartItem
-import com.harera.model.modelget.Product
+import com.harera.local.model.CartItem
+import com.harera.local.model.Product
 import com.harera.model.modelset.WishListItem
 import com.harera.repository.repository.AuthManager
 import com.harera.repository.repository.CartRepository
@@ -68,7 +68,7 @@ class CartViewModel @Inject constructor(
             }.await()
             cartItem.productTitle = product.title
             cartItem.productPrice = product.price.toFloat()
-            cartItem.productImageUrl = product.productPictureUrls[0]
+            cartItem.productImageUrl = product.productPictureUrls.first()
             cartItem
         }.let {
             updateCartList(it)

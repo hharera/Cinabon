@@ -4,7 +4,7 @@ import androidx.lifecycle.*
 import com.google.android.gms.tasks.Tasks
 import com.google.firebase.Timestamp
 import com.harera.common.utils.Response
-import com.harera.model.modelget.Product
+import com.harera.local.model.Product
 import com.harera.model.modelset.CartItem
 import com.harera.model.modelset.WishListItem
 import com.harera.repository.repository.*

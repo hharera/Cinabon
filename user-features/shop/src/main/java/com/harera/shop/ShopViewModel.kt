@@ -2,13 +2,13 @@ package com.harera.shop
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.android.gms.tasks.Tasks
 import com.harera.common.base.BaseViewModel
-import com.harera.model.modelget.Category
-import com.harera.model.modelget.Offer
-import com.harera.model.modelget.Product
+import com.harera.hyperpanda.local.MarketDao
+import com.harera.local.model.Category
+import com.harera.local.model.Offer
+import com.harera.local.model.Product
 import com.harera.repository.repository.CategoryRepository
 import com.harera.repository.repository.OfferRepository
 import com.harera.repository.repository.ProductRepository
@@ -22,18 +22,19 @@ class ShopViewModel @Inject constructor(
     private val offerRepository: OfferRepository,
     private val productRepository: ProductRepository,
     private val categoryRepository: CategoryRepository,
+    private val marketDao: MarketDao,
 ) : BaseViewModel() {
 
-    private val page: MutableLiveData<Int> = MutableLiveData(1)
+    private val page = MutableLiveData(1)
     private val PAGE_SIZE = 20
 
-    private val _products: MutableLiveData<List<Product>> = MutableLiveData()
+    private val _products = MutableLiveData<List<Product>>(emptyList())
     val products: LiveData<List<Product>> = _products
 
-    private val _categories: MutableLiveData<List<Category>> = MutableLiveData()
+    private val _categories: MutableLiveData<List<Category>> = MutableLiveData(emptyList())
     val categories: LiveData<List<Category>> = _categories
 
-    private val _offers: MutableLiveData<List<Offer>> = MutableLiveData()
+    private val _offers: MutableLiveData<List<Offer>> = MutableLiveData(emptyList())
     val offers: LiveData<List<Offer>> = _offers
 
 
@@ -48,13 +49,18 @@ class ShopViewModel @Inject constructor(
             if (task.isSuccessful) {
                 result.documents.map {
                     it.toObject(Category::class.java)!!
-                }.let {
-                    updateCategories(it)
+                }.let { categories ->
+                    updateCategories(categories)
+                    saveInDatabase(categories)
                 }
             } else {
                 updateException(task.exception)
             }
         }
+    }
+
+    private fun saveInDatabase(categories: List<Category>) {
+        marketDao.insertCategory(categories)
     }
 
     fun getProducts() {
@@ -70,10 +76,17 @@ class ShopViewModel @Inject constructor(
                     it.toObject(Product::class.java)!!
                 }.let {
                     updateProducts(it)
+                    cacheProducts(it)
                 }
             } else {
                 updateException(task.exception)
             }
+        }
+    }
+
+    private fun cacheProducts(list: List<Product>) {
+        kotlin.runCatching {
+            marketDao.insertProducts(list)
         }
     }
 
@@ -98,25 +111,19 @@ class ShopViewModel @Inject constructor(
     }
 
     private fun updateProducts(products: List<Product>) {
-        viewModelScope.launch(Dispatchers.Main) {
-            _products.value = products
-        }
+        _products.postValue(products)
     }
 
     private fun updateCategories(categories: List<Category>) {
-        viewModelScope.launch(Dispatchers.Main) {
-            _categories.value = categories
-        }
+        _categories.postValue(categories)
     }
 
     fun nextPage() {
-        page.value = page.value!! + 1
+        page.postValue(page.value!! + 1)
         getProducts()
     }
 
     private fun updateOffers(offers: List<Offer>) {
-        viewModelScope.launch(Dispatchers.Main) {
-            _offers.value = offers
-        }
+        _offers.postValue(offers)
     }
 }

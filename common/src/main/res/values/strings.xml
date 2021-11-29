@@ -148,5 +148,9 @@
     <string name="empty_list">العربه فارغه</string>
     <string name="empty_name_error">الاسم خاطئ</string>
     <string name="empty_phone_error">رقم خاطئ</string>
+    <string name="empty_category_name_error">اسم القسم فارغ</string>
+    <string name="empty_image_error">ادخل صوره</string>
+    <string name="lower" translatable="false"><![CDATA[<]]></string>
+    <string name="greater" translatable="false"><![CDATA[>]]></string>
 </resources>
 

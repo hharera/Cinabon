@@ -6,8 +6,8 @@ import androidx.lifecycle.viewModelScope
 import com.google.android.gms.tasks.Tasks
 import com.google.firebase.Timestamp
 import com.harera.common.base.BaseViewModel
-import com.harera.model.modelget.Product
-import com.harera.model.modelget.WishItem
+import com.harera.local.model.Product
+import com.harera.local.model.WishItem
 import com.harera.model.modelset.CartItem
 import com.harera.repository.repository.AuthManager
 import com.harera.repository.repository.CartRepository
@@ -54,7 +54,7 @@ class WishListViewModel @Inject constructor(
                     ).toObject(Product::class.java)!!
                 }.await()
                 wishItem.productTitle = product.title
-                wishItem.productImageUrl = product.productPictureUrls[0]
+                wishItem.productImageUrl = product.productPictureUrls.first()
                 wishItem
             }.let {
                 updateWishList(it)

@@ -15,8 +15,8 @@ import com.harera.common.utils.navigation.Arguments
 import com.harera.common.utils.navigation.Destinations
 import com.harera.common.utils.navigation.NavigationUtils
 import com.harera.manger.categories.databinding.FragmentCategoriesBinding
-import com.harera.model.modelget.Category
-import com.harera.model.modelget.Product
+import com.harera.local.model.Category
+import com.harera.local.model.Product
 import com.harera.components.product.ProductsAdapter
 
 class CategoriesFragment : BaseFragment() {
