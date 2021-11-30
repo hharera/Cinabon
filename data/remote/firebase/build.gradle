@@ -27,7 +27,5 @@ dependencies {
     testImplementation(Libs.hiltTesting)
     kaptTest(Libs.hiltAndroidCompiler)
 
-    api project(Data.local)
-    api project(Data.firebase)
-    api project(Data.api)
+    implementation project(Data.model)
 }

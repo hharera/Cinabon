@@ -15,7 +15,9 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles "consumer-rules.pro"
     }
-
+    buildFeatures {
+        viewBinding true
+    }
     buildTypes {
         release {
             minifyEnabled false
@@ -32,18 +34,17 @@ android {
 }
 
 dependencies {
-    implementation project(UIComponents.common)
     implementation Libs.navigationUi
+    implementation Libs.circleImage
+    implementation Libs.navigationFragment
+    implementation Libs.androidxCore
+    implementation Libs.materialDesign
 
+    implementation project(UiComponents.common)
     //features
-    api project(UserFeatures.shop)
-    api project(UserFeatures.offer)
-    api project(UserFeatures.cart)
-    api project(UserFeatures.product)
-    api project(UserFeatures.categories)
-    api project(UserFeatures.login)
-    api project(UserFeatures.search)
-    api project(UserFeatures.accountForm)
-    api project(UserFeatures.wishlist)
-    api project(UserFeatures.account)
+    api project(ManagerFeatures.categories)
+    api project(ManagerFeatures.addCategory)
+    api project(ManagerFeatures.editProduct)
+    api project(ManagerFeatures.product)
+    api project(ManagerFeatures.dashboard)
 }

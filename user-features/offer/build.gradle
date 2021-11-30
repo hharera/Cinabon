@@ -1,8 +1,7 @@
 apply from: "$rootDir/common-feature-di.gradle"
 
 dependencies {
-    implementation project(UIComponents.common)
-    implementation project(UIComponents.repository)
+    implementation project(UiComponents.common)
 
     implementation Libs.picasso
     implementation Libs.liveData

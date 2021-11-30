@@ -3,19 +3,6 @@ apply plugin: 'com.google.gms.google-services'
 apply plugin: ("dagger.hilt.android.plugin")
 
 dependencies {
-    //gms play
-    implementation Libs.playServicesAuth
-    implementation Libs.playServicesAuthPhone
-    implementation Libs.playServicesMaps
-    implementation Libs.playServicesTasks
-
-    //firebase
-    api Libs.firebaseAuth
-    api Libs.firebaseDatabase
-    implementation platform(Libs.firebaseBom)
-    api Libs.firebaseFirestore
-    api Libs.firebaseStorage
-
     //hilt
     kapt(Libs.hiltAndroidCompiler)
     implementation(Libs.hiltAndroid)
@@ -27,7 +14,5 @@ dependencies {
     testImplementation(Libs.hiltTesting)
     kaptTest(Libs.hiltAndroidCompiler)
 
-    api project(Data.local)
-    api project(Data.firebase)
-    api project(Data.api)
+    implementation project(Data.model)
 }

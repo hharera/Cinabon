@@ -35,7 +35,7 @@ android {
 }
 
 dependencies {
-    implementation project(UIComponents.common)
+    implementation project(UiComponents.common)
 
     implementation Libs.androidxCore
     implementation Libs.searchBar

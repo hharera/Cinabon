@@ -1,10 +1,9 @@
 apply from: "$rootDir/common-feature-di.gradle"
 
 dependencies {
-    implementation project(UIComponents.common)
-    implementation project(UIComponents.repository)
-    implementation project(UIComponents.product)
-    implementation project(UIComponents.image)
+    implementation project(UiComponents.common)
+    implementation project(UiComponents.product)
+    implementation project(UiComponents.image)
 
     implementation Libs.adMob
     implementation Libs.firebaseFirestore

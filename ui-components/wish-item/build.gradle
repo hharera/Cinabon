@@ -1,12 +1,10 @@
-apply from: "$rootDir/common-feature-di.gradle"
+apply from:"$rootDir/android-ui-component.gradle"
+
+android {
+    buildFeatures{
+        viewBinding true
+    }
+}
 
 dependencies {
-    kapt(Libs.hiltAndroidCompiler)
-    implementation(Libs.hiltAndroid)
-    implementation(Libs.androidxCore)
-    implementation(Libs.picasso)
-    implementation(Libs.materialDesign)
-
-    implementation project(UIComponents.repository)
-    implementation project(UIComponents.common)
 }

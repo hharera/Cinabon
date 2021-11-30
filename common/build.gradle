@@ -1,4 +1,4 @@
-apply from:"$rootDir/common-android-library.gradle"
+apply from:"$rootDir/android-library.gradle"
 apply plugin: ("dagger.hilt.android.plugin")
 
 android {
@@ -8,7 +8,7 @@ android {
 }
 
 dependencies {
-    implementation project(UIComponents.loading)
+    implementation project(UiComponents.loading)
 
     api(Libs.intuit)
     implementation(Libs.viewModels)

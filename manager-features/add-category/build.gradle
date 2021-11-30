@@ -1,12 +1,8 @@
 apply from: "$rootDir/common-feature-di.gradle"
 
 dependencies {
-    implementation project(UIComponents.repository)
-    implementation project(UIComponents.common)
+    implementation project(UiComponents.common)
 
-    //hilt
-    implementation Libs.hiltAndroid
-    kapt(Libs.hiltAndroidCompiler)
     implementation Libs.playServicesTasks
 
     implementation Libs.gligarPicker

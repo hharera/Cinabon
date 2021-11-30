@@ -1,9 +1,9 @@
 apply from: "$rootDir/common-feature-di.gradle"
 
 dependencies {
-    implementation project(UIComponents.repository)
-    implementation project(UIComponents.common)
-    implementation project(UIComponents.managerNavigation)
+    implementation project(Data.repository)
+    implementation project(UiComponents.common)
+    implementation project(Navigation.manager)
 
     implementation Libs.liveData
     implementation Libs.androidxCore

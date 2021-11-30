@@ -20,9 +20,8 @@ dependencies {
     kapt(Libs.lifeCycleCompiler)
 
     //modules
-    implementation project(UIComponents.common)
-    implementation project(UIComponents.image)
-    implementation project(UIComponents.repository)
-    implementation project(UIComponents.categoryImage)
-    implementation project(UIComponents.product)
+    implementation project(UiComponents.common)
+    implementation project(UiComponents.image)
+    implementation project(UiComponents.categoryImage)
+    implementation project(UiComponents.product)
 }

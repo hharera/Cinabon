@@ -34,7 +34,7 @@ android {
 }
 
 dependencies {
-    implementation project(UIComponents.common)
+    implementation project(UiComponents.common)
 
     implementation Libs.navigationUi
     implementation Libs.navigationFragment

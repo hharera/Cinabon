@@ -56,9 +56,8 @@ android {
 
 dependencies {
     //modules
-    implementation project(UIComponents.common)
-    api project(UIComponents.repository)
-    implementation project(UIComponents.managerNavigation)
+    implementation project(UiComponents.common)
+    implementation project(Navigation.manager)
     implementation project(ManagerFeatures.login)
 
     //hilt

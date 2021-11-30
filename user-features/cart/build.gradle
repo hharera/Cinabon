@@ -19,7 +19,6 @@ dependencies {
     kapt(Libs.lifeCycleCompiler)
 
     //modules
-    implementation project(UIComponents.common)
-    implementation project(UIComponents.repository)
-    implementation project(UIComponents.cart)
+    implementation project(UiComponents.common)
+    implementation project(UiComponents.cart)
 }

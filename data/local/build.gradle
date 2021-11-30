@@ -1,12 +1,13 @@
-apply from:"$rootDir/common-android-library.gradle"
+apply from:"$rootDir/android-library.gradle"
 apply plugin: ("dagger.hilt.android.plugin")
 
 dependencies {
-    implementation(Libs.roomRunTime)
+    api project(Data.model)
+
+    api(Libs.roomRunTime)
     kapt(Libs.roomCompiler)
 
     implementation(Libs.firebaseFirestore)
-    implementation project(UIComponents.model)
 
     implementation(DI.hiltAndroid)
     kapt(DI.hiltAndroidCompiler)
@@ -14,6 +15,8 @@ dependencies {
     testImplementation(Libs.hiltTesting)
     testImplementation(Libs.testRunner)
     kaptTest(Libs.hiltAndroidCompiler)
+
+    implementation(Libs.truth)
 
     androidTestImplementation(Libs.hiltTesting)
     androidTestImplementation(Libs.testRunner)
