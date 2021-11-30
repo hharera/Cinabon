@@ -1,6 +1,5 @@
-const val compose_version = "1.0.4"
-
 object Compose {
+    private const val compose_version = "1.0.4"
     const val composJUnitTest = "androidx.compose.ui:ui-test-junit4:${compose_version}"
     const val composUiTooling = "androidx.compose.ui:ui-tooling:$compose_version"
     const val composeAndroidX = "androidx.compose.ui:ui:$compose_version"

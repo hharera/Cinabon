@@ -3,8 +3,9 @@ package com.harera.hyperpanda.local
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
-import com.harera.local.model.Category
-import com.harera.local.model.Product
+import androidx.room.Query
+import com.harera.model.modelget.Category
+import com.harera.model.modelget.Product
 
 @Dao
 interface MarketDao {
@@ -17,4 +18,7 @@ interface MarketDao {
 
     @Insert
     fun insertProducts(list: List<Product>)
+
+    @Query("select * from category")
+    fun getCategories(): List<Category>
 }

@@ -6,12 +6,12 @@ import androidx.lifecycle.viewModelScope
 import com.google.android.gms.tasks.Tasks
 import com.harera.common.base.BaseViewModel
 import com.harera.hyperpanda.local.MarketDao
-import com.harera.local.model.Category
-import com.harera.local.model.Offer
-import com.harera.local.model.Product
-import com.harera.repository.repository.CategoryRepository
-import com.harera.repository.repository.OfferRepository
-import com.harera.repository.repository.ProductRepository
+import com.harera.model.modelget.Category
+import com.harera.model.modelget.Offer
+import com.harera.model.modelget.Product
+import com.harera.repository.abstraction.CategoryRepository
+import com.harera.repository.abstraction.OfferRepository
+import com.harera.repository.abstraction.ProductRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -41,21 +41,16 @@ class ShopViewModel @Inject constructor(
     fun getCategories() {
         updateLoading(true)
         viewModelScope.launch(Dispatchers.IO) {
-            val task = categoryRepository.getCategories()
-            val result = Tasks.await(task)
-
-            updateLoading(false)
-
-            if (task.isSuccessful) {
-                result.documents.map {
-                    it.toObject(Category::class.java)!!
-                }.let { categories ->
+            categoryRepository
+                .getCategories(true)
+                .onSuccess { categories ->
+                    updateLoading(false)
                     updateCategories(categories)
                     saveInDatabase(categories)
                 }
-            } else {
-                updateException(task.exception)
-            }
+                .onFailure {
+                    updateException(it)
+                }
         }
     }
 

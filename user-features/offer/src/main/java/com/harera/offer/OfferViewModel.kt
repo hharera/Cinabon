@@ -4,11 +4,11 @@ import androidx.lifecycle.*
 import com.google.android.gms.tasks.Tasks
 import com.google.firebase.Timestamp
 import com.harera.common.base.BaseViewModel
-import com.harera.local.model.Offer
-import com.harera.local.model.Product
+import com.harera.model.modelget.Offer
+import com.harera.model.modelget.Product
 import com.harera.model.modelset.CartItem
 import com.harera.model.modelset.WishListItem
-import com.harera.repository.repository.*
+import com.harera.repository.abstraction.*
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch

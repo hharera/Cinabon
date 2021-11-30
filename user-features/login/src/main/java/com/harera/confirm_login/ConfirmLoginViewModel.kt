@@ -9,7 +9,7 @@ import com.google.firebase.auth.PhoneAuthCredential
 import com.google.firebase.auth.PhoneAuthProvider
 import com.harera.common.utils.Response
 import com.harera.common.utils.Validity
-import com.harera.repository.repository.AuthManager
+import com.harera.repository.abstraction.repository.AuthManager
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -17,7 +17,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ConfirmLoginViewModel @Inject constructor(
-    private val authManager: AuthManager
+    private val authManager: com.harera.repository.abstraction.repository.AuthManager
 ) :
     ViewModel() {
     private var _code = MutableLiveData<String>("")

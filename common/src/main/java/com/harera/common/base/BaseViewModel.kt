@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.harera.common.network.InternetConnection
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -19,14 +20,16 @@ open class BaseViewModel @Inject constructor(): ViewModel() {
     val exception: LiveData<Exception?> = _exception
 
     fun updateException(exception: Exception?) {
-        viewModelScope.launch(Dispatchers.Main) {
-            _exception.value = exception
-        }
+        exception?.printStackTrace()
     }
 
     fun updateLoading(state: Boolean) {
         viewModelScope.launch(Dispatchers.Main) {
             _loading.value = state
         }
+    }
+
+    fun updateException(exception: Throwable?) {
+        exception?.printStackTrace()
     }
 }

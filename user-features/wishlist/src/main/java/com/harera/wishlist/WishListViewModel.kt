@@ -6,13 +6,13 @@ import androidx.lifecycle.viewModelScope
 import com.google.android.gms.tasks.Tasks
 import com.google.firebase.Timestamp
 import com.harera.common.base.BaseViewModel
-import com.harera.local.model.Product
-import com.harera.local.model.WishItem
+import com.harera.model.modelget.Product
+import com.harera.model.modelget.WishItem
 import com.harera.model.modelset.CartItem
-import com.harera.repository.repository.AuthManager
-import com.harera.repository.repository.CartRepository
-import com.harera.repository.repository.ProductRepository
-import com.harera.repository.repository.WishListRepository
+import com.harera.repository.abstraction.repository.AuthManager
+import com.harera.repository.abstraction.repository.CartRepository
+import com.harera.repository.abstraction.repository.ProductRepository
+import com.harera.repository.abstraction.repository.WishListRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
@@ -21,10 +21,10 @@ import javax.inject.Inject
 
 @HiltViewModel
 class WishListViewModel @Inject constructor(
-    private val wishListRepository: WishListRepository,
-    private val cartRepository: CartRepository,
-    private val authManager: AuthManager,
-    private val productRepository: ProductRepository,
+    private val wishListRepository: com.harera.repository.abstraction.repository.WishListRepository,
+    private val cartRepository: com.harera.repository.abstraction.repository.CartRepository,
+    private val authManager: com.harera.repository.abstraction.repository.AuthManager,
+    private val productRepository: com.harera.repository.abstraction.repository.ProductRepository,
 ) : BaseViewModel() {
 
     private val _productId = MutableLiveData<String>()

@@ -12,7 +12,7 @@ import com.harera.common.base.BaseFragment
 import com.harera.common.utils.navigation.Arguments
 import com.harera.common.utils.navigation.Destinations
 import com.harera.common.utils.navigation.NavigationUtils
-import com.harera.local.model.WishItem
+import com.harera.model.modelget.WishItem
 import com.harera.wish_item.WishListAdapter
 import com.harera.wishlist.databinding.FragmentWishlistBinding
 import dagger.hilt.android.AndroidEntryPoint

@@ -3,7 +3,7 @@ package com.harera.wish_item
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.harera.local.model.WishItem
+import com.harera.model.modelget.WishItem
 import com.harera.wish_item.databinding.CardViewWishItemBinding
 import com.squareup.picasso.Picasso
 import javax.inject.Inject

@@ -1,12 +1,11 @@
-package com.harera.local
+package com.harera.hyperpanda.local
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
-import com.harera.hyperpanda.local.MarketDao
 import com.harera.local.converter.AddressConverter
 import com.harera.local.converter.TimestampConverter
-import com.harera.local.model.*
+import com.harera.model.modelget.*
 
 
 @Database(

@@ -10,14 +10,13 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.harera.categories.databinding.FragmentCategoriesBinding
-import com.harera.categories_name.CategoriesAdapter
 import com.harera.common.base.BaseFragment
 import com.harera.common.utils.navigation.Arguments
 import com.harera.common.utils.navigation.Destinations
 import com.harera.common.utils.navigation.NavigationUtils
 import com.harera.components.product.ProductsAdapter
-import com.harera.local.model.Category
-import com.harera.local.model.Product
+import com.harera.model.modelget.Category
+import com.harera.model.modelget.Product
 
 class CategoriesFragment : BaseFragment() {
     private val categoriesViewModel: CategoriesViewModel by viewModels()

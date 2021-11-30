@@ -1,6 +1,5 @@
-const val koin_version = "3.1.2"
-
 object DI {
+    private const val koin_version = "3.1.2"
     //koin
     const val koinCore = "io.insert-koin:koin-core:$koin_version"
     const val koinTest = "io.insert-koin:koin-test:$koin_version"

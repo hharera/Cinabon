@@ -13,8 +13,8 @@ import com.harera.common.base.BaseActivity
 import com.harera.common.internet.NoInternetActivity
 import com.harera.manager.login.LoginActivity
 import com.harera.manager_navigation.HomeActivity
-import com.harera.repository.repository.AuthManager
-import com.harera.repository.repository.UserRepository
+import com.harera.repository.abstraction.repository.AuthManager
+import com.harera.repository.abstraction.repository.UserRepository
 import dagger.hilt.android.AndroidEntryPoint
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.*
@@ -70,8 +70,8 @@ class MainActivity : BaseActivity() {
 
 @HiltViewModel
 class MainViewModel @Inject constructor(
-    private val authManager: AuthManager,
-    private val userRepo: UserRepository
+    private val authManager: com.harera.repository.abstraction.repository.AuthManager,
+    private val userRepo: com.harera.repository.abstraction.repository.UserRepository
 ) : ViewModel() {
 
     val delayEnded: MutableLiveData<Boolean> = MutableLiveData(false)

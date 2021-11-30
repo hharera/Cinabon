@@ -45,8 +45,14 @@ dependencies {
     implementation Libs.kotlin
     testImplementation Libs.junit4
 
-    implementation project(Data.local)
+    implementation project(Data.repository)
+
+    implementation project(UiComponents.common)
 
     implementation(Libs.coroutinesCore)
     implementation(Compose.composeLivedata)
+
+    //hilt
+    implementation Libs.hiltAndroid
+    kapt(Libs.hiltAndroidCompiler)
 }

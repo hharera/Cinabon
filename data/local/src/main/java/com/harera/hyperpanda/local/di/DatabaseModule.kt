@@ -1,9 +1,9 @@
-package com.harera.local.di
+package com.harera.hyperpanda.local.di
 
 import android.app.Application
 import androidx.room.Room
 import com.harera.hyperpanda.local.MarketDao
-import com.harera.local.MarketDatabase
+import com.harera.hyperpanda.local.MarketDatabase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

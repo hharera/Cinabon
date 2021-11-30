@@ -7,7 +7,6 @@ import com.opensooq.supernova.gligar.GligarPicker
 
 class BitmapUtils {
 
-
     companion object {
 
         fun convertImagePathToBitmap(data: Intent): Bitmap? {

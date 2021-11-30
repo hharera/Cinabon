@@ -8,10 +8,10 @@ import com.google.android.gms.tasks.Tasks
 import com.harera.common.base.BaseViewModel
 import com.harera.common.utils.Response
 import com.harera.hyperpanda.local.MarketDao
-import com.harera.local.model.Category
-import com.harera.local.model.Product
-import com.harera.repository.repository.CategoryRepository
-import com.harera.repository.repository.ProductRepository
+import com.harera.model.modelget.Category
+import com.harera.model.modelget.Product
+import com.harera.repository.abstraction.repository.CategoryRepository
+import com.harera.repository.abstraction.repository.ProductRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -20,8 +20,8 @@ import com.harera.model.modelset.Category as CategorySet
 
 @HiltViewModel
 class CategoriesViewModel @Inject constructor(
-    private val categoryRepository: CategoryRepository,
-    private val productRepository: ProductRepository,
+    private val categoryRepository: com.harera.repository.abstraction.repository.CategoryRepository,
+    private val productRepository: com.harera.repository.abstraction.repository.ProductRepository,
     private val marketDao: MarketDao,
 ) : BaseViewModel() {
 
@@ -36,19 +36,14 @@ class CategoriesViewModel @Inject constructor(
 
     fun getCategories() {
         updateLoading(true)
-        categoryRepository.getCategories()
-            .addOnSuccessListener {
+        categoryRepository.getCategories(true)
+            .onSuccess {
                 updateLoading(false)
-
-                it.documents.map {
-                    it.toObject(Category::class.java)!!
-                }.let {
-                    updateCategories(it)
-                }
+                updateCategories(it)
             }
-            .addOnFailureListener {
-                updateException(it)
+            .onFailure {
                 updateLoading(false)
+                updateException(it)
             }
     }
 

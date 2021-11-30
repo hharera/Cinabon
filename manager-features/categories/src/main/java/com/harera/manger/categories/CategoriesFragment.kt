@@ -9,15 +9,16 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.harera.categories_name.CategoriesAdapter
+import com.harera.categories.CategoriesAdapter
 import com.harera.common.base.BaseFragment
+import com.harera.common.network.ConnectionLiveData
 import com.harera.common.utils.navigation.Arguments
 import com.harera.common.utils.navigation.Destinations
 import com.harera.common.utils.navigation.NavigationUtils
-import com.harera.manger.categories.databinding.FragmentCategoriesBinding
-import com.harera.local.model.Category
-import com.harera.local.model.Product
 import com.harera.components.product.ProductsAdapter
+import com.harera.model.modelget.Category
+import com.harera.model.modelget.Product
+import com.harera.manger.categories.databinding.FragmentCategoriesBinding
 
 class CategoriesFragment : BaseFragment() {
 
@@ -38,7 +39,7 @@ class CategoriesFragment : BaseFragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater,
-        container: ViewGroup?, savedInstanceState: Bundle?
+        container: ViewGroup?, savedInstanceState: Bundle?,
     ): View {
         bind = FragmentCategoriesBinding.inflate(layoutInflater)
         productsAdapter = ProductsAdapter(
@@ -85,6 +86,10 @@ class CategoriesFragment : BaseFragment() {
     private fun setupObservers() {
         categoriesViewModel.categories.observe(viewLifecycleOwner) {
             updateCategoriesView(categories = it)
+        }
+
+        ConnectionLiveData(requireContext()).observe(viewLifecycleOwner) {
+            categoriesViewModel.setConnectionState(it)
         }
 
         categoriesViewModel.products.observe(viewLifecycleOwner) {

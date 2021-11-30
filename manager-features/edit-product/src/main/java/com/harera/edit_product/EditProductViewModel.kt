@@ -6,9 +6,9 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.android.gms.tasks.Tasks
-import com.harera.local.model.Product
-import com.harera.repository.repository.AuthManager
-import com.harera.repository.repository.ProductRepository
+import com.harera.model.modelget.Product
+import com.harera.repository.abstraction.AuthManager
+import com.harera.repository.abstraction.ProductRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async

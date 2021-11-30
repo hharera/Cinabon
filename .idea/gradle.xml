@@ -15,6 +15,9 @@
             <option value="$PROJECT_DIR$/data" />
             <option value="$PROJECT_DIR$/data/local" />
             <option value="$PROJECT_DIR$/data/model" />
+            <option value="$PROJECT_DIR$/data/remote" />
+            <option value="$PROJECT_DIR$/data/remote/api" />
+            <option value="$PROJECT_DIR$/data/remote/firebase" />
             <option value="$PROJECT_DIR$/data/repository" />
             <option value="$PROJECT_DIR$/features" />
             <option value="$PROJECT_DIR$/features/add-category" />
@@ -28,7 +31,9 @@
             <option value="$PROJECT_DIR$/manager-features/edit-product" />
             <option value="$PROJECT_DIR$/manager-features/login" />
             <option value="$PROJECT_DIR$/manager-features/product" />
-            <option value="$PROJECT_DIR$/manager-navigation" />
+            <option value="$PROJECT_DIR$/navigation" />
+            <option value="$PROJECT_DIR$/navigation/manager-navigation" />
+            <option value="$PROJECT_DIR$/navigation/user-navigation" />
             <option value="$PROJECT_DIR$/ui-components" />
             <option value="$PROJECT_DIR$/ui-components/cart-item" />
             <option value="$PROJECT_DIR$/ui-components/category-image" />
@@ -51,7 +56,6 @@
             <option value="$PROJECT_DIR$/user-features/search" />
             <option value="$PROJECT_DIR$/user-features/shop" />
             <option value="$PROJECT_DIR$/user-features/wishlist" />
-            <option value="$PROJECT_DIR$/user-navigation" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />

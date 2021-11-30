@@ -38,15 +38,24 @@
 
         <activity
             android:name=".HomeActivity"
+            android:exported="false"
             android:hardwareAccelerated="true" />
 
-        <activity android:name="com.harera.market_location.MarketLocation" />
-        <activity android:name="com.harera.login.LoginActivity" />
-        <activity android:name="com.harera.confirm_login.ConfirmLoginActivity" />
+        <activity
+            android:name="com.harera.market_location.MarketLocation"
+            android:exported="false" />
+
+        <activity
+            android:name="com.harera.login.LoginActivity"
+            android:exported="false" />
+
+        <activity
+            android:name="com.harera.confirm_login.ConfirmLoginActivity"
+            android:exported="false" />
 
         <activity
             android:name="com.harera.hyperpanda.MainActivity"
-            android:exported="true">
+            android:exported="false">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />

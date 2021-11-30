@@ -8,8 +8,8 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import com.harera.common.base.BaseFragment
 import com.harera.common.utils.navigation.Arguments.OFFER_ID
-import com.harera.local.model.Offer
-import com.harera.local.model.Product
+import com.harera.model.modelget.Offer
+import com.harera.model.modelget.Product
 import com.harera.offer.databinding.FragmentOfferViewBinding
 
 class OfferFragment : BaseFragment() {

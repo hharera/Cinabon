@@ -4,7 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.harera.components.product.databinding.CardViewCategoryProductBinding
-import com.harera.local.model.Product
+import com.harera.model.modelget.Product
 import com.squareup.picasso.Picasso
 import kotlinx.coroutines.runBlocking
 

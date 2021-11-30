@@ -1,7 +1,6 @@
 package com.harera.shop
 
 import android.net.Uri
-import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -19,9 +18,9 @@ import com.harera.common.utils.navigation.Arguments
 import com.harera.common.utils.navigation.Destinations
 import com.harera.common.utils.navigation.NavigationUtils
 import com.harera.components.product.ProductsAdapter
-import com.harera.local.model.Category
-import com.harera.local.model.Offer
-import com.harera.local.model.Product
+import com.harera.model.modelget.Category
+import com.harera.model.modelget.Offer
+import com.harera.model.modelget.Product
 import com.harera.shop.databinding.FragmentShopBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch

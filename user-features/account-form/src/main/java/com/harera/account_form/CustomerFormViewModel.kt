@@ -14,8 +14,8 @@ import com.google.type.LatLng
 import com.harera.common.utils.Response
 import com.harera.common.utils.Validity
 import com.harera.model.modelset.User
-import com.harera.repository.repository.AuthManager
-import com.harera.repository.repository.UserRepository
+import com.harera.repository.abstraction.AuthManager
+import com.harera.repository.abstraction.UserRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
