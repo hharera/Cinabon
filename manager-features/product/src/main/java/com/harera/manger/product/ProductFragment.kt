@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.harera.common.base.BaseFragment
@@ -13,10 +14,12 @@ import com.harera.common.utils.Status
 import com.harera.common.utils.navigation.Arguments
 import com.harera.common.utils.navigation.Destinations
 import com.harera.common.utils.navigation.NavigationUtils
+import com.harera.components.product.ProductsAdapter
 import com.harera.image_slider.ProductPicturesAdapter
 import com.harera.manger.product.databinding.FragmentProductBinding
-import com.harera.model.modelget.Product
-import com.harera.components.product.ProductsAdapter
+import com.harera.model.model.Product
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class ProductFragment : BaseFragment() {
     private val productViewModel: ProductViewModel by viewModels()
@@ -26,7 +29,7 @@ class ProductFragment : BaseFragment() {
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View {
         super.onCreateView(inflater, container, savedInstanceState)
         bind = FragmentProductBinding.inflate(layoutInflater)
@@ -47,7 +50,9 @@ class ProductFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        productViewModel.getWishState()
+        lifecycleScope.launch(Dispatchers.IO) {
+            productViewModel.checkWishState()
+        }
         productViewModel.getCartState()
         setupProductsAdapter()
 
@@ -79,8 +84,13 @@ class ProductFragment : BaseFragment() {
             updateWishIcon(state = it)
             handleSuccess()
         }
+
         productViewModel.products.observe(viewLifecycleOwner) {
             updateProducts(it)
+        }
+
+        connectionLiveData.observe(viewLifecycleOwner) {
+            productViewModel.updateConnectivity(it)
         }
     }
 
@@ -114,7 +124,9 @@ class ProductFragment : BaseFragment() {
         }
 
         bind.wish.setOnClickListener {
-            productViewModel.changeWishState()
+            lifecycleScope.launch(Dispatchers.IO) {
+                productViewModel.changeWishState()
+            }
         }
 
         bind.edit.setOnClickListener {

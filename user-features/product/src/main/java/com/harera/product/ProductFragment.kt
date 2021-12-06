@@ -7,11 +7,10 @@ import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import com.harera.common.base.BaseFragment
-import com.harera.common.utils.Status
 import com.harera.common.utils.navigation.Arguments.PRODUCT_ID
 import com.harera.components.product.ProductsAdapter
 import com.harera.image_slider.ProductPicturesAdapter
-import com.harera.model.modelget.Product
+import com.harera.model.model.Product
 import com.harera.product.databinding.FragmentProductViewBinding
 
 class ProductFragment : BaseFragment() {
@@ -31,7 +30,7 @@ class ProductFragment : BaseFragment() {
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View {
         super.onCreateView(inflater, container, savedInstanceState)
         bind = FragmentProductViewBinding.inflate(layoutInflater)
@@ -49,24 +48,20 @@ class ProductFragment : BaseFragment() {
         productViewModel.getCartState()
         setupProductsAdapter()
 
-        productViewModel.getProduct().observe(viewLifecycleOwner) {
-            when (it.status) {
-                Status.ERROR -> {
-                    handleError(it.error)
-                }
-                Status.SUCCESS -> {
-                    handleSuccess()
-                    updateUI(it.data!!)
-                    productViewModel.getCategoryProducts(it.data!!.categoryName)
-                }
-                Status.LOADING -> {
-                    handleLoading()
-                }
-            }
+        productViewModel.getProduct()
+
+        setupObservers()
+    }
+
+    private fun setupObservers() {
+        productViewModel.loading.observe(viewLifecycleOwner) {
+            handleLoading(it)
         }
 
-        productViewModel.loadingState.observe(viewLifecycleOwner) {
-            handleLoading()
+        productViewModel.product.observe(viewLifecycleOwner) {
+            handleSuccess()
+            updateUI(it)
+
         }
 
         productViewModel.exception.observe(viewLifecycleOwner) {
@@ -80,6 +75,10 @@ class ProductFragment : BaseFragment() {
         productViewModel.products.observe(viewLifecycleOwner) {
             updateProducts(it)
         }
+
+        connectionLiveData.observe(viewLifecycleOwner) {
+            productViewModel.updateConnectivity(it)
+        }
     }
 
     private fun updateProducts(products: List<Product>) {
@@ -92,16 +91,17 @@ class ProductFragment : BaseFragment() {
     }
 
     private fun updateWishIcon(state: Boolean) {
-        if(state)
-            bind.wish.setImageResource(R.drawable.wished)
+        if (state)
+            bind.wish.setIconResource(R.drawable.wished)
         else
-            bind.wish.setImageResource(R.drawable.wish)
+            bind.wish.setIconResource(R.drawable.wish_24)
     }
 
     private fun updateUI(product: Product) {
         bind.title.text = product.title
         bind.price.text = "${product.price} EGP"
-        bind.productPics.adapter = ProductPicturesAdapter(product.productPictureUrls)
+        bind.productPics.adapter =
+            ProductPicturesAdapter(product.productPictureUrls.map { it.imageUrl })
 
         setupListener()
     }

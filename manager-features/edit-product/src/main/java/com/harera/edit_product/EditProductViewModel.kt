@@ -3,11 +3,11 @@ package com.harera.edit_product
 import android.graphics.Bitmap
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.android.gms.tasks.Tasks
-import com.harera.model.modelget.Product
-import com.harera.repository.abstraction.AuthManager
+import com.harera.common.base.BaseViewModel
+import com.harera.model.model.Product
+import com.harera.repository.abstraction.UserRepository
 import com.harera.repository.abstraction.ProductRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -17,9 +17,9 @@ import javax.inject.Inject
 
 @HiltViewModel
 class EditProductViewModel @Inject constructor(
-    private val authManager: AuthManager,
+    private val authManager: UserRepository,
     private val productRepository: ProductRepository
-) : ViewModel() {
+) : BaseViewModel() {
     private val _productId: MutableLiveData<String> = MutableLiveData()
     val productId: LiveData<String> = _productId
 
@@ -73,7 +73,7 @@ class EditProductViewModel @Inject constructor(
     }
 
     private fun updateProductImage() {
-        productRepository.updateProductImage(
+        productRepository.uploadProductImage(
             productId = product.value!!.productId,
             productImageUrl = imageUrl.value!!,
         ).addOnSuccessListener {

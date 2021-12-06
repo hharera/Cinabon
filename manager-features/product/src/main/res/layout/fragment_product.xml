@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
     android:theme="@style/HyperPanda"
     tools:context="com.harera.manger.product.ProductFragment">
 
@@ -13,43 +13,73 @@
         android:layout_width="match_parent"
         android:layout_height="?actionBarSize"
         android:elevation="5dp"
+        android:fitsSystemWindows="true"
+        android:theme="@style/AppTheme.AppBarOverlay"
         app:layout_constraintTop_toTopOf="parent">
 
         <com.google.android.material.appbar.CollapsingToolbarLayout
             android:id="@+id/tool_bar"
             android:layout_width="match_parent"
-            android:layout_height="?actionBarSize"
+            android:layout_height="match_parent"
             android:fitsSystemWindows="true"
             app:contentScrim="?attr/colorPrimary"
             app:expandedTitleGravity="top"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_scrollFlags="scroll|exitUntilCollapsed|snap">
+            app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="40dp"
-                android:layout_gravity="center|start"
-                android:layout_margin="5dp"
-                android:src="@drawable/arrow_back"
-                app:tint="@color/white" />
 
-            <TextView
-                android:id="@+id/title"
+            <!--            <ImageView-->
+            <!--                android:layout_width="wrap_content"-->
+            <!--                android:layout_height="40dp"-->
+            <!--                android:layout_gravity="center|start"-->
+            <!--                android:layout_margin="5dp"-->
+            <!--                android:src="@drawable/arrow_back"-->
+            <!--                app:tint="@color/white" />-->
+
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/product_pics"
-                android:layout_gravity="center"
-                android:layout_marginHorizontal="8dp"
-                android:fontFamily="@font/abeezee"
-                android:padding="5dp"
-                android:textColor="@color/white"
-                android:textSize="20sp"
-                android:textStyle="normal"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/product_pics" />
+                android:layout_height="wrap_content">
+
+                <androidx.viewpager2.widget.ViewPager2
+                    android:id="@+id/product_pics"
+                    android:layout_width="match_parent"
+                    android:layout_height="230dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageView
+                    android:id="@+id/wish"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:layout_margin="5dp"
+                    android:background="@color/transparent_selected"
+                    android:src="@drawable/wish_24"
+                    app:layout_constraintBottom_toBottomOf="@+id/product_pics"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:tint="@color/green" />
+
+                <TextView
+                    android:id="@+id/title"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginHorizontal="8dp"
+                    android:backgroundTint="@color/transparent_selected"
+                    android:fontFamily="@font/abeezee"
+                    android:padding="5dp"
+                    android:textColor="@color/white"
+                    android:textSize="20sp"
+                    android:background="@color/transparent_selected"
+                    android:textStyle="normal"
+                    app:layout_constraintBottom_toBottomOf="@+id/wish"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/wish"
+                    app:layout_constraintTop_toTopOf="@+id/wish" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
         </com.google.android.material.appbar.CollapsingToolbarLayout>
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -60,33 +90,17 @@
         app:layout_constraintTop_toBottomOf="@+id/app_bar"
         app:layout_constraintVertical_weight="1">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-            <androidx.viewpager2.widget.ViewPager2
-                android:id="@+id/product_pics"
-                android:layout_width="match_parent"
-                android:layout_height="230dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <ImageView
-                android:id="@+id/wish"
-                android:layout_width="35dp"
-                android:layout_height="35dp"
-                android:layout_margin="5dp"
-                android:background="@color/transparent_selected"
-                android:src="@drawable/baseline_favorite_border_white_24dp"
-                app:layout_constraintBottom_toBottomOf="@+id/product_pics"
-                app:layout_constraintStart_toStartOf="parent"
-                app:tint="@color/green" />
 
             <TextView
                 android:id="@+id/available"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="end"
                 android:layout_margin="8dp"
                 android:fontFamily="@font/el_messiri_bold"
                 android:padding="5dp"
@@ -101,6 +115,7 @@
                 android:id="@+id/price_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="end"
                 android:layout_margin="8dp"
                 android:padding="5dp"
                 android:text="السعر: "
@@ -114,6 +129,7 @@
                 android:id="@+id/price"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="end"
                 android:layout_marginTop="8dp"
                 android:padding="5dp"
                 android:text="2555"
@@ -123,7 +139,7 @@
                 app:layout_constraintEnd_toStartOf="@+id/price_title"
                 app:layout_constraintTop_toBottomOf="@+id/available" />
 
-            <Button
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/cart"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -142,6 +158,7 @@
                 android:id="@+id/suggestions_label"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="end"
                 android:layout_margin="8dp"
                 android:fontFamily="@font/el_messiri_bold"
                 android:padding="5dp"
@@ -162,16 +179,21 @@
                 app:layout_constraintVertical_weight="1"
                 tools:listitem="@layout/card_view_category_product" />
 
-            <Button
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/edit"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="19dp"
-                android:text="edit"
-                app:layout_constraintEnd_toStartOf="@+id/available"
+                android:layout_margin="8dp"
+                android:fontFamily="@font/el_messiri_bold"
+                android:gravity="center"
+                android:paddingVertical="8dp"
+                android:text="@string/edit"
+                android:textSize="14sp"
+                app:layout_constraintBottom_toBottomOf="@+id/cart"
+                app:layout_constraintEnd_toEndOf="@+id/cart"
                 app:layout_constraintStart_toStartOf="@+id/cart"
-                app:layout_constraintTop_toBottomOf="@+id/product_pics" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
+                app:layout_constraintTop_toTopOf="@+id/cart" />
+        </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 
 

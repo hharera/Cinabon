@@ -11,7 +11,7 @@ import com.harera.common.base.BaseFragment
 import com.harera.common.utils.BitmapUtils
 import com.harera.common.utils.navigation.Arguments.PRODUCT_ID
 import com.harera.edit_product.databinding.FragmentEditProductBinding
-import com.harera.model.modelget.Product
+import com.harera.model.model.Product
 import com.opensooq.supernova.gligar.GligarPicker
 import com.squareup.picasso.Picasso
 
