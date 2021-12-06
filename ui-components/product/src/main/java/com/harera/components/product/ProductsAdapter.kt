@@ -4,7 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.harera.components.product.databinding.CardViewCategoryProductBinding
-import com.harera.model.modelget.Product
+import com.harera.model.model.Product
 import com.squareup.picasso.Picasso
 import kotlinx.coroutines.runBlocking
 
@@ -31,21 +31,9 @@ class ProductsAdapter(
         return products.size
     }
 
-    fun updateProductList(list: List<Product>) {
-        products = list
-    }
-
     fun setProducts(productList: List<Product>) = runBlocking {
-//        for (i in products.indices) {
-//            products = products.subList(i, products.lastIndex)
-//            notifyItemRemoved(i)
-//        }
         products = productList
         notifyDataSetChanged()
-        productList.forEach {
-            products = products.plus(it)
-            notifyItemInserted(products.lastIndex)
-        }
     }
 
     inner class ViewHolder(val bind: CardViewCategoryProductBinding) :

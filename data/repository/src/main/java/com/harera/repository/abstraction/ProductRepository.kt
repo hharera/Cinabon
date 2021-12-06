@@ -5,13 +5,13 @@ import com.google.android.gms.tasks.Task
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.QuerySnapshot
 import com.google.firebase.storage.UploadTask
-import com.harera.model.modelset.Product
+import com.harera.model.model.Product
 
 interface ProductRepository {
 
-    fun addProduct(product: Product): Task<Void>
-    fun getProduct(productId: String): Task<DocumentSnapshot>
-    fun uploadProductImage(productId: String, imageBitmap: Bitmap): UploadTask
-    fun getProducts(limit: Int): Task<QuerySnapshot>
-    fun updateProductImage(productId: String, productImageUrl: String): Task<Void>
+    suspend fun addProduct(product: Product): Result<Boolean>
+    suspend fun getProduct(productId: String): Result<Product>
+    suspend fun uploadProductImage(productId: String, imageBitmap: Bitmap): Result<String>
+    suspend fun getProducts(limit: Int): Result<List<Product>>
+    suspend fun uploadProductImage(productId: String, productImageUrl: String): Result<Boolean>
 }
