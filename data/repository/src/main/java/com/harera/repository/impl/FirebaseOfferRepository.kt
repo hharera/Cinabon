@@ -4,7 +4,7 @@ import com.google.android.gms.tasks.Task
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.QuerySnapshot
-import com.harera.model.modelget.Offer
+import com.harera.hyperpanda.local.model.Offer
 import com.harera.repository.abstraction.DBConstants.OFFERS
 import com.harera.repository.abstraction.OfferRepository
 import javax.inject.Inject

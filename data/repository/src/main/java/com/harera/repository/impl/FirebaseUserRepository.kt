@@ -6,7 +6,7 @@ import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.UploadTask
-import com.harera.model.modelset.User
+import com.harera.hyperpanda.local.modelset.User
 import com.harera.repository.abstraction.DBConstants
 import com.harera.repository.abstraction.UserRepository
 import java.io.ByteArrayOutputStream

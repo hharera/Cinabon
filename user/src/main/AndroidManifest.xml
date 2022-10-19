@@ -22,7 +22,6 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.App">
 
-
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
@@ -54,7 +53,7 @@
 
         <activity
             android:name="com.harera.hyperpanda.MainActivity"
-            android:exported="false">
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />

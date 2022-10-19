@@ -17,4 +17,8 @@
     <color name="app_blue">#20ADDC</color>
     <color name="white">#FFF</color>
     <color name="stroke_outlined_text_input">#F44336</color>
+    <color name="ic_dot">#FD7694</color>
+    <color name="background_filled_textInputLayout">#FFFFFF</color>
+    <color name="colorControlNormal">#E3E8F1</color>
+    <color name="colorControlActivated">@color/colorPrimary</color>
 </resources>

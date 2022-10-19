@@ -26,12 +26,15 @@
             <option value="$PROJECT_DIR$/features/add-category" />
             <option value="$PROJECT_DIR$/features/cart" />
             <option value="$PROJECT_DIR$/features/categories" />
+            <option value="$PROJECT_DIR$/features/dashboard" />
+            <option value="$PROJECT_DIR$/features/edit-product" />
             <option value="$PROJECT_DIR$/features/login" />
             <option value="$PROJECT_DIR$/features/market-location" />
             <option value="$PROJECT_DIR$/features/offer" />
             <option value="$PROJECT_DIR$/features/product" />
             <option value="$PROJECT_DIR$/features/search" />
             <option value="$PROJECT_DIR$/features/shop" />
+            <option value="$PROJECT_DIR$/features/splash" />
             <option value="$PROJECT_DIR$/features/wishlist" />
             <option value="$PROJECT_DIR$/manager" />
             <option value="$PROJECT_DIR$/manager-features" />
@@ -54,8 +57,6 @@
             <option value="$PROJECT_DIR$/ui-components/user-locator" />
             <option value="$PROJECT_DIR$/ui-components/wish-item" />
             <option value="$PROJECT_DIR$/user" />
-            <option value="$PROJECT_DIR$/user-features" />
-            <option value="$PROJECT_DIR$/user-features/splash" />
           </set>
         </option>
       </GradleProjectSettings>

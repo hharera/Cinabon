@@ -4,7 +4,7 @@ import android.graphics.Bitmap
 import com.google.android.gms.tasks.Task
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.storage.UploadTask
-import com.harera.model.modelset.User
+import com.harera.hyperpanda.local.modelset.User
 
 interface UserRepository {
 

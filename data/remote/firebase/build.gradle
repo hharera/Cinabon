@@ -1,4 +1,4 @@
-apply from:"$rootDir/android-library.gradle"
+apply from:"$rootDir/${BuildGradle.DataModule}"
 apply plugin: 'com.google.gms.google-services'
 apply plugin: ("dagger.hilt.android.plugin")
 
@@ -25,7 +25,6 @@ dependencies {
     implementation platform(Libs.firebaseBom)
     api Libs.firebaseFirestore
     api Libs.firebaseStorage
-    implementation project(path: ':data:repository')
 
     //hilt
     kapt(Libs.hiltAndroidCompiler)
