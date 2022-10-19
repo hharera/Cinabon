@@ -7,6 +7,7 @@
         <option name="testRunner" value="GRADLE" />
         <option name="distributionType" value="DEFAULT_WRAPPED" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="gradleJvm" value="Embedded JDK" />
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
@@ -20,9 +21,18 @@
             <option value="$PROJECT_DIR$/data/remote/firebase" />
             <option value="$PROJECT_DIR$/data/repository" />
             <option value="$PROJECT_DIR$/features" />
+            <option value="$PROJECT_DIR$/features/account" />
+            <option value="$PROJECT_DIR$/features/account-form" />
             <option value="$PROJECT_DIR$/features/add-category" />
+            <option value="$PROJECT_DIR$/features/cart" />
+            <option value="$PROJECT_DIR$/features/categories" />
+            <option value="$PROJECT_DIR$/features/login" />
+            <option value="$PROJECT_DIR$/features/market-location" />
+            <option value="$PROJECT_DIR$/features/offer" />
             <option value="$PROJECT_DIR$/features/product" />
+            <option value="$PROJECT_DIR$/features/search" />
             <option value="$PROJECT_DIR$/features/shop" />
+            <option value="$PROJECT_DIR$/features/wishlist" />
             <option value="$PROJECT_DIR$/manager" />
             <option value="$PROJECT_DIR$/manager-features" />
             <option value="$PROJECT_DIR$/manager-features/add-category" />
@@ -45,17 +55,7 @@
             <option value="$PROJECT_DIR$/ui-components/wish-item" />
             <option value="$PROJECT_DIR$/user" />
             <option value="$PROJECT_DIR$/user-features" />
-            <option value="$PROJECT_DIR$/user-features/account" />
-            <option value="$PROJECT_DIR$/user-features/account-form" />
-            <option value="$PROJECT_DIR$/user-features/cart" />
-            <option value="$PROJECT_DIR$/user-features/categories" />
-            <option value="$PROJECT_DIR$/user-features/login" />
-            <option value="$PROJECT_DIR$/user-features/market-location" />
-            <option value="$PROJECT_DIR$/user-features/offer" />
-            <option value="$PROJECT_DIR$/user-features/product" />
-            <option value="$PROJECT_DIR$/user-features/search" />
-            <option value="$PROJECT_DIR$/user-features/shop" />
-            <option value="$PROJECT_DIR$/user-features/wishlist" />
+            <option value="$PROJECT_DIR$/user-features/splash" />
           </set>
         </option>
       </GradleProjectSettings>

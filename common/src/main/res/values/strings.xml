@@ -152,5 +152,6 @@
     <string name="empty_image_error">ادخل صوره</string>
     <string name="lower" translatable="false"><![CDATA[<]]></string>
     <string name="greater" translatable="false"><![CDATA[>]]></string>
+    <string name="slogon">Enjoy your shopping journey</string>
 </resources>
 

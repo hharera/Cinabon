@@ -16,7 +16,7 @@
         android:layout_marginEnd="3dp"
         android:layout_marginBottom="4dp"
         android:background="@drawable/category_background"
-        android:fontFamily="@font/el_messiri_bold"
+        android:fontFamily="@font/roboto"
         android:text="خضروات"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

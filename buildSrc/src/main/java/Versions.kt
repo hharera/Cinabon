@@ -26,7 +26,7 @@ object Versions {
     const val LEGACY_VERSION = "1.0.0"
 
     const val KOTLIN_VERSION = "1.5.30"
-    const val HILT_VERSION = "2.37"
+    const val HILT_VERSION = "2.44"
     const val NAV_VERSION = "2.3.1"
     const val COROUTINES_VERSION = "1.5.0"
     const val GRADLE_TOOLS_VERSION = "7.0.2"
