@@ -4,7 +4,7 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath(Libs.gradleTools)
+        classpath("com.android.tools.build:gradle:7.3.0")
         classpath(Libs.kotlinPlugin)
         classpath(Libs.navigationSafeArgsPlugin)
         classpath(Libs.googleServices)
