@@ -3,8 +3,8 @@ package com.harera.shop
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.harera.image_slider.databinding.CardViewImageBinding
-import com.harera.hyperpanda.local.model.Offer
+import com.harera.repository.domain.Offer
+import com.harera.shop.databinding.CardViewImageBinding
 import com.squareup.picasso.Picasso
 
 class OffersAdapter(

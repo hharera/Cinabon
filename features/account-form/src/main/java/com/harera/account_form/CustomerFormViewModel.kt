@@ -13,16 +13,15 @@ import com.google.firebase.auth.PhoneAuthProvider
 import com.google.type.LatLng
 import com.harera.common.utils.Response
 import com.harera.common.utils.Validity
-import com.harera.hyperpanda.local.modelset.User
-import com.harera.repository.abstraction.AuthManager
 import com.harera.repository.abstraction.UserRepository
+import com.harera.repository.domain.User
 import dagger.hilt.android.lifecycle.HiltViewModel
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 @HiltViewModel
 class CustomerFormViewModel @Inject constructor(
-    private val authManager: AuthManager,
+    private val authManager: UserRepository,
     private val userRepository: UserRepository
 ) : ViewModel() {
 

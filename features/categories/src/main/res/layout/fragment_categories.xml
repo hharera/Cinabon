@@ -12,7 +12,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:listitem="@layout/card_view_categories_category" />
+        tools:listitem="@layout/card_view_category" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/products"

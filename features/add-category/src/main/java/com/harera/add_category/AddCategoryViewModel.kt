@@ -7,8 +7,8 @@ import androidx.lifecycle.viewModelScope
 import com.google.android.gms.tasks.Tasks
 import com.harera.common.base.BaseViewModel
 import com.harera.common.utils.Validity
-import com.harera.model.modelset.Category
 import com.harera.repository.abstraction.CategoryRepository
+import com.harera.repository.domain.Category
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch

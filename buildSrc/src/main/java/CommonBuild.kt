@@ -10,6 +10,6 @@ object CommonBuild {
     const val COMPOSE_MODULE = "compose-module-di.gradle"
     const val KOIN_MODULE = "koin-module-di.gradle"
     const val KTOR_MODULE = "ktor-module-di.gradle"
-    const val HiltDependencies = "hilt-module-di.gradle"
+    const val HILT_MODULE = "hilt-module-di.gradle"
     const val LibraryDependencies = "library-module-di.gradle"
 }

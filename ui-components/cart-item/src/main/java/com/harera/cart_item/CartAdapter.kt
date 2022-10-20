@@ -4,7 +4,6 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.harera.cart_item.databinding.CardViewCartItemBinding
-import com.harera.model.modelget.CartItem
 import com.squareup.picasso.Picasso
 import javax.inject.Inject
 

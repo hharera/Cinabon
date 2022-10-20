@@ -4,11 +4,11 @@ import androidx.lifecycle.*
 import com.google.android.gms.tasks.Tasks
 import com.google.firebase.Timestamp
 import com.harera.common.base.BaseViewModel
-import com.harera.hyperpanda.local.model.Offer
-import com.harera.model.modelget.Product
-import com.harera.model.modelset.CartItem
-import com.harera.model.modelset.WishListItem
+import com.harera.repository.domain.Offer
 import com.harera.repository.abstraction.*
+import com.harera.repository.domain.CartItem
+import com.harera.repository.domain.Product
+import com.harera.repository.domain.WishItem
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -20,7 +20,7 @@ class OfferViewModel @Inject constructor(
     private val productRepository: ProductRepository,
     private val cartRepository: CartRepository,
     private val wishListRepository: WishListRepository,
-    private val authManager: AuthManager,
+    private val authManager: UserRepository,
 ) : BaseViewModel() {
 
     private val _offerId = MutableLiveData<String>()
@@ -52,7 +52,7 @@ class OfferViewModel @Inject constructor(
             }
     }
 
-    private fun getProduct() {
+    private fun getProduct() = viewModelScope.launch {
         productRepository
             .getProduct(offer.value!!.productId)
             .addOnSuccessListener {
@@ -141,7 +141,7 @@ class OfferViewModel @Inject constructor(
     }
 
     private fun addWishItem() = viewModelScope.launch(Dispatchers.IO) {
-        val item = WishListItem(
+        val item = WishItem(
             productId = _offerId.value!!,
             uid = authManager.getCurrentUser()!!.uid,
             time = Timestamp.now()

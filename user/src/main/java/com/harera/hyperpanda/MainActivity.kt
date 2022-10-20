@@ -11,11 +11,11 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.harera.common.base.BaseActivity
 import com.harera.common.internet.NoInternetActivity
-import com.harera.repository.abstraction.repository.AuthManager
-import com.harera.repository.abstraction.repository.UserRepository
+import com.harera.repository.abstraction.UserRepository
 import dagger.hilt.android.AndroidEntryPoint
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.*
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -75,16 +75,15 @@ class MainActivity : BaseActivity() {
 
 @HiltViewModel
 class MainViewModel @Inject constructor(
-    private val authManager: com.harera.repository.abstraction.repository.AuthManager,
-    private val userRepo: com.harera.repository.abstraction.repository.UserRepository
+    private val userRepository: UserRepository,
 ) : ViewModel() {
 
     val delayEnded: MutableLiveData<Boolean> = MutableLiveData(false)
     val isLoggedIn: MutableLiveData<Boolean> = MutableLiveData(false)
 
     fun checkLogin() {
-        if (authManager.getCurrentUser() == null)
-            authManager
+        if (userRepository.getCurrentUser() == null)
+            userRepository
                 .loginAnonymously()
                 .addOnSuccessListener {
                     isLoggedIn.value = true

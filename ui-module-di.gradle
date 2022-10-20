@@ -33,8 +33,6 @@ android {
 }
 
 dependencies {
-    api project(Base.COMMON)
-
     implementation(Libs.coroutinesCore)
 
     implementation(Libs.appcompat)

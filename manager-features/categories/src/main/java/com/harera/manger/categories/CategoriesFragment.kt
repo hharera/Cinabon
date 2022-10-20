@@ -9,17 +9,18 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.harera.categories.CategoriesAdapter
 import com.harera.common.base.BaseFragment
 import com.harera.common.network.ConnectionLiveData
 import com.harera.common.utils.navigation.Arguments
 import com.harera.common.utils.navigation.Destinations
 import com.harera.common.utils.navigation.NavigationUtils
-import com.harera.components.product.ProductsAdapter
-import com.harera.model.modelget.Category
-import com.harera.model.modelget.Product
 import com.harera.manger.categories.databinding.FragmentCategoriesBinding
+import com.harera.repository.domain.Category
+import com.harera.repository.domain.Product
+import dagger.hilt.android.AndroidEntryPoint
 
+
+@AndroidEntryPoint
 class CategoriesFragment : BaseFragment() {
 
     private val categoriesViewModel: CategoriesViewModel by viewModels()

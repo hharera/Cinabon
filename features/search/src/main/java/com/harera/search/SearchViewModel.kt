@@ -3,8 +3,8 @@ package com.harera.search
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.harera.model.modelget.Product
 import com.harera.repository.abstraction.SearchRepository
+import com.harera.repository.domain.Product
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 

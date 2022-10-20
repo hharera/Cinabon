@@ -13,14 +13,12 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.harera.category_image.CategoriesAdapter
 import com.harera.common.utils.navigation.Arguments
 import com.harera.common.utils.navigation.Destinations
 import com.harera.common.utils.navigation.NavigationUtils
-import com.harera.components.product.ProductsAdapter
-import com.harera.model.modelget.Category
-import com.harera.hyperpanda.local.model.Offer
-import com.harera.model.modelget.Product
+import com.harera.repository.domain.Category
+import com.harera.repository.domain.Offer
+import com.harera.repository.domain.Product
 import com.harera.shop.databinding.FragmentShopBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch

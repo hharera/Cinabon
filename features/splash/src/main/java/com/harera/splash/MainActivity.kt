@@ -6,19 +6,9 @@ import android.view.animation.AnimationUtils
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.activity.viewModels
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import com.harera.common.base.BaseActivity
 import com.harera.common.internet.NoInternetActivity
-import com.harera.manager.login.LoginActivity
-import com.harera.manager_navigation.HomeActivity
-import com.harera.repository.abstraction.repository.AuthManager
-import com.harera.repository.abstraction.repository.UserRepository
 import dagger.hilt.android.AndroidEntryPoint
-import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.*
-import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : BaseActivity() {
@@ -41,11 +31,9 @@ class MainActivity : BaseActivity() {
             if (delayFinished) {
                 mainViewModel.isLoggedIn.observe(this) { isLoggedIn ->
                     if (isLoggedIn) {
-                        gotToActivity(
-                            HomeActivity::class.java
-                        )
+                        startActivity("com.harera.home.HomeActivity")
                     } else {
-                        gotToActivity(LoginActivity::class.java)
+                        startActivity("com.harera.login.LoginActivity")
                     }
                 }
             }

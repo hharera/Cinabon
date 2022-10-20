@@ -8,13 +8,12 @@ import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
-import com.harera.cart_item.CartAdapter
 import com.harera.common.base.BaseFragment
 import com.harera.common.utils.navigation.Arguments
 import com.harera.common.utils.navigation.Destinations
 import com.harera.common.utils.navigation.NavigationUtils
 import com.harera.features.cart.databinding.FragmentCartBinding
-import com.harera.model.modelget.CartItem
+import com.harera.repository.domain.CartItem
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

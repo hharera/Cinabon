@@ -1,9 +1,9 @@
-package com.harera.local.converter
+package com.harera.hyperpanda.local.converter
 
 import androidx.room.ProvidedTypeConverter
 import androidx.room.TypeConverter
 import com.google.gson.Gson
-import com.harera.model.modelset.Address
+import com.harera.hyperpanda.local.model.Address
 
 @ProvidedTypeConverter
 class AddressConverter {

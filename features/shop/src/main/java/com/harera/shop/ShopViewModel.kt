@@ -6,12 +6,12 @@ import androidx.lifecycle.viewModelScope
 import com.google.android.gms.tasks.Tasks
 import com.harera.common.base.BaseViewModel
 import com.harera.hyperpanda.local.MarketDao
-import com.harera.model.modelget.Category
-import com.harera.hyperpanda.local.model.Offer
-import com.harera.model.modelget.Product
 import com.harera.repository.abstraction.CategoryRepository
 import com.harera.repository.abstraction.OfferRepository
 import com.harera.repository.abstraction.ProductRepository
+import com.harera.repository.domain.Category
+import com.harera.repository.domain.Offer
+import com.harera.repository.domain.Product
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -38,7 +38,7 @@ class ShopViewModel @Inject constructor(
     val offers: LiveData<List<Offer>> = _offers
 
 
-    fun getCategories() {
+    fun getCategories() = viewModelScope.launch {
         updateLoading(true)
         viewModelScope.launch(Dispatchers.IO) {
             categoryRepository
@@ -54,8 +54,10 @@ class ShopViewModel @Inject constructor(
         }
     }
 
-    private fun saveInDatabase(categories: List<Category>) {
-        marketDao.insertCategory(categories)
+    private fun saveInDatabase(categories: List<Category>) = viewModelScope.launch {
+        categories.forEach {
+            categoryRepository.addCategory(it)
+        }
     }
 
     fun getProducts() {
@@ -79,9 +81,9 @@ class ShopViewModel @Inject constructor(
         }
     }
 
-    private fun cacheProducts(list: List<Product>) {
-        kotlin.runCatching {
-            marketDao.insertProducts(list)
+    private fun cacheProducts(list: List<Product>) = viewModelScope.launch {
+        list.forEach {
+            productRepository.insertProduct(it, true)
         }
     }
 

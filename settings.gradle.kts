@@ -14,6 +14,7 @@ include(":user")
 include(":user")
 include(":manager")
 include(":common")
+include(":common-test")
 include(":features")
 
 include(":navigation")
@@ -28,7 +29,11 @@ include(":manager-features:product")
 include(":manager-features:edit-product")
 include(":manager-features:categories")
 
-include(":features")
+include(
+    ":features",
+    ":features:wishlist",
+    ":features:account",
+)
 include(":features:categories")
 include(":features:search")
 include(":features:market-location")
@@ -46,26 +51,15 @@ include(":features:edit-product")
 include(":features:dashboard")
 
 
-include(":ui-components:category-name")
-include(":ui-components:product")
-include(":ui-components:loading")
-include(":ui-components")
-include(":ui-components:image-card")
 include(
+    ":ui-components",
     ":ui-components:user-locator",
-    ":ui-components:category-image",
-    ":ui-components:cart-item",
-    ":ui-components:wish-item",
-    ":features:wishlist",
-    ":features:account",
 )
 
 include(
     ":data",
     ":data:local",
     ":data:remote",
-    ":data:remote:firebase",
-    ":data:remote:api",
     ":data:repository",
-    ":data:model"
+    ":data:datastore",
 )

@@ -7,7 +7,7 @@ import com.google.android.gms.tasks.Tasks
 import com.google.firebase.Timestamp
 import com.harera.common.base.BaseViewModel
 import com.harera.model.modelget.Product
-import com.harera.model.modelget.WishItem
+import com.harera.repository.domain.WishItem
 import com.harera.model.modelset.CartItem
 import com.harera.repository.abstraction.repository.AuthManager
 import com.harera.repository.abstraction.repository.CartRepository

@@ -8,10 +8,12 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import com.harera.common.base.BaseFragment
 import com.harera.common.utils.navigation.Arguments.OFFER_ID
-import com.harera.hyperpanda.local.model.Offer
-import com.harera.model.modelget.Product
 import com.harera.offer.databinding.FragmentOfferViewBinding
+import com.harera.repository.domain.Offer
+import com.harera.repository.domain.Product
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class OfferFragment : BaseFragment() {
     private val offerViewModel: OfferViewModel by viewModels()
     private lateinit var bind: FragmentOfferViewBinding

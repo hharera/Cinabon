@@ -21,9 +21,11 @@ import com.harera.common.utils.navigation.NavigationUtils
 import com.harera.confirm_login.ConfirmLoginActivity
 import com.harera.market_location.MarketLocation
 import com.opensooq.supernova.gligar.GligarPicker
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
+@AndroidEntryPoint
 class AccountFragment : BaseFragment() {
     private val IMAGE_REQ_CODE = 3004
 

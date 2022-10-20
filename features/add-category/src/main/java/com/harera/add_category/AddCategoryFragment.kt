@@ -14,7 +14,9 @@ import com.harera.common.afterTextChanged
 import com.harera.common.base.BaseFragment
 import com.harera.common.utils.BitmapUtils
 import com.opensooq.supernova.gligar.GligarPicker
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class AddCategoryFragment : BaseFragment() {
     companion object {
         private val IMAGE_REQ_CODE = 3004

@@ -2,14 +2,13 @@ package com.harera.features.cart
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import com.google.android.gms.tasks.Tasks
 import com.google.firebase.Timestamp
 import com.harera.common.base.BaseViewModel
-import com.harera.model.modelget.CartItem
-import com.harera.model.modelget.Product
-import com.harera.model.modelset.WishListItem
-import com.harera.repository.abstraction.AuthManager
+import com.harera.repository.domain.CartItem
+import com.harera.repository.abstraction.UserRepository
 import com.harera.repository.abstraction.CartRepository
 import com.harera.repository.abstraction.ProductRepository
 import com.harera.repository.abstraction.WishListRepository
@@ -23,7 +22,7 @@ import javax.inject.Inject
 class CartViewModel @Inject constructor(
     private val cartRepository: CartRepository,
     private val wishListRepository: WishListRepository,
-    private val authManager: AuthManager,
+    private val authManager: UserRepository,
     private val productRepository: ProductRepository,
 ) : BaseViewModel() {
 
@@ -61,11 +60,7 @@ class CartViewModel @Inject constructor(
 
     private fun getCartItemsDetails(list: List<CartItem>) = viewModelScope.launch(Dispatchers.IO) {
         list.map { cartItem ->
-            val product = async(Dispatchers.IO) {
-                Tasks.await(
-                    productRepository.getProduct(cartItem.productId)
-                ).toObject(Product::class.java)!!
-            }.await()
+            productRepository.getProduct(cartItem.productId).asLiveData().value
             cartItem.productTitle = product.title
             cartItem.productPrice = product.price.toFloat()
             cartItem.productImageUrl = product.productPictureUrls.first()

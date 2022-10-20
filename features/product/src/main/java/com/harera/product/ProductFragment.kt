@@ -7,16 +7,22 @@ import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import com.harera.common.base.BaseFragment
+import com.harera.common.ui.DoneDialog
 import com.harera.common.utils.navigation.Arguments.PRODUCT_ID
-import com.harera.components.product.ProductsAdapter
-import com.harera.image_slider.ProductPicturesAdapter
-import com.harera.model.model.Product
 import com.harera.product.databinding.FragmentProductViewBinding
+import com.harera.repository.domain.Product
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class ProductFragment : BaseFragment() {
+
     private val productViewModel: ProductViewModel by viewModels()
     private lateinit var bind: FragmentProductViewBinding
     private lateinit var productsAdapter: ProductsAdapter
+
+    private val doneDialog: DoneDialog by lazy { DoneDialog() }
+
+    val TAG = this::class.java.name
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -101,7 +107,7 @@ class ProductFragment : BaseFragment() {
         bind.title.text = product.title
         bind.price.text = "${product.price} EGP"
         bind.productPics.adapter =
-            ProductPicturesAdapter(product.productPictureUrls.map { it.imageUrl })
+            ProductPicturesAdapter(product.productPictureUrls)
 
         setupListener()
     }

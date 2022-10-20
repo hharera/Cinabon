@@ -1,4 +1,4 @@
-apply from: "$rootDir/common-feature-di.gradle"
+apply from: "$rootDir/${CommonBuild.FeatureModule}"
 android {
 
     packagingOptions {
@@ -27,10 +27,4 @@ dependencies {
     implementation(Libs.picasso)
 
     kapt(Libs.lifeCycleCompiler)
-
-    //modules
-    implementation project(UiComponents.common)
-    implementation project(UiComponents.image)
-    implementation project(UiComponents.categoryImage)
-    implementation project(UiComponents.product)
 }

@@ -2,14 +2,14 @@ package com.harera.product
 
 import androidx.lifecycle.*
 import com.google.firebase.Timestamp
-import com.harera.abstraction.*
 import com.harera.common.base.BaseViewModel
-import com.harera.model.model.CartItem
-import com.harera.model.model.Product
-import com.harera.model.model.WishItem
+import com.harera.repository.domain.CartItem
+import com.harera.repository.domain.WishItem
 import com.harera.repository.abstraction.*
+import com.harera.repository.domain.Product
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.onEmpty
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -36,20 +36,12 @@ class ProductViewModel @Inject constructor(
     private val _product: MutableLiveData<Product> = MutableLiveData()
     val product: LiveData<Product> = _product
 
-    suspend fun getProduct() {
+    fun getProduct() = viewModelScope.launch {
         updateLoading(true)
 
         productRepository
             .getProduct(_productId.value!!)
-            .onSuccess {
-                updateLoading(false)
-                _product.postValue(it)
-                getCategoryProducts(it.categoryName)
-            }
-            .onFailure {
-                updateLoading(false)
-                handleException(it)
-            }
+            .asLiveData()
     }
 
     fun setProductId(productId: String) {
@@ -58,7 +50,7 @@ class ProductViewModel @Inject constructor(
 
     fun getCartState() = viewModelScope.launch(Dispatchers.IO) {
         cartRepository
-            .checkCart(_productId.value!!, authManager.getCurrentUser()!!.uid)
+            .getCartItem(_productId.value!!, authManager.getCurrentUser()!!.uid)
             .onSuccess {
                 updateCartState(it)
             }
@@ -73,7 +65,7 @@ class ProductViewModel @Inject constructor(
 
     fun getWishState() = viewModelScope.launch(Dispatchers.IO) {
         wishListRepository
-            .checkWishItem(
+            .getWishItem(
                 _productId.value!!,
                 authManager.getCurrentUser()!!.uid
             )

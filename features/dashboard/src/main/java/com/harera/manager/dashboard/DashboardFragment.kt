@@ -12,7 +12,10 @@ import com.harera.common.utils.navigation.Arguments
 import com.harera.common.utils.navigation.Destinations
 import com.harera.common.utils.navigation.NavigationUtils
 import com.harera.manager.dashboard.databinding.FragmentDashboardBinding
+import dagger.hilt.android.AndroidEntryPoint
 
+
+@AndroidEntryPoint
 class DashboardFragment : BaseFragment() {
 
     private lateinit var bind: FragmentDashboardBinding

@@ -13,12 +13,11 @@
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/buildSrc" />
             <option value="$PROJECT_DIR$/common" />
+            <option value="$PROJECT_DIR$/common-test" />
             <option value="$PROJECT_DIR$/data" />
+            <option value="$PROJECT_DIR$/data/datastore" />
             <option value="$PROJECT_DIR$/data/local" />
-            <option value="$PROJECT_DIR$/data/model" />
             <option value="$PROJECT_DIR$/data/remote" />
-            <option value="$PROJECT_DIR$/data/remote/api" />
-            <option value="$PROJECT_DIR$/data/remote/firebase" />
             <option value="$PROJECT_DIR$/data/repository" />
             <option value="$PROJECT_DIR$/features" />
             <option value="$PROJECT_DIR$/features/account" />
@@ -48,14 +47,7 @@
             <option value="$PROJECT_DIR$/navigation/manager-navigation" />
             <option value="$PROJECT_DIR$/navigation/user-navigation" />
             <option value="$PROJECT_DIR$/ui-components" />
-            <option value="$PROJECT_DIR$/ui-components/cart-item" />
-            <option value="$PROJECT_DIR$/ui-components/category-image" />
-            <option value="$PROJECT_DIR$/ui-components/category-name" />
-            <option value="$PROJECT_DIR$/ui-components/image-card" />
-            <option value="$PROJECT_DIR$/ui-components/loading" />
-            <option value="$PROJECT_DIR$/ui-components/product" />
             <option value="$PROJECT_DIR$/ui-components/user-locator" />
-            <option value="$PROJECT_DIR$/ui-components/wish-item" />
             <option value="$PROJECT_DIR$/user" />
           </set>
         </option>

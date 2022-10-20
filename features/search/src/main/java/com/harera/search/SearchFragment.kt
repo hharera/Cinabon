@@ -7,11 +7,12 @@ import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import com.harera.common.base.BaseFragment
-import com.harera.model.modelget.Product
-import com.harera.components.product.ProductsAdapter
+import com.harera.repository.domain.Product
 import com.harera.search.databinding.FragmentSearchBinding
+import dagger.hilt.android.AndroidEntryPoint
 
 
+@AndroidEntryPoint
 class SearchFragment : BaseFragment() {
     private val searchViewModel: SearchViewModel by viewModels()
     private lateinit var productsAdapter: ProductsAdapter

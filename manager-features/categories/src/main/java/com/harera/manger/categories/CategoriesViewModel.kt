@@ -7,22 +7,19 @@ import androidx.lifecycle.viewModelScope
 import com.google.android.gms.tasks.Tasks
 import com.harera.common.base.BaseViewModel
 import com.harera.common.utils.Response
-import com.harera.hyperpanda.local.MarketDao
-import com.harera.model.modelget.Category
-import com.harera.model.modelget.Product
-import com.harera.repository.abstraction.repository.CategoryRepository
-import com.harera.repository.abstraction.repository.ProductRepository
+import com.harera.repository.abstraction.CategoryRepository
+import com.harera.repository.abstraction.ProductRepository
+import com.harera.repository.domain.Category
+import com.harera.repository.domain.Product
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import javax.inject.Inject
-import com.harera.model.modelset.Category as CategorySet
 
 @HiltViewModel
 class CategoriesViewModel @Inject constructor(
-    private val categoryRepository: com.harera.repository.abstraction.repository.CategoryRepository,
-    private val productRepository: com.harera.repository.abstraction.repository.ProductRepository,
-    private val marketDao: MarketDao,
+    private val categoryRepository: CategoryRepository,
+    private val productRepository: ProductRepository,
 ) : BaseViewModel() {
 
     private val _categories: MutableLiveData<List<Category>> = MutableLiveData()
@@ -37,7 +34,7 @@ class CategoriesViewModel @Inject constructor(
     private val _isConnected = MutableLiveData<Boolean>(false)
     val isConnected: LiveData<Boolean> = _isConnected
 
-    fun getCategories() {
+    fun getCategories() = viewModelScope.launch {
         updateLoading(true)
         categoryRepository.getCategories(isConnected.value!!)
             .onSuccess {
@@ -50,7 +47,7 @@ class CategoriesViewModel @Inject constructor(
             }
     }
 
-    fun addCategory(category: CategorySet) = liveData {
+    fun addCategory(category: Category) = liveData {
         categoryRepository
             .addCategory(category)
             .addOnSuccessListener {
@@ -120,9 +117,11 @@ class CategoriesViewModel @Inject constructor(
         }
     }
 
-    private fun cacheProducts(list: List<Product>) {
+    private fun cacheProducts(list: List<Product>) = viewModelScope.launch {
         kotlin.runCatching {
-            marketDao.insertProducts(list)
+            list.forEach {
+                productRepository.insertProduct(it, true)
+            }
         }
     }
 

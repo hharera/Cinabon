@@ -4,7 +4,7 @@ import com.google.android.gms.tasks.Task
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.QuerySnapshot
-import com.harera.model.modelset.Offer
+import com.harera.repository.domain.Offer
 
 interface OfferRepository {
 

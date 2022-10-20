@@ -36,6 +36,7 @@ object Testing {
     val arch_core_testing =
         "androidx.arch.core:core-testing:${Versions.arch_core_testing}"
 
+    const val hiltTesting = "com.google.dagger:hilt-android-testing:${Versions.HILT_VERSION}"
 }
 
 

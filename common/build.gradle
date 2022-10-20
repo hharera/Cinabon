@@ -5,20 +5,25 @@ apply plugin: ("dagger.hilt.android.plugin")
 
 android {
 
+    defaultConfig {
+        minSdkVersion DefaultConfig.minSdk
+        targetSdkVersion DefaultConfig.targetSdk
+        versionCode Releases.versionCode
+        versionName Releases.versionName
+        compileSdkVersion DefaultConfig.compileSdk
+    }
     packagingOptions {
         resources {
             excludes += ['META-INF/DEPENDENCIES', 'META-INF/LICENSE', 'META-INF/LICENSE.txt', 'META-INF/license.txt', 'META-INF/NOTICE', 'META-INF/NOTICE.txt', 'META-INF/notice.txt', 'META-INF/ASL2.0', 'META-INF/LGPL2.1', 'META-INF/AL2.0', 'META-INF/*.kotlin_module', 'META-INF/proguard/androidx-annotations.pro']
         }
     }
-    viewBinding{
+    viewBinding {
         enabled true
     }
     namespace 'com.harera.common'
 }
 
 dependencies {
-    implementation project(UiComponents.loading)
-
     api(Libs.intuit)
     implementation(Libs.viewModels)
     implementation(Libs.activity)

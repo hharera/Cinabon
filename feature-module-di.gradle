@@ -3,9 +3,8 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
 apply from: "$rootDir/${CommonBuild.TESTING_MODULE}"
 apply from: "$rootDir/${CommonBuild.UI_TESTING_MODULE}"
-apply from: "$rootDir/${CommonBuild.KOIN_MODULE}"
+apply from: "$rootDir/${CommonBuild.HILT_MODULE}"
 apply from: "$rootDir/${CommonBuild.FIREBASE_MODULE}"
-apply from: "$rootDir/${CommonBuild.COMPOSE_MODULE}"
 
 android {
     compileSdkVersion DefaultConfig.compileSdk
@@ -58,5 +57,4 @@ dependencies {
 
     implementation Libs.materialDesign
     implementation Libs.lifeCycleRuntime
-
 }

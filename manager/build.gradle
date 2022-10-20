@@ -48,7 +48,6 @@ android {
 
 dependencies {
     //modules
-    implementation project(UiComponents.common)
     implementation project(Navigation.manager)
     implementation project(ManagerFeatures.login)
 

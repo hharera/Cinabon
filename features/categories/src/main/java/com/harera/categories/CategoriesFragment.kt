@@ -14,11 +14,14 @@ import com.harera.common.base.BaseFragment
 import com.harera.common.utils.navigation.Arguments
 import com.harera.common.utils.navigation.Destinations
 import com.harera.common.utils.navigation.NavigationUtils
-import com.harera.components.product.ProductsAdapter
-import com.harera.model.modelget.Category
-import com.harera.model.modelget.Product
+import com.harera.repository.domain.Category
+import com.harera.repository.domain.Product
+import dagger.hilt.android.AndroidEntryPoint
 
+
+@AndroidEntryPoint
 class CategoriesFragment : BaseFragment() {
+
     private val categoriesViewModel: CategoriesViewModel by viewModels()
     private lateinit var categoriesAdapter: CategoriesAdapter
     private lateinit var productsAdapter: ProductsAdapter

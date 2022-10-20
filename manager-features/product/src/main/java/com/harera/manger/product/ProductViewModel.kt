@@ -3,13 +3,11 @@ package com.harera.manger.product
 import androidx.lifecycle.*
 import com.google.android.gms.tasks.Tasks
 import com.google.firebase.Timestamp
-import com.harera.abstraction.*
 import com.harera.common.base.BaseViewModel
 import com.harera.common.utils.Response
-import com.harera.model.model.Product
-import com.harera.model.model.CartItem
-import com.harera.model.model.WishItem
 import com.harera.repository.abstraction.*
+import com.harera.repository.domain.Product
+import com.harera.repository.domain.WishItem
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch

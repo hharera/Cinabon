@@ -2,7 +2,7 @@ package com.harera.repository.abstraction
 
 import com.google.android.gms.tasks.Task
 import com.google.firebase.firestore.QuerySnapshot
-import com.harera.model.modelset.CartItem
+import com.harera.repository.domain.CartItem
 
 interface CartRepository {
 

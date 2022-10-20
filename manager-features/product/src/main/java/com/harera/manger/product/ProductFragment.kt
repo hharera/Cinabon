@@ -14,14 +14,16 @@ import com.harera.common.utils.Status
 import com.harera.common.utils.navigation.Arguments
 import com.harera.common.utils.navigation.Destinations
 import com.harera.common.utils.navigation.NavigationUtils
-import com.harera.components.product.ProductsAdapter
-import com.harera.image_slider.ProductPicturesAdapter
 import com.harera.manger.product.databinding.FragmentProductBinding
-import com.harera.model.model.Product
+import com.harera.repository.domain.Product
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
+
+@AndroidEntryPoint
 class ProductFragment : BaseFragment() {
+
     private val productViewModel: ProductViewModel by viewModels()
     private lateinit var bind: FragmentProductBinding
     private lateinit var productsAdapter: ProductsAdapter
