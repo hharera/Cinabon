@@ -3,8 +3,8 @@ package com.harera.repository.impl
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
-import com.harera.repository.abstraction.DBConstants
-import com.harera.repository.abstraction.WishListRepository
+import com.harera.repository.DBConstants
+import com.harera.repository.WishListRepository
 import com.harera.repository.domain.CartItem
 import com.harera.repository.domain.WishItem
 import javax.inject.Inject

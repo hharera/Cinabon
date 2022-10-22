@@ -18,6 +18,7 @@ class DoneDialog : DialogFragment() {
     ): View {
         super.onCreateView(inflater, container, savedInstanceState)
         binding = DialogDoneBinding.inflate(layoutInflater)
+        dialog?.window?.setBackgroundDrawableResource(android.R.color.transparent);
         return binding.root
     }
 }

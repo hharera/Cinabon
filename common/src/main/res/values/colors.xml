@@ -21,4 +21,6 @@
     <color name="background_filled_textInputLayout">#FFFFFF</color>
     <color name="colorControlNormal">#E3E8F1</color>
     <color name="colorControlActivated">@color/colorPrimary</color>
+    <color name="loadingDialogBackground">#00000000</color>
+    <color name="doneDialogBackground">#90000000</color>
 </resources>

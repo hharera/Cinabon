@@ -2,7 +2,7 @@ package com.harera.hyperpanda
 
 import android.app.Application
 import com.google.firebase.FirebaseApp
-import com.harera.hyperpanda.local.MarketDao
+import com.harera.local.MarketDao
 import dagger.hilt.android.HiltAndroidApp
 import javax.inject.Inject
 

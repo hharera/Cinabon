@@ -11,9 +11,8 @@ import com.google.firebase.auth.PhoneAuthCredential
 import com.google.firebase.auth.PhoneAuthOptions
 import com.google.firebase.auth.PhoneAuthProvider
 import com.google.type.LatLng
-import com.harera.common.utils.Response
 import com.harera.common.utils.Validity
-import com.harera.repository.abstraction.UserRepository
+import com.harera.repository.UserRepository
 import com.harera.repository.domain.User
 import dagger.hilt.android.lifecycle.HiltViewModel
 import java.util.concurrent.TimeUnit
@@ -109,17 +108,17 @@ class CustomerFormViewModel @Inject constructor(
     }
 
     fun addUser(url: String) {
-        _medicineUpload.value = Response.loading(null)
-        userRepository.addUser(
-            user.value!!.apply {
-                imageUrl = url
-            })
-            .addOnSuccessListener {
-                _medicineUpload.value = Response.success(null)
-            }
-            .addOnFailureListener {
-                _medicineUpload.value = Response.error(it, null)
-            }
+//        _medicineUpload.value = Response.loading(null)
+//        userRepository.addUser(
+//            user.value!!.apply {
+//                imageUrl = url
+//            })
+//            .addOnSuccessListener {
+//                _medicineUpload.value = Response.success(null)
+//            }
+//            .addOnFailureListener {
+//                _medicineUpload.value = Response.error(it, null)
+//            }
     }
 
     fun uploadUserImage(user: User) {
@@ -138,16 +137,16 @@ class CustomerFormViewModel @Inject constructor(
     }
 
     fun encapsulateUserForm() {
-        _loading.value = true
-
-        _user.value = User(
-            firstName = firstName.value!!,
-            lastName = lastName.value!!,
-            uid = authManager.getCurrentUser()!!.uid,
-            phoneNumber = phoneNumber.value!!,
-            address = location.value!!,
-            imageUrl = imageUrl.value,
-        )
+//        _loading.value = true
+//
+//        _user.value = User(
+//            firstName = firstName.value!!,
+//            lastName = lastName.value!!,
+//            uid = authManager.getCurrentUser()!!.uid,
+//            phoneNumber = phoneNumber.value!!,
+//            address = location.value!!,
+//            imageUrl = imageUrl.value,
+//        )
     }
 
     fun signInWithPhoneAuthCredential(

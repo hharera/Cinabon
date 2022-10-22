@@ -33,7 +33,7 @@ class MainActivity : BaseActivity() {
                     if (isLoggedIn) {
                         startActivity("com.harera.home.HomeActivity")
                     } else {
-                        startActivity("com.harera.login.LoginActivity")
+                        startActivity("com.harera.manager.login.LoginActivity")
                     }
                 }
             }

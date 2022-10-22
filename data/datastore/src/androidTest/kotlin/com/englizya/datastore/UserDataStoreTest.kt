@@ -2,8 +2,9 @@ package com.englizya.datastore
 
 import android.app.Application
 import androidx.test.core.app.ApplicationProvider
-import com.englizya.datastore.di.dataStoreModule
+import com.harera.datastore.di.dataStoreModule
 import com.google.common.truth.Truth.assertThat
+import com.harera.datastore.UserDataStore
 import org.junit.Before
 import org.junit.Test
 import org.koin.android.ext.koin.androidContext

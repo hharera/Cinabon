@@ -6,9 +6,9 @@ import com.google.android.gms.tasks.Tasks
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.UploadTask
-import com.harera.hyperpanda.local.MarketDao
-import com.harera.repository.abstraction.CategoryRepository
-import com.harera.repository.abstraction.DBConstants
+import com.harera.local.MarketDao
+import com.harera.repository.CategoryRepository
+import com.harera.repository.DBConstants
 import com.harera.repository.domain.Product
 import com.harera.repository.mapper.CategoryMapper
 import java.io.ByteArrayOutputStream

@@ -1,6 +1,6 @@
 package com.harera.repository.mapper
 
-import com.harera.hyperpanda.local.model.CategoryEntity
+import com.harera.local.model.CategoryEntity
 import com.harera.repository.domain.Category
 
 

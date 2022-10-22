@@ -2,16 +2,14 @@ package com.harera.features.cart
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import com.google.android.gms.tasks.Tasks
-import com.google.firebase.Timestamp
 import com.harera.common.base.BaseViewModel
+import com.harera.repository.CartRepository
+import com.harera.repository.ProductRepository
+import com.harera.repository.UserRepository
+import com.harera.repository.WishListRepository
 import com.harera.repository.domain.CartItem
-import com.harera.repository.abstraction.UserRepository
-import com.harera.repository.abstraction.CartRepository
-import com.harera.repository.abstraction.ProductRepository
-import com.harera.repository.abstraction.WishListRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
@@ -59,15 +57,15 @@ class CartViewModel @Inject constructor(
     }
 
     private fun getCartItemsDetails(list: List<CartItem>) = viewModelScope.launch(Dispatchers.IO) {
-        list.map { cartItem ->
-            productRepository.getProduct(cartItem.productId).asLiveData().value
-            cartItem.productTitle = product.title
-            cartItem.productPrice = product.price.toFloat()
-            cartItem.productImageUrl = product.productPictureUrls.first()
-            cartItem
-        }.let {
-            updateCartList(it)
-        }
+//        list.map { cartItem ->
+//            productRepository.getProduct(cartItem.productId).asLiveData().value
+//            cartItem.productTitle = product.title
+//            cartItem.productPrice = product.price.toFloat()
+//            cartItem.productImageUrl = product.productPictureUrls.first()
+//            cartItem
+//        }.let {
+//            updateCartList(it)
+//        }
     }
 
     fun updateQuantity(cartItemId: String, quantity: Int) = viewModelScope.launch(Dispatchers.IO) {
@@ -93,38 +91,38 @@ class CartViewModel @Inject constructor(
 
     private suspend fun addItemToFavourite(cartItemId: String) =
         viewModelScope.async(Dispatchers.IO) {
-            updateLoading(true)
-
-            val cartItem = cartList.value!![cartItemId]!!
-            val task = wishListRepository.addWishListItem(
-                WishListItem(
-                    cartItem.uid,
-                    cartItem.productId,
-                    Timestamp.now()
-                )
-            )
-            Tasks.await(task)
-
-            if (task.isSuccessful) {
-                _cartList.value!!.minus(cartItemId).let {
-                    updateCartList(it.map { it.value })
-                }
-            } else {
-                updateException(task.exception)
-            }
-
-            updateLoading(false)
-            return@async task.isSuccessful
+//            updateLoading(true)
+//
+//            val cartItem = cartList.value!![cartItemId]!!
+//            val task = wishListRepository.addWishListItem(
+//                WishListItem(
+//                    cartItem.uid,
+//                    cartItem.productId,
+//                    Timestamp.now()
+//                )
+//            )
+//            Tasks.await(task)
+//
+//            if (task.isSuccessful) {
+//                _cartList.value!!.minus(cartItemId).let {
+//                    updateCartList(it.map { it.value })
+//                }
+//            } else {
+//                updateException(task.exception)
+//            }
+//
+//            updateLoading(false)
+//            return@async task.isSuccessful
         }.await()
 
     fun moveToFavourite(cartItemId: String) {
-        viewModelScope.launch {
-            updateLoading(true)
-            val result = addItemToFavourite(cartItemId)
-            if (result)
-                removeItem(cartItemId)
-            updateLoading(false)
-        }
+//        viewModelScope.launch {
+//            updateLoading(true)
+//            val result = addItemToFavourite(cartItemId)
+//            if (result)
+//                removeItem(cartItemId)
+//            updateLoading(false)
+//        }
     }
 
     fun plusQuantity(cartItemId: String) {

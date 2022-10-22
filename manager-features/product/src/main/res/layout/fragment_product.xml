@@ -57,7 +57,7 @@
                     android:layout_height="35dp"
                     android:layout_margin="5dp"
                     android:background="@color/transparent_selected"
-                    android:src="@drawable/wish_24"
+                    android:src="@drawable/ic_love"
                     app:layout_constraintBottom_toBottomOf="@+id/product_pics"
                     app:layout_constraintStart_toStartOf="parent"
                     app:tint="@color/green" />
@@ -68,12 +68,12 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_marginHorizontal="8dp"
+                    android:background="@color/transparent_selected"
                     android:backgroundTint="@color/transparent_selected"
                     android:fontFamily="@font/roboto"
                     android:padding="5dp"
                     android:textColor="@color/white"
                     android:textSize="20sp"
-                    android:background="@color/transparent_selected"
                     android:textStyle="normal"
                     app:layout_constraintBottom_toBottomOf="@+id/wish"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -177,7 +177,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/suggestions_label"
                 app:layout_constraintVertical_weight="1"
-                tools:listitem="@layout/card_view_category_product" />
+                tools:listitem="@layout/card_view_product" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/edit"

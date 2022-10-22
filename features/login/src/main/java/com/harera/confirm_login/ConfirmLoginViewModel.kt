@@ -9,7 +9,7 @@ import com.google.firebase.auth.PhoneAuthCredential
 import com.google.firebase.auth.PhoneAuthProvider
 import com.harera.common.utils.Response
 import com.harera.common.utils.Validity
-import com.harera.repository.abstraction.UserRepository
+import com.harera.repository.UserRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch

@@ -1,15 +1,14 @@
 package com.harera.product
 
-import androidx.lifecycle.*
-import com.google.firebase.Timestamp
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.asLiveData
+import androidx.lifecycle.viewModelScope
 import com.harera.common.base.BaseViewModel
-import com.harera.repository.domain.CartItem
-import com.harera.repository.domain.WishItem
-import com.harera.repository.abstraction.*
+import com.harera.repository.*
 import com.harera.repository.domain.Product
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.onEmpty
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -49,14 +48,14 @@ class ProductViewModel @Inject constructor(
     }
 
     fun getCartState() = viewModelScope.launch(Dispatchers.IO) {
-        cartRepository
-            .getCartItem(_productId.value!!, authManager.getCurrentUser()!!.uid)
-            .onSuccess {
-                updateCartState(it)
-            }
-            .onFailure {
-                handleException(it)
-            }
+//        cartRepository
+//            .getCartItem(_productId.value!!, authManager.getCurrentUser()!!.uid)
+//            .onSuccess {
+//                updateCartState(it)
+//            }
+//            .onFailure {
+//                handleException(it)
+//            }
     }
 
     private fun updateCartState(state: Boolean) = viewModelScope.launch(Dispatchers.Main) {
@@ -64,17 +63,17 @@ class ProductViewModel @Inject constructor(
     }
 
     fun getWishState() = viewModelScope.launch(Dispatchers.IO) {
-        wishListRepository
-            .getWishItem(
-                _productId.value!!,
-                authManager.getCurrentUser()!!.uid
-            )
-            .onSuccess {
-                updateWishState(it)
-            }
-            .onFailure {
-                handleException(it)
-            }
+//        wishListRepository
+//            .getWishItem(
+//                _productId.value!!,
+//                authManager.getCurrentUser()!!.uid
+//            )
+//            .onSuccess {
+//                updateWishState(it)
+//            }
+//            .onFailure {
+//                handleException(it)
+//            }
     }
 
     private fun updateWishState(state: Boolean) = viewModelScope.launch(Dispatchers.Main) {
@@ -102,70 +101,70 @@ class ProductViewModel @Inject constructor(
     }
 
     private fun removeWishItem() = viewModelScope.launch(Dispatchers.IO) {
-        wishListRepository.removeWishListItem(
-            _productId.value!!,
-            authManager.getCurrentUser()!!.uid
-        ).onSuccess {
-            updateWishState(false)
-        }.onFailure {
-            handleException(it)
-        }
+//        wishListRepository.removeWishListItem(
+//            _productId.value!!,
+//            authManager.getCurrentUser()!!.uid
+//        ).onSuccess {
+//            updateWishState(false)
+//        }.onFailure {
+//            handleException(it)
+//        }
     }
 
     private fun addWishItem() = viewModelScope.launch(Dispatchers.IO) {
-        val item = WishItem(
-            _productId.value!!,
-            authManager.getCurrentUser()!!.uid,
-            Timestamp.now()
-        )
-
-        wishListRepository
-            .addWishListItem(item)
-            .onSuccess {
-                updateWishState(true)
-            }
-            .onFailure {
-                handleException(it)
-            }
+//        val item = WishItem(
+//            _productId.value!!,
+//            authManager.getCurrentUser()!!.uid,
+//            Timestamp.now()
+//        )
+//
+//        wishListRepository
+//            .addWishListItem(item)
+//            .onSuccess {
+//                updateWishState(true)
+//            }
+//            .onFailure {
+//                handleException(it)
+//            }
     }
 
     private fun addCartItem() = viewModelScope.launch(Dispatchers.IO) {
-        val item = CartItem(
-            _productId.value!!,
-            authManager.getCurrentUser()!!.uid,
-            1,
-            Timestamp.now(),
-        )
-
-        cartRepository
-            .addCartItem(item)
-            .onSuccess {
-                updateCartState(true)
-            }
-            .onFailure {
-                handleException(it)
-            }
+//        val item = CartItem(
+//            _productId.value!!,
+//            authManager.getCurrentUser()!!.uid,
+//            1,
+//            Timestamp.now(),
+//        )
+//
+//        cartRepository
+//            .addCartItem(item)
+//            .onSuccess {
+//                updateCartState(true)
+//            }
+//            .onFailure {
+//                handleException(it)
+//            }
     }
 
     private fun removeCartItem() = viewModelScope.launch(Dispatchers.IO) {
-        cartRepository
-            .removeCartItem(_productId.value!!, authManager.getCurrentUser()!!.uid)
-            .onSuccess {
-                updateCartState(false)
-            }
-            .onFailure {
-                handleException(it)
-            }
+//        cartRepository
+//            .removeCartItem(_productId.value!!, authManager.getCurrentUser()!!.uid)
+//            .onSuccess {
+//                updateCartState(false)
+//            }
+//            .onFailure {
+//                handleException(it)
+//            }
     }
 
     fun getCategoryProducts(category: String) {
-        categoryRepository
-            .getCategoryProducts(category)
-            .onSuccess {
-                _products.postValue(it)
-            }
-            .onFailure {
-                handleException(it)
-            }
+//        categoryRepository
+//            .getCategoryProducts(category)
+//            .onSuccess {
+//                _products.postValue(it)
+//            }
+//            .onFailure {
+//                handleException(it)
+//            }
     }
 }

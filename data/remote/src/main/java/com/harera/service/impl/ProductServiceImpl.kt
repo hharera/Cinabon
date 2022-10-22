@@ -3,8 +3,8 @@ package com.harera.service.impl
 import android.graphics.Bitmap
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
-import com.harera.service.abstraction.DBConstants.PRODUCTS
-import com.harera.service.abstraction.ProductService
+import com.harera.service.DBConstants.PRODUCTS
+import com.harera.service.ProductService
 import com.harera.service.domain.ServiceDomainProduct
 import java.io.ByteArrayOutputStream
 import javax.inject.Inject

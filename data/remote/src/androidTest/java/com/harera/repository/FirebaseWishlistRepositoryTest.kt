@@ -3,6 +3,7 @@ package com.harera.repository
 import com.google.android.gms.tasks.Tasks
 import com.google.firebase.Timestamp
 import com.harera.model.modelset.WishListItem
+import com.harera.service.UserService
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import org.junit.Assert
@@ -21,7 +22,7 @@ class FirebaseWishlistRepositoryTest {
     lateinit var wishListRepository: com.harera.repository.abstraction.WishListRepository
 
     @Inject
-    lateinit var userService : _root_ide_package_.com.harera.service.abstraction.UserService
+    lateinit var userService : UserService
 
     @Before
     fun setUp() {

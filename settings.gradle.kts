@@ -27,7 +27,7 @@ include(":manager-features:login")
 include(":manager-features:dashboard")
 include(":manager-features:product")
 include(":manager-features:edit-product")
-include(":manager-features:categories")
+include(":manager-features:edit-categories")
 
 include(
     ":features",

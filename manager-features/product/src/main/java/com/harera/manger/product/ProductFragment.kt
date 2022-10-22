@@ -10,7 +10,6 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.harera.common.base.BaseFragment
-import com.harera.common.utils.Status
 import com.harera.common.utils.navigation.Arguments
 import com.harera.common.utils.navigation.Destinations
 import com.harera.common.utils.navigation.NavigationUtils
@@ -59,19 +58,19 @@ class ProductFragment : BaseFragment() {
         setupProductsAdapter()
 
         productViewModel.getProduct().observe(viewLifecycleOwner) {
-            when (it.status) {
-                Status.ERROR -> {
-                    handleError(it.error)
-                }
-                Status.SUCCESS -> {
-                    handleSuccess()
-                    updateUI(it.data!!)
-                    productViewModel.getCategoryProducts(it.data!!.categoryName)
-                }
-                Status.LOADING -> {
-                    handleLoading()
-                }
-            }
+//            when (it.status) {
+//                Status.ERROR -> {
+//                    handleError(it.error)
+//                }
+//                Status.SUCCESS -> {
+//                    handleSuccess()
+//                    updateUI(it.data!!)
+//                    productViewModel.getCategoryProducts(it.data!!.categoryName)
+//                }
+//                Status.LOADING -> {
+//                    handleLoading()
+//                }
+//            }
         }
 
         productViewModel.loadingState.observe(viewLifecycleOwner) {

@@ -100,7 +100,7 @@ class ProductFragment : BaseFragment() {
         if (state)
             bind.wish.setIconResource(R.drawable.wished)
         else
-            bind.wish.setIconResource(R.drawable.wish_24)
+            bind.wish.setIconResource(R.drawable.ic_love)
     }
 
     private fun updateUI(product: Product) {

@@ -3,12 +3,11 @@ package com.harera.shop
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.google.android.gms.tasks.Tasks
 import com.harera.common.base.BaseViewModel
-import com.harera.hyperpanda.local.MarketDao
-import com.harera.repository.abstraction.CategoryRepository
-import com.harera.repository.abstraction.OfferRepository
-import com.harera.repository.abstraction.ProductRepository
+import com.harera.local.MarketDao
+import com.harera.repository.CategoryRepository
+import com.harera.repository.OfferRepository
+import com.harera.repository.ProductRepository
 import com.harera.repository.domain.Category
 import com.harera.repository.domain.Offer
 import com.harera.repository.domain.Product
@@ -61,24 +60,24 @@ class ShopViewModel @Inject constructor(
     }
 
     fun getProducts() {
-        updateLoading(true)
-        viewModelScope.launch(Dispatchers.IO) {
-            val task = productRepository.getProducts(page.value!! * PAGE_SIZE)
-            val result = Tasks.await(task)
-
-            updateLoading(false)
-
-            if (task.isSuccessful) {
-                result.documents.map {
-                    it.toObject(Product::class.java)!!
-                }.let {
-                    updateProducts(it)
-                    cacheProducts(it)
-                }
-            } else {
-                updateException(task.exception)
-            }
-        }
+//        updateLoading(true)
+//        viewModelScope.launch(Dispatchers.IO) {
+//            val task = productRepository.getProducts(page.value!! * PAGE_SIZE)
+//            val result = Tasks.await(task)
+//
+//            updateLoading(false)
+//
+//            if (task.isSuccessful) {
+//                result.documents.map {
+//                    it.toObject(Product::class.java)!!
+//                }.let {
+//                    updateProducts(it)
+//                    cacheProducts(it)
+//                }
+//            } else {
+//                updateException(task.exception)
+//            }
+//        }
     }
 
     private fun cacheProducts(list: List<Product>) = viewModelScope.launch {
@@ -88,23 +87,23 @@ class ShopViewModel @Inject constructor(
     }
 
     fun getOffers() {
-        updateLoading(true)
-        viewModelScope.launch(Dispatchers.IO) {
-            val task = offerRepository.getOffers()
-            val result = Tasks.await(task)
-
-            updateLoading(false)
-
-            if (task.isSuccessful) {
-                result.documents.map {
-                    it.toObject(Offer::class.java)!!
-                }.let {
-                    updateOffers(it)
-                }
-            } else {
-                updateException(task.exception)
-            }
-        }
+//        updateLoading(true)
+//        viewModelScope.launch(Dispatchers.IO) {
+//            val task = offerRepository.getOffers()
+//            val result = Tasks.await(task)
+//
+//            updateLoading(false)
+//
+//            if (task.isSuccessful) {
+//                result.documents.map {
+//                    it.toObject(Offer::class.java)!!
+//                }.let {
+//                    updateOffers(it)
+//                }
+//            } else {
+//                updateException(task.exception)
+//            }
+//        }
     }
 
     private fun updateProducts(products: List<Product>) {

@@ -6,17 +6,9 @@ import android.view.animation.AnimationUtils
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.activity.viewModels
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import com.harera.common.base.BaseActivity
 import com.harera.common.internet.NoInternetActivity
-import com.harera.repository.abstraction.UserRepository
 import dagger.hilt.android.AndroidEntryPoint
-import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : BaseActivity() {
@@ -69,36 +61,5 @@ class MainActivity : BaseActivity() {
         val intent = Intent(this@MainActivity, NoInternetActivity::class.java)
         startActivity(intent)
         finish()
-    }
-}
-
-
-@HiltViewModel
-class MainViewModel @Inject constructor(
-    private val userRepository: UserRepository,
-) : ViewModel() {
-
-    val delayEnded: MutableLiveData<Boolean> = MutableLiveData(false)
-    val isLoggedIn: MutableLiveData<Boolean> = MutableLiveData(false)
-
-    fun checkLogin() {
-        if (userRepository.getCurrentUser() == null)
-            userRepository
-                .loginAnonymously()
-                .addOnSuccessListener {
-                    isLoggedIn.value = true
-                }
-                .addOnFailureListener {
-                    it.printStackTrace()
-                }
-        else
-            isLoggedIn.value = true
-    }
-
-    fun startDelay() {
-        viewModelScope.launch {
-            delay(1500)
-            delayEnded.value = true
-        }
     }
 }

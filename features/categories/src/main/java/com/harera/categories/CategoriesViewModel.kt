@@ -4,11 +4,10 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.liveData
 import androidx.lifecycle.viewModelScope
-import com.google.android.gms.tasks.Tasks
 import com.harera.common.base.BaseViewModel
 import com.harera.common.utils.Response
-import com.harera.repository.abstraction.CategoryRepository
-import com.harera.repository.abstraction.ProductRepository
+import com.harera.repository.CategoryRepository
+import com.harera.repository.ProductRepository
 import com.harera.repository.domain.Category
 import com.harera.repository.domain.Product
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -94,24 +93,24 @@ class CategoriesViewModel @Inject constructor(
     }
 
     private fun getAllProducts() {
-        updateLoading(true)
-        viewModelScope.launch(Dispatchers.IO) {
-            val task = productRepository.getProducts(20)
-            val result = Tasks.await(task)
-
-            updateLoading(false)
-
-            if (task.isSuccessful) {
-                result.documents.map {
-                    it.toObject(Product::class.java)!!
-                }.let {
-                    updateProducts(it)
-                    cacheProducts(it)
-                }
-            } else {
-                updateException(task.exception)
-            }
-        }
+//        updateLoading(true)
+//        viewModelScope.launch(Dispatchers.IO) {
+//            val task = productRepository.getProducts(20)
+//            val result = Tasks.await(task)
+//
+//            updateLoading(false)
+//
+//            if (task.isSuccessful) {
+//                result.documents.map {
+//                    it.toObject(Product::class.java)!!
+//                }.let {
+//                    updateProducts(it)
+//                    cacheProducts(it)
+//                }
+//            } else {
+//                updateException(task.exception)
+//            }
+//        }
     }
 
     private fun cacheProducts(list: List<Product>) = viewModelScope.launch {

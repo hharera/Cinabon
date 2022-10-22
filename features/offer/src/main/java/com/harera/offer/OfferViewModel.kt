@@ -1,14 +1,13 @@
 package com.harera.offer
 
-import androidx.lifecycle.*
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import com.google.android.gms.tasks.Tasks
-import com.google.firebase.Timestamp
 import com.harera.common.base.BaseViewModel
+import com.harera.repository.*
 import com.harera.repository.domain.Offer
-import com.harera.repository.abstraction.*
-import com.harera.repository.domain.CartItem
 import com.harera.repository.domain.Product
-import com.harera.repository.domain.WishItem
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -41,28 +40,28 @@ class OfferViewModel @Inject constructor(
     val offers: LiveData<List<Offer>> = _offers
 
     fun getOffer() {
-        offerRepository
-            .getOfferById(_offerId.value!!)
-            .addOnSuccessListener {
-                it.toObject(Offer::class.java)!!.let {
-                    _offer.value = it
-                }
-            }.addOnFailureListener {
-                getProduct()
-            }
+//        offerRepository
+//            .getOffer(_offerId.value!!)
+//            .addOnSuccessListener {
+//                it.toObject(Offer::class.java)!!.let {
+//                    _offer.value = it
+//                }
+//            }.addOnFailureListener {
+//                getProduct()
+//            }
     }
 
     private fun getProduct() = viewModelScope.launch {
-        productRepository
-            .getProduct(offer.value!!.productId)
-            .addOnSuccessListener {
-                it.toObject(Product::class.java)!!.let {
-                    _product.value = it
-                }
-            }
-            .addOnFailureListener {
-                updateException(it)
-            }
+//        productRepository
+//            .getProduct(offer.value!!.productId)
+//            .addOnSuccessListener {
+//                it.toObject(Product::class.java)!!.let {
+//                    _product.value = it
+//                }
+//            }
+//            .addOnFailureListener {
+//                updateException(it)
+//            }
     }
 
     fun setOfferId(productId: String) {
@@ -141,60 +140,60 @@ class OfferViewModel @Inject constructor(
     }
 
     private fun addWishItem() = viewModelScope.launch(Dispatchers.IO) {
-        val item = WishItem(
-            productId = _offerId.value!!,
-            uid = authManager.getCurrentUser()!!.uid,
-            time = Timestamp.now()
-        )
-
-        val task = wishListRepository.addWishListItem(item)
-        Tasks.await(task)
-
-        if (task.isSuccessful) {
-            updateWishState(true)
-        } else {
-            updateException(task.exception)
-        }
+//        val item = WishItem(
+//            productId = _offerId.value!!,
+//            uid = authManager.getCurrentUser()!!.uid,
+//            time = Timestamp.now()
+//        )
+//
+//        val task = wishListRepository.addWishListItem(item)
+//        Tasks.await(task)
+//
+//        if (task.isSuccessful) {
+//            updateWishState(true)
+//        } else {
+//            updateException(task.exception)
+//        }
     }
 
     private fun addCartItem() = viewModelScope.launch(Dispatchers.IO) {
-        val item = CartItem(
-            productId = _offerId.value!!,
-            uid = authManager.getCurrentUser()!!.uid,
-            quantity = 1,
-            time = Timestamp.now()
-        )
-
-        val task = cartRepository.addCartItem(item)
-        Tasks.await(task)
-
-        if (task.isSuccessful) {
-            updateCartState(true)
-        } else {
-            updateException(task.exception)
-        }
+//        val item = CartItem(
+//            productId = _offerId.value!!,
+//            uid = authManager.getCurrentUser()!!.uid,
+//            quantity = 1,
+//            time = Timestamp.now()
+//        )
+//
+//        val task = cartRepository.addCartItem(item)
+//        Tasks.await(task)
+//
+//        if (task.isSuccessful) {
+//            updateCartState(true)
+//        } else {
+//            updateException(task.exception)
+//        }
     }
 
     private fun removeCartItem() = viewModelScope.launch(Dispatchers.IO) {
-        val task = cartRepository.removeCartItem(
-            _offerId.value!! + authManager.getCurrentUser()!!.uid
-        )
-        Tasks.await(task)
-
-        if (task.isSuccessful) {
-            updateCartState(false)
-        } else {
-            updateException(task.exception)
-        }
+//        val task = cartRepository.removeCartItem(
+//            _offerId.value!! + authManager.getCurrentUser()!!.uid
+//        )
+//        Tasks.await(task)
+//
+//        if (task.isSuccessful) {
+//            updateCartState(false)
+//        } else {
+//            updateException(task.exception)
+//        }
     }
 
     fun getRelatedOffers() {
-        offerRepository.getOffers().addOnSuccessListener {
-            it.documents.map {
-                it.toObject(Offer::class.java)!!
-            }.let {
-                _offers.value = it
-            }
-        }
+//        offerRepository.getOffers().addOnSuccessListener {
+//            it.documents.map {
+//                it.toObject(Offer::class.java)!!
+//            }.let {
+//                _offers.value = it
+//            }
+//        }
     }
 }

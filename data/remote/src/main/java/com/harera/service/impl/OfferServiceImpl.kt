@@ -1,11 +1,10 @@
 package com.harera.service.impl
 
-import com.google.android.gms.tasks.Task
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.QuerySnapshot
-import com.harera.service.abstraction.DBConstants.OFFERS
-import com.harera.service.abstraction.OfferService
+import com.harera.service.DBConstants.OFFERS
+import com.harera.service.DBConstants.OFFERS_CATEGORIES
+import com.harera.service.OfferService
 import com.harera.service.domain.ServiceDomainOffer
 import javax.inject.Inject
 
@@ -14,13 +13,17 @@ class OfferServiceImpl @Inject constructor(
     private val fDatabase: FirebaseDatabase,
 ) : OfferService {
 
-    override fun getOffers(offerType: String) =
+    override fun getOffers(offerCategory: String): List<ServiceDomainOffer> =
         fStore
             .collection(OFFERS)
-            .whereEqualTo(ServiceDomainOffer::offerTitle.name, offerType)
+            .whereEqualTo(ServiceDomainOffer::offerTitle.name, offerCategory)
             .get()
+            .result!!
+            .map {
+                it.toObject(ServiceDomainOffer::class.java)
+            }
 
-    override fun addOffer(serviceDomainOffer: ServiceDomainOffer): Task<Void> =
+    override fun insertOffer(serviceDomainOffer: ServiceDomainOffer): Boolean =
         fStore
             .collection(OFFERS)
             .document()
@@ -28,28 +31,38 @@ class OfferServiceImpl @Inject constructor(
                 serviceDomainOffer.offerId = id
             }
             .set(serviceDomainOffer)
+            .isSuccessful
 
-    override fun getOfferTypes() =
+    override fun getOfferCategories(): List<String> =
         fDatabase
             .reference
-            .child(OFFERS)
+            .child(OFFERS_CATEGORIES)
             .get()
+            .result!!
+            .getValue(List::class.java) as List<String>
 
-    override fun addOfferType(offerType: String) =
+    override fun insertOfferCategory(offerCategory: String): Boolean =
         fDatabase
             .reference
             .child(OFFERS)
-            .child(offerType)
-            .setValue(offerType)
+            .push()
+            .setValue(offerCategory)
+            .isSuccessful
 
-    override fun getOfferById(offerId: String) =
-        fStore.collection("Offers")
+    override fun getOffer(offerId: String): ServiceDomainOffer? =
+        fStore.collection(OFFERS)
             .document(offerId)
             .get()
+            .result!!
+            .toObject(ServiceDomainOffer::class.java)
 
-    override fun getOffers(): Task<QuerySnapshot> =
+    override fun getOffers(): List<ServiceDomainOffer> =
         fStore
             .collection(OFFERS)
             .get()
+            .result!!
+            .map {
+                it.toObject(ServiceDomainOffer::class.java)
+            }
 }
 

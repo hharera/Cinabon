@@ -2,10 +2,10 @@
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/coordinator"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    android:id="@+id/coordinator"
     android:theme="@style/Theme.App"
     tools:context=".ProductFragment">
 
@@ -43,9 +43,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="?actionBarSize"
                 android:layout_gravity="bottom"
+                android:background="@color/transparent_selected"
                 android:padding="0dp"
                 app:layout_collapseMode="pin"
-                android:background="@color/transparent_selected"
                 app:popupTheme="@style/AppTheme.PopupOverlay">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
@@ -159,7 +159,7 @@
                 android:paddingVertical="8dp"
                 android:text="@string/add_to_cart"
                 android:textSize="14sp"
-                app:icon="@drawable/wish_24"
+                app:icon="@drawable/ic_love"
                 app:iconSize="24dp"
                 app:iconTint="@color/white"
                 app:layout_constraintStart_toStartOf="parent"

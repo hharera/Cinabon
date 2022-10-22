@@ -6,8 +6,8 @@ import com.google.android.gms.tasks.Tasks
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.UploadTask
-import com.harera.service.abstraction.CategoryService
-import com.harera.service.abstraction.DBConstants
+import com.harera.service.CategoryService
+import com.harera.service.DBConstants
 import com.harera.service.domain.ServiceDomainCategory
 import com.harera.service.domain.ServiceDomainProduct
 import java.io.ByteArrayOutputStream

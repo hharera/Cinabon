@@ -7,8 +7,8 @@ import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.UploadTask
-import com.harera.service.abstraction.DBConstants
-import com.harera.service.abstraction.UserService
+import com.harera.service.DBConstants
+import com.harera.service.UserService
 import com.harera.service.domain.ServiceDomainUser
 import java.io.ByteArrayOutputStream
 import java.util.concurrent.TimeUnit

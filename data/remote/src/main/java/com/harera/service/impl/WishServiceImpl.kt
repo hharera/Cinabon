@@ -3,8 +3,8 @@ package com.harera.service.impl
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
-import com.harera.service.abstraction.DBConstants
-import com.harera.service.abstraction.WishService
+import com.harera.service.DBConstants
+import com.harera.service.WishService
 import com.harera.service.domain.ServiceDomainCartItem
 import com.harera.service.domain.ServiceDomainWishItem
 import javax.inject.Inject

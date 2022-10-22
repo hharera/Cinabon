@@ -3,8 +3,8 @@ package com.harera.repository.impl
 import com.google.android.gms.tasks.Task
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.QuerySnapshot
-import com.harera.repository.abstraction.DBConstants.PRODUCTS
-import com.harera.repository.abstraction.SearchRepository
+import com.harera.repository.DBConstants.PRODUCTS
+import com.harera.repository.SearchRepository
 import com.harera.repository.domain.Product
 import javax.inject.Inject
 

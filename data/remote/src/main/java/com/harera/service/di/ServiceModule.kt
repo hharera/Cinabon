@@ -1,6 +1,6 @@
 package com.harera.service.di
 
-import com.harera.service.abstraction.*
+import com.harera.service.*
 import com.harera.service.impl.*
 import dagger.Binds
 import dagger.Module
@@ -18,7 +18,7 @@ abstract class ServiceModule {
     abstract fun bindCartRepository(repository: CartServiceImpl): CartService
 
     @Binds
-    abstract fun bindSearchRepository(repository: SearchServiceImpl): SearchServiceImpl
+    abstract fun bindSearchRepository(repository: SearchServiceImpl): SearchService
 
     @Binds
     abstract fun bindCategoryRepository(repository: CategoryServiceImpl): CategoryService

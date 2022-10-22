@@ -1,6 +1,6 @@
 package com.harera.repository.mapper
 
-import com.harera.hyperpanda.local.model.ProductEntity
+import com.harera.local.model.ProductEntity
 import com.harera.repository.domain.Product
 import com.harera.service.domain.ServiceDomainProduct
 

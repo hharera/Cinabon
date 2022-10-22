@@ -4,15 +4,12 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.google.android.gms.tasks.Tasks
-import com.google.firebase.Timestamp
 import com.harera.common.base.BaseViewModel
-import com.harera.model.modelget.Product
+import com.harera.repository.CartRepository
+import com.harera.repository.ProductRepository
+import com.harera.repository.UserRepository
+import com.harera.repository.WishListRepository
 import com.harera.repository.domain.WishItem
-import com.harera.model.modelset.CartItem
-import com.harera.repository.abstraction.repository.AuthManager
-import com.harera.repository.abstraction.repository.CartRepository
-import com.harera.repository.abstraction.repository.ProductRepository
-import com.harera.repository.abstraction.repository.WishListRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
@@ -21,10 +18,10 @@ import javax.inject.Inject
 
 @HiltViewModel
 class WishListViewModel @Inject constructor(
-    private val wishListRepository: com.harera.repository.abstraction.repository.WishListRepository,
-    private val cartRepository: com.harera.repository.abstraction.repository.CartRepository,
-    private val authManager: com.harera.repository.abstraction.repository.AuthManager,
-    private val productRepository: com.harera.repository.abstraction.repository.ProductRepository,
+    private val wishListRepository: WishListRepository,
+    private val cartRepository: CartRepository,
+    private val authManager: UserRepository,
+    private val productRepository: ProductRepository,
 ) : BaseViewModel() {
 
     private val _productId = MutableLiveData<String>()
@@ -45,21 +42,22 @@ class WishListViewModel @Inject constructor(
         updateLoading(false)
     }
 
-    private fun getWishListItemsDetails(list: List<WishItem>) =
-        viewModelScope.launch(Dispatchers.IO) {
-            list.map { wishItem ->
-                val product = async(Dispatchers.IO) {
-                    Tasks.await(
-                        productRepository.getProduct(wishItem.productId)
-                    ).toObject(Product::class.java)!!
-                }.await()
-                wishItem.productTitle = product.title
-                wishItem.productImageUrl = product.productPictureUrls.first()
-                wishItem
-            }.let {
-                updateWishList(it)
-            }
-        }
+    private fun getWishListItemsDetails(list: List<WishItem>) {
+//        viewModelScope.launch(Dispatchers.IO) {
+//            list.map { wishItem ->
+//                val product = async(Dispatchers.IO) {
+//                    Tasks.await(
+//                        productRepository.getProduct(wishItem.productId)
+//                    ).toObject(Product::class.java)!!
+//                }.await()
+//                wishItem.productTitle = product.title
+//                wishItem.productImageUrl = product.productPictureUrls.first()
+//                wishItem
+//            }.let {
+//                updateWishList(it)
+//            }
+
+    }
 
     fun addWishItemToCart(productId: String) = viewModelScope.launch(Dispatchers.IO) {
         updateLoading(true)
@@ -69,14 +67,14 @@ class WishListViewModel @Inject constructor(
     }
 
     private fun addCartItem(productId: String) = viewModelScope.async(Dispatchers.IO) {
-        cartRepository.addCartItem(
-            CartItem(
-                uid = authManager.getCurrentUser()!!.uid,
-                productId = productId,
-                time = Timestamp.now(),
-                quantity = 1
-            )
-        )
+//        cartRepository.addCartItem(
+//            CartItem(
+//                uid = authManager.getCurrentUser()!!.uid,
+//                productId = productId,
+//                time = Timestamp.now(),
+//                quantity = 1
+//            )
+//        )
     }
 
     fun removeWishItem(productId: String) = viewModelScope.launch(Dispatchers.IO) {

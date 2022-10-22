@@ -79,9 +79,9 @@ class WishListFragment : BaseFragment() {
     }
 
     private fun setupListeners() {
-        bind.emptyList.cartShopping.setOnClickListener {
-            goShop()
-        }
+//        bind.emptyList.cartShopping.setOnClickListener {
+//            goShop()
+//        }
     }
 
     private fun goShop() {
@@ -104,14 +104,14 @@ class WishListFragment : BaseFragment() {
     }
 
     private fun updateWishList(list: List<WishItem>) {
-        if (list.isNotEmpty()) {
-            bind.emptyList.root.visibility = View.INVISIBLE
-            bind.wishlist.visibility = View.VISIBLE
-            wishListAdapter.updateWishList(list)
-            wishListAdapter.notifyDataSetChanged()
-        } else {
-            bind.emptyList.root.visibility = View.VISIBLE
-            bind.wishlist.visibility = View.INVISIBLE
-        }
+//        if (list.isNotEmpty()) {
+//            bind.emptyList.root.visibility = View.INVISIBLE
+//            bind.wishlist.visibility = View.VISIBLE
+//            wishListAdapter.updateWishList(list)
+//            wishListAdapter.notifyDataSetChanged()
+//        } else {
+//            bind.emptyList.root.visibility = View.VISIBLE
+//            bind.wishlist.visibility = View.INVISIBLE
+//        }
     }
 }

@@ -1,6 +1,7 @@
 package com.harera.hyperpanda.local
 
 import com.google.common.truth.Truth
+import com.harera.local.MarketDao
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import org.junit.Before

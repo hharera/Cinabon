@@ -3,7 +3,7 @@ object Firebase {
     private const val FIREBASE_AUTH_VERSION = "21.0.1"
     private const val FIREBASE_FIRESTORE_VERSION = "23.0.3"
     private const val FIREBASE_STORAGE_VERSION = "20.0.0"
-    private const val FIREBASE_BOM_VERSION = "26.1.1"
+    private const val FIREBASE_BOM_VERSION = "31.0.1"
 
 
     const val firebaseAuth = "com.google.firebase:firebase-auth:${FIREBASE_AUTH_VERSION}"

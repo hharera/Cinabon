@@ -4,13 +4,13 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.harera.common.utils.Validity
-import com.harera.repository.abstract.repository.AuthManager
+import com.harera.repository.UserRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
 class LoginViewModel @Inject constructor(
-    val authManager: com.harera.repository.abstraction.repository.AuthManager,
+    val authManager: UserRepository,
 ) : ViewModel() {
     private var _email = MutableLiveData<String>()
     val email: LiveData<String> = _email

@@ -1,13 +1,13 @@
 package com.harera.repository.impl
 
 import android.graphics.Bitmap
-import com.harera.hyperpanda.local.MarketDao
-import com.harera.repository.abstraction.ProductRepository
+import com.harera.local.MarketDao
+import com.harera.repository.ProductRepository
 import com.harera.repository.domain.Product
 import com.harera.repository.mapper.ProductMapper
 import com.harera.repository.uitls.Resource
 import com.harera.repository.uitls.networkBoundResource
-import com.harera.service.abstraction.ProductService
+import com.harera.service.ProductService
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject

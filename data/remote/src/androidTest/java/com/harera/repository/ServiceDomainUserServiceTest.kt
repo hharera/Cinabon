@@ -1,6 +1,7 @@
 package com.harera.repository
 
 import com.google.android.gms.tasks.Tasks
+import com.harera.service.UserService
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import org.junit.Assert
@@ -18,7 +19,7 @@ class ServiceDomainUserServiceTest {
     var hiltRule = HiltAndroidRule(this)
 
     @Inject
-    lateinit var userService: _root_ide_package_.com.harera.service.abstraction.UserService
+    lateinit var userService: UserService
 
     @Before
     fun init() {

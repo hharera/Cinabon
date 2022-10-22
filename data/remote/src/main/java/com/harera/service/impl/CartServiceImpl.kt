@@ -4,8 +4,8 @@ import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.QuerySnapshot
-import com.harera.service.abstraction.CartService
-import com.harera.service.abstraction.DBConstants.CART
+import com.harera.service.CartService
+import com.harera.service.DBConstants.CART
 import com.harera.service.domain.ServiceDomainCartItem
 import javax.inject.Inject
 

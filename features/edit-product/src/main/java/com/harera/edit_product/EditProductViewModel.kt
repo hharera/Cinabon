@@ -4,10 +4,9 @@ import android.graphics.Bitmap
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.google.android.gms.tasks.Tasks
 import com.harera.common.base.BaseViewModel
-import com.harera.repository.abstraction.UserRepository
-import com.harera.repository.abstraction.ProductRepository
+import com.harera.repository.ProductRepository
+import com.harera.repository.UserRepository
 import com.harera.repository.domain.Product
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -41,19 +40,19 @@ class EditProductViewModel @Inject constructor(
     }
 
     private fun uploadProductImage() = viewModelScope.async(Dispatchers.IO) {
-        val task = productRepository.uploadProductImage(
-            product.value!!.productId,
-            image.value!!,
-        )
-        val result = Tasks.await(task)
-        if (task.isSuccessful)
-            result.storage.downloadUrl.let {
-                return@let Tasks.await(it).toString()
-            }.let {
-                setImageUrl(it)
-            }
-
-        return@async task.isSuccessful
+//        val task = productRepository.uploadProductImage(
+//            product.value!!.productId,
+//            image.value!!,
+//        )
+//        val result = Tasks.await(task)
+//        if (task.isSuccessful)
+//            result.storage.downloadUrl.let {
+//                return@let Tasks.await(it).toString()
+//            }.let {
+//                setImageUrl(it)
+//            }
+//
+//        return@async task.isSuccessful
     }
 
     private fun setImageUrl(imageUrl: String) = viewModelScope.launch(Dispatchers.Main) {
@@ -61,32 +60,32 @@ class EditProductViewModel @Inject constructor(
     }
 
     fun updateProduct() {
-        if (_image.value == null) {
-            _operationCompleted.value = true
-            return
-        }
-        viewModelScope.launch {
-            if (uploadProductImage().await()) {
-                updateProductImage()
-            }
-        }
+//        if (_image.value == null) {
+//            _operationCompleted.value = true
+//            return
+//        }
+//        viewModelScope.launch {
+//            if (uploadProductImage().await()) {
+//                updateProductImage()
+//            }
+//        }
     }
 
     private fun updateProductImage() {
-        productRepository.uploadProductImage(
-            productId = product.value!!.productId,
-            productImageUrl = imageUrl.value!!,
-        ).addOnSuccessListener {
-            _operationCompleted.value = true
-        }
+//        productRepository.uploadProductImage(
+//            productId = product.value!!.productId,
+//            productImageUrl = imageUrl.value!!,
+//        ).addOnSuccessListener {
+//            _operationCompleted.value = true
+//        }
     }
 
     fun getProduct() {
-        productRepository.getProduct(productId = productId.value!!).addOnSuccessListener {
-            it.toObject(Product::class.java)!!.let {
-                _product.value = it
-            }
-        }
+//        productRepository.getProduct(productId = productId.value!!).addOnSuccessListener {
+//            it.toObject(Product::class.java)!!.let {
+//                _product.value = it
+//            }
+//        }
     }
 
     fun setProductId(it: String) {

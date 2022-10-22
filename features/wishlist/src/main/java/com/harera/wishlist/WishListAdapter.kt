@@ -3,8 +3,9 @@ package com.harera.wishlist
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.harera.wish_item.databinding.CardViewWishItemBinding
+import com.harera.wishlist.databinding.CardViewWishItemBinding
 import com.squareup.picasso.Picasso
+import javax.inject.Inject
 
 class WishListAdapter @Inject constructor(
     private var list: List<WishItem> = emptyList(),
