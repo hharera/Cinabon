@@ -34,7 +34,7 @@ object Versions {
     const val Jvm_TARGET = "4.3.10"
 
     const val FRAGMENT_VERSION = "1.3.3"
-    const val LIFECYCLE_VERSION = "2.3.1"
+    const val LIFECYCLE_VERSION = "2.5.1"
     const val JETPACK_NAVIGATION_VERSION = "2.3.5"
 
     const val RETROFIT_VERSION = "2.9.0"
