@@ -70,6 +70,7 @@ dependencies {
     implementation(Libs.liveData)
     implementation(Libs.viewModels)
     kapt(Libs.lifeCycleCompiler)
+    implementation(UI.SPLASH_API)
 }
 kapt {
     generateStubs = true

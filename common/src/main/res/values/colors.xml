@@ -23,4 +23,5 @@
     <color name="colorControlActivated">@color/colorPrimary</color>
     <color name="loadingDialogBackground">#00000000</color>
     <color name="doneDialogBackground">#90000000</color>
+    <color name="windowSplashScreenBackground">#FFF</color>
 </resources>

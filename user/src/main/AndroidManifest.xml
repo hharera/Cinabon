@@ -48,6 +48,7 @@
             android:exported="false" />
 
         <activity
+            android:theme="@style/Theme.App.Starting"
             android:name="com.harera.hyperpanda.MainActivity"
             android:exported="true">
             <intent-filter>

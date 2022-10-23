@@ -1,11 +1,14 @@
 package com.harera.hyperpanda
 
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.animation.AnimationUtils
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.activity.viewModels
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.harera.common.base.BaseActivity
 import com.harera.common.internet.NoInternetActivity
 import dagger.hilt.android.AndroidEntryPoint
@@ -13,14 +16,37 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class MainActivity : BaseActivity() {
 
+    companion object {
+        private const val TAG = "MainActivity"
+    }
+
     private val mainViewModel: MainViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        val splashScreen = installSplashScreen()
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            Log.d(TAG, "onCreate: ${Build.VERSION.SDK_INT}")
+            splashScreen.apply {
+                setKeepOnScreenCondition {
+                    true
+                }
+                setOnExitAnimationListener { splashScreenViewProvider ->
+                    splashScreenViewProvider.view
+                        .animate()
+                        .alpha(0f)
+                        .setDuration(1000)
+                        .withEndAction {
+                            splashScreenViewProvider.remove()
+                        }
+                }
+            }
+        } else {
+            setContentView(R.layout.activity_main)
+            setupAnimation()
+        }
 
         mainViewModel.checkLogin()
-        setupAnimation()
         waitDelay()
     }
 

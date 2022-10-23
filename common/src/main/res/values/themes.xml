@@ -20,6 +20,14 @@
         <item name="android:fontFamily">@font/roboto</item>
     </style>
 
+    <style name="Theme.App.Starting" parent="Theme.SplashScreen.IconBackground">
+<!--        <item name="windowSplashScreenBackground">@drawable/background_app_icon</item>-->
+<!--        <item name="windowSplashScreenIconBackgroundColor">@drawable/background_app_icon</item>-->
+<!--        <item name="windowSplashScreenAnimatedIcon">@drawable/app_icon</item>-->
+<!--        <item name="windowSplashScreenAnimationDuration">2000</item>-->
+        <item name="postSplashScreenTheme">@style/Theme.App</item>
+    </style>
+
     <style name="Style.Button.Filled" parent="Widget.MaterialComponents.Button.TextButton">
         <item name="strokeWidth">0dp</item>
         <item name="strokeColor">@color/stroke_outlined_text_input</item>
