@@ -8,9 +8,9 @@ import android.view.ViewGroup
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import com.harera.common.base.BaseFragment
-import com.harera.common.utils.navigation.Arguments
-import com.harera.common.utils.navigation.Destinations
-import com.harera.common.utils.navigation.NavigationUtils
+import com.harera.common.navigation.utils.Arguments
+import com.harera.common.navigation.utils.Destinations
+import com.harera.common.navigation.utils.NavigationUtils
 import com.harera.manager.dashboard.databinding.FragmentDashboardBinding
 import dagger.hilt.android.AndroidEntryPoint
 

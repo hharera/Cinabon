@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import com.harera.common.base.BaseFragment
-import com.harera.common.utils.navigation.Arguments.OFFER_ID
+import com.harera.common.navigation.utils.Arguments.OFFER_ID
 import com.harera.offer.databinding.FragmentOfferViewBinding
 import com.harera.repository.domain.Offer
 import com.harera.repository.domain.Product

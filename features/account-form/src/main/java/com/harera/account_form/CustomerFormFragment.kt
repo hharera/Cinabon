@@ -18,7 +18,7 @@ import com.harera.common.afterTextChanged
 import com.harera.common.base.BaseFragment
 import com.harera.common.utils.BitmapUtils
 import com.harera.common.utils.location.LocationUtils
-import com.harera.common.utils.navigation.Arguments.LOCATION_RESULT
+import com.harera.common.navigation.utils.Arguments.LOCATION_RESULT
 import com.opensooq.supernova.gligar.GligarPicker
 import dagger.hilt.android.AndroidEntryPoint
 import java.io.IOException

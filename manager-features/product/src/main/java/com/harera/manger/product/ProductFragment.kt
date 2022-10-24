@@ -10,9 +10,9 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.harera.common.base.BaseFragment
-import com.harera.common.utils.navigation.Arguments
-import com.harera.common.utils.navigation.Destinations
-import com.harera.common.utils.navigation.NavigationUtils
+import com.harera.common.navigation.utils.Arguments
+import com.harera.common.navigation.utils.Destinations
+import com.harera.common.navigation.utils.NavigationUtils
 import com.harera.manger.product.databinding.FragmentProductBinding
 import com.harera.repository.domain.Product
 import dagger.hilt.android.AndroidEntryPoint

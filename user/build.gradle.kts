@@ -46,6 +46,7 @@ android {
 
 dependencies {
     implementation(project(Navigation.user))
+    implementation(project(Navigation.LOGIN))
     implementation(project(UiComponents.common))
 
     //hilt

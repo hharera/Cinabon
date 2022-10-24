@@ -13,9 +13,9 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.harera.common.utils.navigation.Arguments
-import com.harera.common.utils.navigation.Destinations
-import com.harera.common.utils.navigation.NavigationUtils
+import com.harera.common.navigation.utils.Arguments
+import com.harera.common.navigation.utils.Destinations
+import com.harera.common.navigation.utils.NavigationUtils
 import com.harera.repository.domain.Category
 import com.harera.repository.domain.Offer
 import com.harera.repository.domain.Product

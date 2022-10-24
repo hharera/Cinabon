@@ -17,9 +17,12 @@ include(":common")
 include(":common-test")
 include(":features")
 
-include(":navigation")
-include(":navigation:user-navigation")
-include(":navigation:manager-navigation")
+include(
+    ":navigation",
+    ":navigation:user-navigation",
+    ":navigation:manager-navigation",
+    ":navigation:user-login",
+)
 
 include(":manager-features")
 include(":manager-features:add-category")
@@ -34,7 +37,10 @@ include(
     ":features:wishlist",
     ":features:account",
 )
-include(":features:categories")
+include(
+    ":features:categories",
+    ":features:confirm-login",
+)
 include(":features:search")
 include(":features:market-location")
 include(":features:shop")

@@ -8,7 +8,7 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import com.harera.common.base.BaseFragment
 import com.harera.common.ui.DoneDialog
-import com.harera.common.utils.navigation.Arguments.PRODUCT_ID
+import com.harera.common.navigation.utils.Arguments.PRODUCT_ID
 import com.harera.product.databinding.FragmentProductViewBinding
 import com.harera.repository.domain.Product
 import dagger.hilt.android.AndroidEntryPoint

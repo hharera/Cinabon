@@ -25,6 +25,7 @@
             <option value="$PROJECT_DIR$/features/add-category" />
             <option value="$PROJECT_DIR$/features/cart" />
             <option value="$PROJECT_DIR$/features/categories" />
+            <option value="$PROJECT_DIR$/features/confirm-login" />
             <option value="$PROJECT_DIR$/features/dashboard" />
             <option value="$PROJECT_DIR$/features/edit-product" />
             <option value="$PROJECT_DIR$/features/login" />
@@ -45,6 +46,7 @@
             <option value="$PROJECT_DIR$/manager-features/product" />
             <option value="$PROJECT_DIR$/navigation" />
             <option value="$PROJECT_DIR$/navigation/manager-navigation" />
+            <option value="$PROJECT_DIR$/navigation/user-login" />
             <option value="$PROJECT_DIR$/navigation/user-navigation" />
             <option value="$PROJECT_DIR$/ui-components" />
             <option value="$PROJECT_DIR$/ui-components/user-locator" />

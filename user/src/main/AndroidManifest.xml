@@ -40,7 +40,7 @@
             android:exported="false" />
 
         <activity
-            android:name="com.harera.login.LoginActivity"
+            android:name="com.harera.navigation.userlogin.LoginActivity"
             android:exported="false" />
 
         <activity

@@ -11,6 +11,7 @@ import androidx.activity.viewModels
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.harera.common.base.BaseActivity
 import com.harera.common.internet.NoInternetActivity
+import com.harera.navigation.userlogin.LoginActivity
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -68,7 +69,7 @@ class MainActivity : BaseActivity() {
         startActivity(
             Intent(
                 this@MainActivity,
-                HomeActivity::class.java
+                LoginActivity::class.java
             )
         ).also {
             finish()
