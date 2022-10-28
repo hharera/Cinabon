@@ -153,5 +153,7 @@
     <string name="lower" translatable="false"><![CDATA[<]]></string>
     <string name="greater" translatable="false"><![CDATA[>]]></string>
     <string name="slogon">Enjoy your shopping journey</string>
+    <string name="error_invalid_password">Invalid error</string>
+    <string name="error_empty_password">Password required</string>
 </resources>
 

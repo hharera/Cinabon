@@ -3,87 +3,61 @@ package com.harera.login
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.asLiveData
 import com.harera.common.utils.Validity
+import com.harera.login.mapper.LoginRequestMapper
 import com.harera.repository.UserRepository
+import com.harera.repository.uitls.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.runBlocking
 import javax.inject.Inject
 
 @HiltViewModel
 class LoginViewModel @Inject constructor(
-    private val authManager: UserRepository,
+    private val userRepository: UserRepository,
 ) : ViewModel() {
 
-    private var _phoneNumber = MutableLiveData<String>("")
-    val username: LiveData<String> = _phoneNumber
+    private var _email = MutableLiveData<String>("")
+    val email: LiveData<String> = _email
 
-    private var _phoneNumberValidity = MutableLiveData<Boolean>(false)
-    val phoneNumberValidity: LiveData<Boolean> = _phoneNumberValidity
+    private var _password = MutableLiveData<String>("")
+    val password: LiveData<String> = _password
 
-    private var _policyAccepted = MutableLiveData<Boolean>(false)
-    val policyAccepted: LiveData<Boolean> = _policyAccepted
-
-    private var _formState = MutableLiveData<LoginFormState>(false)
-    val formState: LiveData<LoginFormState> = _formState
-
-    fun checkValidity(ch: String) {
-        username.value?.let {
-            if (it.length < 11) {
-                _phoneNumber.value = it.plus(ch)
-            }
-        }
-    }
+    private var _loginFormState = MutableLiveData<LoginFormState>()
+    val loginFormState: LiveData<LoginFormState> = _loginFormState
 
     private fun checkFormValidity() {
-        val username = username.value
-        val password = .value
-        if (username.value.isNullOrBlank()) {
-            _formState.value = LoginFormState(usernameError = R.string.error_empty_username)
-        } else if (
-            Validity.checkEmail(username).not() &&
-            Validity.checkUsername(username).not() &&
-            Validity.checkPhoneNumber(username).not()
-        ) {
-            _signupFormState.value = CustomerFormState(lastNameError = R.string.empty_name_error)
-        } else if (username.value.isNullOrBlank()) {
-            _signupFormState.value =
-                CustomerFormState(phoneNumberError = R.string.empty_phone_error)
-        } else if (_location.value == null) {
-            _signupFormState.value = CustomerFormState(addressError = R.string.empty_location_error)
+        val username = email.value
+        val password = _password.value
+
+        if (username.isNullOrBlank()) {
+            _loginFormState.value = LoginFormState(usernameError = R.string.error_empty_username)
+        } else if (Validity.checkEmail(username).not()) {
+            _loginFormState.value = LoginFormState(usernameError = R.string.error_invalid_username)
+        } else if (password.isNullOrBlank()) {
+            _loginFormState.value = LoginFormState(passwordError = R.string.error_empty_password)
+        } else if (Validity.checkPassword(password).not()) {
+            _loginFormState.value = LoginFormState(passwordError = R.string.error_invalid_password)
         } else {
-            _signupFormState.value = CustomerFormState(isValid = true)
+            _loginFormState.value = LoginFormState(isValid = true)
         }
     }
 
-    fun changePhoneNumber(ch: String) {
-        username.value?.let {
-            if (it.length < 11) {
-                _phoneNumber.value = it.plus(ch)
-            }
-        }
+    fun setEmail(value: String) {
+        _email.value = value
+        checkFormValidity()
     }
 
-    fun checkPhoneNumberValidity() {
-        _phoneNumberValidity.value = Validity.checkPhoneNumber(_phoneNumber.value!!)
+    fun setPassword(value: String) {
+        _password.value = value
+        checkFormValidity()
     }
 
-    fun acceptPolicy() {
-        _policyAccepted.value = !_policyAccepted.value!!
-    }
-
-    fun removeChar() {
-        if (_phoneNumber.value!!.isNotEmpty()) {
-            _phoneNumber.value = _phoneNumber.value!!.dropLast(1)
-        }
-    }
-
-    fun isLoginAnonymously(): Boolean =
-        runBlocking {
-            authManager.getCurrentUser()!!.isAnonymous
-        }
-
-    fun setPhoneNumber(phoneNumber: String) {
-        _phoneNumber.value = phoneNumber
-        checkPhoneNumberValidity()
+    fun login(): LiveData<Resource<Boolean>> {
+        val loginForm = LoginForm(
+            username = email.value!!,
+            password = password.value!!
+        )
+        val loginRequest = LoginRequestMapper.map(loginForm)
+        return userRepository.login(loginRequest).asLiveData()
     }
 }

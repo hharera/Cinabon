@@ -45,8 +45,11 @@ android {
 }
 
 dependencies {
+    implementation(project(Feature.SPLASH))
+
     implementation(project(Navigation.user))
     implementation(project(Navigation.LOGIN))
+    implementation(project(Navigation.HOME))
     implementation(project(UiComponents.common))
 
     //hilt

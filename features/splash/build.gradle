@@ -28,4 +28,5 @@ dependencies {
     implementation Libs.navigationFragment
     implementation Libs.materialDesign
     implementation Libs.searchBar
+    implementation(UI.SPLASH_API)
 }

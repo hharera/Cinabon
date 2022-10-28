@@ -22,7 +22,7 @@ object Feature {
     const val LINE_MAP = ":features:line-map"
     const val PRIVACY_POLICY = ":features:privacy-policy"
     const val RECHARGING = ":features:charging"
-    const val HOME = ":features:home-screen"
+    const val HOME = ":features:home"
     const val MAP = ":features:map"
     const val SCAN_QR = ":features:scan-qr"
     const val SEND_OTP = ":features:send-otp"

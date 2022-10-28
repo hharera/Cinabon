@@ -5,7 +5,10 @@ import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.*
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.storage.UploadTask
+import com.harera.repository.domain.LoginRequest
 import com.harera.repository.domain.User
+import com.harera.repository.uitls.Resource
+import kotlinx.coroutines.flow.Flow
 
 interface UserRepository {
 
@@ -23,7 +26,7 @@ interface UserRepository {
     fun signInWithEmailAndPassword(email: String, password: String): Task<AuthResult>
     fun createCredential(verificationId: String, code: String): PhoneAuthCredential
     fun login(credential: AuthCredential): Task<AuthResult>
-
+    fun login(request: LoginRequest): Flow<Resource<Boolean>>
     fun addUser(user: User): Task<Void>
     fun removeUser(userId: String): Task<Void>
     fun getUser(uid: String): Task<DocumentSnapshot>

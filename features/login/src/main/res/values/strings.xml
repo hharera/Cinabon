@@ -3,4 +3,6 @@
     <string name="forget_password">Forget Password?</string>
     <string name="or">OR</string>
     <string name="signup">Signup</string>
+    <string name="error_empty_username">Email required</string>
+    <string name="error_invalid_username">Invalid username</string>
 </resources>

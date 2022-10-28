@@ -5,6 +5,7 @@ import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.*
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.storage.UploadTask
+import com.harera.service.domain.LoginCredentials
 import com.harera.service.domain.ServiceDomainUser
 
 interface UserService {
@@ -29,4 +30,5 @@ interface UserService {
     fun signInWithEmailAndPassword(email: String, password: String): Task<AuthResult>
     fun createCredential(verificationId: String, code: String): PhoneAuthCredential
     fun login(credential: AuthCredential): Task<AuthResult>
+    fun login(credential: LoginCredentials): AuthResult?
 }

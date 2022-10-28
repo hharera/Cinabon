@@ -7,21 +7,21 @@ dependencyResolutionManagement {
         jcenter() // Warning: this repository is going to shut down soon
     }
 }
-rootProject.name = "Ecommerce-app"
+rootProject.name = "Cinabon"
 
-include(":user")
-
-include(":user")
-include(":manager")
-include(":common")
-include(":common-test")
-include(":features")
+include(
+    ":user",
+    ":common",
+    ":common-test",
+    ":features"
+)
 
 include(
     ":navigation",
     ":navigation:user-navigation",
     ":navigation:manager-navigation",
     ":navigation:user-login",
+    ":navigation:home",
 )
 
 include(":manager-features")
@@ -41,7 +41,10 @@ include(
     ":features:categories",
     ":features:confirm-login",
 )
-include(":features:search")
+include(
+    ":features:search",
+    ":features:home",
+)
 include(":features:market-location")
 include(":features:shop")
 include(":features:product")

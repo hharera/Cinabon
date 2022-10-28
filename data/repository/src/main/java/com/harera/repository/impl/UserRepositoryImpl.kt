@@ -9,8 +9,18 @@ import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.UploadTask
 import com.harera.repository.DBConstants
 import com.harera.repository.UserRepository
+import com.harera.repository.domain.LoginRequest
 import com.harera.repository.domain.User
+import com.harera.repository.mapper.OfferMapper
+import com.harera.repository.uitls.Resource
+import com.harera.repository.uitls.networkBoundResource
+import com.harera.service.UserService
+import com.harera.service.domain.LoginCredentials
+import com.harera.service.domain.LoginResponse
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
 import java.io.ByteArrayOutputStream
+import java.io.IOException
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
@@ -18,6 +28,7 @@ class UserRepositoryImpl @Inject constructor(
     private val auth: FirebaseAuth,
     private val fStore: FirebaseFirestore,
     private val fStorage: FirebaseStorage,
+    private val userService: UserService,
 ) : UserRepository {
 
     override fun signIn() {
@@ -84,5 +95,22 @@ class UserRepositoryImpl @Inject constructor(
             .child(DBConstants.USERS)
             .child(uid)
             .putBytes(inputStream.toByteArray())
+    }
+
+    override fun login(request: LoginRequest): Flow<Resource<Boolean>> = flow {
+        emit(Resource.Loading())
+
+        userService.login(
+            LoginCredentials(
+                username = request.username,
+                password = request.password
+            )
+        ).run {
+            if (this != null) {
+                emit(Resource.Success(user != null))
+            } else {
+                emit(Resource.Error(IOException("Error logging in")))
+            }
+        }
     }
 }

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">" Hyper Panda "</string>
+    <string name="app_name">Cinabon</string>
     <string name="sign_up"> Subscribe </string>
     <string name="shop"> Shop </string>
     <string name="categories"> Categories </string>
@@ -151,5 +151,7 @@
     <string name="empty_phone_error">phone number not suitable</string>
     <string name="empty_category_name_error">اسم القسم فارغ</string>
     <string name="empty_image_error">ادخل صوره</string>
-    <string name="slogon">Enjoy your shopping journey</string>
+    <string name="slogan">احنا اللي بوظنا الدايت</string>
+    <string name="error_invalid_password">Invalid error</string>
+    <string name="error_empty_password">Password required</string>
 </resources>

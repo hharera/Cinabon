@@ -18,7 +18,6 @@ import com.harera.common.base.BaseFragment
 import com.harera.common.navigation.utils.Arguments
 import com.harera.common.navigation.utils.Destinations
 import com.harera.common.navigation.utils.NavigationUtils
-import com.harera.confirm_login.ConfirmLoginActivity
 import com.harera.market_location.MarketLocation
 import com.opensooq.supernova.gligar.GligarPicker
 import dagger.hilt.android.AndroidEntryPoint
@@ -73,7 +72,7 @@ class AccountFragment : BaseFragment() {
                     goLogin()
                 }
             } else {
-                bind.phoneNumber.error =  getString(R.string.wrong_phone_number)
+                bind.phoneNumber.error = getString(R.string.wrong_phone_number)
             }
         }
 
@@ -83,14 +82,14 @@ class AccountFragment : BaseFragment() {
     }
 
     private fun goLogin() {
-        startActivity(
-            Intent(
-                context,
-                ConfirmLoginActivity::class.java
-            ).apply {
-                putExtra(Arguments.PHONE_NUMBER, accountViewModel.phoneNumber.value!!)
-            },
-        )
+//        startActivity(
+//            Intent(
+//                context,
+//                ConfirmLoginActivity::class.java
+//            ).apply {
+//                putExtra(Arguments.PHONE_NUMBER, accountViewModel.phoneNumber.value!!)
+//            },
+//        )
     }
 
     private fun updateUI(loggedInAnonymously: Boolean) {

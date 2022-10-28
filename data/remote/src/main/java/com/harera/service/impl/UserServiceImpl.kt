@@ -9,6 +9,7 @@ import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.UploadTask
 import com.harera.service.DBConstants
 import com.harera.service.UserService
+import com.harera.service.domain.LoginCredentials
 import com.harera.service.domain.ServiceDomainUser
 import java.io.ByteArrayOutputStream
 import java.util.concurrent.TimeUnit
@@ -84,4 +85,11 @@ class UserServiceImpl @Inject constructor(
 
     override fun login(credential: AuthCredential) =
         auth.signInWithCredential(credential)
+
+    override fun login(credential: LoginCredentials): AuthResult? {
+        return auth.signInWithEmailAndPassword(
+            credential.username,
+            credential.password
+        ).result
+    }
 }

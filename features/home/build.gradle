@@ -1,0 +1,10 @@
+apply from: "$rootDir/${CommonBuild.FeatureModule}"
+
+dependencies {
+    implementation(Libs.picasso)
+
+}
+
+android {
+    namespace 'com.englizya.home_screen'
+}

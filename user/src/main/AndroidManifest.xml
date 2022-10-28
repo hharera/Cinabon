@@ -31,11 +31,6 @@
             android:value="ca-app-pub-3423075136662374~7216523424" />
 
         <activity
-            android:name=".HomeActivity"
-            android:exported="false"
-            android:hardwareAccelerated="true" />
-
-        <activity
             android:name="com.harera.market_location.MarketLocation"
             android:exported="false" />
 
@@ -44,13 +39,13 @@
             android:exported="false" />
 
         <activity
-            android:name="com.harera.confirm_login.ConfirmLoginActivity"
+            android:name="com.HomeActivity"
             android:exported="false" />
 
         <activity
-            android:theme="@style/Theme.App.Starting"
-            android:name="com.harera.hyperpanda.MainActivity"
-            android:exported="true">
+            android:name="com.harera.splash.SplashActivity"
+            android:exported="true"
+            android:theme="@style/Style.App.Splash">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />

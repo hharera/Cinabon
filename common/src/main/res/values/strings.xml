@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name"> هايبر بندا </string>
+    <string name="app_name">Cinabon</string>
     <string name="sign_up"> الاشتراك </string>
     <string name="shop"> تسوق </string>
     <string name="categories"> الاقسام </string>
@@ -152,6 +152,8 @@
     <string name="empty_image_error">ادخل صوره</string>
     <string name="lower" translatable="false"><![CDATA[<]]></string>
     <string name="greater" translatable="false"><![CDATA[>]]></string>
-    <string name="slogon">Enjoy your shopping journey</string>
+    <string name="slogan">احنا اللي بوظنا الدايت</string>
+    <string name="error_invalid_password">Invalid error</string>
+    <string name="error_empty_password">Password required</string>
 </resources>
 

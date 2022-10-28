@@ -4,6 +4,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.viewModels
+import com.harera.common.afterTextChanged
 import com.harera.common.base.BaseFragment
 import com.harera.login.databinding.FragmentLoginBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -11,7 +13,7 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class LoginFragment : BaseFragment() {
 
-    private lateinit var loginViewModel: LoginViewModel
+    private val loginViewModel: LoginViewModel by viewModels()
     private lateinit var binding: FragmentLoginBinding
 
     override fun onCreateView(
@@ -24,11 +26,38 @@ class LoginFragment : BaseFragment() {
         return binding.root
     }
 
-//    private fun confirmLogin(phoneNumber: String) {
-//        val intent = Intent(this, ConfirmLoginActivity::class.java).apply {
-//            putExtra(Arguments.PHONE_NUMBER, phoneNumber)
-//        }
-//        startActivity(intent)
-//        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_right)
-//    }
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        setupListeners()
+    }
+
+    private fun setupListeners() {
+        binding.username.afterTextChanged {
+            loginViewModel.setEmail(it)
+        }
+
+        binding.password.afterTextChanged {
+            loginViewModel.setPassword(it)
+        }
+
+        binding.login.setOnClickListener {
+            checkFormValidity()
+        }
+    }
+
+    private fun checkFormValidity() {
+        loginViewModel.loginFormState.value?.run {
+            if (isValid == true) {
+                loginViewModel.login()
+            } else {
+                usernameError?.let {
+                    binding.usernameTL.error = getString(it)
+                }
+                passwordError?.let {
+                    binding.passwordTL.error = getString(it)
+                }
+            }
+        }
+    }
 }
