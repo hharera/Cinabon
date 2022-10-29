@@ -2,6 +2,7 @@ package com.harera.service.impl
 
 import android.graphics.Bitmap
 import com.google.android.gms.tasks.Task
+import com.google.android.gms.tasks.Tasks
 import com.google.firebase.auth.*
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
@@ -86,10 +87,12 @@ class UserServiceImpl @Inject constructor(
     override fun login(credential: AuthCredential) =
         auth.signInWithCredential(credential)
 
-    override fun login(credential: LoginCredentials): AuthResult? {
-        return auth.signInWithEmailAndPassword(
+    override suspend fun login(credential: LoginCredentials): AuthResult? {
+        return signInWithEmailAndPassword(
             credential.username,
             credential.password
-        ).result
+        ).let {
+            Tasks.await(it)
+        }
     }
 }

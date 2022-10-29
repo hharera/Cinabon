@@ -6,7 +6,7 @@ import androidx.activity.viewModels
 import com.harera.common.afterTextChanged
 import com.harera.common.base.BaseActivity
 import com.harera.manager.login.databinding.ActivityLoginBinding
-import com.harera.manager_navigation.HomeActivity
+import com.harera.navigation.manager.HomeActivity
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

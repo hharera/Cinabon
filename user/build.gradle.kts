@@ -47,9 +47,9 @@ android {
 dependencies {
     implementation(project(Feature.SPLASH))
 
-    implementation(project(Navigation.user))
+    implementation(project(Navigation.MANAGER_NAVIGATION))
+    implementation(project(Navigation.CASHIER_NAVIGATION))
     implementation(project(Navigation.LOGIN))
-    implementation(project(Navigation.HOME))
     implementation(project(UiComponents.common))
 
     //hilt

@@ -1,5 +1,6 @@
 package com.harera.common.base
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
@@ -58,6 +59,12 @@ open class BaseFragment : Fragment() {
 
     private fun dismissLoading() {
         loadingDialog.dismiss()
+    }
+
+    fun startActivity(classPath: String) {
+        val clazz = Class.forName(classPath)
+        val intent = Intent(activity, clazz)
+        startActivity(intent)
     }
 
 }

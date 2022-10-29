@@ -9,6 +9,7 @@ import androidx.activity.viewModels
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.harera.common.base.BaseActivity
 import com.harera.common.internet.NoInternetActivity
+import com.harera.common.utils.Package
 import com.harera.splash.databinding.ActivitySplashBinding
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -46,10 +47,9 @@ class SplashActivity : BaseActivity() {
     private fun checkLoginState() {
         splashViewModel.isLoggedIn.observe(this) { isLoggedIn ->
             if (isLoggedIn) {
-//                TODO:
-                startActivity("com.harera.navigation.home.HomeActivity")
+                startActivity("${Package.MANAGER_NAVIGATION}.HomeActivity")
             } else {
-                startActivity("com.harera.navigation.login.LoginActivity")
+                startActivity("${Package.LOGIN_NAVIGATION}.LoginActivity")
             }
         }
     }

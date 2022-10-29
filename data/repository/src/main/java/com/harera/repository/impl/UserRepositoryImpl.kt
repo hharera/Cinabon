@@ -11,12 +11,9 @@ import com.harera.repository.DBConstants
 import com.harera.repository.UserRepository
 import com.harera.repository.domain.LoginRequest
 import com.harera.repository.domain.User
-import com.harera.repository.mapper.OfferMapper
 import com.harera.repository.uitls.Resource
-import com.harera.repository.uitls.networkBoundResource
 import com.harera.service.UserService
 import com.harera.service.domain.LoginCredentials
-import com.harera.service.domain.LoginResponse
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import java.io.ByteArrayOutputStream

@@ -9,6 +9,7 @@ import com.harera.login.mapper.LoginRequestMapper
 import com.harera.repository.UserRepository
 import com.harera.repository.uitls.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import javax.inject.Inject
 
 @HiltViewModel
@@ -58,6 +59,6 @@ class LoginViewModel @Inject constructor(
             password = password.value!!
         )
         val loginRequest = LoginRequestMapper.map(loginForm)
-        return userRepository.login(loginRequest).asLiveData()
+        return userRepository.login(loginRequest).asLiveData(context = Dispatchers.IO)
     }
 }

@@ -2,7 +2,7 @@ apply from:"$rootDir/${CommonBuild.NavigationModule}"
 apply from:"$rootDir/${CommonBuild.HILT_MODULE}"
 
 android {
-    namespace 'com.harera.manager_navigation'
+    namespace 'com.harera.navigation.manager'
 }
 
 dependencies {
@@ -12,10 +12,5 @@ dependencies {
     implementation Libs.androidxCore
     implementation Libs.materialDesign
 
-    //features
-    api project(ManagerFeatures.categories)
-    api project(ManagerFeatures.addCategory)
-    api project(ManagerFeatures.editProduct)
-    api project(ManagerFeatures.product)
-    api project(ManagerFeatures.dashboard)
+    api project(Feature.MANAGER_HOME)
 }

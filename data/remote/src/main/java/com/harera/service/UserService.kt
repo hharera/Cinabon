@@ -30,5 +30,5 @@ interface UserService {
     fun signInWithEmailAndPassword(email: String, password: String): Task<AuthResult>
     fun createCredential(verificationId: String, code: String): PhoneAuthCredential
     fun login(credential: AuthCredential): Task<AuthResult>
-    fun login(credential: LoginCredentials): AuthResult?
+    suspend fun login(credential: LoginCredentials): AuthResult?
 }

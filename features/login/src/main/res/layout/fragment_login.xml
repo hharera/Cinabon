@@ -47,7 +47,7 @@
             android:layout_height="match_parent"
             android:hint="@string/email"
             android:imeActionId="@integer/btm_to"
-            android:inputType="textEmailAddress|phone"
+            android:inputType="text|textEmailAddress"
             android:lines="1"
             android:textColor="@color/black" />
     </com.google.android.material.textfield.TextInputLayout>
@@ -70,7 +70,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:imeActionId="@integer/btm_to"
-            android:inputType="text"
+            android:inputType="textPassword"
             android:lines="1"
             android:textColor="@color/black" />
     </com.google.android.material.textfield.TextInputLayout>

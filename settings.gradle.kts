@@ -18,10 +18,9 @@ include(
 
 include(
     ":navigation",
-    ":navigation:user-navigation",
     ":navigation:manager-navigation",
+    ":navigation:cashier-navigation",
     ":navigation:user-login",
-    ":navigation:home",
 )
 
 include(":manager-features")
@@ -43,7 +42,6 @@ include(
 )
 include(
     ":features:search",
-    ":features:home",
 )
 include(":features:market-location")
 include(":features:shop")
@@ -72,3 +70,5 @@ include(
     ":data:repository",
     ":data:datastore",
 )
+include(":features:cashier-home")
+include(":features:manager-home")
