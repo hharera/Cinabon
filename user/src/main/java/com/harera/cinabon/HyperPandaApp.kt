@@ -1,4 +1,4 @@
-package com.harera.hyperpanda
+package com.harera.cinabon
 
 import android.app.Application
 import com.google.firebase.FirebaseApp

@@ -41,7 +41,7 @@ android {
     kotlinOptions {
         jvmTarget = JavaVersion.VERSION_1_8.toString()
     }
-    namespace = ("com.harera.hyperpanda")
+    namespace = ("com.harera.cinabon")
 }
 
 dependencies {

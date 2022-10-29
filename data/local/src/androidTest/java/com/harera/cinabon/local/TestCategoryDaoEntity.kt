@@ -1,4 +1,4 @@
-package com.harera.hyperpanda.local
+package com.harera.cinabon.local
 
 import com.google.common.truth.Truth
 import com.harera.local.MarketDao
