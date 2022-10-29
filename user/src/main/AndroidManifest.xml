@@ -39,7 +39,7 @@
             android:exported="false" />
 
         <activity
-            android:name="com.HomeActivity"
+            android:name="com.harera.navigation.home.HomeActivity"
             android:exported="false" />
 
         <activity

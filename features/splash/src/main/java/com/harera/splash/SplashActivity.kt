@@ -46,9 +46,9 @@ class SplashActivity : BaseActivity() {
     private fun checkLoginState() {
         splashViewModel.isLoggedIn.observe(this) { isLoggedIn ->
             if (isLoggedIn) {
-                startActivity("com.harera.home.HomeActivity")
+                startActivity("com.harera.navigation.home.HomeActivity")
             } else {
-                startActivity("com.harera.manager.login.LoginActivity")
+                startActivity("com.harera.login.LoginActivity")
             }
         }
     }

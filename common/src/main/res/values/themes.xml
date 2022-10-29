@@ -29,7 +29,8 @@
     </style>
 
     <style name="Style.Bar.TopAppBar" parent="Widget.MaterialComponents.AppBarLayout.Primary">
-        <item name="postSplashScreenTheme">@style/Theme.App</item>
+        <item name="android:background">@null</item>
+        <item name="elevation">0dp</item>
     </style>
 
     <style name="Style.Button.Filled" parent="Widget.MaterialComponents.Button.TextButton">
@@ -60,13 +61,13 @@
 
     <style name="Style.Text.H2" parent="Theme.App">
         <item name="fontFamily">@font/roboto</item>
-        <item name="android:textSize">@dimen/text_h2</item>
-        <item name="android:textColor">@color/colorPrimary</item>
+        <item name="android:textSize">@dimen/h2TextSize</item>
+        <item name="android:textColor">@color/h2TextColor</item>
     </style>
 
     <style name="Style.Text.H3" parent="Theme.App">
-        <item name="android:textSize">@dimen/text_h3</item>
-        <item name="android:textColor">@color/colorPrimary</item>
+        <item name="android:textSize">@dimen/h3TextSize</item>
+        <item name="android:textColor">@color/h3TextColor</item>
     </style>
 
     <style name="Style.Text.H4" parent="Theme.App">
@@ -134,5 +135,9 @@
 
         <item name="cardBackgroundColor">@color/loadingDialogBackground</item>
         <item name="cardElevation">@dimen/defaultCornerRadius</item>
+    </style>
+
+    <style name="Style.Layout.LinearLayout" parent="Theme.App">
+        <item name="android:layout_marginHorizontal">@dimen/horizontalMargin</item>
     </style>
 </resources>

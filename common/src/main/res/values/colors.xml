@@ -26,4 +26,7 @@
     <color name="doneDialogBackground">#90000000</color>
     <color name="windowSplashScreenBackground">#FFF</color>
     <color name="fragmentBackground">#F1F4F8</color>
+
+    <color name="h2TextColor">#242526</color>
+    <color name="h3TextColor">#575757</color>
 </resources>
