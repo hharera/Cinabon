@@ -1,4 +1,4 @@
-package com.harera.navigation.userlogin
+package com.harera.navigation.login
 
 import android.os.Bundle
 import androidx.core.net.toUri
@@ -9,6 +9,7 @@ import com.harera.common.navigation.utils.Arguments
 import com.harera.common.navigation.utils.Destination
 import com.harera.common.navigation.utils.Domain
 import com.harera.common.navigation.utils.NavigationUtils
+import com.harera.navigation.userlogin.R
 import com.harera.navigation.userlogin.databinding.ActivityLoginBinding
 
 
