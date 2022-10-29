@@ -24,4 +24,16 @@ class HomeFragment : BaseFragment() {
         binding = FragmentHomeBinding.inflate(layoutInflater)
         return binding.root
     }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        setupListeners()
+    }
+
+    private fun setupListeners() {
+        binding.addProduct.setOnClickListener {
+
+        }
+    }
 }

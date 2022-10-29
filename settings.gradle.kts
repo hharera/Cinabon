@@ -39,6 +39,9 @@ include(
 include(
     ":features:categories",
     ":features:confirm-login",
+    (":features:cashier-home"),
+    (":features:manager-home"),
+    (":features:insert-product"),
 )
 include(
     ":features:search",
@@ -70,5 +73,3 @@ include(
     ":data:repository",
     ":data:datastore",
 )
-include(":features:cashier-home")
-include(":features:manager-home")
